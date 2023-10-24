@@ -8,7 +8,7 @@ public class JasyptTest {
     @Test
     public void jasyptTest(){
 
-        String password = "password";
+        String password = "";
 
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setPassword(password);
