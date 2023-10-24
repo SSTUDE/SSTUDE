@@ -1,0 +1,51 @@
+server:
+  port: 8011
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: member
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/member?serverTimezone=Asia/Seoul
+    username: root
+    password: ENC(Zov55fjSTanZmQcAzOOgZQ==)
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+
+  redis:
+    host: ENC(K0PdnMI1E3z9g2I1eAcyMJveJO1rQD6I)
+    port: 6379
+
+jwt:
+  secret: ENC(q8a6U5XQWV2qnRP05gMNMBfSINYEOUlVZ8g4iZAJZ0vAiX4T2FEmVPQjFynWqnaj)
+
+trace: true
+
+springdoc:
+  api-docs:
+    path: /account-service/v3/api-docs
+  swagger-ui:
+    path: /account-service/swagger-ui.html
+
+openapi:
+  service:
+    url: http://localhost:8000/
+
+jasypt:
+  encryptor:
+    password: ${PASSWORD}
