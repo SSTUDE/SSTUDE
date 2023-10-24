@@ -17,7 +17,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/member?serverTimezone=Asia/Seoul
     username: root
-    password: ENC(Zov55fjSTanZmQcAzOOgZQ==)
+    password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==)
 
   jpa:
     database: mysql
@@ -30,11 +30,11 @@ spring:
 
 
   redis:
-    host: ENC(K0PdnMI1E3z9g2I1eAcyMJveJO1rQD6I)
+    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
     port: 6379
 
 jwt:
-  secret: ENC(q8a6U5XQWV2qnRP05gMNMBfSINYEOUlVZ8g4iZAJZ0vAiX4T2FEmVPQjFynWqnaj)
+  secret: ENC(D30hEPLr8TlT5LtmHRLRJtSRGRfzLNKXQbmROBvxxh0FnixaJ1vfj9PmacLxqHhu)
 
 trace: true
 
