@@ -25,3 +25,4 @@
 
 // export const { setSelectedImage, setImageHeight } = imageSlice.actions;  
 // export default imageSlice.reducer;
+export {};
