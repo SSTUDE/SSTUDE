@@ -44,14 +44,14 @@ spring:
         - id: account
           uri: lb://ACCOUNT
           predicates:
-            - Path=/api/auth/**
+            - Path=/auth/**
             - Method=GET,POST,PUT,DELETE
           filters:
             - AuthenticationFilter
         - id: account
           uri: lb://ACCOUNT
           predicates:
-            - Path=/api/account/**
+            - Path=/account/**
         - id: account-service
           uri: lb://ACCOUNT
           predicates:
