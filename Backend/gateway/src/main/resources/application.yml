@@ -50,7 +50,7 @@ spring:
 #            - Path=/member/update/**, /member/logout, /member/info, /member/delete, /member/home, /member/setting
 #            - Method=GET,POST,PUT,DELETE
 #          filters:
-#            - AuthenticationHeaderFilter
+#            - AuthenticationFilter
 #        - id: member
 #          uri: lb://MEMBER
 #          predicates:
@@ -64,7 +64,7 @@ spring:
 #          predicates:
 #            - Path=/data/**, /success/**
 #          filters:
-#            - AuthenticationHeaderFilter
+#            - AuthenticationFilter
 #        - id: data
 #          uri: lb://DATA
 #          predicates:
@@ -81,7 +81,7 @@ spring:
     port: 6379
 
 jwt:
-  secret:
+  secret: ENC(q8a6U5XQWV2qnRP05gMNMBfSINYEOUlVZ8g4iZAJZ0vAiX4T2FEmVPQjFynWqnaj)
 
 trace: true
 
