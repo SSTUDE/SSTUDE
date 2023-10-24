@@ -42,4 +42,3 @@
 
 // export const baseInstance: AxiosInstance = baseAPI(`${SERVER_URL}/api/`);
 // export const authInstance: AxiosInstance = authAPI(`${SERVER_URL}/api/`);
-export {};

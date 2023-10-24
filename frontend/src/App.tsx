@@ -1,22 +1,26 @@
 import React from 'react';
-import Mirror from './components/Mirror/Mirror';
-import { MIRROR_HEIGHT, MIRROR_WEIGHT, MIRROR_COLOR } from './store/slices/defaultSlices';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
   return (
-    <div className="App" style={styles.app}>
-      <Mirror/>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
 
 export default App;
-
-const styles: { [key: string]: React.CSSProperties } = {
-  app: {
-    height: `${MIRROR_HEIGHT}`,
-    width: `${MIRROR_WEIGHT}`,
-    backgroundColor: `${MIRROR_COLOR}`, 
-    marginLeft: "30%" //NOTE - 나중에 스크린 미러 구현시 지워야함
-  },
-};
