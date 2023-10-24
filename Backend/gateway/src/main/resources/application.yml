@@ -8,7 +8,6 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-
 spring:
   application:
     name: gateway
@@ -41,24 +40,22 @@ spring:
               - GET
               - POST
               - DELETE
-#      routes:
-#        - id: member
-#          uri: lb://MEMBER
-#          predicates:
-#            - Path=/member/update/**, /member/logout, /member/info, /member/delete, /member/home, /member/setting
-#            - Method=GET,POST,PUT,DELETE
-#          filters:
-#            - AuthenticationFilter
-#        - id: member
-#          uri: lb://MEMBER
-#          predicates:
-#            - Path=/member/**
-#        - id: member-service
-#          uri: lb://MEMBER
-#          predicates:
-#            - Path=/member-service/**
-
-
+      routes:
+        - id: account
+          uri: lb://ACCOUNT
+          predicates:
+            - Path=/api/auth/**
+            - Method=GET,POST,PUT,DELETE
+          filters:
+            - AuthenticationFilter
+        - id: account
+          uri: lb://ACCOUNT
+          predicates:
+            - Path=/api/account/**
+        - id: account-service
+          uri: lb://ACCOUNT
+          predicates:
+            - Path=/account-service/**
 
   redis:
     host: ENC(K0PdnMI1E3z9g2I1eAcyMJveJO1rQD6I)
@@ -81,8 +78,8 @@ springdoc:
       - url: /v3/api-docs
         name: API Gateway Service
         primaryName: API Gateway Service
-#      - url: /member-service/v3/api-docs
-#        name: Member
+      - url: /account-service/v3/api-docs
+        name: Account
 #      - url: /data-service/v3/api-docs
 #        name: Data
 #      - url: /mission-service/v3/api-docs
