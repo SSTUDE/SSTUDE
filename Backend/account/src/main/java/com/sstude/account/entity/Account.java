@@ -1,5 +1,6 @@
 package com.sstude.account.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,5 +21,11 @@ public class Account {
     private Long memberId;
 
     @NotNull
-    private String DeviceNum;
+    private String deviceNum;
+
+    @Builder
+    public Account(Long memberId, String deviceNum){
+        this.memberId = memberId;
+        this.deviceNum = deviceNum;
+    }
 }
