@@ -6,7 +6,6 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-#      defaultZone: http://**:8761/eureka
       defaultZone: http://localhost:8761/eureka
 
 
@@ -42,7 +41,6 @@ spring:
               - GET
               - POST
               - DELETE
-
 #      routes:
 #        - id: member
 #          uri: lb://MEMBER
@@ -59,25 +57,11 @@ spring:
 #          uri: lb://MEMBER
 #          predicates:
 #            - Path=/member-service/**
-#        - id: data
-#          uri: lb://DATA
-#          predicates:
-#            - Path=/data/**, /success/**
-#          filters:
-#            - AuthenticationFilter
-#        - id: data
-#          uri: lb://DATA
-#          predicates:
-#            - Path= /rankdata1
-#        - id: data-service
-#          uri: lb://DATA
-#          predicates:
-#            - Path=/data-service/**
+
 
 
   redis:
     host: ENC(K0PdnMI1E3z9g2I1eAcyMJveJO1rQD6I)
-#    host: **
     port: 6379
 
 jwt:

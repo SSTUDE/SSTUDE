@@ -1,5 +1,7 @@
 package com.sstude.gateway.global.jwt;
 
+import com.sstude.gateway.global.error.BusinessException;
+import com.sstude.gateway.global.error.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -28,14 +30,18 @@ public class JwtTokenProvider {
 
     public String resolveToken(ServerHttpRequest request) {
         HttpHeaders requestHeader = request.getHeaders();
-        String accessToken = requestHeader.get(AUTHORIZATION_HEADER).get(0);
+        if (requestHeader.containsKey(AUTHORIZATION_HEADER)) {
+            String accessToken = requestHeader.get(AUTHORIZATION_HEADER).get(0);
 
-        if (StringUtils.hasText(accessToken) && accessToken.startsWith(BEARER_TYPE)) {
-            return accessToken.substring(7);
+            if (StringUtils.hasText(accessToken) && accessToken.startsWith(BEARER_TYPE)) {
+                return accessToken.substring(7);
+            } else {
+                throw new BusinessException(ErrorCode.NOT_MATCH_BEARER_GRANT_TYPE);
+            }
+        } else {
+            throw new BusinessException(ErrorCode.NOT_EXISTS_AUTHORIZATION);
         }
-        return null;
     }
-
 
     public boolean validateToken(String token,String tokenType) {
         try {
