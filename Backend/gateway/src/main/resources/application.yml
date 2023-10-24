@@ -1,0 +1,115 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+#      defaultZone: http://**:8761/eureka
+      defaultZone: http://localhost:8761/eureka
+
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - 'http://localhost:3000'
+            allow-credentials: true
+            allowedHeaders:
+              - x-requested-with
+              - Authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            exposedHeaders:
+              - x-requested-with
+              - Authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+
+#      routes:
+#        - id: member
+#          uri: lb://MEMBER
+#          predicates:
+#            - Path=/member/update/**, /member/logout, /member/info, /member/delete, /member/home, /member/setting
+#            - Method=GET,POST,PUT,DELETE
+#          filters:
+#            - AuthenticationHeaderFilter
+#        - id: member
+#          uri: lb://MEMBER
+#          predicates:
+#            - Path=/member/**
+#        - id: member-service
+#          uri: lb://MEMBER
+#          predicates:
+#            - Path=/member-service/**
+#        - id: data
+#          uri: lb://DATA
+#          predicates:
+#            - Path=/data/**, /success/**
+#          filters:
+#            - AuthenticationHeaderFilter
+#        - id: data
+#          uri: lb://DATA
+#          predicates:
+#            - Path= /rankdata1
+#        - id: data-service
+#          uri: lb://DATA
+#          predicates:
+#            - Path=/data-service/**
+
+
+  redis:
+    host: ENC(K0PdnMI1E3z9g2I1eAcyMJveJO1rQD6I)
+#    host: **
+    port: 6379
+
+jwt:
+  secret:
+
+trace: true
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+        primaryName: API Gateway Service
+#      - url: /member-service/v3/api-docs
+#        name: Member
+#      - url: /data-service/v3/api-docs
+#        name: Data
+#      - url: /mission-service/v3/api-docs
+#        name: Mission
+#      - url: /store-service/v3/api-docs
+#        name: Store
+#      - url: /character-service/v3/api-docs
+#        name: Character
+#      - url: /game-service/v3/api-docs
+#        name: Game
+
+jasypt:
+  encryptor:
+    password: ${PASSWORD}
