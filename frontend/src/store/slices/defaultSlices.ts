@@ -1,0 +1,7 @@
+const MIRROR_HEIGHT = "58.9cm";
+const MIRROR_WEIGHT = "33.1cm";
+const MIRROR_COLOR = "black";
+
+const HEADER_HEIGHT = "7.2cm"
+
+export {MIRROR_HEIGHT, MIRROR_WEIGHT, MIRROR_COLOR, HEADER_HEIGHT}
