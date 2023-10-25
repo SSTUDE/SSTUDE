@@ -9,11 +9,11 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.web.server.SecurityWebFilterChain;
+
 
 @EnableEurekaClient
 @SpringBootApplication
+
 //@OpenAPIDefinition(info = @Info(title = "API Gateway", version = "1.0", description = "Documentation API Gateway v1.0"))
 public class GatewayApplication {
 
@@ -21,10 +21,10 @@ public class GatewayApplication {
         SpringApplication.run(GatewayApplication.class, args);
     }
 
-    @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity security){
-        return security.csrf().disable().build();
-    }
+//    @Bean
+//    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity security){
+//        return security.csrf().disable().build();
+//    }
 //    @Bean
 //    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
 //        return builder

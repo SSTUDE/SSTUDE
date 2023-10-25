@@ -28,11 +28,12 @@ ext {
 
 dependencies {
     // spring
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // security
-    implementation 'org.springframework.security:spring-security-jwt:1.1.1.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.security:spring-security-jwt:1.1.1.RELEASE'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
