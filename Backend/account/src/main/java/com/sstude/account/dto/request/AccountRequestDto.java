@@ -2,9 +2,7 @@ package com.sstude.account.dto.request;
 
 import lombok.Getter;
 
-
 @Getter
-public class SignupRequestDto {
+public class AccountRequestDto {
     private String deviceNum;
-
 }

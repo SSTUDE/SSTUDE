@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Integer> {
     boolean existsByDeviceNum(String deviceNum);
     Optional<Account> findByMemberId(Long memberId);
+    Optional<Account> findByDeviceNum(String deviceNum);
 }
