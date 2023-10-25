@@ -1,23 +1,23 @@
 
 import React from 'react';
-import Mirror from './components/Mirror/Mirror';
-import { MIRROR_HEIGHT, MIRROR_WEIGHT, MIRROR_COLOR } from './store/slices/defaultSlices';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import routes from './router';
 
 function App() {
   return (
-    <div className="App" style={styles.app}>
-      <Mirror />
-    </div>
+    <>
+      <div className='App'>
+        <BrowserRouter>
+          <Routes>
+            {routes.map((e) => (
+              <Route key={e.path} path={e.path} element={<e.Component/>}/>
+            ))}
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </>
   );
 }
 
 export default App;
 
-const styles: { [key: string]: React.CSSProperties } = {
-  app: {
-    height: `${MIRROR_HEIGHT}`,
-    width: `${MIRROR_WEIGHT}`,
-    backgroundColor: `${MIRROR_COLOR}`,
-    marginLeft: "30%" //NOTE - 나중에 스크린 미러 구현시 지워야함
-  },
-};
