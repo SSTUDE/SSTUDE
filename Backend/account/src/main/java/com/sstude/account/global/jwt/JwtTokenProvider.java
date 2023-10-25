@@ -95,6 +95,8 @@ public class JwtTokenProvider {
         return new Date(Long.MAX_VALUE - 10000);
     }
 
+
+
     public void checkLength(String token){
         if(token.length() < 7) throw new JwtException("올바르지 않은 토큰 유형입니다.");
     }
