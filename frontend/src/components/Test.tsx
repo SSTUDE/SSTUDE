@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Test = () => {
   return (
     <>
-      <Header></Header>
+      <Header>test</Header>
       <Info></Info>
       <Mirror></Mirror>
     </>    
