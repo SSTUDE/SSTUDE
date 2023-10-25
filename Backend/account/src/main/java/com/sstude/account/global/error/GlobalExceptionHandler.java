@@ -1,4 +1,4 @@
-package com.sstude.gateway.global.error;
+package com.sstude.account.global.error;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

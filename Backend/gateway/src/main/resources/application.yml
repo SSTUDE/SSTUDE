@@ -62,7 +62,7 @@ spring:
     port: 6379
 
 jwt:
-  secret: ENC(D30hEPLr8TlT5LtmHRLRJtSRGRfzLNKXQbmROBvxxh0FnixaJ1vfj9PmacLxqHhu)
+  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
 
 trace: true
 
@@ -75,9 +75,9 @@ springdoc:
     path: /swagger-ui.html
     config-url: /v3/api-docs/swagger-config
     urls:
-      - url: /v3/api-docs
-        name: API Gateway Service
-        primaryName: API Gateway Service
+#      - url: /v3/api-docs
+#        name: API Gateway Service
+#        primaryName: API Gateway Service
       - url: /account-service/v3/api-docs
         name: Account
 #      - url: /data-service/v3/api-docs
