@@ -12,10 +12,10 @@ eureka:
 
 spring:
   application:
-    name: member
+    name: account
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/member?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/account?serverTimezone=Asia/Seoul
     username: root
     password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==)
 
@@ -34,7 +34,7 @@ spring:
     port: 6379
 
 jwt:
-  secret: ENC(D30hEPLr8TlT5LtmHRLRJtSRGRfzLNKXQbmROBvxxh0FnixaJ1vfj9PmacLxqHhu)
+  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
 
 trace: true
 

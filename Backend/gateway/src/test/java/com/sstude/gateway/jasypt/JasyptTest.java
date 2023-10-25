@@ -8,12 +8,12 @@ public class JasyptTest {
     @Test
     public void jasyptTest(){
 
-        String password = "";
+        String password = "s";
 
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setPassword(password);
 
-        String content = "";    // 암호화 할 내용
+        String content = "very";    // 암호화 할 내용
         String encryptedContent = encryptor.encrypt(content); // 암호화
         String decryptedContent = encryptor.decrypt(encryptedContent); // 복호화
 
