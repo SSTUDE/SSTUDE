@@ -2,6 +2,7 @@ package com.sstude.account.dto.response;
 
 import lombok.*;
 
+//재사용성 확장
 @Getter
 @Builder
 @NoArgsConstructor
