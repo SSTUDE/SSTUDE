@@ -1,7 +1,18 @@
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
 
-DB_URL = 'mysql+pymysql://root:qwe123@localhost:3306/makeup'
+#docker 설정 시 파일 변경 필요
+
+db = {
+    'user' : 'root',
+    'password' : 'qwe123',
+    'host' : 'localhost',
+    'port' : 3306,
+    'database' : 'makeup',
+    
+}
+
+DB_URL = f"mysql+pymysql://{db['user']}:{db['password']}@{db['host']}:{db['port']}/{db['database']}"
 
 
 class engineconn:
