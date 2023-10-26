@@ -27,7 +27,7 @@ public class JwtTokenProvider {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
 
 //    private static final long ACCESS_TOKEN_EXPIRE_TIME =  60 * 1000L;            // 1분
-//    private static final long REFRESH_TOKEN_EXPIRE_TIME = 5 * 60 * 1000L;    // 2분
+//    private static final long REFRESH_TOKEN_EXPIRE_TIME = 3 * 60 * 1000L;    // 2분
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, StringRedisTemplate stringRedisTemplate) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);

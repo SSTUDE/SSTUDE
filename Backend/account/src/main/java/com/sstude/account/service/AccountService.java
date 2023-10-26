@@ -53,19 +53,6 @@ public class AccountService {
         return createToken(account);
     }
 
-//
-//    @Transactional
-//    public TokenResponseDto reToken(Long memberId){
-//        Optional<Account> optionalAccount = accountRepository.findByMemberId(memberId);
-//
-//        //일치하는 회원이 없을경우
-//        if (!optionalAccount.isPresent()) {
-//            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
-//        }
-//
-//        Account account = optionalAccount.get();
-//        return createToken(account);
-//    }
 
     @Transactional
     public TokenResponseDto retoken(Long memberId){
@@ -77,7 +64,6 @@ public class AccountService {
         }
 
         Account account = optionalAccount.get();
-        log.info(String.valueOf(account));
         return createToken(account);
     }
 

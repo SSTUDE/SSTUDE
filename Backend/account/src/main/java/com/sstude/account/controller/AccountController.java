@@ -1,11 +1,10 @@
 package com.sstude.account.controller;
 
 import com.sstude.account.dto.request.AccountRequestDto;
+import com.sstude.account.dto.request.GetIdRequestDto;
 import com.sstude.account.dto.response.TokenResponseDto;
 import com.sstude.account.dto.response.SignupResponseDto;
 import com.sstude.account.entity.Account;
-import com.sstude.account.global.error.BusinessException;
-import com.sstude.account.global.error.ErrorCode;
 import com.sstude.account.global.jwt.JwtTokenProvider;
 import com.sstude.account.global.swagger.CustomApi;
 import com.sstude.account.service.AccountService;
@@ -34,7 +33,7 @@ public class AccountController {
     @PostMapping("/signup")
     public ResponseEntity<SignupResponseDto> signUp(@RequestBody @Validated AccountRequestDto signupRequestDto) {
         Account account = accountService.signUp(signupRequestDto);
-        SignupResponseDto response = new SignupResponseDto(account);
+        SignupResponseDto response = new SignupResponseDto(account.getMemberId());
         return ResponseEntity.ok(response);
     }
 
@@ -51,14 +50,18 @@ public class AccountController {
     @PostMapping("/retoken")
     public ResponseEntity<TokenResponseDto> retoken(@RequestHeader("Authorization") @Parameter(hidden = true) final String token) {
         Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-
-        String storedRefreshToken = stringRedisTemplate.opsForValue().get("RT:" + memberId);
-        if (storedRefreshToken == null) {
-            throw new BusinessException(ErrorCode.INVALID_TOKEN);
-        }
-
-        // 새 토큰 발급
         TokenResponseDto response = accountService.retoken(memberId);
+        stringRedisTemplate.delete("RT:"+ token);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "수림이용", description = "accesstoken으로 memberId 값을 반환하는 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- accessToken값만 responsebody로 주세요. \n\n")
+    @CustomApi
+    @PostMapping("/memberId")
+    public ResponseEntity<SignupResponseDto> getId(@RequestBody GetIdRequestDto getIdRequestDto){
+        String token = "Bearer "+getIdRequestDto.getAccessToken();
+        Long memberId = Long.valueOf(jwtTokenProvider.getAccounttest(token));
+        SignupResponseDto response = new SignupResponseDto(memberId);
         return ResponseEntity.ok(response);
     }
 
