@@ -3,7 +3,7 @@ import routes from './router';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
-import { MIRROR_COLOR } from './store/slices/defaultSlices'
+import { BACK_GROUND_COLOR } from './store/slices/defaultSlices'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
 }
 
 const Main = styled.div`
-  background-color: ${MIRROR_COLOR}};
+  background-color: ${BACK_GROUND_COLOR}};
 `
 
 export default App;

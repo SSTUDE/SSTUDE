@@ -1,10 +1,15 @@
-const ratio = [1, 3.92, 3.23];
+const mirror_real_weight = 58.9;
+const mirror_real_height = 33.1;
+const mirror_black_side = 17;
 
-const sum = (arr: number[]): number => arr.reduce((acc: number, cur: number) => acc + cur, 0);
+const MIRROR_WEIGHT = 100;
+const MIRROR_HEIGHT = MIRROR_WEIGHT / mirror_real_weight * mirror_real_height;
 
-const MIRROR_HEADER = 100 / sum(ratio) * ratio[0];
-const MIRROR_BODY = 100 / sum(ratio) * ratio[1];
-const MIRROR_BOTTOM = 100 / sum(ratio) * ratio[2];
-const MIRROR_COLOR = "black";
 
-export { MIRROR_HEADER, MIRROR_BODY, MIRROR_BOTTOM, MIRROR_COLOR };
+const MIRROR_LEFT = MIRROR_WEIGHT/ mirror_real_weight * mirror_black_side;
+const MIRROR_RIGHT = MIRROR_LEFT
+const MIRROR_CENTER = MIRROR_WEIGHT - MIRROR_LEFT * 2
+
+const BACK_GROUND_COLOR = "black";
+
+export { MIRROR_WEIGHT, MIRROR_HEIGHT, MIRROR_LEFT, MIRROR_RIGHT, MIRROR_CENTER, BACK_GROUND_COLOR };
