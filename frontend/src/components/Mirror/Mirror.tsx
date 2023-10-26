@@ -1,34 +1,36 @@
 import React from 'react'
-import { HEADER_HEIGHT, MIRROR_WEIGHT, MIRROR_HEIGHT } from '../../store/slices/defaultSlices';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { MIRROR_HEADER, MIRROR_BODY, MIRROR_BOTTOM } from '../../store/slices/defaultSlices';
 
-function Mirror() {
-  const navigate = useNavigate();
-
+const Mirror = () => {
+  const navigate = useNavigate()
   return (
     <>
-      <div className='header' style={styles.header}>
-          mirror
-          <button onClick={()=> {navigate('/test')}}>이동</button>
-      </div>
-      <div className='section' style={styles.section}></div>
-    </>
+      <Header></Header>
+      <Body>
+        <button onClick={()=>navigate('/test')}>테스트 가로</button>
+        <button onClick={()=>navigate('/test1')}>테스트 세로</button>
+      </Body>
+      <Bottomm></Bottomm>
+    </>    
   )
 }
 
+const Header = styled.div`
+  width: 100vw;
+  height: ${MIRROR_HEADER}vh;
+  background-color: red;
+`
+
+const Body = styled.div`
+  height: ${MIRROR_BODY}vh;
+  background-color: lightblue;
+`
+
+const Bottomm = styled.div`
+  height: ${MIRROR_BOTTOM}vh;
+  background-color: yellow;
+`
+
 export default Mirror
-
-const styles: { [key: string]: React.CSSProperties } = {
-  header: {
-    height: `${HEADER_HEIGHT}`,
-    width: `${MIRROR_WEIGHT}`,
-    backgroundColor: "red"
-  },
-  section : {
-    height: `${MIRROR_HEIGHT}`,
-    width: `${MIRROR_WEIGHT}`,
-    backgroundColor: "black"
-  }
-};
-
-

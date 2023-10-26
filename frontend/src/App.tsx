@@ -1,17 +1,16 @@
-
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-
-import { store } from './store';
 import routes from './router';
+import { store } from './store';
 import { Provider } from 'react-redux';
-
+import styled from 'styled-components';
+import { MIRROR_COLOR } from './store/slices/defaultSlices'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
     <>
       <Provider store={store}>
-        <div className='App'>
+        <Main>
           <BrowserRouter>
             <Routes>
               {routes.map((e) => (
@@ -19,11 +18,15 @@ function App() {
               ))}
             </Routes>
           </BrowserRouter>
-        </div>
+        </Main>
       </Provider>
     </>
   );
 }
+
+const Main = styled.div`
+  background-color: ${MIRROR_COLOR}};
+`
 
 export default App;
 
