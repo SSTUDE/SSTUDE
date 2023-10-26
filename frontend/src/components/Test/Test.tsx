@@ -1,57 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const Test: React.FC = () => {
-  const [message, setMessage] = useState<string>('');
-
-  const handleButtonClick = (buttonNumber: number) => {
-    setMessage(`버튼 ${buttonNumber}이(가) 눌렸습니다.`);
-  };
-
-  // 80개의 버튼을 생성합니다.
-  const buttons = Array.from({ length: 80 }, (_, index) => (
-    <Button key={index} onClick={() => handleButtonClick(index + 1)}>
-      버튼 {index + 1}
-    </Button>
-  ));
-
-  const navigate = useNavigate()
-
+const Test = () => {
+  const navigate = useNavigate();
+  
   return (
-    <Container>
-    <button onClick={()=>navigate('/')}>처음으로</button>
-      <ButtonContainer>{buttons}</ButtonContainer>
-      {message && <Message>{message}</Message>}
-    </Container>
+    <Body>
+      <button onClick={() => navigate('/testwidth')}>테스트 가로</button>
+      <button onClick={() => navigate('/testheight')}>테스트 세로</button>
+      <button onClick={() => navigate('/')}>메인화면</button>
+    </Body>
   );
 };
 
-const Container = styled.div`
-  height: 100vh;
+const Body = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-`;
-
-const ButtonContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
-  width: 100%;
-  max-width: 1000px;
-  margin-bottom: 20px;
-`;
-
-const Button = styled.button`
-  padding: 10px;
-  margin: 2px;
-`;
-
-const Message = styled.div`
-  margin-top: 20px;
-  color: green;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: lightblue;
 `;
 
 export default Test;
