@@ -27,6 +27,7 @@ function App() {
 const Main = styled.div`
   background-color: ${BACK_GROUND_COLOR};
   color: #fff;
+  overflow: hidden;
 `
 
 export default App;

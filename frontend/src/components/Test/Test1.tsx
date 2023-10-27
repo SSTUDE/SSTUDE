@@ -86,13 +86,13 @@ const Text = styled.div`
 `
 
 const Button = styled.button`
-  width: 43px;
-  height: 43px;
+  width: 150px;
+  height: 150px;
   background-color: gray;
   border: none;
   cursor: pointer;
   transition: 0.3s;
-  margin: 10px;
+  margin: 20px;
 
   &:hover {
     background-color: darkgray;
