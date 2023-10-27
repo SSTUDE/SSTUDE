@@ -5,6 +5,7 @@ from typing import Optional
 from personal_color_analysis import personal_color
 from database import connectMySQL
 from S3backet import s3
+from service import changeId
 
 app = FastAPI()
 
@@ -20,24 +21,41 @@ async def runColor(
     
     # S3저장 후 uri받아옴
     uri = s3(file, userid)
-    result_url = ''
     
     # 사진은 personalcolor판단하고, DB에 결과값을 저장한다 
     # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
+    match_color, hair, accessary, expl, skin, eye= ''
+    
     try:
         result = personal_color.analysis(uri)
         result = result.split('톤')[0]
+        result_id = changeId(result)
+        
         # DB에 저장
         connect, curs = connectMySQL()
-        query = """INSERT INTO makeups (my_id, member_id, result_id) VALUES (%s, %s, %s)"""
-        curs.execute(query, (result, uri, userid))
+        query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
+        curs.execute(query, (uri, userid, result_id))
+        
+        query_select = """SELECT * FROM color WHERE color_id=%s"""
+        curs.execute(query_select,(result_id))
+        row = curs.fetchone()
+        match_color = row[1]
+        hair = row[2]
+        accessary = row[3]
+        expl = row[4]
+        skin = row[5]
+        eye = row[6]
+        
         connect.commit()
         connect.close()
-        result_url = uri
     except Exception as e:
         print(e)
         result = False
-    return JSONResponse({'personal_color': result , 'user_img' : result_url}, json_dumps_params={'ensure_ascii': False})
+    
+    return JSONResponse({'personal_color': result , 'user_img' : uri, 
+                         'match_color':match_color, 'hair':hair,
+                         'accessary': accessary, 'expl':expl,
+                         'skin':skin, 'eye':eye}, json_dumps_params={'ensure_ascii': False})
 
     
 
