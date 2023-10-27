@@ -11,13 +11,13 @@ const Login = () => {
     <>
       <Header></Header>
       <Body>
-        <button onClick={() => navigate('/')}>메인</button>
         <ConsoleOutput>
           {messages.map((msg, index) => (
             <div key={index}>{msg}</div>
           ))}
         </ConsoleOutput>
         <button onClick={handleReconnect}>재연결 시도</button>
+        <button onClick={() => navigate('/')}>메인</button>
       </Body>
       <Bottom></Bottom>
     </>
