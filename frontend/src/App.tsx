@@ -25,7 +25,8 @@ function App() {
 }
 
 const Main = styled.div`
-  background-color: ${BACK_GROUND_COLOR}};
+  background-color: ${BACK_GROUND_COLOR};
+  color: #fff;
 `
 
 export default App;
