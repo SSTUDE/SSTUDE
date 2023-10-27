@@ -2,7 +2,7 @@
 import pymysql
 
 def connectMySQL():
-    connect = pymysql.connect(host='sera.czh6yt8bx4v6.ap-northeast-2.rds.amazonaws.com', user='admin', password='ssafyB202SERA', db='seraDB', charset='utf8mb4')
+    connect = pymysql.connect(host='localhost', user='root', password='qwe123', db='makeup', charset='utf8mb4')
     curs = connect.cursor()
 
     return connect, curs

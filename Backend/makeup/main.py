@@ -6,6 +6,7 @@ from personal_color_analysis import personal_color
 from database import connectMySQL
 from S3backet import s3
 from service import changeId
+import os
 
 app = FastAPI()
 
@@ -18,23 +19,25 @@ async def runColor(
 ):
     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
     userid = 1 #추후 수정
-    
+    contents = await file.read()
     # S3저장 후 uri받아옴
-    uri = s3(file, userid)
+    # uri = s3(file, userid, contents)
+
+    uri = os.path.abspath('./suzy.jpg')
     
     # 사진은 personalcolor판단하고, DB에 결과값을 저장한다 
     # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-    match_color, hair, accessary, expl, skin, eye= ''
-    
+    match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
+    result = personal_color.analysis(uri)
     try:
-        result = personal_color.analysis(uri)
+        # result = personal_color.analysis(uri)
         result = result.split('톤')[0]
         result_id = changeId(result)
         
         # DB에 저장
         connect, curs = connectMySQL()
         query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
-        curs.execute(query, (uri, userid, result_id))
+        curs.execute(query, (userid, uri, result_id))
         
         query_select = """SELECT * FROM color WHERE color_id=%s"""
         curs.execute(query_select,(result_id))
@@ -51,12 +54,15 @@ async def runColor(
     except Exception as e:
         print(e)
         result = False
-    
+    # return JSONResponse({'personal_color': result , 'user_img' : uri, 
+    #                      'match_color':match_color, 'hair':hair,
+    #                      'accessary': accessary, 'expl':expl,
+    #                      'skin':skin, 'eye':eye}, json_dumps_params={'ensure_ascii': False})
+    print("결과 ", result) 
     return JSONResponse({'personal_color': result , 'user_img' : uri, 
                          'match_color':match_color, 'hair':hair,
                          'accessary': accessary, 'expl':expl,
-                         'skin':skin, 'eye':eye}, json_dumps_params={'ensure_ascii': False})
-
+                         'skin':skin, 'eye':eye})
     
 
 

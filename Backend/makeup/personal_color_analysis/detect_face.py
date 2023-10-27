@@ -22,8 +22,8 @@ class DetectFace:
 
         #face detection part
         self.img = cv2.imread(url)
+        
         if self.img is None:
-            
             raise ValueError(f"Failed to load image from {url} {self.img}")
 
         # resp = urllib.request.urlopen(url)
