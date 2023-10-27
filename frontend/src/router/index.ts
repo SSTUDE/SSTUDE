@@ -1,7 +1,8 @@
-import Mirror from "../components/Mirror/Mirror";
+import Mirror from "../components/Main/Mirror";
 import Test from "../components/Test/Test";
 import TestWidth from "../components/Test/TestWidth";
 import TestHeight from "../components/Test/TestHeight";
+import Login from "../components/Login/Login";
 
 
 const routes = [
@@ -21,6 +22,10 @@ const routes = [
   {
     path : "/testheight",
     Component : TestHeight
+  },
+  {
+    path : "/login",
+    Component : Login
   },
 ]
  

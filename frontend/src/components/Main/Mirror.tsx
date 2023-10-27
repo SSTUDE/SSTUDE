@@ -9,9 +9,11 @@ const Mirror = () => {
     <>
       <Header></Header>
       <Body>
-        <button onClick={()=>navigate('/test')}>테스트</button></Body>
-      <Bottomm></Bottomm>
-    </>    
+        <button onClick={() => navigate('/test')}>테스트</button>
+        <button onClick={() => navigate('/login')}>로그인</button>
+      </Body>
+      <Bottom></Bottom>
+    </>
   )
 }
 
@@ -24,7 +26,7 @@ const Body = styled.div`
   background-color: lightblue;
 `
 
-const Bottomm = styled.div`
+const Bottom = styled.div`
   background-color: yellow;
 `
 

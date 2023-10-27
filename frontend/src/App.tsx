@@ -19,13 +19,13 @@ function App() {
             </Routes>
           </BrowserRouter>
         </Main>
-      </Provider>
+      </Provider> 
     </>
   );
 }
 
 const Main = styled.div`
-  background-color: ${BACK_GROUND_COLOR}};
+  background-color: ${BACK_GROUND_COLOR};
 `
 
 export default App;
