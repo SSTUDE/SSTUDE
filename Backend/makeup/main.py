@@ -19,6 +19,7 @@ async def runColor(
 ):
     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
     userid = 1 #추후 수정
+    
     try:
         contents = await file.read()
         
@@ -41,7 +42,7 @@ async def runColor(
         # DB에 저장
         connect, curs = connectMySQL()
         query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
-        curs.execute(query, (userid, uri, result_id))
+        curs.execute(query, (userid, s3uri, result_id))
         
         # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
         query_select = """SELECT * FROM color WHERE color_id=%s"""
@@ -70,16 +71,17 @@ async def runColor(
                          'accessary': accessary, 'expl':expl,
                          'skin':skin, 'eye':eye})
     
-
-
-
     
-# # 퍼스널 컬러 기록을 반환한다 
+# 퍼스널 컬러 이전 기록을 반환한다 
+# 얼굴 사진은 이전 7개까지 - 그 날짜에 해당하는 것 여러개...?
 # @app.get("/makeup/{record_id}")
-# def getRecord (record_id: int, q: Union[str, None] = None):
+# def getRecord (
+#     record_id: int, q: Union[str, None] = None, 
+#     random_header: Optional[str] = Header(None, convert_underscores=False)):
 #     return {"item_id": record_id, "q": q}
 
-# # 화장 aapi를 요청받으면, ai가 실행되도록
+
+# # 이미지 내에 사람이 서있으면, 사진에서 상의를 찾아서 색 추출 및 유사도 검사or점수
 # @app.get("/makeup/simulation")
 # def read_item(item_id: int, q: Union[str, None] = None):
 #     return {"item_id": item_id, "q": q}

@@ -9,18 +9,18 @@ def s3(file, user_id, body):
         's3',
         aws_access_key_id= env_variables.get("AWS_ACCESS_KEY_ID"), 
         aws_secret_access_key= env_variables.get("AWS_SECRET_ACCESS_KEY"))
-    entries = s3_client.list_objects_v2(Bucket=env_variables.get("AWS_STORAGE_BUCKET_NAME"), Prefix='user/')
+    # entries = s3_client.list_objects_v2(Bucket=env_variables.get("AWS_STORAGE_BUCKET_NAME"), Prefix='user/')
     # 해당 사용자가 이미 업로드한 파일이 있는지 확인
-    for entry in entries['Contents']:
-        key = entry['Key']
-        filename = key.split("/")[1]
-        # 이미 있다면 해당파일을 삭제
-        print("파일이름"+filename)
-        print("key"+key)
-        if filename.split("_")[0] == str(user_id):
-            s3_client.delete_object(Bucket=env_variables.get("AWS_STORAGE_BUCKET_NAME"), Key=key)
-            break
-    # key는 
+    # for entry in entries['Contents']:
+    #     key = entry['Key']
+    #     filename = key.split("/")[1]
+    #     # 이미 있다면 해당파일을 삭제
+    #     print("파일이름"+filename)
+    #     print("key"+key)
+    #     if filename.split("_")[0] == str(user_id):
+    #         s3_client.delete_object(Bucket=env_variables.get("AWS_STORAGE_BUCKET_NAME"), Key=key)
+    #         break
+    # # key는 
     
     key = "user/"+str(user_id)+"_"+file.filename
     print("파일이름"+file.filename)
