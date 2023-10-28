@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status
+from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status, Path
 from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis import personal_color
@@ -11,6 +11,7 @@ import os
 
 app = FastAPI()
 
+connect, curs = connectMySQL()
 
 # 퍼스널컬러 요청 후 결과값을 db에 저장한 후 반환한다 
 @app.post("/makeup/color")
@@ -43,7 +44,6 @@ async def runColor(
         result_id = changeId(result)
         
         # DB에 저장
-        connect, curs = connectMySQL()
         query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
         curs.execute(query, (userid, s3uri, result_id))
         
@@ -75,6 +75,29 @@ async def runColor(
                          'skin':skin, 'eye':eye})
     
     
+# 퍼스널 컬러 이전 기록 리스트로 반환(달력) => 맴버와 해당 달을 주면 ->기록 뽑아주기
+# 얼굴 사진은 이전 7개까지 - 그 날짜에 해당하는 것 여러개...?흠...일단 고려
+@app.get("/makeup/{month}")
+def getRecord (
+    month: int= Path(description="월을 입력하면, 일별로 몇건의 데이터가 있는지 개수를 세어줍니다"), 
+    access_token: Optional[str] = Header(None, convert_underscores=False)):
+    # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
+    # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    
+    userid=1
+
+    # 날짜별 몇건의 사진이 있는지
+    query_select = """SELECT COUNT(*), DAY(calender) FROM makeups WHERE member_id=%s AND MONTH(calender)=%s GROUP BY DAY(calender)"""
+    curs.execute(query_select,(userid, month))
+    row = curs.fetchall()
+    
+    lst = []
+    for r in row:
+         lst.append({'count': r[0], 'day': r[1]})
+    
+    return {"month": month, "list":lst}
+
+
 # 퍼스널 컬러 이전 기록을 반환한다 
 # 얼굴 사진은 이전 7개까지 - 그 날짜에 해당하는 것 여러개...?흠...일단 고려
 # @app.get("/makeup/{record_id}")
