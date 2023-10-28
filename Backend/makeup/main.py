@@ -6,6 +6,7 @@ from personal_color_analysis import personal_color
 from database import connectMySQL
 from S3backet import s3
 from service import changeId
+import requests
 import os
 
 app = FastAPI()
@@ -15,10 +16,12 @@ app = FastAPI()
 @app.post("/makeup/color")
 async def runColor(
     file: UploadFile = File(), 
-    random_header: Optional[str] = Header(None, convert_underscores=False)
+    access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
-    userid = 1 #추후 수정
+    # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    
+    userid=1
     
     try:
         contents = await file.read()
@@ -73,7 +76,7 @@ async def runColor(
     
     
 # 퍼스널 컬러 이전 기록을 반환한다 
-# 얼굴 사진은 이전 7개까지 - 그 날짜에 해당하는 것 여러개...?
+# 얼굴 사진은 이전 7개까지 - 그 날짜에 해당하는 것 여러개...?흠...일단 고려
 # @app.get("/makeup/{record_id}")
 # def getRecord (
 #     record_id: int, q: Union[str, None] = None, 
