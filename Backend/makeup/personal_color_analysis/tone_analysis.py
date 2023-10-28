@@ -1,16 +1,11 @@
-# from scipy.spatial import distance
-# import copy
-# import math
-# import operator
 
 def is_warm(lab_b, a):
     '''
     파라미터 lab_b = [skin_b, hair_b, eye_b]
     a = 가중치 [skin, hair, eye]
-    질의색상 lab_b값에서 warm의 lab_b, cool의 lab_b값 간의 거리를
+    사진의 lab_b값에서 warm의 lab_b, cool의 lab_b값 간의 거리를
     각각 계산하여 warm이 가까우면 1, 반대 경우 0 리턴
     '''
-    # standard of skin, eyebrow, eye
     warm_b_std = [11.6518, 11.71445, 3.6484]
     cool_b_std = [4.64255, 4.86635, 0.18735]
 

@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI, File, UploadFile, Form, Header
+from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status
 from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis import personal_color
@@ -19,18 +19,22 @@ async def runColor(
 ):
     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
     userid = 1 #추후 수정
-    contents = await file.read()
-    # S3저장 후 uri받아옴
-    # uri = s3(file, userid, contents)
-
-    uri = os.path.abspath('./suzy.jpg')
-    
-    # 사진은 personalcolor판단하고, DB에 결과값을 저장한다 
-    # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-    match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
-    result = personal_color.analysis(uri)
     try:
-        # result = personal_color.analysis(uri)
+        contents = await file.read()
+        
+        #로컬에 파일 저장
+        file_name = 'savedfile.jpg'   
+        with open(file_name, "wb") as local_file:
+            local_file.write(contents)
+        uri = os.path.abspath('./savedfile.jpg')
+        
+        # S3저장 후 uri받아옴
+        s3uri = s3(file, userid, contents)
+        
+        # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
+        match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
+        result = personal_color.analysis(uri)
+        
         result = result.split('톤')[0]
         result_id = changeId(result)
         
@@ -39,6 +43,7 @@ async def runColor(
         query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
         curs.execute(query, (userid, uri, result_id))
         
+        # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
         query_select = """SELECT * FROM color WHERE color_id=%s"""
         curs.execute(query_select,(result_id))
         row = curs.fetchone()
@@ -49,17 +54,18 @@ async def runColor(
         skin = row[5]
         eye = row[6]
         
+        #DB잘가
         connect.commit()
         connect.close()
+        os.remove(file_name)
+        
     except Exception as e:
         print(e)
         result = False
-    # return JSONResponse({'personal_color': result , 'user_img' : uri, 
-    #                      'match_color':match_color, 'hair':hair,
-    #                      'accessary': accessary, 'expl':expl,
-    #                      'skin':skin, 'eye':eye}, json_dumps_params={'ensure_ascii': False})
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
+
     print("결과 ", result) 
-    return JSONResponse({'personal_color': result , 'user_img' : uri, 
+    return JSONResponse({'personal_color': result , 'user_img' : s3uri, 
                          'match_color':match_color, 'hair':hair,
                          'accessary': accessary, 'expl':expl,
                          'skin':skin, 'eye':eye})
