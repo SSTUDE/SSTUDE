@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 
-const Test1 = () => {
+const TestMain = () => {
   const currentDate = new Date();
   
   // 현재 시간을 "10:30AM" 형식으로 표시
@@ -99,4 +99,4 @@ const Button = styled.button`
   }
 `
 
-export default Test1
+export default TestMain

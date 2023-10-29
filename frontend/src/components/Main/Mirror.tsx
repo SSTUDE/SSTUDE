@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-// import { MIRROR_HEADER, MIRROR_BODY, MIRROR_BOTTOM } from '../../store/slices/defaultSlices';
 
 const Mirror = () => {
   const navigate = useNavigate()
@@ -11,6 +10,7 @@ const Mirror = () => {
       <Body>
         <button onClick={() => navigate('/test')}>테스트</button>
         <button onClick={() => navigate('/login')}>로그인</button>
+        <button onClick={() => navigate('/datetime')}>시간</button>
       </Body>
       <Bottom></Bottom>
     </>
