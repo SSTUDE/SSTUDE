@@ -2,15 +2,16 @@ import Mirror from "../components/Main/Mirror";
 import Test from "../components/Test/Test";
 import TestWidth from "../components/Test/TestWidth";
 import TestHeight from "../components/Test/TestHeight";
+import TestMain from "../components/Test/TestMain";
 import Login from "../components/Login/Login";
-import Test1 from "../components/Test/Test1";
-
+import DateTime from "../components/Common/DateTime";
 
 const routes = [
   {
     path : "/",
     Component : Mirror
   },
+  
   {
     path : "/test",
     Component : Test
@@ -24,13 +25,20 @@ const routes = [
     Component : TestHeight
   },
   {
+    path : "/testmain",
+    Component : TestMain
+  },
+
+  {
     path : "/login",
     Component : Login
   },
+
   {
-    path : "/test1",
-    Component : Test1
-  },
+    path : "/datetime",
+    Component : DateTime
+  }
+
 ]
  
 
