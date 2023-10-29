@@ -9,7 +9,7 @@ const Test = () => {
     <Body>
       <button onClick={() => navigate('/testwidth')}>테스트 가로</button>
       <button onClick={() => navigate('/testheight')}>테스트 세로</button>
-      <button onClick={() => navigate('/test1')}>Test</button>
+      <button onClick={() => navigate('/testmain')}>Test</button>
       <button onClick={() => navigate('/')}>메인화면</button>
     </Body>
   );

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 function DateTime() {
 
-const currentDate = new Date();
-  
+  const currentDate = new Date();
+
   // 현재 시간을 "10:30AM" 형식으로 표시
   const hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
@@ -21,23 +21,44 @@ const currentDate = new Date();
   const DateString = `${year}.${month}.${day}(${dayOfWeek})`;
 
   return (
-    <>
     <Times>
-    <Tm>{formattedHours}</Tm>
-    <div>{ampm}</div>
+      <TimeNow>
+        <MainP>{formattedHours}</MainP>
+        <AmPm>{ampm}</AmPm>
+      </TimeNow>
+      <DateNow>{DateString}</DateNow>
     </Times>
-    <div>{DateString}</div>
-    </>
   )
 }
 
 const Times = styled.div`
-display: inline-flex;
-  
+  align-items: flex-end;
+  display: inline-flex;
+  flex-direction: column;
 `;
 
-const Tm = styled.div`
-  font-size:30px;
+const TimeNow = styled.div`
+  align-items: flex-end;
+  display: inline-flex;
+  align-items: baseline;
+`;
+
+const MainP = styled.p`
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0;
+`;
+
+const AmPm = styled.p`
+  font-size: 25px;
+  font-weight: 500;
+  margin: 0;
+`;
+
+const DateNow = styled.p`
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
 `;
 
 export default DateTime
