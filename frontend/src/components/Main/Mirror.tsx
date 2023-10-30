@@ -19,15 +19,16 @@ const Mirror = () => {
 
 const Header = styled.div`
   width: 100vw;
-  background-color: red;
+  /* background-color: red; */
 `
 
 const Body = styled.div`
-  background-color: lightblue;
+  text-align: center;
+  /* background-color: lightblue; */
 `
 
 const Bottom = styled.div`
-  background-color: yellow;
+  /* background-color: yellow; */
 `
 
 export default Mirror

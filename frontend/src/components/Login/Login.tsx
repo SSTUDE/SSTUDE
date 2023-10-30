@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const { messages, handleReconnect, sendMessage } = useWebSocket('wss://localhost:8765');
+  const { messages, handleReconnect, sendMessage } = useWebSocket('ws://localhost:8765');
   const navigate = useNavigate();
   const [inputMessage, setInputMessage] = useState('');
 
