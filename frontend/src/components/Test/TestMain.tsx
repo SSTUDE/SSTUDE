@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const TestMain = () => {
   const currentDate = new Date();
-  
+
   // 현재 시간을 "10:30AM" 형식으로 표시
   const hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();

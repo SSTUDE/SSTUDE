@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import {TEXT_COLOR} from '../../constants/defaultSlices'
+import { TEXT_COLOR } from '../../constants/defaultSlices'
 
 function DateTime() {
 
@@ -65,4 +65,4 @@ const DateNow = styled.p`
   color: ${TEXT_COLOR}
 `;
 
-export default DateTime
+export default DateTime;
