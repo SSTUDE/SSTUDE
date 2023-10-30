@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useWebSocket } from '../../hooks/useWebSocket';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const { messages, handleReconnect } = useWebSocket('wss://localhost:8765');
+  const { messages, handleReconnect, sendMessage } = useWebSocket('wss://localhost:8765');
   const navigate = useNavigate();
+  const [inputMessage, setInputMessage] = useState('');
+
+  const handleSendMessage = () => {
+    sendMessage(inputMessage);
+    setInputMessage('');
+  };
 
   return (
     <>
@@ -16,6 +22,13 @@ const Login = () => {
             <div key={index}>{msg}</div>
           ))}
         </ConsoleOutput>
+        <input 
+          type="text" 
+          value={inputMessage} 
+          onChange={(e) => setInputMessage(e.target.value)} 
+          placeholder="메시지 입력" 
+        />
+        <button onClick={handleSendMessage}>메시지 보내기</button>
         <button onClick={handleReconnect}>재연결 시도</button>
         <button onClick={() => navigate('/')}>메인</button>
       </Body>
@@ -31,6 +44,7 @@ const Header = styled.div`
 
 const Body = styled.div`
   background-color: lightblue;
+  text-align: center;
 `;
 
 const Bottom = styled.div`
