@@ -1,16 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import {TEXT_COLOR} from '../../constants/defaultSlices'
 
 const Test = () => {
   const navigate = useNavigate();
   
   return (
     <Body>
-      <button onClick={() => navigate('/testwidth')}>테스트 가로</button>
-      <button onClick={() => navigate('/testheight')}>테스트 세로</button>
-      <button onClick={() => navigate('/testmain')}>Test</button>
-      <button onClick={() => navigate('/')}>메인화면</button>
+      <Btn onClick={() => navigate('/testwidth')}>테스트 가로</Btn>
+      <Btn onClick={() => navigate('/testheight')}>테스트 세로</Btn>
+      <Btn onClick={() => navigate('/testmain')}>Test</Btn>
+      <Btn onClick={() => navigate('/')}>메인화면</Btn>
     </Body>
   );
 };
@@ -22,7 +23,16 @@ const Body = styled.div`
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: lightblue;
+  /* background-color: lightblue; */
+`;
+
+const Btn = styled.p`
+padding: 10px 20px;
+font-size: 1.5em;
+font-weight: bold;
+margin: 5px; 
+color: ${TEXT_COLOR};
+cursor: pointer; 
 `;
 
 export default Test;
