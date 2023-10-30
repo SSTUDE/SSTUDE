@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { TEXT_COLOR } from '../../constants/defaultSlices'
+import { TEXT_COLOR } from '../../constants/defaultSlices';
 
 const MirrorMap = () => {
   const navigate = useNavigate()
@@ -9,9 +9,9 @@ const MirrorMap = () => {
     <>
       <Header></Header>
       <Body>
+        <Btn onClick={() => navigate('/login')}>로그인</Btn>
         <Btn onClick={() => navigate('/mirror')}>메인페이지</Btn>
         <Btn onClick={() => navigate('/test')}>테스트</Btn>
-        <Btn onClick={() => navigate('/login')}>웹소켓</Btn>
         {/* <Btn onClick={() => navigate('/menubtn')}>메뉴버튼</Btn> */}
       </Body>
       <Bottom></Bottom>

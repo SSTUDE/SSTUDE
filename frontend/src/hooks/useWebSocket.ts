@@ -1,6 +1,9 @@
+import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
+import { processMessage } from "../components/Login/LoginSlice";
 
 export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
+  const dispatch = useDispatch();
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectAttempts = useRef(0);
   const [messages, setMessages] = useState<string[]>([]);
@@ -22,7 +25,7 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
   // 웹소켓 연결 함수
   const connect = () => {
-    console.log(`시도횟수 : ${reconnectAttempts.current}`)
+    console.log(`시도횟수 : ${reconnectAttempts.current}`);
     const ws = new WebSocket(url);
 
     ws.onopen = () => {
@@ -32,6 +35,7 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
     ws.onmessage = (event) => {
       console.log("수신된 메시지:", event.data);
+      dispatch(processMessage(event.data));
     };
 
     ws.onerror = (error) => {
@@ -80,4 +84,3 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
   return { messages, handleReconnect, sendMessage };
 };
-

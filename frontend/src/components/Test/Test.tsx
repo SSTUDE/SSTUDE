@@ -11,6 +11,7 @@ const Test = () => {
       <Btn onClick={() => navigate('/testwidth')}>테스트 가로</Btn>
       <Btn onClick={() => navigate('/testheight')}>테스트 세로</Btn>
       <Btn onClick={() => navigate('/testmain')}>Test</Btn>
+      <Btn onClick={() => navigate('/websocket')}>웹소켓</Btn>
       <Btn onClick={() => navigate('/')}>초기 화면</Btn>
     </Body>
   );
