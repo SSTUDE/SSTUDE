@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import {TEXT_COLOR} from '../../constants/defaultSlices'
+import { TEXT_COLOR } from '../../constants/defaultSlices'
 
 const Test = () => {
   const navigate = useNavigate();
-  
+
   return (
     <Body>
       <Btn onClick={() => navigate('/testwidth')}>테스트 가로</Btn>
       <Btn onClick={() => navigate('/testheight')}>테스트 세로</Btn>
       <Btn onClick={() => navigate('/testmain')}>Test</Btn>
-      <Btn onClick={() => navigate('/')}>메인화면</Btn>
+      <Btn onClick={() => navigate('/')}>초기 화면</Btn>
     </Body>
   );
 };

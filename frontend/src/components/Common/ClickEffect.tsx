@@ -2,22 +2,22 @@ import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const ClickEffect = () => {
-    const [click, setClick] = useState({ x: 0, y: 0, show: false });
+  const [click, setClick] = useState({ x: 0, y: 0, show: false });
 
-    useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
-            setClick({ x: e.clientX, y: e.clientY, show: true });
-            setTimeout(() => setClick({ ...click, show: false }), 500);
-        };
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      setClick({ x: e.clientX, y: e.clientY, show: true });
+      setTimeout(() => setClick({ ...click, show: false }), 500);
+    };
 
-        window.addEventListener('click', handleClick);
+    window.addEventListener('click', handleClick);
 
-        return () => {
-            window.removeEventListener('click', handleClick);
-        };
-    }, []);
+    return () => {
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
 
-    return click.show ? <Effect x={click.x} y={click.y} /> : null;
+  return click.show ? <Effect x={click.x} y={click.y} /> : null;
 };
 
 const clickEffectAnimation = keyframes`
@@ -32,8 +32,8 @@ const clickEffectAnimation = keyframes`
 `;
 
 interface EffectProps {
-    x: number;
-    y: number;
+  x: number;
+  y: number;
 }
 
 const Effect = styled.div<EffectProps>`

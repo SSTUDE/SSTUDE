@@ -1,14 +1,20 @@
+import MirrorMap from "../components/Main/MirrorMap";
 import Mirror from "../components/Main/Mirror";
 import Test from "../components/Test/Test";
 import TestWidth from "../components/Test/TestWidth";
 import TestHeight from "../components/Test/TestHeight";
 import TestMain from "../components/Test/TestMain";
 import Login from "../components/Login/Login";
-import DateTime from "../components/Common/dateTime";
+import MenuBtn from "../components/Common/MenuBtn";
 
 const routes = [
   {
     path : "/",
+    Component : MirrorMap
+  },
+  
+  {
+    path : "/mirror",
     Component : Mirror
   },
   
@@ -35,8 +41,9 @@ const routes = [
   },
 
   {
-    path : "/datetime",
-    Component : DateTime
+    path : "/menubtn",
+    Component : MenuBtn,
+    props: { type: 'menu' }
   },
 
 ]

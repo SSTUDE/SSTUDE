@@ -1,26 +1,20 @@
 import React from 'react'
 import styled from 'styled-components';
-import MenuBtn from '../Common/MenuBtn';
-import DateTime from '../Common/DateTime';
-import HelloWorld from '../Common/HelloWorld';
 import { useNavigate } from 'react-router-dom';
-import { TEXT_COLOR } from '../../constants/defaultSlices';
+import { TEXT_COLOR } from '../../constants/defaultSlices'
 
-const Mirror = () => {
+const MirrorMap = () => {
   const navigate = useNavigate()
-
   return (
     <>
-      <Header>
-        <MenuBtn type="menu" />
-        <HelloWorld />
-        <DateTime />
-      </Header>
+      <Header></Header>
       <Body>
+        <Btn onClick={() => navigate('/mirror')}>메인페이지</Btn>
+        <Btn onClick={() => navigate('/test')}>테스트</Btn>
+        <Btn onClick={() => navigate('/login')}>웹소켓</Btn>
+        {/* <Btn onClick={() => navigate('/menubtn')}>메뉴버튼</Btn> */}
       </Body>
-      <Bottom>
-        <Btn onClick={() => navigate('/')}>초기 화면</Btn>
-      </Bottom>
+      <Bottom></Bottom>
     </>
   )
 }
@@ -46,7 +40,6 @@ font-weight: bold;
 margin: 5px; 
 color: ${TEXT_COLOR};
 cursor: pointer; 
-`;
+`
 
-
-export default Mirror
+export default MirrorMap

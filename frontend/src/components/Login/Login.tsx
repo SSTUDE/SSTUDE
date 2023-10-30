@@ -24,15 +24,15 @@ const Login = () => {
             <div key={index}>{msg}</div>
           ))}
         </ConsoleOutput>
-        <input 
-          type="text" 
-          value={inputMessage} 
-          onChange={(e) => setInputMessage(e.target.value)} 
-          placeholder="메시지 입력" 
+        <input
+          type="text"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          placeholder="메시지 입력"
         />
         <Btn onClick={handleSendMessage}>메시지 보내기</Btn>
         <Btn onClick={handleReconnect}>재연결 시도</Btn>
-        <Btn onClick={() => navigate('/')}>메인</Btn>
+        <Btn onClick={() => navigate('/')}>초기 화면</Btn>
       </Body>
       <Bottom></Bottom>
     </>
