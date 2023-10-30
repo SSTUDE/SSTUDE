@@ -3,6 +3,7 @@ import routes from './router';
 import { store } from './store';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
+import ClickEffect from './components/Common/ClickEffect';
 import { BACK_GROUND_COLOR } from './constants/defaultSlices'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
@@ -11,6 +12,7 @@ function App() {
     <>
       <Provider store={store}>
         <Main>
+        <ClickEffect />
           <BrowserRouter>
             <Routes>
               {routes.map((e) => (
@@ -28,7 +30,6 @@ const Main = styled.div`
   background-color: ${BACK_GROUND_COLOR};
   width: 100%;
   height: 100vh;
-  color: #fff;
   overflow: hidden;
 `
 

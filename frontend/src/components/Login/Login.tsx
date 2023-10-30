@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useWebSocket } from '../../hooks/useWebSocket';
 import styled from 'styled-components';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWebSocket } from '../../hooks/useWebSocket';
+import { TEXT_COLOR } from '../../constants/defaultSlices'
+
 
 const Login = () => {
   const { messages, handleReconnect, sendMessage } = useWebSocket('ws://localhost:8765');
@@ -28,9 +30,9 @@ const Login = () => {
           onChange={(e) => setInputMessage(e.target.value)} 
           placeholder="메시지 입력" 
         />
-        <button onClick={handleSendMessage}>메시지 보내기</button>
-        <button onClick={handleReconnect}>재연결 시도</button>
-        <button onClick={() => navigate('/')}>메인</button>
+        <Btn onClick={handleSendMessage}>메시지 보내기</Btn>
+        <Btn onClick={handleReconnect}>재연결 시도</Btn>
+        <Btn onClick={() => navigate('/')}>메인</Btn>
       </Body>
       <Bottom></Bottom>
     </>
@@ -39,22 +41,31 @@ const Login = () => {
 
 const Header = styled.div`
   width: 100vw;
-  background-color: red;
+  /* background-color: red; */
 `;
 
 const Body = styled.div`
-  background-color: lightblue;
+  /* background-color: lightblue; */
   text-align: center;
 `;
 
 const Bottom = styled.div`
-  background-color: yellow;
+  /* background-color: yellow; */
 `;
 
 const ConsoleOutput = styled.div`
   font-size: 16px;
-  color: black;
+  color: ${TEXT_COLOR};
   white-space: pre-wrap;
+`;
+
+const Btn = styled.p`
+padding: 10px 20px;
+font-size: 1.5em;
+font-weight: bold;
+margin: 5px; 
+color: ${TEXT_COLOR};
+cursor: pointer; 
 `;
 
 export default Login;
