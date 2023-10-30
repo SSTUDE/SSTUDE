@@ -47,8 +47,8 @@ def is_spr(hsv_s, a):
         fal_dist += abs(hsv_s[i] - fal_s_std[i]) * a[i]
         print(body_part[i],"의 fall 기준값과의 거리")
         print(abs(hsv_s[i] - fal_s_std[i]) * a[i])
-
     if(spr_dist <= fal_dist):
+        
         return 1 #spring
     else:
         return 0 #fall
@@ -76,7 +76,6 @@ def is_smr(hsv_s, a):
         wnt_dist += abs(hsv_s[i] - wnt_s_std[i]) * a[i]
         print(body_part[i],"의 winter 기준값과의 거리")
         print(abs(hsv_s[i] - wnt_s_std[i]) * a[i])
-
     if(smr_dist <= wnt_dist):
         return 1 #summer
     else:

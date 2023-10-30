@@ -1,10 +1,12 @@
 import boto3
 from dotenv import dotenv_values #env파일 가져오기
+import uuid
+from datetime import datetime
 
 
 env_variables = dotenv_values(".env")
 
-def s3(file, user_id, body):
+def s3(file, user_id, body, current_date, count):
     s3_client = boto3.client(
         's3',
         aws_access_key_id= env_variables.get("AWS_ACCESS_KEY_ID"), 
@@ -22,7 +24,9 @@ def s3(file, user_id, body):
     #         break
     # # key는 
     
-    key = "user/"+str(user_id)+"_"+file.filename
+    # key = "user/"+str(user_id)+"_"+file.filename +"이 문제여?"# 파일 이름 uuid 붙이기 
+    key = "user/"+str(user_id)+"_"+file.filename + str(current_date) + "_"+str(count) # 파일 이름 uuid 붙이기 
+    
     print("파일이름"+file.filename)
     
     

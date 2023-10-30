@@ -1,17 +1,18 @@
-
 from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status, Path
 from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis import personal_color
+from Dto import *
 from database import connectMySQL
 from S3backet import s3
 from service import changeId
+from datetime import datetime
 import requests
 import os
 
-app = FastAPI()
 
-connect, curs = connectMySQL()
+#DB의 CONNECTION을 계속 연결하면서 해결할 수 있는 방법은...?ㅠㅠ
+app = FastAPI()
 
 # 퍼스널컬러 요청 후 결과값을 db에 저장한 후 반환한다 
 @app.post("/makeup/color")
@@ -21,53 +22,73 @@ async def runColor(
 ):
     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    connect, curs = connectMySQL()
+    userid=2
+    count = 11
     
-    userid=1
     
-    try:
-        contents = await file.read()
-        
-        #로컬에 파일 저장
-        file_name = 'savedfile.jpg'   
-        with open(file_name, "wb") as local_file:
-            local_file.write(contents)
-        uri = os.path.abspath('./savedfile.jpg')
-        
-        # S3저장 후 uri받아옴
-        s3uri = s3(file, userid, contents)
-        
-        # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
-        match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
-        result = personal_color.analysis(uri)
-        
-        result = result.split('톤')[0]
-        result_id = changeId(result)
-        
-        # DB에 저장
-        query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
-        curs.execute(query, (userid, s3uri, result_id))
-        
-        # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-        query_select = """SELECT * FROM color WHERE color_id=%s"""
-        curs.execute(query_select,(result_id))
-        row = curs.fetchone()
-        match_color = row[1]
-        hair = row[2]
-        accessary = row[3]
-        expl = row[4]
-        skin = row[5]
-        eye = row[6]
-        
-        #DB잘가
-        connect.commit()
-        connect.close()
-        os.remove(file_name)
-        
-    except Exception as e:
-        print(e)
-        result = False
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
+    ## 하루에 3번 이상 요청할 수 없음 
+    current_date = datetime.now().date()
+    with connect.cursor() as curs:
+        query = """SELECT COUNT(*) AS request_count
+                    FROM makeups
+                    WHERE member_id = %s AND calender = %s"""
+        curs.execute(query, (userid, current_date))
+        result = curs.fetchone()
+        count = result[0] if result else 0
+    
+    if count >=3:
+        raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
+    
+    else:
+        try:
+            contents = await file.read()
+            
+            #로컬에 파일 저장
+            file_name = 'savedfile.jpg'   
+            with open(file_name, "wb") as local_file:
+                local_file.write(contents)
+            uri = os.path.abspath('./savedfile.jpg')
+            
+            # S3저장 후 uri받아옴
+            s3uri = s3(file, userid, contents, count, current_date)
+            
+            # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
+            match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
+            result = personal_color.analysis(uri)
+            
+            result = result.split('톤')[0]
+            result_id = changeId(result)
+            
+            # DB에 저장
+            with connect.cursor() as curs:
+                query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
+                curs.execute(query, (userid, s3uri, result_id))
+            
+            connect.commit()
+            
+            with connect.cursor() as curs:
+            # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
+                query_select = """SELECT * FROM color WHERE color_id=%s"""
+                curs.execute(query_select,(result_id))
+                row = curs.fetchone()
+                match_color = row[1]
+                hair = row[2]
+                accessary = row[3]
+                expl = row[4]
+                skin = row[5]
+                eye = row[6]
+                
+            os.remove(file_name)
+        except Exception as e:
+            print(e)
+            result = False
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
 
+        finally:
+            connect.close()
+            
+           
     print("결과 ", result) 
     return JSONResponse({'personal_color': result , 'user_img' : s3uri, 
                          'match_color':match_color, 'hair':hair,
@@ -75,40 +96,59 @@ async def runColor(
                          'skin':skin, 'eye':eye})
     
     
-# 퍼스널 컬러 이전 기록 리스트로 반환(달력) => 맴버와 해당 달을 주면 ->기록 뽑아주기
-# 얼굴 사진은 이전 7개까지 - 그 날짜에 해당하는 것 여러개...?흠...일단 고려
-@app.get("/makeup/{month}")
-def getRecord (
-    month: int= Path(description="월을 입력하면, 일별로 몇건의 데이터가 있는지 개수를 세어줍니다"), 
-    access_token: Optional[str] = Header(None, convert_underscores=False)):
-    # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
-    # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+# # 퍼스널 컬러 이전 기록 리스트로 반환(달력) 
+# @app.post("/makeup/list")
+# def getRecordList (
+#     request: MonthRequestDto,
+#     access_token: Optional[str] = Header(None, convert_underscores=False)):
+#     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
+#     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
     
-    userid=1
+#     userid=1
+#     connect, curs = connectMySQL()
 
-    # 날짜별 몇건의 사진이 있는지
-    query_select = """SELECT COUNT(*), DAY(calender) FROM makeups WHERE member_id=%s AND MONTH(calender)=%s GROUP BY DAY(calender)"""
-    curs.execute(query_select,(userid, month))
-    row = curs.fetchall()
+#     # 날짜별 몇건의 사진이 있는지
+#     query_select = """SELECT COUNT(*), DAY(calender) 
+#                     FROM makeups 
+#                     WHERE member_id=%s AND YEAR(calender)=%s AND MONTH(calender)=%s 
+#                     GROUP BY DAY(calender)"""
+#     curs.execute(query_select,(userid, request.year, request.month))
+#     row = curs.fetchall()
     
-    lst = []
-    for r in row:
-         lst.append({'count': r[0], 'day': r[1]})
+#     lst = []
+#     for r in row:
+#          lst.append({'count': r[0], 'day': r[1]})
     
-    return {"month": month, "list":lst}
+#     return {"month": request.month, "list":lst}
 
 
-# 퍼스널 컬러 이전 기록을 반환한다 
-# 얼굴 사진은 이전 7개까지 - 그 날짜에 해당하는 것 여러개...?흠...일단 고려
-# @app.get("/makeup/{record_id}")
-# def getRecord (
-#     record_id: int, q: Union[str, None] = None, 
-#     random_header: Optional[str] = Header(None, convert_underscores=False)):
-#     return {"item_id": record_id, "q": q}
+# # 퍼스널 컬러 이전 상세기록 반환
+# @app.post("/makeup/detail")
+# def getRecordDetail (
+#     request: DayRequestDto,
+#     access_token: Optional[str] = Header(None, convert_underscores=False)):
+    
+#     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
+#     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+#     connect, curs = connectMySQL()
+    
+#     userid=1
+    
+#     query_select = """SELECT color_name, img_uri
+#                     FROM makeups A join color B on A.result_id=B.color_id
+#                     WHERE member_id=%s AND YEAR(calender)=%s AND MONTH(calender)=%s AND DAY(calender)=%s """
+#     curs.execute(query_select,(userid, request.year, request.month, request.day))
+#     row = curs.fetchall()
+
+#     lst = []
+#     for r in row:
+#         lst.append({'colorName': r[0], 'img_url': r[1]})
+    
+#     return {"month": request.month, "day": request.day, "list":lst}
 
 
 # # 이미지 내에 사람이 서있으면, 사진에서 상의를 찾아서 색 추출 및 유사도 검사or점수
-# @app.get("/makeup/simulation")
+# @app.get("/makeup/cloth")
 # def read_item(item_id: int, q: Union[str, None] = None):
 #     return {"item_id": item_id, "q": q}
 
