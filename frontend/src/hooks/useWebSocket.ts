@@ -69,5 +69,15 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
     connect();
   };
 
-  return { messages, handleReconnect };
+  // 메시지 보내기
+  const sendMessage = (message: string) => {
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(message);
+    } else {
+      console.error("웹소켓이 연결되지 않았습니다.");
+    }
+  };
+
+  return { messages, handleReconnect, sendMessage };
 };
+
