@@ -11,7 +11,6 @@ function DateTime() {
   const minutes = currentDate.getMinutes();
   const ampm = hours >= 12 ? 'PM' : 'AM';
   const formattedHours = `${hours % 12 || 12}:${minutes.toString().padStart(2, '0')}`;
-  // const Time = `${formattedHours} ${ampm}`;
 
   // 현재 날짜를 "2023.10.20(금)" 형식으로 표시
   const year = currentDate.getFullYear();

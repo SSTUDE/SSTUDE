@@ -7,7 +7,8 @@ const ClickEffect = () => {
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       setClick({ x: e.clientX, y: e.clientY, show: true });
-      setTimeout(() => setClick({ ...click, show: false }), 500);
+      // 함수형 업데이트를 사용하여 'click' 상태를 직접 참조하지 않음
+      setTimeout(() => setClick((c) => ({ ...c, show: false })), 500);
     };
 
     window.addEventListener('click', handleClick);
@@ -15,7 +16,7 @@ const ClickEffect = () => {
     return () => {
       window.removeEventListener('click', handleClick);
     };
-  }, []);
+  }, []); // 종속성 배열은 비워둠
 
   return click.show ? <Effect x={click.x} y={click.y} /> : null;
 };

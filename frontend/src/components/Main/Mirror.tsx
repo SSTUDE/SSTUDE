@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 import MenuBtn from '../Common/MenuBtn';
-import DateTime from '../Common/DateTime';
 import HelloWorld from '../Common/HelloWorld';
+import DateTime from '../Common/dateTime';
 import { useNavigate } from 'react-router-dom';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
 
@@ -14,7 +14,7 @@ const Mirror = () => {
       <Header>
         <MenuBtn type="menu" />
         <HelloWorld />
-        <DateTime />
+        <DateTime/>
       </Header>
       <Body>
       </Body>
