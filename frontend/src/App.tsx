@@ -26,6 +26,8 @@ function App() {
 
 const Main = styled.div`
   background-color: ${BACK_GROUND_COLOR};
+  width: 100%;
+  height: 100vh;
   color: #fff;
   overflow: hidden;
 `

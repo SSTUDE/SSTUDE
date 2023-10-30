@@ -21,17 +21,17 @@ function DateTime() {
   const DateString = `${year}.${month}.${day}(${dayOfWeek})`;
 
   return (
-    <Times>
+    <Wrap>
       <TimeNow>
         <MainP>{formattedHours}</MainP>
         <AmPm>{ampm}</AmPm>
       </TimeNow>
       <DateNow>{DateString}</DateNow>
-    </Times>
+    </Wrap>
   )
 }
 
-const Times = styled.div`
+const Wrap = styled.div`
   align-items: flex-end;
   display: inline-flex;
   flex-direction: column;
