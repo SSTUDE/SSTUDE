@@ -43,7 +43,7 @@ public class BeautyService {
     @Transactional(readOnly = true)
     public List<ClothesDetailResponseDto> getClothesDetail(Long memberId, StaticDayRequestDto requestDto) {
         // 이미지 점수
-        List<Clothes> clothesList = clothesRepository.findAllByCalenderYearAndCalenderMonthAndCalender_DayOfMonthAndMemberIdOrderByCalender(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
+        List<Clothes> clothesList = clothesRepository.findClothesByYearMonthDayAndMemberId(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
 
         List<ClothesDetailResponseDto> clothesDetailList = clothesList.stream()
                 .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImgUri()))

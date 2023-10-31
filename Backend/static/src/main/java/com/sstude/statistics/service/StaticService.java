@@ -28,8 +28,8 @@ public class StaticService {
     public StaticAllResponseDto findAllDesc(Long userid, StaticMonthRequestDto staticMonthRequestDto) {
 
         // makeup과 clothes기록이 있는 데이터 뽑기
-        List<Makeups> makeupsList = makeupRepository.findAllByCalenderYearAndCalenderMonthAndMemberId(staticMonthRequestDto.getYear(), staticMonthRequestDto.getMonth(), userid);
-        List<Clothes> clothesList = clothesRepository.findAllByCalenderYearAndCalenderMonthAndMemberId(staticMonthRequestDto.getYear(), staticMonthRequestDto.getMonth(), userid);
+        List<Makeups> makeupsList = makeupRepository.findMakeupsByYearMonthAndMemberId(staticMonthRequestDto.getYear(), staticMonthRequestDto.getMonth(), userid);
+        List<Clothes> clothesList = clothesRepository.findClothesByYearMonthAndMemberId(staticMonthRequestDto.getYear(), staticMonthRequestDto.getMonth(), userid);
 
         StaticAllResponseDto responseDtoList = new StaticAllResponseDto();
         ArrayList<Integer> list = new ArrayList<>();
