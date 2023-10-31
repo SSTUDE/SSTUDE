@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @Table(name="makeups")
-public class makeups {
+public class Makeups {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long myId;

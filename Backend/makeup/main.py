@@ -2,7 +2,6 @@ from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status
 from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis import personal_color
-from Dto import *
 from database import connectMySQL
 from S3backet import s3
 from service import changeId

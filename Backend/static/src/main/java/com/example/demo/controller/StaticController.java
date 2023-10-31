@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.dto.response.staticAllResponseDto;
+import com.example.demo.dto.response.StaticAllResponseDto;
+import com.example.demo.service.BeautyService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,15 +16,18 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/static/makeup")
-public class beautyController {
+public class StaticController {
+    private final BeautyService beautyService;
 
     // 전체 통계리스트 제공
     @Operation(summary = "여행 전체 리스트 조회", description = "요청 시, 해당 달의 모든 운동, 뷰티 체크 여부를 전달합니다. ")
     @PostMapping(value = "/list")
-    public ResponseEntity<List<staticAllResponseDto>> findAllByMonth() {
+    public ResponseEntity<StaticAllResponseDto> findAllByMonth() {
 
+        // 유저 정보 가져오기 - 어떻게??
+        int userid = 1;
 
-        List<staticAllResponseDto> responseDtos;
+        StaticAllResponseDto responseDtos = beautyService.findAllDesc(userid);
         return new ResponseEntity<>(responseDtos, HttpStatus.OK);
     }
 
