@@ -45,28 +45,6 @@ public class StatisticsBeautyController {
             return new ResponseEntity<>(responseDtos, HttpStatus.OK);
         }
 
-//        // 퍼스널컬러 상세정보 제공
-//        @Operation(summary = "퍼스널컬러 상세정보 제공", description = "")
-//        @GetMapping(value = "/makeup/detail")
-//        public ResponseEntity<ColorDetailResponseDto> ShowPersonalDetail(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
-//                , @RequestBody StaticDayRequestDto requestDto) {
-//
-//            //오늘 날짜와 멤버로 -> 진단결과 가져오기
-//            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-//            ColorDetailResponseDto colorDetail = beautyService.getPersonalDetail(memberId, requestDto);
-//            return new ResponseEntity<>(colorDetail, HttpStatus.OK);
-//        }
-
-//        // 퍼스널컬러 상세정보 제공
-//        @Operation(summary = "의상 상세정보 제공", description = "")
-//        @GetMapping(value = "/clothes/detail")
-//        public ResponseEntity<ColorDetailResponseDto> ShowClothesDetail(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
-//                , @RequestBody StaticDayRequestDto requestDto) {
-//
-//            //오늘 날짜와 멤버로 -> 진단결과 가져오기
-//            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-//            ColorDetailResponseDto colorDetail = beautyService.getColorDetail(memberId, requestDto);
-//            return new ResponseEntity<>(colorDetail, HttpStatus.OK);
-//        }
+        // 퍼스널컬러 상세 조회
 
     }

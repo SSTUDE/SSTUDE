@@ -5,7 +5,7 @@ from personal_color_analysis import personal_color
 from database import connectMySQL
 from S3backet import s3
 from service import changeId
-from datetime import datetime
+from datetime import date, datetime
 import requests
 import os
 
@@ -106,7 +106,7 @@ async def read_item(file: UploadFile = File(),
     userid=2
     
     current_date = datetime.now().date()
-    print(datetime.now())
+    print(datetime.now().date())
     with connect.cursor() as curs:
         query = """SELECT COUNT(*) AS request_count
                     FROM clothes
@@ -175,11 +175,8 @@ async def read_item(file: UploadFile = File(),
     
 ###########################################################################   
     
-    
-    
-    
 # # 퍼스널 컬러 이전 기록 리스트로 반환(달력) 
-# @app.post("/makeup/list")
+# @app.get("/makeup/list")
 # def getRecordList (
 #     request: MonthRequestDto,
 #     access_token: Optional[str] = Header(None, convert_underscores=False)):
@@ -204,28 +201,53 @@ async def read_item(file: UploadFile = File(),
 #     return {"month": request.month, "list":lst}
 
 
-# # 퍼스널 컬러 이전 상세기록 반환
-# @app.post("/makeup/detail")
-# def getRecordDetail (
-#     request: DayRequestDto,
-#     access_token: Optional[str] = Header(None, convert_underscores=False)):
+# 퍼스널 컬러 이전 상세기록 반환
+@app.post("/makeup/detail")
+def getRecordDetail (
+    request: str,
+    access_token: Optional[str] = Header(None, convert_underscores=False)):
     
-#     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
-#     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-#     connect, curs = connectMySQL()
+    try:
+        connect, curs = connectMySQL()
+        # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
+        # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+        
+        userid=2
+        
+        date_obj = datetime.strptime(request, "%Y-%m-%d").date()
+        
+        # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
+        with connect.cursor() as curs:
+        # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
+            query_select = """SELECT result_id, img_uri FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
+            curs.execute(query_select,(userid, date_obj))
+            row = curs.fetchone()
+            result_id = row[0]
+            img_uri = row[1]
+        
+        result = changeId(result_id)
+            
     
-#     userid=1
-    
-#     query_select = """SELECT color_name, img_uri
-#                     FROM makeups A join color B on A.result_id=B.color_id
-#                     WHERE member_id=%s AND YEAR(calender)=%s AND MONTH(calender)=%s AND DAY(calender)=%s """
-#     curs.execute(query_select,(userid, request.year, request.month, request.day))
-#     row = curs.fetchall()
+        with connect.cursor() as curs:
+        # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
+            query_select = """SELECT * FROM color WHERE color_id=%s"""
+            curs.execute(query_select,(result_id))
+            row = curs.fetchone()
+            match_color = row[1]
+            hair = row[2]
+            accessary = row[3]
+            expl = row[4]
+            skin = row[5]
+            eye = row[6]
+            
+    except Exception as e:
+            print(e)
+            result = False
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
 
-#     lst = []
-#     for r in row:
-#         lst.append({'colorName': r[0], 'img_url': r[1]})
     
-#     return {"month": request.month, "day": request.day, "list":lst}
-
+    return JSONResponse({'personal_color': result , 'user_img' : img_uri, 
+                         'match_color':match_color, 'hair':hair,
+                         'accessary': accessary, 'expl':expl,
+                         'skin':skin, 'eye':eye})
 
