@@ -1,6 +1,5 @@
 package com.sstude.account.dto.response;
 
-import com.sstude.account.entity.Account;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,7 @@ import lombok.Setter;
 public class SignupResponseDto {
     private Long memberId;
 
-    public SignupResponseDto(Account account) {
-        this.memberId = account.getMemberId();
+    public SignupResponseDto(Long memberId) {
+        this.memberId = memberId;
     }
 }
