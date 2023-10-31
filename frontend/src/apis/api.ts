@@ -1,45 +1,27 @@
-// import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios from "axios";
 
-// // window 객체 타입 확장
-// interface MyWindow extends Window {
-//   Android?: {
-//     getToken: () => string;
-//   };
-// }
+const BASE_URL = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst";
+const SERVICE_KEY = process.env.REACT_APP_API_KEY
 
-// declare var window: MyWindow;
-
-// const baseAPI = (url: string, options?: AxiosRequestConfig): AxiosInstance => {
-//   return axios.create({ baseURL: url, ...options });
-// }
-
-// const authAPI = (url: string, options?: AxiosRequestConfig): AxiosInstance => {
-//   let token: string | undefined;
-
-//   // Android에서 제공하는 getToken 함수를 사용하여 토큰을 가져옵니다.
-//   if (window.Android && typeof window.Android.getToken === 'function') {
-//     token = window.Android.getToken();
-//   }
-
-//   // 토큰이 없으면 기본 값을 사용합니다. (옵셔널)
-//   if (!token) {
-//     token = "";
-//   }
-  
-//   return axios.create({
-//     baseURL: url,
-//     headers: {
-//       "Access_Token": token,
-//       ...(options?.headers), 
-//     },
-//     ...options,
-//   });
-// }
-
-
-// const SERVER_URL = process.env.REACT_APP_SERVER
-
-
-// export const baseInstance: AxiosInstance = baseAPI(`${SERVER_URL}/api/`);
-// export const authInstance: AxiosInstance = authAPI(`${SERVER_URL}/api/`);
-export {}
+export const getWeatherData = async (params: {
+  numOfRows?: number;
+  pageNo?: number;
+  dataType ?: string
+  base_date: string;
+  base_time: string;
+  nx: number;
+  ny: number;
+}) => {
+  try {
+    const response = await axios.get(BASE_URL, {
+      params: {
+        serviceKey: SERVICE_KEY,
+        ...params
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("API 요청 중 오류가 발생했습니다:", error);
+    throw error;
+  }
+};
