@@ -152,13 +152,14 @@ async def read_item(file: UploadFile = File(),
                 query_select = """SELECT score, img_uri, MINUTE(calender) as minute
                                 FROM clothes
                                 WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s
+                                ORDER BY calender DESC
                                 LIMIT 2
                                 """
                 curs.execute(query_select,(userid, current_date))
                 row = curs.fetchall()
                 lst = []
                 for r in row:
-                    lst.append({'score': r[0], 'img_url': r[1], 'minute':r[2]})
+                    lst.append({'score': r[0], 'img_url': r[1], 'minute':r[2]}) # AFTER부터 -> BEFORE
             
             os.remove(file_name)
     
