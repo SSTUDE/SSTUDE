@@ -1,6 +1,8 @@
 package com.sstude.statistics.service;
 
+import com.sstude.statistics.dto.request.StaticDayRequestDto;
 import com.sstude.statistics.dto.request.StaticMonthRequestDto;
+import com.sstude.statistics.dto.response.ClothesDetailResponseDto;
 import com.sstude.statistics.dto.response.StaticAllResponseDto;
 import com.sstude.statistics.entity.Clothes;
 import com.sstude.statistics.entity.Makeups;

@@ -11,5 +11,6 @@ public interface ClothesRepository extends JpaRepository<Clothes, Long>  {
 
     List<Clothes> findAllByCalenderYearAndCalenderMonthAndMemberId(int year, int month, Long memberId);
 
+    List<Clothes> findAllByCalenderYearAndCalenderMonthAndCalender_DayOfMonthAndMemberIdOrderByCalender(int year, int month, int day, Long memberId);
 
 }

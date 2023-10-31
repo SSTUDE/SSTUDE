@@ -8,4 +8,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ClothesDetailResponseDto {
+    private Integer score;
+    private String imgUri;
+
+
+    public ClothesDetailResponseDto(Integer score, String imgUri) {
+        this.score = score;
+        this.imgUri = imgUri;
+    }
+
 }
