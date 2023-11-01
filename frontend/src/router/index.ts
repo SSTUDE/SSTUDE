@@ -7,7 +7,8 @@ import TestMain from "../components/Test/TestMain";
 import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
-import GetWeatherData from "../components/Weather/GetWeatherData";
+// import GetWeatherData from "../components/Weather/GetWeatherData";
+import Weather from "../components/Weather/Weather";
 
 const routes = [
   {
@@ -54,7 +55,7 @@ const routes = [
   
   {
     path: "/weather",
-    Component: GetWeatherData,
+    Component: Weather,
   },
 
 ];

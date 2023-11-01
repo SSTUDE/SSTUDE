@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst";
+const BASE_URL = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
 const SERVICE_KEY = process.env.REACT_APP_API_KEY
 
 export const getWeatherData = async (params: {
@@ -18,7 +18,7 @@ export const getWeatherData = async (params: {
         serviceKey: SERVICE_KEY,
         ...params
       }
-    });
+    });   
     return response.data;
   } catch (error) {
     console.error("API 요청 중 오류가 발생했습니다:", error);
