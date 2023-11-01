@@ -9,6 +9,8 @@ import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
 import Calender from "../components/Personal/Main/Calender";
+import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
+import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 
 const routes = [
   {
@@ -61,6 +63,14 @@ const routes = [
   {
     path: "/personalmain",
     Component: Calender,
+  },
+  {
+    path: "/previouspersonalcolor",
+    Component: PreviousPersonalColorResults,
+  },
+  {
+    path: "/previousclothes",
+    Component: PreviousClothesResults,
   },
 ];
 

@@ -1,0 +1,126 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000000;
+}
+
+/* 달력 전체 컨테이너 */
+.react-datepicker {
+  /* width: 60%; */
+  height: 80vh;
+  margin: auto;
+  background-color: #000000;
+  color: white;
+
+  /* border: solid 0.1rem; */
+  border-radius: 10px;
+}
+
+/* 년 월 요일 담은 전체 컨테이너 */
+.react-datepicker__header {
+  width: 50vw;
+  height: 6vh;
+  background-color: #000000;
+  color: white;
+}
+.button {
+  margin: 0 50px;
+  border: none;
+  background-color: transparent;
+  color: white;
+}
+.react-datepicker__header > div {
+  margin: 20px 0 !important;
+  /* border-bottom: solid 1px; */
+}
+
+/* 요일 담고 있는 컨테이너 */
+.react-datepicker__day-names {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  height: 3vh;
+
+  /* border-bottom: solid 1px; */
+}
+
+/* 요일 */
+.react-datepicker__day-name {
+  color: white;
+  margin: 0;
+}
+
+/* 주를 전부 담고 있는 컨테이너 */
+.react-datepicker__month {
+  /* width: 60vw; */
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0;
+  margin-top: 20px;
+}
+
+/* 한 주 날짜 */
+.react-datepicker__week {
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  /* border-bottom: solid 1px; */
+}
+
+/* 일자 */
+.react-datepicker__day {
+  width: 60%;
+  height: 100%;
+  margin: 0;
+
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+/* 현재 달이 아닌 다른 달의 일자 */
+.react-datepicker__day--outside-month {
+  color: grey;
+}
+
+/* 선택한 날짜 */
+.react-datepicker__day--selected {
+  background-color: #d2e7ef;
+  color: #000000;
+  border-radius: 5px;
+}
+
+.react-datepicker__aria-live {
+  display: none;
+}
+
+/* 오늘 날짜 */
+.react-datepicker__day--today {
+  background-color: #e6f3f6;
+  border-radius: 5px;
+  color: #000000;
+  font-weight: 700;
+}
+
+/* 아이콘 */
+/* 아이콘 컨테이너 */
+.icons {
+  display: flex;
+}
+
+/* 아이콘 */
+.icon {
+  display: inline-block;
+  font-size: 20px;
+  padding: 10px;
+}
