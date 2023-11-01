@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import images from '../../constants/images';
+import { images } from '../../constants/images';
 
 // Props 타입 정의
 interface MenuBtnProps {
@@ -21,7 +21,7 @@ function MenuBtn({ type }: MenuBtnProps) {
   return (
     <Wrap>
       <Button onClick={handleClick}>
-        <img src={images.menuBtn} alt="메뉴 버튼" />
+        <img src={images.default.menuBtn} alt="메뉴 버튼" />
       </Button>
     </Wrap>
   );

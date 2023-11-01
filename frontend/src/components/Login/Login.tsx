@@ -1,5 +1,5 @@
-import sounds from '../../constants/sounds';
-import images from '../../constants/images';
+import { sounds } from '../../constants/sounds';
+import { images } from '../../constants/images';
 import { RootState } from '../../store/store';
 import { AppDispatch } from '../../store/store';
 import styled, { keyframes } from 'styled-components';
@@ -79,7 +79,7 @@ const Login = () => {
     if (!isLogoClickable) return;
 
     setIsLogoClickable(false);
-    const audio = new Audio(sounds.blop);
+    const audio = new Audio(sounds.main.blop);
     audio.play();
 
     const message = JSON.stringify({ type: "signUp", data: "" });
@@ -94,7 +94,7 @@ const Login = () => {
   return (
     <Wrap>
       <StyledImage
-        src={images.logo}
+        src={images.main.logo}
         alt="로고"
         onClick={handleLogoClick}
       />
