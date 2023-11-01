@@ -1,6 +1,6 @@
 import React from 'react';
 import routes from './router';
-import { store } from './store';
+import { store } from './store/store';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
 import ClickEffect from './components/Common/ClickEffect';
