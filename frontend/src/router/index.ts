@@ -11,6 +11,8 @@ import MenuBtn from "../components/Common/MenuBtn";
 import Calender from "../components/Personal/Main/Calender";
 import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
+// import GetWeatherData from "../components/Weather/GetWeatherData";
+import Weather from "../components/Weather/Weather";
 
 const routes = [
   {
@@ -63,6 +65,11 @@ const routes = [
   {
     path: "/personalmain",
     Component: Calender,
+  },
+
+  {
+    path: "/weather",
+    Component: Weather,
   },
 ];
 
