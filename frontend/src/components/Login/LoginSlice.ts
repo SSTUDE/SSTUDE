@@ -5,7 +5,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 const handleAuthentication = async (
   url: string,
-  data: { deviceNumber: string },
+  data: { deviceNumber: string }
 ) => {
   const response = await axios.post(url, data);
   storageData(response.data.accessToken, response.data.refreshToken);

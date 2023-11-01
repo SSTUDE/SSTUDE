@@ -1,9 +1,9 @@
 import baseAxios from "axios";
-import { BASE_URL } from "./constants";
+import { SERVER_URL, REFRESH_TOKEN_URL } from "./constants";
 import { storageData, retrieveData, getRefreshToken } from "./JWT-common";
 
 const axios = baseAxios.create({
-  baseURL: BASE_URL,
+  baseURL: SERVER_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -31,7 +31,7 @@ axios.interceptors.response.use(
       const refreshToken = getRefreshToken();
       if (refreshToken) {
         try {
-          const response = await axios.post("/account/refresh", {
+          const response = await axios.post(REFRESH_TOKEN_URL, {
             refreshToken,
           });
           const { accessToken } = response.data;
