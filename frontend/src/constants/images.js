@@ -1,5 +1,5 @@
-import question from '../assets/images/question.svg'
-import logo from '../assets/images/logo.png'
+import question from "../assets/images/question.svg";
+import logo from "../assets/images/logo.png";
 
 const images = {
   menuBtn: question,

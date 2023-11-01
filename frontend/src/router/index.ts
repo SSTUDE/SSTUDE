@@ -8,6 +8,7 @@ import TestColor from "../components/Test/TestColor";
 import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
+import Calender from "../components/Personal/Main/Calender";
 
 const routes = [
   {
@@ -54,6 +55,12 @@ const routes = [
     path: "/menubtn",
     Component: MenuBtn,
     props: { type: "menu" },
+  },
+
+  // 퍼스널 컬러 파트
+  {
+    path: "/personalmain",
+    Component: Calender,
   },
 ];
 
