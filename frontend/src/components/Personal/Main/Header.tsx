@@ -27,6 +27,7 @@ const ContentButton = styled.button<{ isActive: boolean }>`
   background-color: ${(props) => (props.isActive ? "#ffffff50" : "#ffffff12")};
   border: none;
 `;
+
 type HeaderProps = {
   activeButton: string;
   setActiveButton: (active: string) => void;

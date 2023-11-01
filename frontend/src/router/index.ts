@@ -64,14 +64,6 @@ const routes = [
     path: "/personalmain",
     Component: Calender,
   },
-  {
-    path: "/previouspersonalcolor",
-    Component: PreviousPersonalColorResults,
-  },
-  {
-    path: "/previousclothes",
-    Component: PreviousClothesResults,
-  },
 ];
 
 export default routes;

@@ -17,6 +17,17 @@ const diagnosisData: DiagnosisData = {
 const Calender: React.FC = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeButton, setActiveButton] = useState("personalColor");
+
+  const handleClickPersonalColor = () => {
+    setActiveButton("personalColor");
+    setIsModalOpen(true);
+  };
+
+  const handleClickClothes = () => {
+    setActiveButton("previousclothes");
+    setIsModalOpen(true);
+  };
 
   return (
     <div>
@@ -87,7 +98,12 @@ const Calender: React.FC = () => {
           </div>
         )}
       />
-      {isModalOpen && <Modal onClose={() => setIsModalOpen(false)} />}{" "}
+      {isModalOpen && (
+        <Modal
+          activeButton={activeButton}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

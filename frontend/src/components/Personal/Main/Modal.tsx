@@ -1,8 +1,9 @@
-// import { useState } from "react";
+import { useState } from "react";
 // import "./Modal.css";
 import { styled } from "styled-components";
-import Layout from "./Layout";
 import { useNavigate } from "react-router-dom";
+import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
+import PreviousClothesResults from "../Previous/PreviousClothesResults";
 
 // 모달 뒤 배경
 const ModalOverlay = styled.div`
@@ -56,13 +57,49 @@ const ModalCloseButton = styled.button`
   color: white;
 `;
 
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin: 5% 0;
+`;
+
+const StyledLink = styled.div`
+  flex: 1;
+  text-decoration: none;
+`;
+
+const ContentButton = styled.button<{ isActive: boolean }>`
+  width: 100%;
+  height: 7vh;
+
+  cursor: pointer;
+
+  font-size: 1.5rem;
+  color: white;
+
+  background-color: ${(props) => (props.isActive ? "#ffffff50" : "#ffffff12")};
+  border: none;
+`;
+
 type ModalProps = {
+  activeButton: string;
   onClose: () => void;
 };
 
-const Modal: React.FC<ModalProps> = ({ onClose }) => {
+const Modal: React.FC<ModalProps> = ({ activeButton, onClose }) => {
   const navigate = useNavigate();
 
+  const [currentView, setCurrentView] = useState("personalColor");
+
+  const handleClickPersonalColor = () => {
+    setCurrentView("personalColor");
+  };
+
+  const handleClickClothes = () => {
+    setCurrentView("clothes");
+  };
   const handleClose = () => {
     // navigate("/previouspersonalcolor");
     onClose();
@@ -81,12 +118,35 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
   const dayOfWeek = daysOfWeek[currentDate.getDay()];
 
   const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`; // 설정된 값
-
   return (
     <ModalOverlay onClick={handleClose}>
       <ModalContainer onClick={stopPropagation}>
         <p>{formattedDate}</p>
-        <Layout />
+        <HeaderContainer>
+          <StyledLink>
+            <ContentButton
+              isActive={currentView === "personalColor"}
+              onClick={handleClickPersonalColor}
+            >
+              퍼스널 컬러 진단
+            </ContentButton>
+          </StyledLink>
+          <StyledLink>
+            <ContentButton
+              isActive={currentView === "clothes"}
+              onClick={handleClickClothes}
+            >
+              의상 진단
+            </ContentButton>
+          </StyledLink>
+        </HeaderContainer>
+
+        {currentView === "personalColor" ? (
+          <PreviousPersonalColorResults />
+        ) : (
+          <PreviousClothesResults />
+        )}
+
         <ModalCloseButton onClick={handleClose}>닫기</ModalCloseButton>
       </ModalContainer>
     </ModalOverlay>
