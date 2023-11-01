@@ -8,6 +8,8 @@ import TestColor from "../components/Test/TestColor";
 import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
+// import GetWeatherData from "../components/Weather/GetWeatherData";
+import Weather from "../components/Weather/Weather";
 
 const routes = [
   {
@@ -55,6 +57,12 @@ const routes = [
     Component: MenuBtn,
     props: { type: "menu" },
   },
+  
+  {
+    path: "/weather",
+    Component: Weather,
+  },
+
 ];
 
 export default routes;
