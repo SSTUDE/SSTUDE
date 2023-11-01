@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
-import images from "../../../constants/images";
+// import images from "../../../constants/images";
 
 const StyledContainer = styled.div`
   width: 100%;
