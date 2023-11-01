@@ -5,7 +5,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 const handleAuthentication = async (
   url: string,
-  data: { deviceNumber: string }
+  data: { deviceNumber: string },
 ) => {
   const response = await axios.post(url, data);
   storageData(response.data.accessToken, response.data.refreshToken);
@@ -35,7 +35,7 @@ export const signInUser = createAsyncThunk(
 );
 
 interface LoginState {
-  folderName: string;
+  userInfo: string;
   serialNum: string;
   signUp: boolean;
   signIn: boolean;
@@ -43,7 +43,7 @@ interface LoginState {
 }
 
 const initialState: LoginState = {
-  folderName: "",
+  userInfo: "",
   serialNum: "",
   signUp: false,
   signIn: false,
@@ -58,17 +58,17 @@ export const LoginSlice = createSlice({
       state: LoginState,
       action: PayloadAction<{
         type: "signUp" | "signIn" | "signOut";
-        data: { folderName: string; serialNum: string };
+        data: { userInfo: string; serialNum: string };
       }>
     ) => {
       const { type, data } = action.payload;
       if (type === "signUp" || type === "signIn") {
-        state.folderName = data.folderName;
+        state.userInfo = data.userInfo;
         state.serialNum = data.serialNum;
         state[type] = true;
         state.signIn = true;
       } else if (type === "signOut") {
-        state.folderName = "";
+        state.userInfo = "";
         state.serialNum = "";
         state.signUp = false;
         state.signIn = false;

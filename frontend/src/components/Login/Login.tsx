@@ -1,5 +1,5 @@
-import sounds from '../../assets/sounds';
-import images from '../../assets/images';
+import sounds from '../../constants/sounds';
+import images from '../../constants/images';
 import { RootState } from '../../store/store';
 import { AppDispatch } from '../../store/store';
 import styled, { keyframes } from 'styled-components';
@@ -19,13 +19,14 @@ const Login = () => {
   const handleSignUp = useCallback(async () => {
     const data = {
       deviceNumber: "d204"
-      // deviceNumber: loginState.serialNum + loginState.folderName
+      // deviceNumber: loginState.serialNum + loginState.userInfo
     };
     const actionResult = await dispatch(signUpUser(data));
     const res = actionResult.payload;
     if (res && res.memberId) {
       dispatch(setMemberId(res.memberId));
       setsignUpAlert('회원가입 완료');
+      //NOTE - 서버쪽 되면 미러 네비게이션 주석 해제할거임 + 위에 회원가입 알림 지울거임
       // navigate('/mirror');
     }
   }, [dispatch]);
@@ -33,23 +34,25 @@ const Login = () => {
   const handleSignIn = useCallback(async () => {
     const data = {
       deviceNumber: "d204"
-      // deviceNumber: loginState.serialNum + loginState.folderName
+      // deviceNumber: loginState.serialNum + loginState.s
     };
     const actionResult = await dispatch(signInUser(data));
     const res = actionResult.payload;
     if (res && res.memberId) {
       dispatch(setMemberId(res.memberId));
+      setsignUpAlert('로그인 완료');
+      //NOTE - 서버쪽 되면 미러 네비게이션 주석 해제할거임
       // navigate('/mirror');
     }
   }, [dispatch]);
 
   useEffect(() => {
     if (loginState.signUp) {
-      //NOTE - 회원가입 체크용
+      //NOTE - 회원가입 체크용 + 서버 연결되면 완료 알림 지울거
       setsignUpAlert('회원가입 완료');
       // handleSignUp();
     } else if (loginState.signIn) {
-      //NOTE - 로그인 체크용
+      //NOTE - 로그인 체크용 + 서버 연결되면 완료 알림 지울거
       setsignUpAlert('로그인 완료');
       // handleSignIn();
     }

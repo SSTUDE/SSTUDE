@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import images from '../../assets/images';
+import images from '../../constants/images';
 
 // Props 타입 정의
 interface MenuBtnProps {
