@@ -5,6 +5,16 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/account" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files/gradle-6.3" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/account" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/static" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../../../Program Files/gradle-6.3" />
         <option name="modules">

@@ -13,14 +13,14 @@ spring:
     name: static
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/static?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/makeup?serverTimezone=Asia/Seoul
     username: root
-    password: 1234
+    password: qwe123
 
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
@@ -30,10 +30,10 @@ spring:
 #    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
 #    port: 6379
 
-jwt:
-  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
+#jwt:
+#  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
 
-trace: true
+#trace: true
 
 springdoc:
   api-docs:
@@ -43,7 +43,7 @@ springdoc:
 
 openapi:
   service:
-    url: http://localhost:8000/
+    url: http://localhost:8012/
 
 jasypt:
   encryptor:

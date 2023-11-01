@@ -25,10 +25,8 @@ public class BeautyService {
     // 날짜의 컬러값, 이미지 반환
     @Transactional(readOnly = true)
     public ColorDetailResponseDto getColorDetail(Long memberId, StaticDayRequestDto requestDto) {
-
-        LocalDate dateTime = LocalDate.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay());
         // 이미지, result, 상세보기
-        Makeups makeups = makeupRepository.findByCalender(dateTime);
+        Makeups makeups = makeupRepository.findMakeupsByYearMonthDayAndMemberId(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
 
         String result;
         if (makeups.getResultId()==1) result="봄 웜";

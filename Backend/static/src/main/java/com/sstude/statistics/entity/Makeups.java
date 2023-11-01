@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -20,6 +21,6 @@ public class Makeups {
     private Long resultId;
     private String imgUri;
 
-    private LocalDate calender;
+    private LocalDateTime calender;
 
 }
