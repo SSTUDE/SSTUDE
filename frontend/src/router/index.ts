@@ -8,6 +8,9 @@ import TestColor from "../components/Test/TestColor";
 import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
+import Calender from "../components/Personal/Main/Calender";
+import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
+import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 
@@ -57,12 +60,17 @@ const routes = [
     Component: MenuBtn,
     props: { type: "menu" },
   },
-  
+
+  // 퍼스널 컬러 파트
+  {
+    path: "/personalmain",
+    Component: Calender,
+  },
+
   {
     path: "/weather",
     Component: Weather,
   },
-
 ];
 
 export default routes;
