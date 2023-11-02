@@ -1,7 +1,8 @@
+import { RootState } from '../../store/store';
 import { sounds } from '../../constants/sounds';
 import { images } from '../../constants/images';
-import { RootState } from '../../store/store';
 import { AppDispatch } from '../../store/store';
+import { RASPBERRY_URL } from '../../apis/constants';
 import styled, { keyframes } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useWebSocket } from '../../hooks/useWebSocket';
@@ -10,7 +11,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { signUpUser, signInUser, setMemberId } from "./LoginSlice";
 
 const Login = () => {
-  const { sendMessage } = useWebSocket('ws://localhost:8765');
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const [signUpAlert, setsignUpAlert] = useState('');
   const dispatch = useDispatch<AppDispatch>();
   const loginState = useSelector((state: RootState) => state.login);

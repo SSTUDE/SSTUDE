@@ -1,14 +1,21 @@
 import axios from "../../apis/http-common";
 import { storageData } from "../../apis/JWT-common";
 import { SIGN_UP_URL, SIGN_IN_URL } from "../../apis/constants";
+import { useWebSocketContext } from "../Common/WebSocketContext";
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 const handleAuthentication = async (
   url: string,
   data: { deviceNumber: string },
+  sendMessage: (message: string) => void
 ) => {
   const response = await axios.post(url, data);
-  storageData(response.data.accessToken, response.data.refreshToken);
+  storageData(
+    response.data.accessToken,
+    response.data.refreshToken,
+    sendMessage
+  );
+
   return response.data;
 };
 
@@ -16,7 +23,9 @@ export const signUpUser = createAsyncThunk(
   "login/signUpUser",
   async (data: { deviceNumber: string }, { rejectWithValue }) => {
     try {
-      return await handleAuthentication(SIGN_UP_URL, data);
+      const { sendMessage } = useWebSocketContext();
+      const safeSendMessage = sendMessage || (() => {});
+      return await handleAuthentication(SIGN_UP_URL, data, safeSendMessage);
     } catch (err: any) {
       return rejectWithValue(err.response?.data);
     }
@@ -27,7 +36,9 @@ export const signInUser = createAsyncThunk(
   "login/signInUser",
   async (data: { deviceNumber: string }, { rejectWithValue }) => {
     try {
-      return await handleAuthentication(SIGN_IN_URL, data);
+      const { sendMessage } = useWebSocketContext();
+      const safeSendMessage = sendMessage || (() => {});
+      return await handleAuthentication(SIGN_IN_URL, data, safeSendMessage);
     } catch (err: any) {
       return rejectWithValue(err.response?.data);
     }
