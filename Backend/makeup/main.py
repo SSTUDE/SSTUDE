@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status
 from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis import personal_color
+from clothes_analysis.clothes_score import clothes_score
 from database import connectMySQL
 from S3backet import s3
 from service import changeId
@@ -36,7 +37,7 @@ async def runColor(
     
     
     # 나중에 redis로 바꾸기!
-    if count >=1:
+    if count >=100:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
     
     else:
@@ -106,7 +107,6 @@ async def read_item(file: UploadFile = File(),
     userid=2
     
     current_date = datetime.now().date()
-    print(datetime.now().date())
     with connect.cursor() as curs:
         query = """SELECT COUNT(*) AS request_count
                     FROM clothes
@@ -127,16 +127,14 @@ async def read_item(file: UploadFile = File(),
             with open(file_name, "wb") as local_file:
                 local_file.write(contents)
             uri = os.path.abspath('./savedclothfile.jpg')
-            
             # S3저장 후 uri받아옴
             s3uri = s3(file, userid, contents, count, current_date)
             
-            
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
-            result = personal_color.analysis(uri)
+            result = clothes_score(uri)
             
             print(result)
-            result = result.split('톤')[0]
+            # result = result.split('톤')[0]
             score = changeId(result)
             
             # DB에 저장
@@ -171,34 +169,6 @@ async def read_item(file: UploadFile = File(),
             connect.close()
             
     return JSONResponse(lst)
-
-    
-###########################################################################   
-    
-# # 퍼스널 컬러 이전 기록 리스트로 반환(달력) 
-# @app.get("/makeup/list")
-# def getRecordList (
-#     request: MonthRequestDto,
-#     access_token: Optional[str] = Header(None, convert_underscores=False)):
-#     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
-#     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    
-#     userid=1
-#     connect, curs = connectMySQL()
-
-#     # 날짜별 몇건의 사진이 있는지
-#     query_select = """SELECT COUNT(*), DAY(calender) 
-#                     FROM makeups 
-#                     WHERE member_id=%s AND YEAR(calender)=%s AND MONTH(calender)=%s 
-#                     GROUP BY DAY(calender)"""
-#     curs.execute(query_select,(userid, request.year, request.month))
-#     row = curs.fetchall()
-    
-#     lst = []
-#     for r in row:
-#          lst.append({'count': r[0], 'day': r[1]})
-    
-#     return {"month": request.month, "list":lst}
 
 
 # 퍼스널 컬러 이전 상세기록 반환
@@ -251,3 +221,30 @@ def getRecordDetail (
                          'accessary': accessary, 'expl':expl,
                          'skin':skin, 'eye':eye})
 
+    
+###########################################################################   
+    
+# # 퍼스널 컬러 이전 기록 리스트로 반환(달력) 
+# @app.get("/makeup/list")
+# def getRecordList (
+#     request: MonthRequestDto,
+#     access_token: Optional[str] = Header(None, convert_underscores=False)):
+#     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
+#     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    
+#     userid=1
+#     connect, curs = connectMySQL()
+
+#     # 날짜별 몇건의 사진이 있는지
+#     query_select = """SELECT COUNT(*), DAY(calender) 
+#                     FROM makeups 
+#                     WHERE member_id=%s AND YEAR(calender)=%s AND MONTH(calender)=%s 
+#                     GROUP BY DAY(calender)"""
+#     curs.execute(query_select,(userid, request.year, request.month))
+#     row = curs.fetchall()
+    
+#     lst = []
+#     for r in row:
+#          lst.append({'count': r[0], 'day': r[1]})
+    
+#     return {"month": request.month, "list":lst}
