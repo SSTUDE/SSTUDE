@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import ClickEffect from './components/Common/ClickEffect';
 import { BACK_GROUND_COLOR } from './constants/defaultSlices'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-// import { WebSocketProvider } from './components/Login/TokenLasp';
+import { createGlobalStyle } from 'styled-components';
 
 interface RouteConfig {
   path: string;
@@ -20,10 +20,17 @@ function renderRouteComponent(route: RouteConfig) {
   return <Component {...props} />;
 }
 
+const GlobalStyle = createGlobalStyle`
+  p {
+    margin: 0;
+  }
+`
+
 function App() {
   return (
-    <Provider store={store}>
-      {/* <WebSocketProvider> */}
+    <>
+      <GlobalStyle />
+      <Provider store={store}>
         <Main>
           <ClickEffect />
           <BrowserRouter>
@@ -38,8 +45,8 @@ function App() {
             </Routes>
           </BrowserRouter>
         </Main>
-      {/* </WebSocketProvider> */}
-    </Provider>
+      </Provider>
+    </>
   );
 }
 
