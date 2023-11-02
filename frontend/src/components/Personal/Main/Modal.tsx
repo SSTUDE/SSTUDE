@@ -86,9 +86,14 @@ const ContentButton = styled.button<{ isActive: boolean }>`
 type ModalProps = {
   activeButton: string;
   onClose: () => void;
+  selectedDate: Date;
 };
 
-const Modal: React.FC<ModalProps> = ({ activeButton, onClose }) => {
+const Modal: React.FC<ModalProps> = ({
+  activeButton,
+  onClose,
+  selectedDate,
+}) => {
   const navigate = useNavigate();
 
   const [currentView, setCurrentView] = useState("personalColor");
@@ -101,7 +106,6 @@ const Modal: React.FC<ModalProps> = ({ activeButton, onClose }) => {
     setCurrentView("clothes");
   };
   const handleClose = () => {
-    // navigate("/previouspersonalcolor");
     onClose();
   };
 
@@ -109,7 +113,7 @@ const Modal: React.FC<ModalProps> = ({ activeButton, onClose }) => {
     e.stopPropagation();
   };
 
-  const currentDate = new Date(); // 날짜 받기
+  const currentDate = selectedDate;
   const year = currentDate.getFullYear().toString().slice(2); // 년
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일
@@ -118,6 +122,7 @@ const Modal: React.FC<ModalProps> = ({ activeButton, onClose }) => {
   const dayOfWeek = daysOfWeek[currentDate.getDay()];
 
   const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`; // 설정된 값
+  console.log(formattedDate);
   return (
     <ModalOverlay onClick={handleClose}>
       <ModalContainer onClick={stopPropagation}>
