@@ -23,7 +23,7 @@ spring:
   #    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
   data:
     mongodb:
-      uri: mongodb://localhost:27017/healthdata
+      uri: mongodb://localhost:27017/healthdatas
 
   jpa:
     database: mysql
