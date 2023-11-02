@@ -8,11 +8,11 @@ Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 const Hourly = () => {
   const data = {
-    labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'],
+    labels: ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19'],
     datasets: [
       {
         label: '기온',
-        data: [17, 20, 23, 16, 15, 17, 16, 15, 14, 13],
+        data: [16, 19, 21, 23, 24, 24, 23, 21, 19, 16],
         fill: false,
         borderColor: 'white',
       },
@@ -20,7 +20,7 @@ const Hourly = () => {
   };
 
   const options = {
-    // responsive : true,
+    responsive : true,
     maintainAspectRatio: false,
     // aspectRatio: 2,
   }
@@ -84,6 +84,7 @@ const Container = styled.div`
   height: 50%;
   border: 1px solid #fff;
   padding: 20px;
+  overflow-x: hidden;
   overflow-x: auto;
 `;
 
@@ -105,7 +106,7 @@ const Table = styled.table`
 
 const ChartContainer = styled.div`
   width: 150%; // 원하는 가로 크기
-  height: 650px; // 원하는 세로 크기
+  height: 280px; // 원하는 세로 크기
 `;
 
 export default Hourly;
