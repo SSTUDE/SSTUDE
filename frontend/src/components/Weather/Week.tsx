@@ -40,8 +40,7 @@ const Week = () => {
 
 const Container = styled.div`
   width: 100%;
-  height: 30%;
-  border: 1px solid #fff;
+  height: 35%;
 
   >h2{
     margin: 10px 10px;
@@ -52,6 +51,7 @@ const StyledList = styled.ul`
   list-style-type: none; /* 불릿 제거 */
   display: flex; 
   justify-content: space-around;
+  padding: 0;
 `;
 
 const WeatherContainer = styled.div`

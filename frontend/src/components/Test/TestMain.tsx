@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import Weather from '../Weather/Weather';
 
 const TestMain = () => {
   const currentDate = new Date();
@@ -26,13 +27,14 @@ const TestMain = () => {
         <Button>버튼2</Button>
         <Button>버튼3</Button>
       </LeftContainer>
-      <CenterSide>
-        <Text>좋은 아침, 파이썬</Text>
-      </CenterSide>
-      <RightSide>
-        <TimeText>{Time}</TimeText>
-        <DateText>{DateString}</DateText>
-      </RightSide>
+      <MainSide>
+        <MainTop>
+
+        </MainTop>
+        <MainBottom>
+          <Weather/>
+        </MainBottom>
+      </MainSide>
     </Wrap>
   )
 }
@@ -48,46 +50,30 @@ const LeftContainer = styled.div`
   width: 28.8%;
   height: 100%;
   border: 1px solid #fff;
-  /* background-color: lightblue; */
 `
 
-const CenterSide = styled.div`
-  width: 42.4%;
-  height: 100%;
-  border: 1px solid #fff;
-  /* background-color: lightgray */
-`
-
-const RightSide = styled.div`
+const MainSide = styled.div`
   display: flex;
   flex-direction: column;
-  width: 28.8%;
+  width: 71.2%; 
   height: 100%;
-  border: 1px solid #fff;
-  /* background-color: lightsalmon; */
   padding: 20px;
 `
 
-const DateText = styled.div`
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #fff;
+const MainTop = styled.div`
+  width: 100%;
+  height: 15%;
+  background-color: lightblue;
 `
 
-const TimeText = styled.div`
-  font-size: 24px;
-  color: #fff;
-`
-
-const Text = styled.div`
-  font-size: 24px;
-  color: #fff;
-  margin: 15px;
+const MainBottom = styled.div`
+  width: 100%;
+  height: 85%;
 `
 
 const Button = styled.button`
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   background-color: gray;
   border: none;
   cursor: pointer;

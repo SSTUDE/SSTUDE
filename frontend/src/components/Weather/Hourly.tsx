@@ -7,72 +7,73 @@ import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from 'ch
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 const Hourly = () => {
-  const data = {
-    labels: ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19'],
+  // 차트 데이터 (기온만)
+  const temperatureData = {
+    labels: ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
     datasets: [
       {
         label: '기온',
-        data: [16, 19, 21, 23, 24, 24, 23, 21, 19, 16],
+        data: [16, 19, 21, 23, 24, 24, 23, 21, 19, 16, 15],
         fill: false,
         borderColor: 'white',
       },
     ],
   };
 
-  const options = {
-    responsive : true,
+  // 테이블 데이터
+  const tableData = {
+    labels: temperatureData.labels,
+    datasets: [
+      {
+        label: '기온',
+        data: temperatureData.datasets[0].data,
+      },
+      {
+        label: '강수확률',
+        data: [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70],
+      },
+      {
+        label: '강수량',
+        data: [0, 0.5, 0, 0, 1, 0.5, 0, 0, 0, 0, 0.5],
+      },
+      {
+        label: '습도',
+        data: [55, 60, 65, 70, 75, 80, 85, 80, 75, 70, 70],
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
     maintainAspectRatio: false,
-    // aspectRatio: 2,
   }
 
   return (
     <Container>
-      {/* 위쪽 테이블 */}
-      <Table>
-        <thead>
-          <tr>
-            <th>상단 테이블</th>
-            <th>상단 테이블</th>
-            <th>상단 테이블</th>
-            <th>상단 테이블</th>
-            <th>상단 테이블</th>
-            <th>상단 테이블</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>데이터1</td>
-            <td>데이터1</td>
-            <td>데이터1</td>
-            <td>데이터1</td>
-            <td>데이터1</td>
-            <td>데이터1</td>
-          </tr>
-        </tbody>
-      </Table>
-
       {/* 라인 차트 */}
       <ChartContainer>
-        <Line data={data} options={options}/>
+        <Line data={temperatureData} options={chartOptions}/>
       </ChartContainer>
 
       {/* 아래쪽 테이블 */}
       <Table>
         <thead>
           <tr>
-            <th>날짜</th>
-            {data.labels.map((label) => (
-              <th key={label}>{label}</th>
+            <th>시간</th>
+            {tableData.labels.map((label) => (
+              <th key={label}>{`${label}시`}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>{data.datasets[0].label}</td>
-            {data.datasets[0].data.map((value, index) => (
-              <td key={index}>{value}</td>
-            ))}
-          </tr>
+          {tableData.datasets.map((dataset) => (
+            <tr key={dataset.label}>
+              <td>{dataset.label}</td>
+              {dataset.data.map((value, index) => (
+                <td key={index}>{value}</td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </Table>
     </Container>
@@ -81,15 +82,13 @@ const Hourly = () => {
 
 const Container = styled.div`
   width: 100%;
-  height: 50%;
-  border: 1px solid #fff;
-  padding: 20px;
-  overflow-x: hidden;
+  height: 45%;
   overflow-x: auto;
+  margin: 10px 0;
 `;
 
 const Table = styled.table`
-  width: 150%;
+  width: 100%;
   margin-bottom: 20px;
   border-collapse: collapse;
 
@@ -100,13 +99,15 @@ const Table = styled.table`
   }
 
   th {
-    /* background-color: #f2f2f2; */
+    background-color: #f2f2f2;
+    color: black;
   }
 `;
 
 const ChartContainer = styled.div`
-  width: 150%; // 원하는 가로 크기
-  height: 280px; // 원하는 세로 크기
+  width: 100%; // 원하는 가로 크기
+  height: 130px; // 원하는 세로 크기
+  margin-bottom: 20px;
 `;
 
 export default Hourly;

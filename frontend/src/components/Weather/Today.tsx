@@ -11,29 +11,30 @@ const Today = () => {
     <Container>
         <LeftTop>
           <SvgContainer>
-            <SunWithCloud/>
+            <SunSvg/>
             <div>
               <span>18ºC</span>
               <span>밝음</span>
             </div>
           </SvgContainer>
           <SvgContainer>
-            <Umbrella/>
+            <UmbSvg/>
             <div>
                 <span>60%</span>
                 <span>11시</span>
             </div>
           </SvgContainer>
           <SvgContainer>
-            <Humidity/>
+            <HumSvg/>
             <div>
                 <span>70%</span>
             </div>
           </SvgContainer>
           <SvgContainer>
-            <Wind/>
+            <WindSvg/>
             <div>
-                <span>2.5 m/s</span>
+                <span>2.5</span>
+                <span>m/s</span>
             </div>
           </SvgContainer>
         </LeftTop>
@@ -44,17 +45,16 @@ const Today = () => {
 const Container = styled.div`
   width: 100%;
   height: 20%;
-  border: 1px solid #fff;
   text-align: center;
   display: flex;
   align-items: center;
+  margin: 10px 0;
 `
 
 const LeftTop = styled.div`
   width: 100%;
-  margin-left: 50px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 `
 
 const SvgContainer = styled.div`
@@ -67,12 +67,12 @@ const SvgContainer = styled.div`
     
     
     :first-child {
-      font-size: 70px;
+      font-size: 50px;
       font-weight: bold;
     }
 
     :nth-child(2) {
-      font-size: 50px;
+      font-size: 35px;
     }
   
   span {
@@ -81,6 +81,26 @@ const SvgContainer = styled.div`
   }
 
   }
+`
+
+const SunSvg = styled(SunWithCloud)`
+  width: 130px;
+  height: 130px;
+`
+
+const HumSvg = styled(Humidity)`
+  width: 87px;
+  height: 130px;
+`
+
+const WindSvg = styled(Wind)`
+  width: 130px;
+  height: 114px;
+`
+
+const UmbSvg = styled(Umbrella)`
+  width: 130px;
+  height: 130px;
 `
 
 
