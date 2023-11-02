@@ -6,7 +6,7 @@ from clothes_analysis.clothes_score import clothes_score
 from database import connectMySQL
 from S3backet import s3
 from service import changeId
-from datetime import date, datetime
+from datetime import datetime
 import requests
 import os
 
@@ -58,27 +58,8 @@ async def runColor(
             result = personal_color.analysis(uri)
             
             result = result.split('톤')[0]
-            result_id = changeId(result)
+            match_color, hair, accessary, expl, skin, eye = changeId(result)
             
-            # DB에 저장
-            with connect.cursor() as curs:
-                query = """INSERT INTO makeups (member_id, img_uri, result_id) VALUES (%s, %s, %s)"""
-                curs.execute(query, (userid, s3uri, result_id))
-            
-            connect.commit()
-            
-            with connect.cursor() as curs:
-            # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-                query_select = """SELECT * FROM color WHERE color_id=%s"""
-                curs.execute(query_select,(result_id))
-                row = curs.fetchone()
-                match_color = row[1]
-                hair = row[2]
-                accessary = row[3]
-                expl = row[4]
-                skin = row[5]
-                eye = row[6]
-                
             os.remove(file_name)
         except Exception as e:
             print(e)
@@ -131,7 +112,7 @@ async def read_item(file: UploadFile = File(),
             s3uri = s3(file, userid, contents, count, current_date)
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
-            result = clothes_score(uri)
+            result = clothes_score(uri, userid, current_date)
             
             print(result)
             # result = result.split('톤')[0]
@@ -146,7 +127,7 @@ async def read_item(file: UploadFile = File(),
             
             with connect.cursor() as curs:
             # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-                query_select = """SELECT score, img_uri, MINUTE(calender) as minute
+                query_select = """SELECT score, img_uri
                                 FROM clothes
                                 WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s
                                 ORDER BY calender DESC
@@ -156,7 +137,7 @@ async def read_item(file: UploadFile = File(),
                 row = curs.fetchall()
                 lst = []
                 for r in row:
-                    lst.append({'score': r[0], 'img_url': r[1], 'minute':r[2]}) # AFTER부터 -> BEFORE
+                    lst.append({'score': r[0], 'img_url': r[1]}) # AFTER부터 -> BEFORE
             
             os.remove(file_name)
     
@@ -189,26 +170,15 @@ def getRecordDetail (
         # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
         with connect.cursor() as curs:
         # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-            query_select = """SELECT result_id, img_uri FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
+            query_select = """SELECT result, img_uri FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
             curs.execute(query_select,(userid, date_obj))
             row = curs.fetchone()
-            result_id = row[0]
+            result = row[0]
             img_uri = row[1]
         
-        result = changeId(result_id)
-            
-    
-        with connect.cursor() as curs:
-        # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-            query_select = """SELECT * FROM color WHERE color_id=%s"""
-            curs.execute(query_select,(result_id))
-            row = curs.fetchone()
-            match_color = row[1]
-            hair = row[2]
-            accessary = row[3]
-            expl = row[4]
-            skin = row[5]
-            eye = row[6]
+        match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
+        match_color, hair, accessary, expl, skin, eye = changeId(result)
+        
             
     except Exception as e:
             print(e)
