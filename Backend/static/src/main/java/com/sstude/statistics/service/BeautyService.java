@@ -28,13 +28,7 @@ public class BeautyService {
         // 이미지, result, 상세보기
         Makeups makeups = makeupRepository.findMakeupsByYearMonthDayAndMemberId(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
 
-        String result;
-        if (makeups.getResultId()==1) result="봄 웜";
-        else if (makeups.getResultId()==2) result="여름 쿨";
-        else if (makeups.getResultId()==3) result="가을 웜";
-        else result="겨울 쿨";
-
-        return new ColorDetailResponseDto(result, makeups.getImgUri());
+        return new ColorDetailResponseDto(makeups.getResult(), makeups.getImgUri());
     }
 
     // 전체 의상 반환

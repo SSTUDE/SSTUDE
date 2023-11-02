@@ -18,7 +18,7 @@ public class Makeups {
 
     // memberid는 join??
     private Long memberId;
-    private Long resultId;
+    private String result;
     private String imgUri;
 
     private LocalDateTime calender;
