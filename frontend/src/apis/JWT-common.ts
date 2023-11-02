@@ -1,18 +1,14 @@
-import { RASPBERRY_URL } from "./constants";
-import { useWebSocket } from "../hooks/useWebSocket";
-
 let refreshTokenInMemory: string | null = null;
 
 export const storageData = async (
   accessToken: string,
-  refreshToken: string
+  refreshToken: string,
+  sendMessage: (message: string) => void
 ) => {
   try {
     localStorage.setItem("SSTUDE", JSON.stringify({ accessToken }));
     refreshTokenInMemory = refreshToken;
-
-    // const { sendMessage } = useWebSocket(RASPBERRY_URL);
-    // sendMessage(JSON.stringify({ type: "accessToken", data: accessToken }));
+    sendMessage(JSON.stringify({ type: "accessToken", token: accessToken }));
   } catch (err) {
     console.error("토큰 저장 실패, JWT-common");
   }

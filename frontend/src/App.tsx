@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import ClickEffect from './components/Common/ClickEffect';
 import { BACK_GROUND_COLOR } from './constants/defaultSlices'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+// import { WebSocketProvider } from './components/Login/TokenLasp';
 
 interface RouteConfig {
   path: string;
@@ -21,8 +22,8 @@ function renderRouteComponent(route: RouteConfig) {
 
 function App() {
   return (
-    <>
-      <Provider store={store}>
+    <Provider store={store}>
+      {/* <WebSocketProvider> */}
         <Main>
           <ClickEffect />
           <BrowserRouter>
@@ -37,8 +38,8 @@ function App() {
             </Routes>
           </BrowserRouter>
         </Main>
-      </Provider>
-    </>
+      {/* </WebSocketProvider> */}
+    </Provider>
   );
 }
 

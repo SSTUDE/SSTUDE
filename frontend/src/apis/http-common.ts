@@ -1,6 +1,7 @@
 import baseAxios from "axios";
 import { SERVER_URL, REFRESH_TOKEN_URL } from "./constants";
 import { storageData, retrieveData, getRefreshToken } from "./JWT-common";
+import { useWebSocketContext } from "../components/Common/WebSocketContext";
 
 const axios = baseAxios.create({
   baseURL: SERVER_URL,
@@ -35,7 +36,8 @@ axios.interceptors.response.use(
             refreshToken,
           });
           const { accessToken } = response.data;
-          storageData(accessToken, refreshToken);
+          const { sendMessage } = useWebSocketContext();
+          storageData(accessToken, refreshToken, sendMessage ?? (() => {}));
           originalRequest.headers.Authorization = `Bearer ${accessToken}`;
           return axios(originalRequest);
         } catch (refreshError) {
