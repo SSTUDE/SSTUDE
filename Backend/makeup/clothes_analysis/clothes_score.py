@@ -10,6 +10,7 @@ from clothes_analysis.clothes_similarity import *
 class clothes_score:
     
     def __init__(self, url, userid, current_date):
+        # 얼굴에서 일정 높이 아래 좌표 가져옴
         df = DetectFace(url)
         clusters=4
         temp = []
@@ -29,6 +30,9 @@ class clothes_score:
         #hsv로 변환
         hsv = convert_color(rgb, HSVColor, through_rgb_type=sRGBColor)
         
+        #numpy배열로 만들기
+        # TargetLab = np.array([lab.lab_l, lab.lab_a, lab.lab_b])
+
         # 그중에서 lab_b와 s만 사용
         # Lab_b.append(float(format(lab.lab_b,".2f")))
         # hsv_s.append(float(format(hsv.hsv_s,".2f"))*100)
@@ -36,9 +40,8 @@ class clothes_score:
         print(lab)
         print(hsv)
         
-        # 사용자의 퍼스널컬러 결과 가져와서 어울리는 색과 비교해서 점수 매기기
-        
-        my_color(userid, current_date)
+        # 사용자의 퍼스널컬러 결과 가져와서 어울리는 색과 비교해서 점수 매기기  
+        my_color(userid, current_date, lab)
         
     #    #퍼스널컬러 분류
     #    # 가중치와 분석 중앙값으로 퍼스널컬러 판단

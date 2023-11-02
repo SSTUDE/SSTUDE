@@ -112,34 +112,30 @@ async def read_item(file: UploadFile = File(),
             s3uri = s3(file, userid, contents, count, current_date)
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
-            result = clothes_score(uri, userid, current_date)
-            
-            print(result)
-            # result = result.split('톤')[0]
-            score = changeId(result)
+            score = clothes_score(uri, userid, current_date)
             
             # DB에 저장
-            with connect.cursor() as curs:
-                query = """INSERT INTO clothes (member_id, img_uri, score) VALUES (%s, %s, %s)"""
-                curs.execute(query, (userid, s3uri, score))
+            # with connect.cursor() as curs:
+            #     query = """INSERT INTO clothes (member_id, img_uri, score) VALUES (%s, %s, %s)"""
+            #     curs.execute(query, (userid, s3uri, score))
             
-            connect.commit()
+            # connect.commit()
             
-            with connect.cursor() as curs:
-            # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-                query_select = """SELECT score, img_uri
-                                FROM clothes
-                                WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s
-                                ORDER BY calender DESC
-                                LIMIT 2
-                                """
-                curs.execute(query_select,(userid, current_date))
-                row = curs.fetchall()
-                lst = []
-                for r in row:
-                    lst.append({'score': r[0], 'img_url': r[1]}) # AFTER부터 -> BEFORE
+            # with connect.cursor() as curs:
+            # # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
+            #     query_select = """SELECT score, img_uri
+            #                     FROM clothes
+            #                     WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s
+            #                     ORDER BY calender DESC
+            #                     LIMIT 2
+            #                     """
+            #     curs.execute(query_select,(userid, current_date))
+            #     row = curs.fetchall()
+            lst = []
+            #     for r in row:
+            #         lst.append({'score': r[0], 'img_url': r[1]}) # AFTER부터 -> BEFORE
             
-            os.remove(file_name)
+            # os.remove(file_name)
     
         except Exception as e:
             print(e)
@@ -151,13 +147,12 @@ async def read_item(file: UploadFile = File(),
             
     return JSONResponse(lst)
 
-
+### 2023-11-01 이런형태로 넘겨야 함
 # 퍼스널 컬러 이전 상세기록 반환
 @app.post("/makeup/detail")
 def getRecordDetail (
     request: str,
     access_token: Optional[str] = Header(None, convert_underscores=False)):
-    
     try:
         connect, curs = connectMySQL()
         # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
