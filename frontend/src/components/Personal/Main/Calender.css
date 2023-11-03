@@ -15,6 +15,7 @@
   background-color: #000000;
   color: white;
 
+  /* border: 1px white solid;  */
   /* border: solid 0.1rem; */
   border-radius: 10px;
 }
@@ -25,16 +26,23 @@
   height: 6vh;
   background-color: #000000;
   color: white;
+  font-size: 2.5rem;
+  /* border: 1px white solid; */
 }
 .button {
   margin: 0 50px;
   border: none;
   background-color: transparent;
   color: white;
+  font-size: 2.5rem;
 }
 .react-datepicker__header > div {
-  margin: 20px 0 !important;
+  /* margin: 20px 0 !important; */
   /* border-bottom: solid 1px; */
+  padding: 20px 0;
+  margin: 0 !important;
+  border-top: 1px white solid;
+  border-bottom: 1px white solid;
 }
 
 /* 요일 담고 있는 컨테이너 */
@@ -62,7 +70,9 @@
   flex-direction: column;
   justify-content: space-around;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 100px;
+  font-size: 2rem;
+  /* padding: 20px 0; */
 }
 
 /* 한 주 날짜 */
@@ -113,7 +123,6 @@
   font-weight: 700;
 }
 
-/* 아이콘 */
 /* 아이콘 컨테이너 */
 .icons {
   display: flex;
@@ -122,6 +131,6 @@
 /* 아이콘 */
 .icon {
   display: inline-block;
-  font-size: 20px;
+  font-size: 30px;
   padding: 10px;
 }
