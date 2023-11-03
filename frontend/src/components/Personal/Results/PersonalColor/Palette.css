@@ -1,0 +1,253 @@
+@import url(https://fonts.googleapis.com/css?family=Pathway+Gothic+One);
+/* body {
+  overflow: hidden;
+} */
+
+.palette {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: 50%;
+  margin-left: -50px;
+  top: 80%;
+  width: 100px;
+}
+
+/* .swatch:last-child:after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: white;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  margin-left: -5px;
+  z-index: 100;
+  border-radius: 50%;
+} */
+
+/* 색상 카드 */
+.swatch {
+  height: 300px;
+  width: 180px;
+
+  transition: 800ms all;
+  display: block;
+
+  position: absolute;
+  left: 0;
+  top: 50px;
+
+  border-radius: 6px;
+  transform-origin: 50% 1000px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+/* 색상 코드 */
+.swatch span {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 35px;
+  display: block;
+  position: absolute;
+  left: -19px;
+  top: 60px;
+  text-transform: uppercase;
+  transform: rotate(90deg);
+  transition: 200ms color;
+}
+
+/* 색상 코드에 마우스 올려놨을 때 */
+.swatch:hover span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* 색상 상세 정보 */
+.swatch ol {
+  border-radius: 0 0 6px 6px;
+  list-style: none;
+
+  position: absolute;
+  left: 120px;
+  top: 0px;
+
+  margin: 0;
+  /* margin-top: 10%; */
+  padding: 10px;
+
+  width: 200px;
+  /* height: 120px; */
+
+  transition: 600ms all;
+  transform: rotateZ(90deg) rotateX(320deg);
+  transform-origin: 0 0;
+  transition-delay: 0ms;
+  transform-style: preserve-3d;
+
+  font-size: 1.5rem;
+
+  color: #ffffff;
+
+  background: inherit;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3),
+    0 0 0 100px rgba(0, 0, 0, 0.2) inset;
+  pointer-events: none;
+}
+
+/* 색상 클릭시 나오는 색상 상세 정보 */
+.swatch ol:after {
+  content: "";
+  width: 148px;
+  height: 98px;
+  background: inherit;
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  transform: translateZ(-1px);
+  border-radius: inherit;
+  box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.2) inset;
+}
+.swatch ol li {
+  overflow: hidden;
+}
+.swatch ol b {
+  display: block;
+  width: 25%;
+  float: left;
+  font-weight: normal;
+}
+.swatch ol i {
+  font-style: normal;
+  text-transform: uppercase;
+}
+
+/* 색상 카드 선택 */
+/* .swatch.select {
+  transform: translateY(-180px) !important;
+} */
+
+/* 색상 카드 선택시 나오는 색상 상세 정보 카드 */
+.swatch.select ol {
+  transform: rotateZ(90deg) rotateX(5deg) !important;
+  transition: 1000ms all;
+  transition-delay: 600ms;
+}
+
+/* 왼쪽부터 색상정보들 */
+.swatch:nth-child(1) {
+  transform: rotate(0deg) translateX(-375px);
+}
+
+.swatch:nth-child(2) {
+  transform: rotate(0deg) translateX(-275px);
+}
+
+.swatch:nth-child(3) {
+  transform: rotate(0deg) translateX(-175px);
+}
+
+.swatch:nth-child(4) {
+  transform: rotate(0deg) translateX(-75px);
+}
+
+.swatch:nth-child(5) {
+  transform: rotate(0deg) translateX(25px);
+}
+
+.swatch:nth-child(6) {
+  transform: rotate(0deg) translateX(125px);
+}
+
+.swatch:nth-child(7) {
+  transform: rotate(0deg) translateX(225px);
+}
+
+.swatch:nth-child(8) {
+  transform: rotate(0deg) translateX(325px);
+}
+
+.swatch:nth-child(9) {
+  transform: rotate(0deg) translateX(425px);
+}
+
+.swatch:nth-child(10) {
+  transform: rotate(0deg) translateX(525px);
+}
+
+.swatch:nth-child(11) {
+  transform: rotate(0deg) translateX(625px);
+}
+
+.swatch:nth-child(12) {
+  transform: rotate(0deg) translateX(725px);
+}
+.swatch:nth-child(13) {
+  transform: rotate(0deg) translateX(825px);
+}
+
+/* 색상 카드 선택 */
+.swatch.select:nth-child(1) {
+  transform: rotate(0deg) translateX(-400px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(2) {
+  transform: rotate(0deg) translateX(-300px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(3) {
+  transform: rotate(0deg) translateX(-200px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(4) {
+  transform: rotate(0deg) translateX(-100px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(5) {
+  transform: rotate(0deg) translateX(0px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(6) {
+  transform: rotate(0deg) translateX(100px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(7) {
+  transform: rotate(0deg) translateX(200px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(8) {
+  transform: rotate(0deg) translateX(300px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(9) {
+  transform: rotate(0deg) translateX(400px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(10) {
+  transform: rotate(0deg) translateX(500px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(11) {
+  transform: rotate(0deg) translateX(600px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(12) {
+  transform: rotate(0deg) translateX(700px) translateY(-100px) !important;
+}
+
+.swatch.select:nth-child(13) {
+  transform: rotate(0deg) translateX(800px) translateY(-100px) !important;
+}
+
+/* 색상 카드 선택 해제 */
+.swatch.unselect:nth-child(1) {
+  transform: rotate(0deg) translateX(-375px) !important;
+}
+
+.swatch.unselect:nth-child(2) {
+  transform: rotate(0deg) translateX(-275px) !important;
+}
+
+.swatch.unselect:nth-child(3) {
+  transform: rotate(0deg) translateX(-175px) !important;
+}

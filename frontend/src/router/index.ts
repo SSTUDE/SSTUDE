@@ -14,6 +14,7 @@ import PreviousClothesResults from "../components/Personal/Previous/PreviousClot
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
+import Palette from "../components/Personal/Results/PersonalColor/Palette";
 
 const routes = [
   {
@@ -70,6 +71,10 @@ const routes = [
   {
     path: "/personalcolor",
     Component: PersonalColorResults,
+  },
+  {
+    path: "/personaltest",
+    Component: Palette,
   },
   {
     path: "/weather",
