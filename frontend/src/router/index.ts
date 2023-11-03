@@ -13,6 +13,7 @@ import PreviousPersonalColorResults from "../components/Personal/Previous/Previo
 import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
+import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
 
 
 const routes = [
@@ -67,7 +68,10 @@ const routes = [
     path: "/personalmain",
     Component: Calender,
   },
-
+  {
+    path: "/personalcolor",
+    Component: PersonalColorResults,
+  },
   {
     path: "/weather",
     Component: Weather,

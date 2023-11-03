@@ -30,7 +30,7 @@ const Calender: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="test">
       <DatePicker
         selected={startDate}
         onChange={(date: Date) => {
@@ -102,6 +102,7 @@ const Calender: React.FC = () => {
         <Modal
           activeButton={activeButton}
           onClose={() => setIsModalOpen(false)}
+          selectedDate={startDate} // 추가된 prop
         />
       )}
     </div>

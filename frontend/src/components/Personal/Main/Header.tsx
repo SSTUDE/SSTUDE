@@ -18,6 +18,7 @@ const StyledLink = styled(Link)`
 const ContentButton = styled.button<{ isActive: boolean }>`
   width: 100%;
   height: 7vh;
+  padding: 0px;
 
   cursor: pointer;
 
