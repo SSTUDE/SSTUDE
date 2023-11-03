@@ -15,6 +15,7 @@ import PreviousClothesResults from "../components/Personal/Previous/PreviousClot
 import Weather from "../components/Weather/Weather";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
 
+
 const routes = [
   {
     path: "/",
@@ -75,6 +76,7 @@ const routes = [
     path: "/weather",
     Component: Weather,
   },
+
 ];
 
 export default routes;
