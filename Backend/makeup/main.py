@@ -120,13 +120,14 @@ async def read_item(file: UploadFile = File(),
             clothes_score_obj = clothes_score(uri, userid, current_date)
             score = clothes_score_obj.score
             
-            date_str = current_date.strftime("%Y-%m-%d")
+            
             # DB에 저장
             collection.insert_one({'member_id': userid,
                                    'img_uri':s3uri,
                                    "score":score,
-                                   "calender":date_str})
-
+                                   "calender":current_date})
+            
+            date_str = current_date.strftime("%Y-%m-%d")
             # 쿼리 실행 및 결과 정렬, 제한
             result = collection.find()
             lst = []

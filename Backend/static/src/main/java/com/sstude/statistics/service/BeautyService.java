@@ -5,13 +5,12 @@ import com.sstude.statistics.dto.response.ClothesDetailResponseDto;
 import com.sstude.statistics.dto.response.ColorDetailResponseDto;
 import com.sstude.statistics.entity.Clothes;
 import com.sstude.statistics.entity.Makeups;
-import com.sstude.statistics.repository.ClothesRepository;
+import com.sstude.statistics.mongo.ClothesRepository;
 import com.sstude.statistics.repository.MakeupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +33,12 @@ public class BeautyService {
     // 전체 의상 반환
     @Transactional(readOnly = true)
     public List<ClothesDetailResponseDto> getClothesDetail(Long memberId, StaticDayRequestDto requestDto) {
+
+        LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 0, 0);
+        LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 23, 59);
+
         // 이미지 점수
-        List<Clothes> clothesList = clothesRepository.findClothesByYearMonthDayAndMemberId(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
+        List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, memberId);
 
         List<ClothesDetailResponseDto> clothesDetailList = clothesList.stream()
                 .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImgUri()))

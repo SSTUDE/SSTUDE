@@ -2,6 +2,7 @@ package com.sstude.statistics.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name="clothes")
+@Document(collection = "chatMessage")
 public class Clothes {
 
     @Id
