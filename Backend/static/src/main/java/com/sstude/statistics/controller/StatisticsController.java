@@ -29,7 +29,7 @@ public class StatisticsController {
 
 
         // 유저 정보 가져오기 - DB 연결을 어떻게 하지?member 회원가입을 하면, 모든 member테이블에 데이터가 insert되는건가??
-        Long memberId = 1L;
+        Long memberId = 2L;
 //        Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
         //맴버인지 판단!!
         StaticAllResponseDto responseDtos = staticService.findAllDesc(memberId, requestDto);
