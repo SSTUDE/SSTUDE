@@ -13,6 +13,7 @@ import PreviousPersonalColorResults from "../components/Personal/Previous/Previo
 import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
+import Bus from "../components/bus/Bus";
 
 const routes = [
   {
@@ -70,6 +71,12 @@ const routes = [
   {
     path: "/weather",
     Component: Weather,
+  },
+
+  // 버스정보
+  {
+    path: "/bus",
+    Component: Bus,
   },
 ];
 
