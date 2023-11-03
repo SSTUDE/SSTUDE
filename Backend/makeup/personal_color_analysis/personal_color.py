@@ -8,7 +8,6 @@ from colormath.color_conversions import convert_color
 from urllib.request import urlopen
 
 def analysis(imgpath):
-    
     # 열굴인식
     df = DetectFace(imgpath)
     face = [df.left_cheek, df.right_cheek,

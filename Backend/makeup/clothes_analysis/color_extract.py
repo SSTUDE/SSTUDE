@@ -21,7 +21,7 @@ class color_extract:
         img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         #이미지를 2D배열로 변환(높이*너비(이미지 총 픽셀), 3개 색상RGB)
         self.IMAGE = img.reshape((img.shape[0] * img.shape[1], 3))
-
+        
         #k-means로 픽셀 클러스터링 및 학습
         kmeans = KMeans(n_clusters = self.CLUSTERS)
         kmeans.fit(self.IMAGE)

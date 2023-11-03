@@ -30,7 +30,7 @@ public class StatisticsBeautyController {
         public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestBody StaticDayRequestDto requestDto) {
 
 //            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-            Long memberId = 1L;
+            Long memberId = 2L;
             ColorDetailResponseDto colorDetail = beautyService.getColorDetail(memberId, requestDto);
             return new ResponseEntity<>(colorDetail, HttpStatus.OK);
         }

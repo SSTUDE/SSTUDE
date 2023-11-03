@@ -27,8 +27,6 @@ def s3(file, user_id, body, current_date, count):
     # key = "user/"+str(user_id)+"_"+file.filename +"이 문제여?"# 파일 이름 uuid 붙이기 
     key = "user/"+str(user_id)+"_"+file.filename + str(current_date) + "_"+str(count) # 파일 이름 uuid 붙이기 
     
-    print("파일이름"+file.filename)
-    
     
     s3_client.put_object(
         Body = body, Bucket=env_variables.get("AWS_STORAGE_BUCKET_NAME"), Key=key, Metadata={ "ContentType": file.content_type}
