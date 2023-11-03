@@ -1,22 +1,61 @@
 import React from 'react';
-import Mirror from './components/Mirror/Mirror';
-import { MIRROR_HEIGHT, MIRROR_WEIGHT, MIRROR_COLOR } from './store/slices/defaultSlices';
+import routes from './router';
+import { store } from './store/store';
+import { Provider } from 'react-redux';
+import styled from 'styled-components';
+import ClickEffect from './components/Common/ClickEffect';
+import { BACK_GROUND_COLOR } from './constants/defaultSlices'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { createGlobalStyle } from 'styled-components';
+
+interface RouteConfig {
+  path: string;
+  Component: React.ComponentType<any>;
+  props?: any;
+}
+
+function renderRouteComponent(route: RouteConfig) {
+  const Component = route.Component;
+  const props = route.props;
+  return <Component {...props} />;
+}
+
+const GlobalStyle = createGlobalStyle`
+  p {
+    margin: 0;
+  }
+`
 
 function App() {
   return (
-    <div className="App" style={styles.app}>
-      <Mirror/>
-    </div>
+    <>
+      <GlobalStyle />
+      <Provider store={store}>
+        <Main>
+          <ClickEffect />
+          <BrowserRouter>
+            <Routes>
+              {routes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={renderRouteComponent(route)}
+                />
+              ))}
+            </Routes>
+          </BrowserRouter>
+        </Main>
+      </Provider>
+    </>
   );
 }
 
-export default App;
+const Main = styled.div`
+  background-color: ${BACK_GROUND_COLOR};
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  color: #fff;
+`
 
-const styles: { [key: string]: React.CSSProperties } = {
-  app: {
-    height: `${MIRROR_HEIGHT}`,
-    width: `${MIRROR_WEIGHT}`,
-    backgroundColor: `${MIRROR_COLOR}`, 
-    marginLeft: "30%" //NOTE - 나중에 스크린 미러 구현시 지워야함
-  },
-};
+export default App;
