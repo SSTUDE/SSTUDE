@@ -63,8 +63,8 @@ class DetectFace:
         
         # 변수에 각 부분 할당
         self.under_chin = self.extract_face_part(face_parts[0])
-        cv2.imshow("턱 나와라", self.under_chin)
-        cv2.waitKey(0)
+        # cv2.imshow("턱 나와라", self.under_chin)
+        # cv2.waitKey(0)
 
     # 필터씌우기(사각형 이미지로 반환)
     def extract_face_part(self, face_part_points):

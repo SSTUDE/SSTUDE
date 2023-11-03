@@ -3,10 +3,10 @@ from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis import personal_color
 from clothes_analysis.clothes_score import clothes_score
-from database import connectMySQL
+from database import connectMySQL, connectPymongo
 from S3backet import s3
 from service import changeId
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 import os
 
@@ -54,7 +54,7 @@ async def runColor(
             s3uri = s3(file, userid, contents, count, current_date)
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
-            match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
+            match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
             result = personal_color.analysis(uri)
             
             result = result.split('톤')[0]
@@ -64,7 +64,8 @@ async def runColor(
                 curs.execute(query, (userid, s3uri, result))
             connect.commit()
 
-            match_color, hair, accessary, expl, skin, eye = changeId(result)
+            match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+            match_color= match_color[0:13]
             
             os.remove(file_name)
         except Exception as e:
@@ -77,10 +78,11 @@ async def runColor(
             
            
     print("결과 ", result) 
-    return JSONResponse({'personal_color': result , 'user_img' : s3uri, 
+    return JSONResponse({'personal_color': result, 'user_img' : s3uri, 
                          'match_color':match_color, 'hair':hair,
                          'accessary': accessary, 'expl':expl,
-                         'skin':skin, 'eye':eye})
+                         'skin':skin, 'eye':eye,
+                         'personal_color_eng': eng})
     
 
 # 이미지 내에 사람이 서있으면, 사진에서 상의를 찾아서 색 추출 및 유사도 검사or점수
@@ -88,22 +90,19 @@ async def runColor(
 @app.post("/makeup/clothes")
 async def read_item(file: UploadFile = File(), 
             access_token: Optional[str] = Header(None, convert_underscores=False)):
-    connect, curs = connectMySQL()
+    collection = connectPymongo()
     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
     userid=2
     
-    current_date = datetime.now().date()
-    with connect.cursor() as curs:
-        query = """SELECT COUNT(*) AS request_count
-                    FROM clothes
-                    WHERE member_id = %s AND calender = %s"""
-        curs.execute(query, (userid, current_date))
-        result = curs.fetchone()
-        count = result[0] if result else 0
+    current_date = datetime.now()
     
-    if count >=3:
-        raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
+    count = 0
+    for col in collection.find():
+        count+=1
+        
+    # if count >=3:
+    #     raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
     
     else:
         try:
@@ -121,26 +120,19 @@ async def read_item(file: UploadFile = File(),
             clothes_score_obj = clothes_score(uri, userid, current_date)
             score = clothes_score_obj.score
             
+            date_str = current_date.strftime("%Y-%m-%d")
             # DB에 저장
-            with connect.cursor() as curs:
-                query = """INSERT INTO clothes (member_id, img_uri, score) VALUES (%s, %s, %s)"""
-                curs.execute(query, (userid, s3uri, score))
-            
-            connect.commit()
-            
-            with connect.cursor() as curs:
-            # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-                query_select = """SELECT score, img_uri
-                                FROM clothes
-                                WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s
-                                ORDER BY calender DESC
-                                LIMIT 2
-                                """
-                curs.execute(query_select,(userid, current_date))
-                row = curs.fetchall()
+            collection.insert_one({'member_id': userid,
+                                   'img_uri':s3uri,
+                                   "score":score,
+                                   "calender":date_str})
+
+            # 쿼리 실행 및 결과 정렬, 제한
+            result = collection.find()
             lst = []
-            for r in row:
-                lst.append({'score': r[0], 'img_url': r[1]}) # AFTER부터 -> BEFORE
+            for r in result:
+                if r['member_id']==userid and r['calender']==date_str:
+                    lst.append({'score': r['score'], 'img_url': r['img_uri']}) # AFTER부터 -> BEFORE
             
             os.remove(file_name)
     
@@ -148,9 +140,6 @@ async def read_item(file: UploadFile = File(),
             print(e)
             result = False
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
-        
-        finally:
-            connect.close()
             
     return JSONResponse(lst)
 
@@ -178,8 +167,9 @@ def getRecordDetail (
             result = row[0]
             img_uri = row[1]
         
-        match_color, hair, accessary, expl, skin, eye=  ('', '', '', '', '', '')
-        match_color, hair, accessary, expl, skin, eye = changeId(result)
+        match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
+        match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+        match_color= match_color[0:13]
         
             
     except Exception as e:
@@ -191,7 +181,8 @@ def getRecordDetail (
     return JSONResponse({'personal_color': result , 'user_img' : img_uri, 
                          'match_color':match_color, 'hair':hair,
                          'accessary': accessary, 'expl':expl,
-                         'skin':skin, 'eye':eye})
+                         'skin':skin, 'eye':eye,
+                         'eng': eng })
 
     
 ###########################################################################   

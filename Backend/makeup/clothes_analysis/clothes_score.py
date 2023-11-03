@@ -18,7 +18,7 @@ class clothes_score:
         dc = color_extract(df.under_chin, clusters)
         # 색얻기
         print(dc)
-        clothes_color, _ = dc.getHistogram() #얼굴부위별 색상의 빈도가져오기 
+        clothes_color, _ = dc.getHistogram2() #얼굴부위별 색상의 빈도가져오기 
         temp.append(np.array(clothes_color[0])) #주요 색상만 뽑아내기
         print("주요색상")
         print(clothes_color[0]) # RGB

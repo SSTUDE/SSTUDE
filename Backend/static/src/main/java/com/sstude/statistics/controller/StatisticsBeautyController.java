@@ -41,7 +41,7 @@ public class StatisticsBeautyController {
 //        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
 //                , @RequestBody StaticDayRequestDto requestDto) {
         public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestBody StaticDayRequestDto requestDto) {
-            Long memberId = 1L;
+            Long memberId = 2L;
 //            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
             List<ClothesDetailResponseDto> responseDtos = beautyService.getClothesDetail(memberId, requestDto);
             return new ResponseEntity<>(responseDtos, HttpStatus.OK);

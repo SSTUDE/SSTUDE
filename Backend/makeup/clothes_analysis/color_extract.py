@@ -52,3 +52,24 @@ class color_extract:
         fil = [colors[i][2] < 250 and colors[i][0] > 10 for i in range(self.CLUSTERS)]
         colors = list(compress(colors, fil))
         return colors, hist #주요 색상, 빈도수
+
+    def getHistogram2(self):
+        #클러스터 수만큼 레이블 만듬-> 빈도수를 전체합으로 나눔
+        numLabels = np.arange(0, self.CLUSTERS+1)
+        (hist, _) = np.histogram(self.LABELS, bins = numLabels)
+        hist = hist.astype("float")
+        hist /= hist.sum()
+
+        # 주요색상을 변수에 저장
+        colors = self.COLORS
+        colors = colors[(-hist).argsort()]
+        hist = hist[(-hist).argsort()]
+        for i in range(self.CLUSTERS):
+            colors[i] = colors[i].astype(int) #색상 정수형으로 변환
+        
+        '''
+        Blue mask 제거(얼굴색은 주로 노랑+빨강색상이기 때문에
+        파란색인 영역은 피부색에서 벗어난 영역임
+        '''
+
+        return colors, hist #주요 색상, 빈도수

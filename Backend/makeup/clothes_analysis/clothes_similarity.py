@@ -14,24 +14,28 @@ def my_color(userid, current_date, TargetLab):
     connect, curs = connectMySQL()
     with connect.cursor() as curs:
         query = """SELECT result FROM makeups WHERE member_id=%s AND DATE_FORMAT(current_date, '%%Y-%%m-%%d')=%s"""
-        curs.execute(query, (userid, current_date))
+        curs.execute(query, (userid, current_date.date()))
         result = curs.fetchone()[0]
     
     print(result)
-    match_color, _, _, _, _, _ = changeId(result)
+    match_color, _, _, _, _, _, _ = changeId(result)
     
     # match_color = dump.winter_tone[0]
     
     similarities = []
-    for mc in match_color:
+    i = 0
+    for idx, mc in enumerate(match_color):
         rgb = sRGBColor(int(mc[0:2], 16), int(mc[2:4], 16), int(mc[4:6], 16), is_upscaled=True)
         lab = convert_color(rgb, LabColor, through_rgb_type=sRGBColor)
         
         #### CIEDE2000 기준으로 차이 계산
         delta_e = delta_e_cie2000(TargetLab, lab)
+        if similarities and min(similarities) > delta_e:
+            i = idx
         
         similarities.append(delta_e)
     
+    print(i, min(similarities))
     score = 100-int(min(similarities))
     print(score)
     
