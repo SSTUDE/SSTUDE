@@ -14,6 +14,7 @@ import PreviousClothesResults from "../components/Personal/Previous/PreviousClot
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 
+
 const routes = [
   {
     path: "/",
@@ -71,6 +72,7 @@ const routes = [
     path: "/weather",
     Component: Weather,
   },
+
 ];
 
 export default routes;

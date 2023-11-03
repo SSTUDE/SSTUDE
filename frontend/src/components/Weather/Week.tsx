@@ -81,8 +81,8 @@ const DayContainer = styled.div`
 
 
 const SunSvg = styled(SunWithCloud)`
-  width: 65px;
-  height: 65px;
+  width: 45px;
+  height: 45px;
   margin: 0 10px;
 `
 

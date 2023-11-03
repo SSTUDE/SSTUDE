@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import Weather from '../Weather/Weather';
+import { useNavigate } from 'react-router-dom';
 
 const TestMain = () => {
   const currentDate = new Date();
@@ -20,10 +21,13 @@ const TestMain = () => {
   const dayOfWeek = daysInKorean[currentDate.getDay()];
   const DateString = `${year}.${month}.${day}(${dayOfWeek})`;
 
+  const navigate = useNavigate(); 
+
+
   return (
     <Wrap>
       <LeftContainer>
-        <Button>버튼1</Button>
+        <Button onClick={()=>{navigate('/')}}>초기화면</Button>
         <Button>버튼2</Button>
         <Button>버튼3</Button>
       </LeftContainer>
