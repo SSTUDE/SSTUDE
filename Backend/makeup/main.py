@@ -58,6 +58,12 @@ async def runColor(
             result = personal_color.analysis(uri)
             
             result = result.split('톤')[0]
+            
+            with connect.cursor() as curs:
+                query = """INSERT INTO makeups (member_id, img_uri, result) VALUES (%s, %s, %s)"""
+                curs.execute(query, (userid, s3uri, result))
+            connect.commit()
+
             match_color, hair, accessary, expl, skin, eye = changeId(result)
             
             os.remove(file_name)
@@ -112,30 +118,31 @@ async def read_item(file: UploadFile = File(),
             s3uri = s3(file, userid, contents, count, current_date)
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
-            score = clothes_score(uri, userid, current_date)
+            clothes_score_obj = clothes_score(uri, userid, current_date)
+            score = clothes_score_obj.score
             
             # DB에 저장
-            # with connect.cursor() as curs:
-            #     query = """INSERT INTO clothes (member_id, img_uri, score) VALUES (%s, %s, %s)"""
-            #     curs.execute(query, (userid, s3uri, score))
+            with connect.cursor() as curs:
+                query = """INSERT INTO clothes (member_id, img_uri, score) VALUES (%s, %s, %s)"""
+                curs.execute(query, (userid, s3uri, score))
             
-            # connect.commit()
+            connect.commit()
             
-            # with connect.cursor() as curs:
-            # # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-            #     query_select = """SELECT score, img_uri
-            #                     FROM clothes
-            #                     WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s
-            #                     ORDER BY calender DESC
-            #                     LIMIT 2
-            #                     """
-            #     curs.execute(query_select,(userid, current_date))
-            #     row = curs.fetchall()
+            with connect.cursor() as curs:
+            # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
+                query_select = """SELECT score, img_uri
+                                FROM clothes
+                                WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s
+                                ORDER BY calender DESC
+                                LIMIT 2
+                                """
+                curs.execute(query_select,(userid, current_date))
+                row = curs.fetchall()
             lst = []
-            #     for r in row:
-            #         lst.append({'score': r[0], 'img_url': r[1]}) # AFTER부터 -> BEFORE
+            for r in row:
+                lst.append({'score': r[0], 'img_url': r[1]}) # AFTER부터 -> BEFORE
             
-            # os.remove(file_name)
+            os.remove(file_name)
     
         except Exception as e:
             print(e)
