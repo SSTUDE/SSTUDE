@@ -6,6 +6,10 @@ import Palette from "./Palette";
 
 const StyledContainer = styled.div`
   /* overflow: hidden; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 `;
 
 // 페이지 제목
