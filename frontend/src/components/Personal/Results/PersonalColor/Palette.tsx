@@ -25,7 +25,7 @@ interface RGB {
 
 const Palette: FC = () => {
   const [selectedColor, setSelectedColor] = useState(null);
-  
+
   const hexToRgb = (hex: string): RGB | null => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
@@ -81,10 +81,17 @@ const Palette: FC = () => {
       (element as HTMLElement).style.backgroundColor = hex;
 
       element.addEventListener("click", () => {
-        document.querySelectorAll(".swatch").forEach((swatch) => {
-          (swatch as HTMLElement).classList.remove("select");
-        });
-        (element as HTMLElement).classList.toggle("select");
+        if (element.classList.contains("select")) {
+          element.classList.remove("select");
+          element.classList.add("unselect");
+        } else {
+          document.querySelectorAll(".swatch").forEach((swatch) => {
+            swatch.classList.remove("select");
+            swatch.classList.add("unselect");
+          });
+          element.classList.remove("unselect");
+          element.classList.add("select");
+        }
       });
 
       element.innerHTML += `<span>${hex}</span>`;

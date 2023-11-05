@@ -188,66 +188,53 @@
 
 /* 색상 카드 선택 */
 .swatch.select:nth-child(1) {
-  transform: rotate(0deg) translateX(-400px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(-400px) translateY(-100px);
 }
 
 .swatch.select:nth-child(2) {
-  transform: rotate(0deg) translateX(-300px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(-300px) translateY(-100px);
 }
 
 .swatch.select:nth-child(3) {
-  transform: rotate(0deg) translateX(-200px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(-200px) translateY(-100px);
 }
 
 .swatch.select:nth-child(4) {
-  transform: rotate(0deg) translateX(-100px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(-100px) translateY(-100px);
 }
 
 .swatch.select:nth-child(5) {
-  transform: rotate(0deg) translateX(0px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(0px) translateY(-100px);
 }
 
 .swatch.select:nth-child(6) {
-  transform: rotate(0deg) translateX(100px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(100px) translateY(-100px);
 }
 
 .swatch.select:nth-child(7) {
-  transform: rotate(0deg) translateX(200px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(200px) translateY(-100px);
 }
 
 .swatch.select:nth-child(8) {
-  transform: rotate(0deg) translateX(300px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(300px) translateY(-100px);
 }
 
 .swatch.select:nth-child(9) {
-  transform: rotate(0deg) translateX(400px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(400px) translateY(-100px);
 }
 
 .swatch.select:nth-child(10) {
-  transform: rotate(0deg) translateX(500px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(500px) translateY(-100px);
 }
 
 .swatch.select:nth-child(11) {
-  transform: rotate(0deg) translateX(600px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(600px) translateY(-100px);
 }
 
 .swatch.select:nth-child(12) {
-  transform: rotate(0deg) translateX(700px) translateY(-100px) !important;
+  transform: rotate(0deg) translateX(700px) translateY(-100px);
 }
 
 .swatch.select:nth-child(13) {
-  transform: rotate(0deg) translateX(800px) translateY(-100px) !important;
-}
-
-/* 색상 카드 선택 해제 */
-.swatch.unselect:nth-child(1) {
-  transform: rotate(0deg) translateX(-375px) !important;
-}
-
-.swatch.unselect:nth-child(2) {
-  transform: rotate(0deg) translateX(-275px) !important;
-}
-
-.swatch.unselect:nth-child(3) {
-  transform: rotate(0deg) translateX(-175px) !important;
+  transform: rotate(0deg) translateX(800px) translateY(-100px);
 }
