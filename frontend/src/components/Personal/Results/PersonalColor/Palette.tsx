@@ -25,6 +25,7 @@ interface RGB {
 
 const Palette: FC = () => {
   const [selectedColor, setSelectedColor] = useState(null);
+  
   const hexToRgb = (hex: string): RGB | null => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result

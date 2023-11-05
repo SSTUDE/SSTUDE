@@ -3,9 +3,11 @@ import { styled } from "styled-components";
 import { images } from "../../../constants/images";
 
 const CarouselMain = styled.section`
-  width: 390px;
+  width: 458px;
   /* height: 70%; */
+
   position: relative;
+
   margin: 0 auto;
   user-select: none;
 `;
@@ -23,7 +25,7 @@ const CarouselWrapper = styled.div`
 
 // 캐러셀 슬라이드
 const CarouselSlide = styled.figure`
-  flex: 0 0 390px;
+  flex: 0 0 458px;
   position: relative;
   margin: 0;
 `;
@@ -51,7 +53,7 @@ const CarouselButtonContainer = styled.div`
 const CarouselButton = styled.button`
   width: 50px;
   height: 50px;
-  color: #fff;
+  /* color: #fff; */
   background: transparent;
   border: none;
   outline: none;
@@ -60,26 +62,27 @@ const CarouselButton = styled.button`
 
 // 이전 버튼
 const CarouselPrev = styled(CarouselButton)`
-  position: absolute;
-  left: -60px;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding-top: 5px;
-  padding-bottom: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  position: absolute;
+  left: -70px;
+
+  /* background-color: rgba(0, 0, 0, 0.3); */
+  padding-top: 5px;
+  padding-bottom: 5px;
 `;
 
 // 다음 버튼
 const CarouselNext = styled(CarouselButton)`
-  position: absolute;
-  right: -60px;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding-top: 5px;
-  padding-bottom: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  position: absolute;
+  right: -70px;
+  /* background-color: rgba(0, 0, 0, 0.3); */
 `;
 
 // 현재 슬라이드 위치
@@ -160,8 +163,8 @@ const Carousel = () => {
           <CarouselPrev onClick={handlePrevClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="50"
+              height="50"
               fill="currentColor"
               className="bi bi-chevron-double-left"
               viewBox="0 0 16 16"
@@ -179,8 +182,8 @@ const Carousel = () => {
           <CarouselNext onClick={handleNextClick}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="50"
+              height="50"
               fill="currentColor"
               className="bi bi-chevron-double-right"
               viewBox="0 0 16 16"

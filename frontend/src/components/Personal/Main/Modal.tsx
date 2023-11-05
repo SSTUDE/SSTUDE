@@ -25,19 +25,22 @@ const ModalContainer = styled.div`
   position: relative;
   overflow: auto;
 
-  width: 30%;
+  width: 35%;
   max-height: 95%;
   /* padding: 20px; */
 
   background-color: white;
   border-radius: 20px;
-  background-color: rgba(90, 85, 85);
-  color: white;
+  /* background-color: rgba(90, 85, 85); */
+  /* color: white; */
+  color: black;
 
   p {
-    margin: 0;
     text-align: center;
     font-size: 30px;
+    font-family: "Giants-Bold";
+
+    margin: 0;
     padding: 3% 0 0;
   }
 `;
@@ -45,22 +48,23 @@ const ModalContainer = styled.div`
 // 모달 닫기 버튼
 const ModalCloseButton = styled.button`
   position: absolute;
-  cursor: pointer;
-
   right: 20px;
   top: 20px;
+
+  cursor: pointer;
+  font-size: 20px;
+
   padding: 0;
 
   border: none;
   background: none;
-  font-size: 20px;
-  color: white;
 `;
 
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
   width: 100%;
   margin: 5% 0;
 `;
@@ -75,11 +79,9 @@ const ContentButton = styled.button<{ isActive: boolean }>`
   height: 7vh;
 
   cursor: pointer;
-
   font-size: 1.5rem;
-  color: white;
 
-  background-color: ${(props) => (props.isActive ? "#ffffff50" : "#ffffff12")};
+  background-color: ${(props) => (props.isActive ? "#bcf34f50" : "#1d70ff12")};
   border: none;
 `;
 
