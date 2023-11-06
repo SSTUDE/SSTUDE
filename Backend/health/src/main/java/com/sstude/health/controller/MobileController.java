@@ -1,30 +1,25 @@
 package com.sstude.health.controller;
 
-import com.sstude.health.dto.request.HealthDataRequestDto;
-import com.sstude.health.dto.response.HealthRecordResponseDto;
-import com.sstude.health.dto.response.NumberResponseDto;
-import com.sstude.health.global.jwt.JwtTokenProvider;
-import com.sstude.health.service.HealthService;
-import io.swagger.v3.oas.annotations.Parameter;
+import com.sstude.health.dto.request.MobileRequestDto;
+import com.sstude.health.dto.response.MobileResponseDto;
+import com.sstude.health.service.MobileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Health Member", description = "삼성 헬스 연동을 위한 모바일 연동")
+@Tag(name = "Mobile", description = "삼성 헬스 연동을 위한 모바일 연동")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/health-data")
-public class HealthDataController {
-    private final JwtTokenProvider jwtTokenProvider;
-    private final HealthService healthService;
+@RequestMapping("/mobile")
+public class MobileController {
+    private final MobileService mobileService;
 
-    @GetMapping("/number")
-    public ResponseEntity<?> number(@RequestHeader("Authorization") @Parameter(hidden = true) final String token) {
-        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
-        NumberResponseDto response = healthService.number(memberId);
+    @PostMapping("/regist")
+    public ResponseEntity<?> regist(@RequestBody MobileRequestDto request){
+        MobileResponseDto response = mobileService.regist(request.getCertification());
         return ResponseEntity.ok(response);
     }
 }
