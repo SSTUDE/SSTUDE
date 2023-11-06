@@ -108,6 +108,12 @@ public class HealthService {
         for (HealthData healthData : healthDataList) {
             // memberId 별로 가장 최신의 값을 가져오기
             Optional<HealthData> latestHealthDataOpt = healthDataRepository.findFirstByMemberIdOrderByCreatedAtDesc(healthData.getMemberId());
+
+            if (!latestHealthDataOpt.isPresent()) {
+                // 가장 최신의 데이터가 없는 경우, 다음 회원의 데이터 처리로 넘어감
+                continue;
+            }
+
             HealthData latestHealthData = latestHealthDataOpt.get();
 
             Health health = Health.builder()
