@@ -17,12 +17,22 @@ const GetWeatherData = () => {
   const [data, setData] = useState<WeatherDataResponse[] | null>(null);
   
   const day = new Date();
-  const year = day.getFullYear(); // 연도를 얻습니다.
-  const month = (day.getMonth() + 1).toString().padStart(2, '0'); // 월을 얻습니다. getMonth()는 0부터 시작하므로 1을 더합니다.
-  const date = day.getDate().toString().padStart(2, '0'); // 일을 얻습니다.
+  const hour = day.getHours(); 
+  const minutes = day.getMinutes();
+
+  // 시간이 05:00를 지나지 않았다면 전날
+  if (hour < 5) {
+    day.setDate(day.getDate() - 1);
+  }
+
+  const year = day.getFullYear(); 
+  const month = (day.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
+  const date = day.getDate().toString().padStart(2, '0');
 
   const formattedDate = `${year}${month}${date}`;
 
+  // 현재 시간을 기점으로 이후 데이터만 사용하기 위해
+  const currentTime = `${hour.toString().padStart(2, '0')}${minutes.toString().padStart(2, '0')}`;
 
   const fetchData = async () => {
     try {
@@ -35,15 +45,15 @@ const GetWeatherData = () => {
         nx: 86,
         ny: 95
       });
-  
-      // console.log(response);
-      // console.log(response.response.body.items.item)
 
-      // response 안의 body 안의 items를 확인하여 category가 TMP인 데이터만 필터링
-      const tmpData = response.response.body.items.item.filter((item: WeatherDataResponse) => item.category === "TMP");
-  
-      setData(tmpData);
-      console.log(tmpData);
+      console.log(response);
+      const items = response.response.body.items.item;
+
+      // 현재 시간 이후의 데이터만 필터링.
+      const futureData = items.filter((item: WeatherDataResponse) => item.fcstTime >= currentTime);
+      setData(futureData);
+      console.log(futureData);
+
     } catch (error) {
       console.error("데이터를 가져오는 데 실패했습니다:", error);
     }
@@ -56,7 +66,7 @@ const GetWeatherData = () => {
 
   return (
     <Container>
-      {data ? (
+      {/* {data ? (
         <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: '20px' }}>
           <thead>
             <tr>
@@ -77,7 +87,7 @@ const GetWeatherData = () => {
         </table>
       ) : (
         "데이터가 없음"
-      )}
+      )} */}
     </Container>
   );
 }

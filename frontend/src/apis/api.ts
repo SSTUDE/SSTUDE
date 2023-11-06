@@ -12,6 +12,7 @@ export const getWeatherData = async (params: {
   nx: number;
   ny: number;
 }) => {
+
   try {
     const response = await axios.get(BASE_URL, {
       params: {

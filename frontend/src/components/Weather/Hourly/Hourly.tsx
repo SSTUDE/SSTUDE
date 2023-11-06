@@ -14,6 +14,9 @@ import {
   ChartOptions,
   registerables as registerablesJS,
 } from "chart.js";
+import DayCloud from './DayCloud';
+import { DailyWeather } from '../types';
+
 
 // Chart.js 모듈 등록
 ChartJS.register(...registerablesJS);
@@ -27,54 +30,25 @@ ChartJS.register(
   Legend
 );
 
-const Hourly = () => {
-  // 차트 데이터 (기온만)
-  const temperatureData = {
-    labels: ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
-    datasets: [
-      {
-        label: '기온',
-        data: [16, 19, 21, 23, 24, 24, 23, 21, 19, 16, 15],
-        fill: false,
-        borderColor: 'white',
-      },
-    ],
-  };
+type HourlyProps = {
+  dailyWeathers: DailyWeather[]; // 이 배열은 상위 컴포넌트로부터 전달받아야 합니다.
+};
 
-  // 테이블 데이터
-  const tableData = {
-    labels: temperatureData.labels,
-    datasets: [
-      {
-        label: '기온',
-        data: temperatureData.datasets[0].data,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-  }
-
+const Hourly: React.FC<HourlyProps> = ({ dailyWeathers }) => {
   return (
     <Container>
-      {/* 라인 차트 */}
-      {/* <ChartContainer>
-        <Chart 
-          className="chart_line"
-          type="line"
-          data={temperatureData} 
-          options={chartOptions}/>
-      </ChartContainer> */}
-
-      {/* 아래쪽 테이블 */}
       <Table
         summary='시간별 날씨(온도, 하늘상태, 강수확률, 강수, 습도) 정보를 제공'>
         <caption>
           {/* <span>시간별 날씨표</span> */}
         </caption>  
-
+        <thead>
+          <tr>
+            {dailyWeathers.map((weather, index) => (
+                <DayCloud key={index} dailyWeather={weather} index={index} />
+              ))}
+          </tr>
+        </thead>
         
       </Table>
     </Container>
