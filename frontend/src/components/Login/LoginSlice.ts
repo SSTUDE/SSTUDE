@@ -1,4 +1,5 @@
-import axios from "../../apis/http-common";
+import { LoginState } from "./types";
+import axiosToken from "../../apis/http-common";
 import { storageData } from "../../apis/JWT-common";
 import { SIGN_UP_URL, SIGN_IN_URL } from "../../apis/constants";
 import { useWebSocketContext } from "../Common/WebSocketContext";
@@ -9,7 +10,7 @@ const handleAuthentication = async (
   data: { deviceNumber: string },
   sendMessage: (message: string) => void
 ) => {
-  const response = await axios.post(url, data);
+  const response = await axiosToken.post(url, data);
   storageData(
     response.data.accessToken,
     response.data.refreshToken,
@@ -44,14 +45,6 @@ export const signInUser = createAsyncThunk(
     }
   }
 );
-
-interface LoginState {
-  userInfo: string;
-  serialNum: string;
-  signUp: boolean;
-  signIn: boolean;
-  memberId: string;
-}
 
 const initialState: LoginState = {
   userInfo: "",

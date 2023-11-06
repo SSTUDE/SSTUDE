@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { fetchBusData } from './BusSlice';
 import { useNavigate } from 'react-router-dom';
+import { sendGpsData, fetchBusData } from './BusSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 
-function Bus() {
-
+const BusDetail = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { busData, loading, error } = useSelector((state: RootState) => state.bus);
+  const { busData, loading, error, gps } = useSelector((state: RootState) => state.bus);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,10 +15,12 @@ function Bus() {
 
   // 버스 상세 정보로 이동하기 전에 GPS 데이터를 서버로 전송합니다.
   const handleDetailClick = () => {
-    navigate('/busdetail');
+    if (gps) {
+      dispatch(sendGpsData());
+      navigate('/kakaomap');
+    }
   };
 
-  // 렌더링 부분
   return (
     <>
       <div>
@@ -32,9 +33,9 @@ function Bus() {
           <pre>{JSON.stringify(busData, null, 2)}</pre>
         )}
       </div>
-      <button onClick={handleDetailClick}>버스 상세 정보</button>
+      <button onClick={handleDetailClick}>정거장 선택</button>
     </>
-  );
+  )
 }
 
-export default Bus;
+export default BusDetail

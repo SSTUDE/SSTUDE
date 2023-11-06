@@ -14,7 +14,6 @@ const Test = () => {
       <Btn onClick={() => navigate('/websocket')}>웹소켓</Btn>
       <Btn onClick={() => navigate('/testcolor')}>색 테스트</Btn>
       <Btn onClick={() => navigate('/bus')}>버스</Btn>
-      <Btn onClick={() => navigate('/kakaomap')}>카카오맵</Btn>
       <Btn onClick={() => navigate('/')}>초기 화면</Btn>
     </Body>
   );

@@ -14,6 +14,7 @@ import PreviousClothesResults from "../components/Personal/Previous/PreviousClot
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
+import BusDetail from "../components/Bus/BusDetail";
 import KakaoMap from "../components/Bus/KakaoMap";
 
 const routes = [
@@ -78,6 +79,10 @@ const routes = [
   {
     path: "/bus",
     Component: Bus,
+  },
+  {
+    path: "/busdetail",
+    Component: BusDetail,
   },
   // 카카오 지도
   {
