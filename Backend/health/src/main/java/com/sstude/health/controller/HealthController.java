@@ -1,9 +1,12 @@
 package com.sstude.health.controller;
 
+import com.sstude.health.dto.request.DayRequestDto;
 import com.sstude.health.dto.request.HealthDataRequestDto;
+import com.sstude.health.dto.request.MonthRequestDto;
 import com.sstude.health.dto.response.CertificationResponseDto;
 import com.sstude.health.dto.response.HealthDetailResponseDto;
 import com.sstude.health.dto.response.HealthRecordResponseDto;
+import com.sstude.health.dto.response.MonthResponseDto;
 import com.sstude.health.global.jwt.JwtTokenProvider;
 import com.sstude.health.global.swagger.CustomApi;
 import com.sstude.health.service.HealthService;
@@ -53,5 +56,24 @@ public class HealthController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "달력 1달 헬스 데이터", description = "달력 1달 전체의 헬스 데이터가 있는 날짜를 반환하는 메서드입니다.")
+    @CustomApi
+    @GetMapping("/month")
+    public ResponseEntity<?> month(@RequestHeader("Authorization") @Parameter(hidden = true) final String token,
+                                   @RequestBody MonthRequestDto request){
+        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+        MonthResponseDto response = healthService.month(memberId, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "달력 하루 헬스 데이터", description = "달력 하루의 헬스 데이터가 있는 날짜를 반환하는 메서드입니다.")
+    @CustomApi
+    @GetMapping("/day")
+    public ResponseEntity<?> day(@RequestHeader("Authorization") @Parameter(hidden = true) final String token,
+                                   @RequestBody DayRequestDto request){
+        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+        HealthDetailResponseDto response = healthService.day(memberId);
+        return ResponseEntity.ok(response);
+    }
 
 }

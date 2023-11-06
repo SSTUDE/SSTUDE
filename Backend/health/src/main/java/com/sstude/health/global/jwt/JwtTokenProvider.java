@@ -3,6 +3,7 @@ package com.sstude.health.global.jwt;
 
 import com.sstude.health.dto.response.MobileResponseDto;
 import com.sstude.health.entity.Mobile;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -75,6 +76,25 @@ public class JwtTokenProvider {
                 .build();
     }
 
+    public String getAccount(String accessToken) {
+        checkLength(accessToken);
+        String token = accessToken.substring(7);
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .setClock(this::ignoreExpiration)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims().getSubject();
+        }
+    }
+
+    private Date ignoreExpiration() {
+        return new Date(Long.MAX_VALUE - 10000);
+    }
 
     public void checkLength(String token){
         if(token.length() < 7) throw new JwtException("올바르지 않은 토큰 유형입니다.");

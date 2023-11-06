@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface MobileRepository extends JpaRepository<Mobile, Long> {
     Optional<Mobile> findByCertification(String certification);
+    Optional<Mobile> findByMemberId(Long memberId);
 }

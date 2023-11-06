@@ -1,9 +1,11 @@
 package com.sstude.health.service;
 
 import com.sstude.health.dto.request.HealthDataRequestDto;
+import com.sstude.health.dto.request.MonthRequestDto;
 import com.sstude.health.dto.response.HealthDetailResponseDto;
 import com.sstude.health.dto.response.HealthRecordResponseDto;
 import com.sstude.health.dto.response.CertificationResponseDto;
+import com.sstude.health.dto.response.MonthResponseDto;
 import com.sstude.health.entity.Health;
 import com.sstude.health.entity.HealthData;
 import com.sstude.health.entity.Mobile;
@@ -14,6 +16,7 @@ import com.sstude.health.repository.HealthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import org.apache.commons.lang.RandomStringUtils;
@@ -21,9 +24,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -128,4 +133,20 @@ public class HealthService {
             healthRepository.save(health);
         }
     }
+
+    public MonthResponseDto month(Long memberId, MonthRequestDto requestDto){
+        // 해당하는 년도, 월의 첫날과 마지막날을 가져옴
+        LocalDate startDate = LocalDate.of(requestDto.getYear(), requestDto.getMonth(), 1);
+        LocalDate endDate = startDate.with(TemporalAdjusters.lastDayOfMonth());
+
+        // DB에서 해당 기간의 데이터를 가져옴
+        List<Health> healthDataList = healthRepository.findByMemberIdAndRecordDateBetween(memberId, java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate));
+
+        List<LocalDate> dateList = healthDataList.stream()
+                .map(health -> health.getRecordDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                .collect(Collectors.toList());
+
+        return new MonthResponseDto(dateList);
+    }
+
 }

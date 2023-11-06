@@ -14,6 +14,7 @@ public enum ErrorCode {
 
     //Mobile 오류들
     CERTIFICATION_NOT_EXISTS(404, "M001", "해당 인증문자열은 존재하지 않습니다."),
+    HEALTH_DATA_NOT_EXISTS(404, "M002", "해당하는 헬스 데이터값이 존재하지 않습니다."),
 
     // Common 오류들
     INTERNAL_SERVER_ERROR(500, "C004", "서버 에러 : 문의해주세요") ;
