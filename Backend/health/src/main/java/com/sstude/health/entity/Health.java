@@ -1,5 +1,6 @@
 package com.sstude.health.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @Setter
+@Builder
 @Entity(name = "healths")
 public class Health {
     @Id
