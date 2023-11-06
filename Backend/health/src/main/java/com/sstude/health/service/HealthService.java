@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -69,7 +68,9 @@ public class HealthService {
 
     @Transactional
     public HealthDetailResponseDto detail(Long memberId){
-        Optional<HealthData> optionalHealthData = healthRepository.findByMemberId(memberId);
+        //가장 최신값 가져오기
+        Optional<HealthData> optionalHealthData = healthRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId);
+
         if (!optionalHealthData.isPresent()) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }

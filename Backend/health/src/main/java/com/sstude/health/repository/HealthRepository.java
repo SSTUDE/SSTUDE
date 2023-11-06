@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+
 @Repository
 public interface HealthRepository extends MongoRepository<HealthData, String> {
-    Optional<HealthData> findByMemberId(Long memberId);
+    Optional<HealthData> findFirstByMemberIdOrderByCreatedAtDesc(Long memberId);
 }
