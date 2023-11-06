@@ -72,7 +72,7 @@ public class HealthController {
     public ResponseEntity<?> day(@RequestHeader("Authorization") @Parameter(hidden = true) final String token,
                                    @RequestBody DayRequestDto request){
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
-        HealthDetailResponseDto response = healthService.day(memberId);
+        HealthDetailResponseDto response = healthService.day(memberId, request);
         return ResponseEntity.ok(response);
     }
 

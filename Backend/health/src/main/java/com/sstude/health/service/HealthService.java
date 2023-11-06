@@ -1,5 +1,6 @@
 package com.sstude.health.service;
 
+import com.sstude.health.dto.request.DayRequestDto;
 import com.sstude.health.dto.request.HealthDataRequestDto;
 import com.sstude.health.dto.request.MonthRequestDto;
 import com.sstude.health.dto.response.HealthDetailResponseDto;
@@ -134,6 +135,7 @@ public class HealthService {
         }
     }
 
+    @Transactional
     public MonthResponseDto month(Long memberId, MonthRequestDto requestDto){
         // 해당하는 년도, 월의 첫날과 마지막날을 가져옴
         LocalDate startDate = LocalDate.of(requestDto.getYear(), requestDto.getMonth(), 1);
@@ -149,4 +151,23 @@ public class HealthService {
         return new MonthResponseDto(dateList);
     }
 
+    @Transactional
+    public HealthDetailResponseDto day(Long memberId, DayRequestDto requestDto){
+        LocalDate date = LocalDate.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay());
+
+        Optional<Health> healthDataOptional = healthRepository.findByMemberIdAndRecordDate(memberId, java.sql.Date.valueOf(date));
+
+        if (!healthDataOptional.isPresent()) {
+            throw new BusinessException(ErrorCode.HEALTH_DATA_NOT_EXISTS);
+        }
+
+        Health healthData = healthDataOptional.get();
+
+        return HealthDetailResponseDto.builder()
+                .burntKcal(healthData.getBurntKcal())
+                .consumedKcal(healthData.getConsumedKcal())
+                .sleepTime(healthData.getSleepTime())
+                .steps(healthData.getSteps())
+                .build();
+    }
 }
