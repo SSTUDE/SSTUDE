@@ -13,7 +13,7 @@ import PreviousPersonalColorResults from "../components/Personal/Previous/Previo
 import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
-// import Bus from "../components/Bus/Bus";
+import Bus from "../components/Bus/Bus";
 import KakaoMap from "../components/Bus/KakaoMap";
 
 const routes = [
@@ -75,10 +75,10 @@ const routes = [
   },
 
   // 버스정보
-  // {
-  //   path: "/bus",
-  //   Component: Bus,
-  // },
+  {
+    path: "/bus",
+    Component: Bus,
+  },
   // 카카오 지도
   {
     path: "/kakaomap",
