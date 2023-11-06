@@ -20,7 +20,8 @@ export const getWeatherData = async (params: {
         ...params
       }
     });   
-    return response.data;
+    return response.data.response.body.items.item;
+
   } catch (error) {
     console.error("API 요청 중 오류가 발생했습니다:", error);
     throw error;

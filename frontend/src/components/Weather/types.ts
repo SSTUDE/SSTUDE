@@ -69,3 +69,21 @@ export type SFGridItem ={
   longitude: string|number,
   latitude: string|number
 };
+
+export type WeatherDataResponse = {
+  baseDate: string;
+  baseTime: string;
+  category: string;
+  fcstDate: string;
+  fcstTime: string;
+  fcstValue: string;
+  nx: number;
+  ny: number;
+};
+
+export type WeatherDataCustom = {
+  category: string;
+  fcstDate: string;
+  fcstTime: string;
+  fcstValue: string;
+}
