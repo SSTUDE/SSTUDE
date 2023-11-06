@@ -7,12 +7,22 @@ from database import connectMySQL, connectPymongo
 from S3backet import s3
 from service import changeId
 from datetime import datetime, timedelta
+from fastapi.openapi.utils import get_openapi
 import requests
 import os
 
 
 #DB의 CONNECTION을 계속 연결하면서 해결할 수 있는 방법은...?ㅠㅠ
 app = FastAPI()
+
+# @app.get("makeup-service/v3/api-docs", include_in_schema=False)
+# def get_open_api_endpoint():
+#     routes = [route for route in app.routes if route.path != "/makeup-service/v3/api-docs"]
+#     return get_openapi(
+#         title="FastAPI Server",
+#         version="v3",
+#         routes=routes,
+#     )
 
 # 퍼스널컬러 요청 후 결과값을 db에 저장한 후 반환한다 
 @app.post("/makeup/color")
