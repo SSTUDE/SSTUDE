@@ -8,19 +8,17 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Entity
 @NoArgsConstructor
-@Document(collection = "chatMessage")
+@Document(collection = "clothes")
 public class Clothes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clothesId;
 
     // memberid는 join??
     private Long memberId;
     private Integer score;
-    private String imgUri;
+    private String img_uri;
 
     private LocalDateTime calender;
 

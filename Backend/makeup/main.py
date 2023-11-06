@@ -122,19 +122,21 @@ async def read_item(file: UploadFile = File(),
             
             
             # DB에 저장
-            collection.insert_one({'member_id': userid,
+            collection.insert_one({'memberId': userid,
                                    'img_uri':s3uri,
                                    "score":score,
                                    "calender":current_date})
             
             date_str = current_date.strftime("%Y-%m-%d")
             # 쿼리 실행 및 결과 정렬, 제한
-            result = collection.find()
+            result = collection.find({"memberId":userid,
+                                      "calender": {"$gte": datetime(current_date.year, current_date.month, current_date.day), "$lt": datetime(current_date.year, current_date.month, current_date.day, 23, 59, 59, 999999)}}
+                                     ,{"_id":0, "score":1, "img_uri":1})
             lst = []
+            print(result)
             for r in result:
-                if r['member_id']==userid and r['calender']==date_str:
-                    lst.append({'score': r['score'], 'img_url': r['img_uri']}) # AFTER부터 -> BEFORE
-            
+                lst.append(r)
+                            
             os.remove(file_name)
     
         except Exception as e:

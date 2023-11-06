@@ -16,6 +16,12 @@ spring:
     url: jdbc:mysql://localhost:3306/makeup?serverTimezone=Asia/Seoul
     username: root
     password: qwe123
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      database: clothes
 
   jpa:
     database: mysql
@@ -30,8 +36,8 @@ spring:
 #    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
 #    port: 6379
 
-#jwt:
-#  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
+jwt:
+  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
 
 #trace: true
 

@@ -41,7 +41,7 @@ public class BeautyService {
         List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, memberId);
 
         List<ClothesDetailResponseDto> clothesDetailList = clothesList.stream()
-                .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImgUri()))
+                .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImg_uri()))
                 .collect(Collectors.toList());
 
         return clothesDetailList;
