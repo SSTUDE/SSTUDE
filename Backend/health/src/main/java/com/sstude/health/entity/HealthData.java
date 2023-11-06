@@ -10,7 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -25,12 +24,10 @@ public class HealthData {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    private int stageTypeDeep;
-    private int stageTypeLight;
-    private int stageTypeRem;
-    private int stageTotalSleeping;
+    private int BurntKcal;
+    private int ConsumedKcal;
 
-    private List<Exercise> exerciseList;
-
+    private int sleepTime;
+    private int steps;
 
 }

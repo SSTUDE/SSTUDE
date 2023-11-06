@@ -25,8 +25,6 @@ public class HealthController {
     public ResponseEntity<?> record(@RequestHeader("Authorization") @Parameter(hidden = true) final String token,
                                     @RequestBody HealthDataRequestDto request) {
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
-//        Account account = accountService.signUp(signupRequestDto);
-//        HealthRecordResponseDto response = new HealthRecordResponseDto(memberId);
         HealthRecordResponseDto response = healthService.record(memberId,request);
         return ResponseEntity.ok(response);
     }
