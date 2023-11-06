@@ -2,9 +2,12 @@ package com.sstude.health.controller;
 
 import com.sstude.health.dto.request.HealthDataRequestDto;
 import com.sstude.health.dto.response.CertificationResponseDto;
+import com.sstude.health.dto.response.HealthDetailResponseDto;
 import com.sstude.health.dto.response.HealthRecordResponseDto;
 import com.sstude.health.global.jwt.JwtTokenProvider;
+import com.sstude.health.global.swagger.CustomApi;
 import com.sstude.health.service.HealthService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,8 @@ public class HealthController {
     private final HealthService healthService;
 
     //Mongo DB
+    @Operation(summary = "Mongo DB 저장", description = "헬스 데이터 로그 저장 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- certification + mobile 에서 받은 accessToken을 헤더로 가져야 합니다.\n\n")
+    @CustomApi
     @PostMapping("/record")
     public ResponseEntity<?> record(@RequestHeader("Authorization") @Parameter(hidden = true) final String token,
                                     @RequestBody HealthDataRequestDto request) {
@@ -30,11 +35,23 @@ public class HealthController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "헬스 데이터 회원 검증", description = "헬스 데이터를 가져올 회원을 인증하는 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 인증 문자열을 모바일에서 등록해야 해당하는 memberId의 결괏값을 얻을 수 있습니다.\n\n")
+    @CustomApi
     @GetMapping("/certification")
     public ResponseEntity<?> certification(@RequestHeader("Authorization") @Parameter(hidden = true) final String token) {
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
         CertificationResponseDto response = healthService.certification(memberId);
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "오늘 헬스 데이터", description = "오늘 헬스 데이터를 가져오는 메서드입니다.")
+    @CustomApi
+    @GetMapping("/detail")
+    public ResponseEntity<?> detail(@RequestHeader("Authorization") @Parameter(hidden = true) final String token){
+        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+        HealthDetailResponseDto response = healthService.detail(memberId);
+        return ResponseEntity.ok(response);
+    }
+
 
 }
