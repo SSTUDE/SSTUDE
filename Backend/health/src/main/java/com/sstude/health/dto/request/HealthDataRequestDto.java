@@ -6,8 +6,8 @@ import lombok.Setter;
 
 @Getter @Setter
 public class HealthDataRequestDto {
-    private int BurntKcal;
-    private int ConsumedKcal;
+    private int burntKcal;
+    private int consumedKcal;
 
     private int sleepTime;
     private int steps;

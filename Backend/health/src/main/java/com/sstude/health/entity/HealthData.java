@@ -24,8 +24,8 @@ public class HealthData {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    private int BurntKcal;
-    private int ConsumedKcal;
+    private int burntKcal;
+    private int consumedKcal;
 
     private int sleepTime;
     private int steps;

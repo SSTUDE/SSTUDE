@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+
 
 @Slf4j
 @Service
@@ -20,11 +20,10 @@ public class HealthService {
     private HealthData createHealthData(Long memberId, HealthDataRequestDto requestDto){
         return HealthData.builder()
                 .memberId(memberId)
-                .stageTypeDeep(requestDto.getStageTypeDeep())
-                .stageTypeLight(requestDto.getStageTypeLight())
-                .stageTypeRem(requestDto.getStageTypeRem())
-                .stageTotalSleeping(requestDto.getStageTotalSleeping())
-                .exerciseList(requestDto.getExerciseList())
+                .burntKcal(requestDto.getBurntKcal())
+                .consumedKcal(requestDto.getConsumedKcal())
+                .sleepTime(requestDto.getSleepTime())
+                .steps(requestDto.getSteps())
                 .build();
     }
 

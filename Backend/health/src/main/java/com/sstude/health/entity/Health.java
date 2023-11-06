@@ -21,8 +21,8 @@ public class Health {
     @Temporal(TemporalType.DATE)
     private Date recordDate;
 
-    private int BurntKcal;
-    private int ConsumedKcal;
+    private int burntKcal;
+    private int consumedKcal;
 
     private int sleepTime;
     private int steps;
