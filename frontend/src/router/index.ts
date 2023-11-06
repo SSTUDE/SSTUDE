@@ -11,9 +11,9 @@ import MenuBtn from "../components/Common/MenuBtn";
 import Calender from "../components/Personal/Main/Calender";
 import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
-// import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
+import GetWeatherData from "../components/Weather/GetWeatherData";
 
 
 const routes = [
@@ -75,6 +75,10 @@ const routes = [
   {
     path: "/weather",
     Component: Weather,
+  },
+  {
+    path: "/getweather",
+    Component: GetWeatherData,
   },
 
 ];

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { getWeatherData } from "../../apis/api";
 
 type WeatherDataResponse = {
@@ -14,6 +15,14 @@ type WeatherDataResponse = {
 
 const GetWeatherData = () => {
   const [data, setData] = useState<WeatherDataResponse[] | null>(null);
+  
+  const day = new Date();
+  const year = day.getFullYear(); // 연도를 얻습니다.
+  const month = (day.getMonth() + 1).toString().padStart(2, '0'); // 월을 얻습니다. getMonth()는 0부터 시작하므로 1을 더합니다.
+  const date = day.getDate().toString().padStart(2, '0'); // 일을 얻습니다.
+
+  const formattedDate = `${year}${month}${date}`;
+
 
   const fetchData = async () => {
     try {
@@ -21,7 +30,7 @@ const GetWeatherData = () => {
         numOfRows: 1000,
         pageNo: 1,
         dataType: "JSON",
-        base_date: "20231101",
+        base_date: formattedDate,
         base_time: "0500",
         nx: 86,
         ny: 95
@@ -46,7 +55,7 @@ const GetWeatherData = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       {data ? (
         <table style={{ borderCollapse: 'collapse', width: '100%', marginTop: '20px' }}>
           <thead>
@@ -69,8 +78,13 @@ const GetWeatherData = () => {
       ) : (
         "데이터가 없음"
       )}
-    </div>
+    </Container>
   );
-      }  
+}
+
+const Container = styled.div`
+  width: 50%;
+  overflow: auto;
+`
 
 export default GetWeatherData;

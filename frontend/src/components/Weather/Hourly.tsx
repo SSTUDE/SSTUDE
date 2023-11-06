@@ -1,10 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Line } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
+import { Chart } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartData,
+  ChartOptions,
+  registerables as registerablesJS,
+} from "chart.js";
 
 // Chart.js 모듈 등록
-Chart.register(CategoryScale, LinearScale, PointElement, LineElement);
+ChartJS.register(...registerablesJS);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Hourly = () => {
   // 차트 데이터 (기온만)
@@ -28,18 +49,6 @@ const Hourly = () => {
         label: '기온',
         data: temperatureData.datasets[0].data,
       },
-      {
-        label: '강수확률',
-        data: [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70],
-      },
-      {
-        label: '강수량',
-        data: [0, 0.5, 0, 0, 1, 0.5, 0, 0, 0, 0, 0.5],
-      },
-      {
-        label: '습도',
-        data: [55, 60, 65, 70, 75, 80, 85, 80, 75, 70, 70],
-      },
     ],
   };
 
@@ -51,30 +60,22 @@ const Hourly = () => {
   return (
     <Container>
       {/* 라인 차트 */}
-      <ChartContainer>
-        <Line data={temperatureData} options={chartOptions}/>
-      </ChartContainer>
+      {/* <ChartContainer>
+        <Chart 
+          className="chart_line"
+          type="line"
+          data={temperatureData} 
+          options={chartOptions}/>
+      </ChartContainer> */}
 
       {/* 아래쪽 테이블 */}
-      <Table>
-        <thead>
-          <tr>
-            <th>시간</th>
-            {tableData.labels.map((label) => (
-              <th key={label}>{`${label}시`}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.datasets.map((dataset) => (
-            <tr key={dataset.label}>
-              <td>{dataset.label}</td>
-              {dataset.data.map((value, index) => (
-                <td key={index}>{value}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
+      <Table
+        summary='시간별 날씨(온도, 하늘상태, 강수확률, 강수, 습도) 정보를 제공'>
+        <caption>
+          {/* <span>시간별 날씨표</span> */}
+        </caption>  
+
+        
       </Table>
     </Container>
   );
@@ -106,7 +107,7 @@ const Table = styled.table`
 
 const ChartContainer = styled.div`
   width: 100%; // 원하는 가로 크기
-  height: 130px; // 원하는 세로 크기
+  height: 100px; // 원하는 세로 크기
   margin-bottom: 20px;
 `;
 
