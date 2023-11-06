@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @Tag(name = "Mobile", description = "삼성 헬스 연동을 위한 모바일 연동")
 @Slf4j
 @RestController
@@ -39,6 +40,15 @@ public class MobileController {
         Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
         MobileResponseDto response = mobileService.retoken(memberId);
         stringRedisTemplate.delete("RT:"+ token);
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "모바일용 리로그인", description = "accesstoken과 refreshtoken을 다시 발급받는 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- refreshtoken값이 만료되었다는 오류를 받았을때 리로그인 하는 로직입니다.\n\n")
+    @CustomApi
+    @PostMapping("/relogin")
+    public ResponseEntity<?> relogin(@RequestHeader("Authorization") @Parameter(hidden = true) final String token) {
+        Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
+        MobileResponseDto response = mobileService.relogin(memberId);
         return ResponseEntity.ok(response);
     }
 }

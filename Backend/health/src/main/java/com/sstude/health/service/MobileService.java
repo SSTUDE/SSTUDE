@@ -56,4 +56,16 @@ public class MobileService {
 
         return createToken(mobile);
     }
+
+    @Transactional
+    public MobileResponseDto relogin(Long memberId) {
+        Optional<Mobile> optionalMobile = mobileRepository.findByMemberIdAndIsActiveTrue(memberId);
+
+        if (!optionalMobile.isPresent()) {
+            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
+        }
+        Mobile mobile =  optionalMobile.get();
+
+        return createToken(mobile);
+    }
 }
