@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "../components/Login/LoginSlice";
-import BusReducer from "../components/bus/BusSlice";
+import BusReducer from "../components/Bus/BusSlice";
 
 const store = configureStore({
   reducer: {
