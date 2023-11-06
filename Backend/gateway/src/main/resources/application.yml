@@ -82,8 +82,8 @@ springdoc:
 #        primaryName: API Gateway Service
       - url: /account-service/v3/api-docs
         name: Account
-#      - url: /data-service/v3/api-docs
-#        name: Data
+#      - url: /health-service/v3/api-docs
+#        name: Health
 #      - url: /mission-service/v3/api-docs
 #        name: Mission
 #      - url: /store-service/v3/api-docs

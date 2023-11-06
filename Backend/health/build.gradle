@@ -34,6 +34,7 @@ dependencies {
 
     // mongodb
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'joda-time:joda-time:2.10.10'
 
     // eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'

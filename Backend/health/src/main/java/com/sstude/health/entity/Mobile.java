@@ -5,28 +5,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Getter
 @NoArgsConstructor
 @Setter
+@Entity(name = "mobiles")
 @Builder
-@Entity(name = "healths")
-public class Health {
+public class Mobile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long memberId;
 
-    @Temporal(TemporalType.DATE)
-    private Date recordDate;
-
-    private int burntKcal;
-    private int consumedKcal;
-
-    private int sleepTime;
-    private int steps;
-
+    private String certification;
+    private boolean status;
 }
