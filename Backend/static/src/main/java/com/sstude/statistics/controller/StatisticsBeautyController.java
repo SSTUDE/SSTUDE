@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/static")
+@RequestMapping("/detail")
 public class StatisticsBeautyController {
         private final StaticService staticService;
         private final BeautyService beautyService;
@@ -24,7 +24,7 @@ public class StatisticsBeautyController {
 
         // 그날의 퍼스널컬러 조회
         @Operation(summary = "그날의 퍼스널컬러 디테일 조회", description = "요청 시, 해당 달의 모든 운동, 뷰티 체크 여부를 전달합니다. ")
-        @PostMapping(value = "/beauty/detail")
+        @PostMapping(value = "/beauty")
 //        public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
 //                , @RequestBody StaticDayRequestDto requestDto) {
         public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestBody StaticDayRequestDto requestDto) {
@@ -37,7 +37,7 @@ public class StatisticsBeautyController {
 
         // 그날의 의상 조회
         @Operation(summary = "그날의 의상 디테일 조회", description = "요청 시, 해당 달의 모든 운동, 뷰티 체크 여부를 전달합니다. ")
-        @PostMapping(value = "/clothes/detail")
+        @PostMapping(value = "/clothes")
 //        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
 //                , @RequestBody StaticDayRequestDto requestDto) {
         public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestBody StaticDayRequestDto requestDto) {
