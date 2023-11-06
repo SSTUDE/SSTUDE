@@ -15,8 +15,10 @@ const CarouselMain = styled.section`
 // 이미지 보이게 하기 위한 더 큰 컨테이너
 const CarouselWrapperContainer = styled.div`
   overflow: hidden;
+  box-shadow: 0 0 10px 5px black;
 `;
 
+// 캐러셀 감싸는 컨테이너
 const CarouselWrapper = styled.div`
   display: flex;
   transition: transform 1s;
@@ -36,7 +38,7 @@ const CarouselImage = styled.img`
   width: 100%;
   height: auto;
   object-fit: cover;
-  border-radius: 20px;
+  /* border-radius: 20px; */
 `;
 
 // 버튼 컨테이너
@@ -88,7 +90,7 @@ const CarouselNext = styled(CarouselButton)`
 // 현재 슬라이드 위치
 const CarouselPagination = styled.nav`
   position: absolute;
-  bottom: -30px;
+  top: -30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;

@@ -3,33 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
 const StyledCameraButtonContainer = styled.div``;
-const StyledColorCameraButton = styled.button`
-  position: relative;
-  /* right: 20%; */
-  /* top: 30%; */
-
-  width: 150px;
-  height: 150px;
-
-  background-color: transparent;
-  border: none;
-
-  cursor: pointer;
-  p {
-    color: white;
-    font-size: 2rem;
-    font-weight: 600;
-    white-space: nowrap;
-
-    position: relative;
-    right: 30px;
-    top: 10px;
-  }
-`;
-const StyledClothesCameraButton = styled.button`
-  position: relative;
-  /* right: 20%; */
-  /* top: 30%; */
+const StyledCameraButton = styled.button`
+  position: absolute;
+  right: 10%;
+  bottom: 20%;
 
   width: 150px;
   height: 150px;
@@ -72,7 +49,7 @@ const CameraIcon = () => (
   </svg>
 );
 
-const SelectContents = () => {
+const CameraButton = () => {
   const navigate = useNavigate();
 
   const handleCameraClick = () => {
@@ -80,16 +57,12 @@ const SelectContents = () => {
   };
   return (
     <StyledCameraButtonContainer>
-      <StyledColorCameraButton onClick={handleCameraClick}>
+      <StyledCameraButton onClick={handleCameraClick}>
         <CameraIcon />
         <p>진단하러 가기</p>
-      </StyledColorCameraButton>
-      <StyledClothesCameraButton onClick={handleCameraClick}>
-        <CameraIcon />
-        <p>진단하러 가기</p>
-      </StyledClothesCameraButton>
+      </StyledCameraButton>
     </StyledCameraButtonContainer>
   );
 };
 
-export default SelectContents;
+export default CameraButton;

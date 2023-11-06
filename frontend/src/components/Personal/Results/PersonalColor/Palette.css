@@ -186,6 +186,10 @@
   transform: rotate(0deg) translateX(825px);
 }
 
+.swatch.select {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 /* 색상 카드 선택 */
 .swatch.select:nth-child(1) {
   transform: rotate(0deg) translateX(-400px) translateY(-100px);

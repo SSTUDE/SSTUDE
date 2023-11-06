@@ -16,7 +16,7 @@ const StyledFigure = styled.figure`
   justify-content: center;
   height: 70%;
   img {
-    border-radius: 20px;
+    /* border-radius: 20px; */
     box-shadow: 0 0 10px 5px black;
   }
 `;
@@ -31,7 +31,7 @@ const InfoArticle = styled.article`
   top: -10%;
   height: 26.5vh;
 
-  background-color: #0000008a;
+  background-color: #000000c2;
   /* background-color: black; */
 `;
 

@@ -9,12 +9,10 @@ import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
 import Calender from "../components/Personal/Main/Calender";
-import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
-import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
-import Palette from "../components/Personal/Results/PersonalColor/Palette";
+import SelectContents from "../components/Personal/Capture/SelectContents";
 
 const routes = [
   {
@@ -73,8 +71,8 @@ const routes = [
     Component: PersonalColorResults,
   },
   {
-    path: "/personaltest",
-    Component: Palette,
+    path: "/personalselectcontents",
+    Component: SelectContents,
   },
   {
     path: "/weather",

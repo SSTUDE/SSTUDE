@@ -10,7 +10,7 @@
 /* 달력 전체 컨테이너 */
 .react-datepicker {
   /* width: 60%; */
-  height: 80vh;
+  height: 90vh;
   margin: auto;
   background-color: #000000;
   color: white;
@@ -35,6 +35,7 @@
   background-color: transparent;
   color: white;
   font-size: 2.5rem;
+  cursor: pointer;
 }
 .react-datepicker__header > div {
   /* margin: 20px 0 !important; */
