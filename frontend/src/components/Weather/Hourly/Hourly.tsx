@@ -1,58 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import DayCloud from './DayCloud';
 import { WeatherDataCustom } from '../types';
 
-
 type HourlyProps = {
-  dailySky: WeatherDataCustom[]; // 이 배열은 상위 컴포넌트로부터 전달받아야 합니다.
+  dailySky: WeatherDataCustom[];
 };
 
 const Hourly: React.FC<HourlyProps> = ({ dailySky }) => {
-  
+  // "오늘"을 나타내는 객체를 배열의 시작 부분에 추가합니다.
+  const dailySkyWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...dailySky];
+
   return (
     <Container>
-      <Table
-        summary='시간별 날씨(온도, 하늘상태, 강수확률, 강수, 습도) 정보를 제공'>
-        <caption>
-          {/* <span>시간별 날씨표</span> */}
-        </caption>  
+      <Table summary='시간별 날씨 정보를 제공'>
         <thead>
           <tr>
-            {dailySky.map((dailySky, index) => (
-                <DayCloud key={index} dailySky={dailySky} index={index} />
-              ))}
+            {dailySkyWithToday.map((item, index) => (
+              <DayCloud key={index} dailySky={item} index={index} />
+            ))}
           </tr>
         </thead>
-        
       </Table>
     </Container>
   );
-}
+};
 
 const Container = styled.div`
   width: 100%;
   height: 45%;
   overflow-x: auto;
   margin: 10px 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Table = styled.table`
   width: 100%;
   margin-bottom: 20px;
   border-collapse: collapse;
-  table-layout:fixed;
+  table-layout: fixed;
 
   th, td {
     border-right: 1px solid #ddd;
     padding: 8px;
     text-align: center;
     width: 80px;
-    /* padding-top: 15px; */
-    font-size : 18px;
   }
 `;
-
-
 
 export default Hourly;

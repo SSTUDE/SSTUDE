@@ -3,7 +3,7 @@ import Today from './Today'
 import Week from './Week'
 import Hourly from './Hourly/Hourly'
 import { getWeatherData } from '../../apis/api'
-import { WeatherDataResponse } from './types';
+import { WeatherDataResponse, WeatherDataCustom } from './types';
 
 const Weather = () => {
   const [dailySky, setDailySky] = useState<WeatherDataResponse[]>([]);
@@ -42,16 +42,16 @@ const Weather = () => {
       });
 
       const items = response;
-      
-      // 현재 시간 이후의 데이터만 / 하늘 정보만 필터링.
-      const CloudDatas = items
-      .map((item: WeatherDataResponse) => ({
+      const CustomData = items.map((item: WeatherDataResponse) => ({
         category: item.category,
         fcstDate: item.fcstDate,
         fcstTime: item.fcstTime,
         fcstValue: item.fcstValue
-      }))
-      .filter((item: WeatherDataResponse) => {
+      }));
+      
+      // 현재 시간 이후의 데이터만 / 하늘 정보만 필터링.
+      const CloudDatas = CustomData
+      .filter((item: WeatherDataCustom) => {
         return (item.fcstDate === currentDate && item.fcstTime >= currentTime && item.category === "SKY") || (item.fcstDate > currentDate && item.category === "SKY");
       })
 
