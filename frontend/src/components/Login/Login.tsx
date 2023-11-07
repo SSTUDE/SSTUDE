@@ -9,6 +9,7 @@ import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
 import React, { useCallback, useEffect, useState } from 'react';
 import { signUpUser, signInUser, setMemberId } from "./LoginSlice";
+import { setGps } from '../Bus/BusSlice';
 
 const Login = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
@@ -41,6 +42,8 @@ const Login = () => {
     const res = actionResult.payload;
     if (res && res.memberId) {
       dispatch(setMemberId(res.memberId));
+      //NOTE - gps 값 들어오는거 보고 수정
+      dispatch(setGps(res.gps));
       setsignUpAlert('로그인 완료');
       //NOTE - 서버쪽 되면 미러 네비게이션 주석 해제할거임
       // navigate('/mirror');
