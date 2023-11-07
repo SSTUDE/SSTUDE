@@ -1,10 +1,9 @@
 package com.sstude.busstation.dto.request;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-public class BusGpsRequestDto {
+public class GpsRequestDto {
     private String latitude;
     private String longitude;
 }
