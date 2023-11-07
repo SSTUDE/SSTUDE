@@ -8,8 +8,8 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-#      defaultZone: http://localhost:8761//eureka
-      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
+      defaultZone: http://localhost:8761//eureka
+#      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
 
 spring:
   application:
@@ -19,8 +19,8 @@ spring:
     url: jdbc:mysql://localhost:3306/account?serverTimezone=Asia/Seoul
 #    url: jdbc:mysql://k9d204.p.ssafy.io:3306/account?serverTimezone=Asia/Seoul
     username: root
-    password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==)
-#    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+#    password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==)
+    password: qwe123
 
   jpa:
     database: mysql
@@ -50,8 +50,8 @@ springdoc:
 
 openapi:
   service:
-    url: http://k9d204.p.ssafy.io:800/0/
-#    url: http://localhost:8000/
+#    url: http://k9d204.p.ssafy.io:8000/
+    url: http://localhost:8000/
 
 jasypt:
   encryptor:
