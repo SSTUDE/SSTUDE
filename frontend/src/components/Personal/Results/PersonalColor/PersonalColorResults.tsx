@@ -21,14 +21,11 @@ const StyledTitle = styled.p`
   margin: 1.5% 0;
 
   font-size: 4rem;
-  /* font-weight: 600; */
   font-family: "Giants-Bold";
 `;
 
 // 사진 + 설명 결과 컨테이너
 const StyledResultsContainer = styled.section`
-  /* font-family: "MyLotteBold"; */
-
   display: flex;
 
   position: relative;
