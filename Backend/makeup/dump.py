@@ -23,7 +23,7 @@ spring_tone = [
     ["밝고 화사한 피부 톤, 황금빛이 도는 피부"],
     ["밝은 브라운 색"],
     ["봄 웜"],
-    ["SPRING wARM"]
+    ["SPRING WARM"]
 ]
 summer_tone = [
     [

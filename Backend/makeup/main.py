@@ -6,14 +6,16 @@ from clothes_analysis.clothes_score import clothes_score
 from database import connectMySQL, connectPymongo
 from S3backet import s3
 from service import changeId
-from datetime import datetime, timedelta
-from fastapi.openapi.utils import get_openapi
+from datetime import datetime
+# from fastapi.openapi.utils import get_openapi
 import requests
+from redis_config import redis_config
 import os
 
 
-#DB의 CONNECTION을 계속 연결하면서 해결할 수 있는 방법은...?ㅠㅠ
 app = FastAPI()
+rd = redis_config()
+current_date = datetime.now().date()
 
 # @app.get("makeup-service/v3/api-docs", include_in_schema=False)
 # def get_open_api_endpoint():
@@ -31,23 +33,30 @@ async def runColor(
     access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
     connect, curs = connectMySQL()
-    # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
+    ##############토큰으로 spring에서 유저찾아오기######################
     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
     userid=2
     
     ## 하루에 3번 이상 요청할 수 없음 
-    current_date = datetime.now().date()
-    with connect.cursor() as curs:
-        query = """SELECT COUNT(*) AS request_count
-                    FROM makeups
-                    WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
-        curs.execute(query, (userid, current_date))
-        result = curs.fetchone()
-        count = result[0] if result else 0
+    # with connect.cursor() as curs:
+    #     query = """SELECT COUNT(*) AS request_count
+    #                 FROM makeups
+    #                 WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
+    #     curs.execute(query, (userid, current_date))
+    #     result = curs.fetchone()
+    #     count = result[0] if result else 0
+    count =0    
     
+    #################캐싱적용해보기##########################
+    # data = rd.get(f'member:{userid}:calender:{current_date}')
+    # if data:
+    #     count=int(data)+1
+    #     rd.set(f'member:{userid}:calender:{current_date}', count)
+    # else:
+    #     count=0
+    #     rd.set(f'member:{userid}:calender:{current_date}', count)
     
-    # 나중에 redis로 바꾸기!
-    if count >=100:
+    if count >=1:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
     
     else:
@@ -73,7 +82,7 @@ async def runColor(
                 query = """INSERT INTO makeups (member_id, img_uri, result) VALUES (%s, %s, %s)"""
                 curs.execute(query, (userid, s3uri, result))
             connect.commit()
-
+            
             match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
             match_color= match_color[0:13]
             
@@ -96,23 +105,27 @@ async def runColor(
     
 
 # 이미지 내에 사람이 서있으면, 사진에서 상의를 찾아서 색 추출 및 유사도 검사or점수
-# 무조건 바로 전 2개사진 뽑아서 주기
 @app.post("/makeup/clothes")
 async def read_item(file: UploadFile = File(), 
             access_token: Optional[str] = Header(None, convert_underscores=False)):
     collection = connectPymongo()
-    # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
+   ##############토큰으로 spring에서 유저찾아오기######################
     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
     userid=2
     
-    current_date = datetime.now()
-    
-    count = 0
-    for col in collection.find():
-        count+=1
+    current_date_time = datetime.now()
+    count =0
+    #################캐싱적용해보기##########################
+    # data = rd.get(f'member:{userid}:calender:{current_date}')
+    # if data:
+    #     count=int(data)+1
+    #     rd.set(f'member:{userid}:calender:{current_date}', count)
+    # else:
+    #     count=0
+    #     rd.set(f'member:{userid}:calender:{current_date}', count)
         
-    # if count >=3:
-    #     raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
+    if count >=3:
+        raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
     
     else:
         try:
@@ -124,10 +137,10 @@ async def read_item(file: UploadFile = File(),
                 local_file.write(contents)
             uri = os.path.abspath('./savedclothfile.jpg')
             # S3저장 후 uri받아옴
-            s3uri = s3(file, userid, contents, count, current_date)
+            s3uri = s3(file, userid, contents, count, current_date_time)
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
-            clothes_score_obj = clothes_score(uri, userid, current_date)
+            clothes_score_obj = clothes_score(uri, userid, current_date_time)
             score = clothes_score_obj.score
             
             
@@ -135,15 +148,14 @@ async def read_item(file: UploadFile = File(),
             collection.insert_one({'memberId': userid,
                                    'img_uri':s3uri,
                                    "score":score,
-                                   "calender":current_date})
+                                   "calender":current_date_time})
             
-            date_str = current_date.strftime("%Y-%m-%d")
+            date_str = current_date_time.strftime("%Y-%m-%d")
             # 쿼리 실행 및 결과 정렬, 제한
             result = collection.find({"memberId":userid,
-                                      "calender": {"$gte": datetime(current_date.year, current_date.month, current_date.day), "$lt": datetime(current_date.year, current_date.month, current_date.day, 23, 59, 59, 999999)}}
+                                      "calender": {"$gte": datetime(current_date_time.year, current_date_time.month, current_date_time.day), "$lt": datetime(current_date_time.year, current_date_time.month, current_date_time.day, 23, 59, 59, 999999)}}
                                      ,{"_id":0, "score":1, "img_uri":1})
             lst = []
-            print(result)
             for r in result:
                 lst.append(r)
                             
