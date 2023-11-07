@@ -9,15 +9,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BusResponseDto {
-    private Integer arrivalPrevStationCount;
-    private Integer arrivalTime;
-
+public class BusStationResponseDto {
+    private Integer cityCode;
+    private String latitude;
+    private String longitude;
     private String nodeId;
     private String nodeName;
+    private Integer nodeNo;
 
-    private String routeId;
-    private String routeNo;
-    private String routeType;
-    private String vehicleType;
 }
