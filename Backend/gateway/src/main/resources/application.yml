@@ -47,31 +47,33 @@ spring:
               - OPTIONS
       routes:
         - id: account
-          uri: http://account:8011
-#          uri: http://localhost:8011
+#          uri: http://account:8011
+          uri: http://localhost:8011
           predicates:
             - Path=/auth/**
             - Method=GET,POST,PUT,DELETE
           filters:
             - AuthenticationFilter
         - id: account
-          uri: http://account:8011
-#          uri: http://localhost:8011
+#          uri: http://account:8011
+          uri: http://localhost:8011
           predicates:
             - Path=/account/**
         - id: account-service
-          uri: http://account:8011
-#          uri: http://localhost:8011
+#          uri: http://account:8011
+          uri: http://localhost:8011
           predicates:
             - Path=/account-service/**
         - id: static
-          uri: http://static:8012
+#          uri: http://static:8012
+          uri: http://localhost:8012
           predicates:
             - Path=/static/**, /detail/**
           filters:
             - AuthenticationFilter
         - id: static-service
-          uri: http://static:8012
+          uri: http://localhost:8012
+#          uri: http://static:8012
           predicates:
             - Path=/static-service/**
 #        - id: makeup
@@ -84,6 +86,24 @@ spring:
 #            - Path=/docs
 #          filters:
 #            - RewritePath=/makeup-service/docs, /docs
+        - id: health
+#          uri: http://health:8014
+          uri: http://localhost:8014
+          predicates:
+            - Path=/health/**
+            - Method=GET,POST,PUT,DELETE
+          filters:
+            - AuthenticationFilter
+        - id: health
+#          uri: http://health:8014
+          uri: http://localhost:8014
+          predicates:
+            - Path=/mobile/**
+        - id: health-service
+#          uri: http://health:8014
+          uri: http://localhost:8014
+          predicates:
+            - Path=/health-service/**
 #        - id: businfo
 #          uri: http://businfo:8015
 #          predicates:
@@ -91,18 +111,21 @@ spring:
 #          filters:
 #            - AuthenticationFilter
         - id: businfo
-          uri: http://businfo:8015
+          uri: http://localhost:8015
+#          uri: http://businfo:8015
           predicates:
             - Path=/bus-station/**
         - id: businfo-service
-          uri: http://businfo:8015
-
+          uri: http://localhost:8015
+#          uri: http://businfo:8015
+          predicates:
+            - Path=/businfo-service/**
 
 
 
   redis:
-    host: k9d204.p.ssafy.io
-#    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+#    host: k9d204.p.ssafy.io
+    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
     port: 6379
 
 jwt:
@@ -130,6 +153,8 @@ springdoc:
 #        name: Makeup
 #      - url: /docs
 #        name: Makeup
+      - url: /health-service/v3/api-docs
+        name: Health
       - url: /businfo-service/v3/api-docs
         name: Businfo
 

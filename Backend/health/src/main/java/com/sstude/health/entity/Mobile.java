@@ -14,7 +14,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @Setter
 @Entity(name = "mobiles")
-@Builder
 public class Mobile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +23,12 @@ public class Mobile {
 
     private String certification;
     private boolean status;
+
+    @Builder
+    public Mobile(Long id, Long memberId, String certification, boolean status) {
+        this.id = id;
+        this.memberId = memberId;
+        this.certification = certification;
+        this.status = status;
+    }
 }

@@ -14,13 +14,15 @@ import com.sstude.health.global.error.BusinessException;
 import com.sstude.health.global.error.ErrorCode;
 import com.sstude.health.repository.HealthDataRepository;
 import com.sstude.health.repository.HealthRepository;
+import com.sstude.health.repository.MobileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import org.apache.commons.lang.RandomStringUtils;
+//import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,7 @@ import java.util.stream.Collectors;
 public class HealthService {
     private final HealthDataRepository healthDataRepository;
     private final HealthRepository healthRepository;
+    private final MobileRepository mobileRepository;
 
     private HealthData createHealthData(Long memberId, HealthDataRequestDto requestDto){
         return HealthData.builder()
@@ -70,6 +73,7 @@ public class HealthService {
                 .certification(generatedCertification)
                 .status(false)
                 .build();
+        mobileRepository.save(mobile);
 
         CertificationResponseDto response = new CertificationResponseDto(mobile.getCertification());
         return  response;
@@ -102,7 +106,8 @@ public class HealthService {
         return healthDataDto;
     }
 
-    @Scheduled(cron = "0 0 0 * * *")  // 매일 밤 12시에 실행
+//    @Scheduled(cron = "0 0 0 * * *")  // 매일 밤 12시에 실행
+    @Scheduled(cron = "0 21 2 * * *")  // 매일 밤 12시에 실행
     @Transactional
     public void saveLatestHealthData() {
         LocalDateTime start = LocalDateTime.now().minusDays(1);
@@ -144,8 +149,8 @@ public class HealthService {
         // DB에서 해당 기간의 데이터를 가져옴
         List<Health> healthDataList = healthRepository.findByMemberIdAndRecordDateBetween(memberId, java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate));
 
-        List<LocalDate> dateList = healthDataList.stream()
-                .map(health -> health.getRecordDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+        List<Integer> dateList = healthDataList.stream()
+                .map(health -> new java.sql.Date(health.getRecordDate().getTime()).toLocalDate().getDayOfMonth())
                 .collect(Collectors.toList());
 
         return new MonthResponseDto(dateList);

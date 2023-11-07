@@ -69,7 +69,7 @@ public class JwtTokenProvider {
 
         return MobileResponseDto.builder()
                 .memberId(mobile.getMemberId())
-                .status(true)
+                .status(mobile.isStatus())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .refreshTokenExpirationTime(REFRESH_TOKEN_EXPIRE_TIME)

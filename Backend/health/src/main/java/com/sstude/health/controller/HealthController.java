@@ -58,7 +58,7 @@ public class HealthController {
 
     @Operation(summary = "달력 1달 헬스 데이터", description = "달력 1달 전체의 헬스 데이터가 있는 날짜를 반환하는 메서드입니다.")
     @CustomApi
-    @GetMapping("/month")
+    @PostMapping("/month")
     public ResponseEntity<?> month(@RequestHeader("Authorization") @Parameter(hidden = true) final String token,
                                    @RequestBody MonthRequestDto request){
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
@@ -68,7 +68,7 @@ public class HealthController {
 
     @Operation(summary = "달력 하루 헬스 데이터", description = "달력 하루의 헬스 데이터가 있는 날짜를 반환하는 메서드입니다.")
     @CustomApi
-    @GetMapping("/day")
+    @PostMapping("/day")
     public ResponseEntity<?> day(@RequestHeader("Authorization") @Parameter(hidden = true) final String token,
                                    @RequestBody DayRequestDto request){
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
