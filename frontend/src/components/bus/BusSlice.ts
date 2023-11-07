@@ -1,9 +1,16 @@
 import axios, { AxiosError } from "axios";
+import { BusState, busStops } from "./types";
 import { RootState } from "../../store/store";
 import axiosToken from "../../apis/http-common";
-import { BusState, busStops } from "./types";
-import { BUS_API, REAL_TIME_BUS, FIND_BUS } from "../../apis/constants";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { BUS_API, BUS_STOP, BUS_LIST, BUS_APIS } from "../../apis/constants";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
+
+const BUS_KEY = process.env.REACT_APP_BUS_KEY_DE;
 
 //NOTE - gps 값 서버로 전달
 export const gpsToServer = createAsyncThunk(
@@ -11,50 +18,39 @@ export const gpsToServer = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     console.log("서버에 GPS값 보내서 근처 정류장들 받아온다");
 
-    const state = getState() as RootState;
-    const gps = state.bus.gps;
-
-    if (!gps) {
-      return rejectWithValue("GPS 좌표가 설정되지 않았습니다.");
-    }
+    const { gps } = (getState() as RootState).bus;
+    if (!gps) return rejectWithValue("GPS 좌표가 설정되지 않았습니다.");
 
     try {
-      const body = {
+      const response = await axiosToken.post("/gps-endpoint", {
         latitude: gps[0],
         longitude: gps[1],
-      };
-
-      const response = await axiosToken.post("/gps-endpoint", body);
+      });
       return response.data;
     } catch (error: unknown) {
-      const err = error as AxiosError;
-      return rejectWithValue(JSON.stringify(err.response?.data) || err.message);
+      return rejectWithValue(
+        error instanceof AxiosError
+          ? error.message
+          : "An unexpected error occurred"
+      );
     }
   }
 );
 
 //NOTE - TADA API 버스 정거장 리스트 호출
-const BUS_KEY = process.env.REACT_APP_BUS_KEY_DE;
-
 export const tadaBusStop = createAsyncThunk(
   "bus/tadaBusStop",
   async (_, { getState, rejectWithValue }) => {
-    const state = getState() as RootState;
-    const gps = state.bus.gps;
-
-    if (!gps) {
-      return rejectWithValue("GPS 좌표가 설정되지 않았습니다.");
-    }
+    const { gps } = (getState() as RootState).bus;
+    if (!gps) return rejectWithValue("GPS 좌표가 설정되지 않았습니다.");
 
     try {
-      const params = {
-        serviceKey: BUS_KEY,
-        gpsLati: gps[0],
-        gpsLong: gps[1],
-      };
-
-      const response = await axios.get(`${BUS_API}${REAL_TIME_BUS}`, {
-        params,
+      const response = await axios.get(`${BUS_API}${BUS_STOP}`, {
+        params: {
+          serviceKey: BUS_KEY,
+          gpsLati: gps[0],
+          gpsLong: gps[1],
+        },
       });
 
       if (
@@ -65,8 +61,11 @@ export const tadaBusStop = createAsyncThunk(
       }
       return response.data;
     } catch (error: unknown) {
-      const err = error as AxiosError;
-      return rejectWithValue(JSON.stringify(err.response?.data) || err.message);
+      return rejectWithValue(
+        error instanceof AxiosError
+          ? error.message
+          : "An unexpected error occurred"
+      );
     }
   }
 );
@@ -76,14 +75,10 @@ export const busStopToServer = createAsyncThunk(
   "bus/busStopToServer",
   async (selectedStation: busStops, { rejectWithValue }) => {
     try {
-      const response = await axiosToken.post("/selected-station-endpoint", {
-        citycode: selectedStation.citycode,
-        gpslati: selectedStation.gpslati,
-        gpslong: selectedStation.gpslong,
-        nodeid: selectedStation.nodeid,
-        nodenm: selectedStation.nodenm,
-        nodeno: selectedStation.nodeno,
-      });
+      const response = await axiosToken.post(
+        "/selected-station-endpoint",
+        selectedStation
+      );
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -99,17 +94,18 @@ export const busStopToServer = createAsyncThunk(
 export const tadaBusList = createAsyncThunk(
   "bus/tadaBusList",
   async (selectedStation: busStops, { rejectWithValue }) => {
-    console.log('버스 리스트 가져올게~')
+    console.log("버스 리스트 가져올게~");
     if (!selectedStation) {
       return rejectWithValue("선택된 정거장이 없습니다.");
     }
     try {
-      const params = {
-        serviceKey: BUS_KEY,
-        cityCode: selectedStation.citycode, 
-        nodeId: selectedStation.nodeid, 
-      };
-      const response = await axios.get(`${BUS_API}${FIND_BUS}`, { params });
+      const response = await axios.get(`${BUS_API}${BUS_LIST}`, {
+        params: {
+          serviceKey: BUS_KEY,
+          cityCode: selectedStation.citycode,
+          nodeid: selectedStation.nodeid,
+        },
+      });
       if (
         typeof response.data === "string" &&
         response.data.includes("SERVICE_KEY_IS_NOT_REGISTERED_ERROR")
@@ -118,8 +114,30 @@ export const tadaBusList = createAsyncThunk(
       }
       return response.data;
     } catch (error: unknown) {
-      const err = error as AxiosError;
-      return rejectWithValue(JSON.stringify(err.response?.data) || err.message);
+      return rejectWithValue(
+        error instanceof AxiosError
+          ? error.message
+          : "An unexpected error occurred"
+      );
+    }
+  }
+);
+
+//NOTE - 저장한 버스 목록 서버로 전송
+export const busSaveToServer = createAsyncThunk(
+  "bus/busSaveToServer",
+  async (selectedBusList: string[], { rejectWithValue }) => {
+    try {
+      const response = await axiosToken.post("/selected-bus-list-endpoint", {
+        selectedBusList
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data);
+      } else {
+        return rejectWithValue("예상치 못한 오류가 발생했습니다.");
+      }
     }
   }
 );
@@ -130,9 +148,30 @@ const initialState: BusState = {
   // gps: [37.49648606, 127.02836155],
   busStops: null,
   busStop: null,
+  busList: null,
+  busSave: null,
   loading: false,
   error: null,
-  busList: null,
+};
+
+const handleAsyncReducer = <T>(
+  builder: ActionReducerMapBuilder<BusState>,
+  asyncThunk: any,
+  processData: (state: BusState, action: PayloadAction<T>) => void
+) => {
+  builder
+    .addCase(asyncThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(asyncThunk.fulfilled, (state, action: PayloadAction<T>) => {
+      processData(state, action);
+      state.loading = false;
+    })
+    .addCase(asyncThunk.rejected, (state, action: PayloadAction<any>) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
 };
 
 const busSlice = createSlice({
@@ -156,87 +195,39 @@ const busSlice = createSlice({
     setBusStop: (state, action: PayloadAction<busStops | null>) => {
       state.busStop = action.payload;
     },
+    setBusSave: (state, action: PayloadAction<string[]>) => {
+      state.busSave = action.payload;
+    },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(gpsToServer.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(gpsToServer.fulfilled, (state, action: PayloadAction<any>) => {
-        state.busStops = action.payload.busStops;
-        state.loading = false;
-      })
-      .addCase(gpsToServer.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    handleAsyncReducer<any>(builder, gpsToServer, (state, action) => {
+      state.busStops = action.payload.busStops;
+    });
 
-      .addCase(tadaBusStop.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(tadaBusStop.fulfilled, (state, action: PayloadAction<any>) => {
-        const busStopsData = action.payload.response.body.items.item;
-        const validBusStops = Array.isArray(busStopsData) ? busStopsData : [busStopsData];
-      
-        const uniqueNodeNos = new Set();
-        const filteredStations = validBusStops.filter((station: busStops) => {
-          const isDuplicate = uniqueNodeNos.has(station.nodeno);
-          uniqueNodeNos.add(station.nodeno);
-          return !isDuplicate;
-        });
-      
-        state.busStops = filteredStations;
-        state.loading = false;
-      })
-      
-      .addCase(tadaBusStop.rejected, (state, action: PayloadAction<any>) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    handleAsyncReducer<any>(builder, tadaBusStop, (state, action) => {
+      const busStopsData = action.payload.response.body.items.item;
+      const validBusStops = Array.isArray(busStopsData)
+        ? busStopsData
+        : [busStopsData];
+      const uniqueNodeNos = new Set();
+      state.busStops = validBusStops.filter((station) => {
+        const isDuplicate = uniqueNodeNos.has(station.nodeno);
+        uniqueNodeNos.add(station.nodeno);
+        return !isDuplicate;
+      });
+    });
 
-      .addCase(busStopToServer.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        busStopToServer.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          state.busList = action.payload.bus;
-          state.loading = false;
-        }
-      )
-      .addCase(
-        busStopToServer.rejected,
-        (state, action: PayloadAction<any>) => {
-          state.loading = false;
-          state.error = action.payload;
-        }
-      )
+    handleAsyncReducer<any>(builder, busStopToServer, (state, action) => {
+      state.busList = action.payload.bus;
+    });
 
-      .addCase(tadaBusList.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        tadaBusList.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          const busData = action.payload.response.body.items.item;
-          state.busList = Array.isArray(busData) ? busData : [busData];
-          state.loading = false;
-        }
-      )
-      .addCase(
-        tadaBusList.rejected,
-        (state, action: PayloadAction<any>) => {
-          state.loading = false;
-          state.error = action.payload;
-        }
-      );
+    handleAsyncReducer<any>(builder, tadaBusList, (state, action) => {
+      const busData = action.payload.response.body.items.item;
+      state.busList = Array.isArray(busData) ? busData : [busData];
+    });
   },
 });
 
-export const { setGps, setBusStop } = busSlice.actions;
+export const { setGps, setBusStop, setBusSave } = busSlice.actions;
 
 export default busSlice.reducer;

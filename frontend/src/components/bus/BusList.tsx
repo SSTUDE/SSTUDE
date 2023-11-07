@@ -1,29 +1,158 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import styled from 'styled-components';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
+import { SelectedBuses, BusButtonProps } from './types';
+import { busSaveToServer, setBusSave } from './BusSlice';
 
 const BusList = () => {
-    const busList = useSelector((state: RootState) => state.bus.busList);
-  
-    const validBusList = busList ? (Array.isArray(busList) ? busList : [busList]) : [];
-    console.log(validBusList)
-  
-    return (
-      <div>
-        {validBusList.length > 0 ? (
-          <ul>
-            {validBusList.map((bus, index) => (
-              <li key={index}>
-                {bus && `버스 번호: ${bus.routeno}, 도착 예정 시간: ${bus.arrtime}`}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>버스 정보가 없습니다.</p>
-        )}
-      </div>
-    );
+  const dispatch = useDispatch<AppDispatch>();
+  const busList = useSelector((state: RootState) => state.bus.busList) || [];
+  const validBusList = Array.isArray(busList) ? busList : [busList];
+  const [selectedBuses, setSelectedBuses] = useState<SelectedBuses>({});
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const navigate = useNavigate();
+
+  const toggleBusSelection = (routeid: string) => {
+    setSelectedBuses(prevSelected => ({
+      ...prevSelected,
+      [routeid]: !prevSelected[routeid],
+    }));
   };
-  
-  export default BusList;
-  
+
+  const resetSelection = () => {
+    setSelectedBuses({});
+    setErrorMessage("");
+  };
+
+  const saveSelection = () => {
+    const selectedRouteIds = Object.keys(selectedBuses).filter(routeid => selectedBuses[routeid]);
+    if (selectedRouteIds.length === 0) {
+      setErrorMessage("버스를 선택해야 합니다.");
+      return;
+    }
+    dispatch(setBusSave(selectedRouteIds));
+    dispatch(busSaveToServer(selectedRouteIds));
+    navigate('/test');
+  };
+
+  return (
+    <BusListContainer>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      <Title>실시간 조회할 버스를 골라주세요</Title>
+      <ButtonGrid>
+        {validBusList.map(bus => (
+          <BusButton
+            key={bus.routeid}
+            selected={selectedBuses[bus.routeid]}
+            onClick={() => toggleBusSelection(bus.routeid)}
+          >
+            <BusInfo>
+              <BusType>{bus.routetp.replace('버스', '')}</BusType>
+              <BusNumber>{bus.routeno}</BusNumber>
+            </BusInfo>
+          </BusButton>
+        ))}
+      </ButtonGrid>
+      <ButtonContainer>
+        <ResetButton onClick={resetSelection}>
+          초기화
+        </ResetButton>
+        <NavigationButton onClick={saveSelection}>
+          저장
+        </NavigationButton>
+      </ButtonContainer>
+    </BusListContainer>
+  );
+};
+
+const BusListContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  padding: 20px;
+`;
+
+const Title = styled.h2`
+  margin-bottom: 32px;
+  font-size: 2.5em;
+  color: #f7f7f7;
+`;
+
+const ButtonGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-gap: 15px;
+  width: 90%;
+  max-width: 600px;
+`;
+
+const BusButton = styled.div<BusButtonProps>`
+  padding: 20px;
+  border: 2px solid #fff;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  background-color: ${({ selected }) => (selected ? '#2ecc71' : 'transparent')};
+`;
+
+const BusInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const BusType = styled.span`
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #ecf0f1;
+`;
+
+const BusNumber = styled.span`
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ecf0f1;
+`;
+
+const NavigationButton = styled.button`
+  padding: 15px 30px;
+  font-size: 2em;
+  border: none;
+  color: white;
+  background-color: #3498db;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const ResetButton = styled(NavigationButton)`
+    background-color: #e74c3c;
+`;
+
+const ButtonContainer = styled.div`
+  position: fixed;
+  justify-content: center;
+  right: 10%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 10;
+`;
+
+const ErrorMessage = styled.div`
+  background-color: #e74c3c;
+  font-size: 5em;
+  color: white;
+  padding: 30px;
+  border-radius: 5px;
+`;
+
+export default BusList;
