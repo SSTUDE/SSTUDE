@@ -15,13 +15,12 @@ const shadowDropCenter = keyframes`
 
 const StyledContainer = styled.section`
   display: inline-block;
-
   display: flex;
   justify-content: center;
 `;
 
 const StyledImg = styled.img`
-  width: 85%;
+  width: 70%;
   margin: 2%;
 
   border-radius: 20px;
