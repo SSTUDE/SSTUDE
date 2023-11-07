@@ -5,6 +5,11 @@ export const images = {
   default: {
     menuBtn: "/assets/images/question.svg",
   },
+  map: {
+    bus: "/assets/images/bus.png",
+    bus_select: "/assets/images/bus_select.png",
+    home: "/assets/images/home.png",
+  },
   personal: {
     dummy1: "/assets/images/boyoung.jpg",
   },
