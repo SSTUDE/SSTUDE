@@ -1,8 +1,11 @@
+// 퍼스널 컬러 메인 페이지 겸 달력
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "./Calender.css";
 import { ko } from "date-fns/esm/locale";
 import Modal from "./Modal";
+import MainButton from "./MainButton";
+import CameraButton from "./CameraButton";
 
 type DiagnosisData = {
   [key: string]: { personalColor: boolean; outfit: boolean };
@@ -30,7 +33,8 @@ const Calender: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="test">
+      <MainButton />
       <DatePicker
         selected={startDate}
         onChange={(date: Date) => {
@@ -98,10 +102,12 @@ const Calender: React.FC = () => {
           </div>
         )}
       />
+      <CameraButton />
       {isModalOpen && (
         <Modal
           activeButton={activeButton}
           onClose={() => setIsModalOpen(false)}
+          selectedDate={startDate} // 추가된 prop
         />
       )}
     </div>

@@ -10,4 +10,7 @@ export const images = {
     bus_select: "/assets/images/bus_select.png",
     home: "/assets/images/home.png",
   },
+  personal: {
+    dummy1: "/assets/images/boyoung.jpg",
+  },
 };
