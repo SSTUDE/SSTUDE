@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
+import "./font.css";
 
 const StyledContainer = styled.section`
   flex: 1;
@@ -7,67 +8,169 @@ const StyledContainer = styled.section`
 
 // 진단값 영문명
 const StyledColorNameEN = styled.p`
+  font-family: "LeferiPoint-BlackObliqueA";
   font-size: 4rem;
   font-weight: 700;
+  color: #469be1;
 
   margin: 0;
+  padding-top: 1.5%;
 `;
 
 // 진단값 한글
 const StyledColorNameKR = styled.p`
+  font-family: "KBO-Dia-Gothic_bold";
+
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 700;
+  /* font-style: italic; */
+  color: #469be1;
 
   margin: 0 0 2% 0;
 `;
 
 // 진단값 설명
 const StyledColorInfo = styled.div`
+  font-family: "KBO-Dia-Gothic_bold";
+
   font-size: 2rem;
   font-weight: 600;
+  color: #9bc2e3;
 
   margin: 0 0 2% 0;
+  padding: 0 4% 0 0;
+
+  line-height: 180%;
 `;
 
 // 뷰티팁 전체 컨테이너
 const StyledMyBeautyTipContainer = styled.div``;
 
-// 뷰티팁 타이틀
-const StyledMyBeautyTipTitle = styled.p`
+const StyledMyBeautyTipTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+// 뷰티팁 타이틀 영문명
+const StyledMyBeautyTipTitleEN = styled.p`
+  font-family: "LeferiPoint-BlackObliqueA";
+  /* font-style: italic; */
+
+  /* font-family: "KBO-Dia-Gothic_bold"; */
+
   font-size: 3rem;
-  font-weight: 600;
+  font-weight: 900;
+  color: #469be1;
 
   margin: 2% 0;
 `;
 
+// 뷰티팁 타이틀 한글
+const StyledMyBeautyTipTitleKR = styled.p`
+  font-family: "LeferiPoint-BlackObliqueA";
+  font-style: italic;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #469be1;
+
+  margin: 2% 0;
+  padding: 0 0 1% 2%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+`;
+
 // 뷰티팁 컨텐츠
 const StyledMyBeautyTipContent = styled.p`
+  font-family: "KBO-Dia-Gothic_bold";
+  color: #469be1;
+
   font-size: 2rem;
-  font-weight: 600;
+  font-weight: 500;
 
   margin: 0 0 2% 0;
 `;
 
 // 뷰티팁 컨텐츠 설명
 const StyledMyBeautyTipInfo = styled.p`
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-family: "KBO-Dia-Gothic_bold";
 
-  margin: 0 0 2% 0;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #9bc2e3;
+
+  margin: 0 0 3.5% 0;
 `;
 
 // 정보 캐러셀 버튼
 const StyledCarouselButtonContainer = styled.div`
   position: absolute;
   bottom: 0;
-  left: 50%;
+  left: 70%;
+  transform: translateX(-50%);
+
+  button {
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+`;
+
+// 현재 슬라이드 위치
+const CarouselPagination = styled.nav`
+  display: flex;
+  justify-content: center;
+
+  position: absolute;
+  bottom: 0;
+  left: 70%;
   transform: translateX(-50%);
 `;
 
+// 슬라이드 위치 요소
+const CarouselCircle = styled.div`
+  cursor: pointer;
+
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+
+  background-color: #333;
+  border-radius: 50%;
+
+  &.active {
+    background-color: #aaa;
+  }
+`;
+
 const ResultsInfo = () => {
-  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselIndex, setCarouselIndex] = useState(0); // 캐러셀
+  const [touchStart, setTouchStart] = useState(0); // 터치 이벤트
+
+  // 터치 시작 이벤트 처리
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  // 터치 종료 이벤트 처리
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEnd = e.changedTouches[0].clientX;
+
+    if (touchEnd - touchStart > 100 && carouselIndex > 0) {
+      setCarouselIndex(carouselIndex - 1); // 오른쪽으로 스와이프
+    } else if (touchEnd - touchStart < -100 && carouselIndex < 1) {
+      setCarouselIndex(carouselIndex + 1); // 왼쪽으로 스와이프
+    }
+  };
+
   return (
-    <StyledContainer>
+    <StyledContainer
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {carouselIndex === 0 ? (
         <>
           <StyledColorNameEN>Summer Mute</StyledColorNameEN>
@@ -86,7 +189,13 @@ const ResultsInfo = () => {
         </>
       ) : (
         <StyledMyBeautyTipContainer>
-          <StyledMyBeautyTipTitle>나의 뷰티 Tip</StyledMyBeautyTipTitle>
+          <StyledMyBeautyTipTitle>
+            <StyledMyBeautyTipTitleEN>
+              My Beauty Tip {""}
+            </StyledMyBeautyTipTitleEN>
+            <StyledMyBeautyTipTitleKR>나의 뷰티 팁</StyledMyBeautyTipTitleKR>
+          </StyledMyBeautyTipTitle>
+
           <div>
             <StyledMyBeautyTipContent>피부색</StyledMyBeautyTipContent>
             <StyledMyBeautyTipInfo>
@@ -115,10 +224,20 @@ const ResultsInfo = () => {
           </div>
         </StyledMyBeautyTipContainer>
       )}
-      <StyledCarouselButtonContainer>
+      {/* <StyledCarouselButtonContainer>
         <button onClick={() => setCarouselIndex(0)}>이전</button>
         <button onClick={() => setCarouselIndex(1)}>다음</button>
-      </StyledCarouselButtonContainer>
+      </StyledCarouselButtonContainer> */}
+
+      <CarouselPagination>
+        {[0, 1].map((index) => (
+          <CarouselCircle
+            key={index}
+            className={carouselIndex === index ? "active" : ""}
+            onClick={() => setCarouselIndex(index)}
+          />
+        ))}
+      </CarouselPagination>
     </StyledContainer>
   );
 };

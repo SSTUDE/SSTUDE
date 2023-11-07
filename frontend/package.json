@@ -9,17 +9,19 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/chart.js": "^2.9.39",
     "@types/jest": "^27.5.2",
+    "@types/jquery": "^3.5.25",
     "@types/node": "^16.18.59",
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
     "@types/react-redux": "^7.1.28",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.6.0",
-    "date-fns": "^2.30.0",
-    "react": "^18.2.0",
-    "react-datepicker": "^4.21.0",
     "chart.js": "^4.4.0",
+    "date-fns": "^2.30.0",
+    "jquery": "^3.7.1",
+    "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^4.21.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.17.0",
@@ -55,7 +57,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@types/react-datepicker": "^4.19.1",
-    "@types/react-chartjs-2": "^2.5.7"
+    "@types/react-chartjs-2": "^2.5.7",
+    "@types/react-datepicker": "^4.19.1"
   }
 }
