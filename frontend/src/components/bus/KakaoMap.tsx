@@ -1,12 +1,14 @@
-import { Station } from './types';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { images } from '../../constants/images';
 import { RootState } from '../../store/store';
-import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { Station } from './types';
 
-// KakaoMap 컴포넌트 정의
 const KakaoMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const [selectedStation, setSelectedStation] = useState<Station | null>(null);
+  const [markers, setMarkers] = useState<Map<string, kakao.maps.Marker>>(new Map());
   const gps = useSelector((state: RootState) => state.bus.gps);
   const stations = useSelector((state: RootState) => state.bus.stations);
 
@@ -16,50 +18,93 @@ const KakaoMap = () => {
         if (mapRef.current && gps) {
           const [lat, lng] = gps;
           const center = new kakao.maps.LatLng(lat, lng);
-          const options = {
-            center,
-            level: 3,
-          };
+          const options = { center, level: 3 };
           const map = new kakao.maps.Map(mapRef.current, options);
 
-          // stations 배열을 사용하여 각 정류장 위치에 마커를 생성합니다.
-          stations?.forEach((station: Station) => { // Station 타입을 명시적으로 사용합니다.
+          const imageSize = new kakao.maps.Size(60, 60);
+          const imageOption = { offset: new kakao.maps.Point(30, 30) };
+
+          const homeMarkerImage = new kakao.maps.MarkerImage(images.map.home, imageSize, imageOption);
+          new kakao.maps.Marker({
+            position: center,
+            image: homeMarkerImage,
+            map: map,
+          });
+
+          const newMarkers = new Map();
+          stations?.forEach((station: Station) => {
             const stationPosition = new kakao.maps.LatLng(parseFloat(station.gpslati), parseFloat(station.gpslong));
+            const markerImageSrc = selectedStation && selectedStation.nodeid === station.nodeid ? images.map.bus_select : images.map.bus;
+            const markerImage = new kakao.maps.MarkerImage(markerImageSrc, imageSize, imageOption);
             const stationMarker = new kakao.maps.Marker({
               position: stationPosition,
-              title: station.nodenm, // 마커에 마우스를 올렸을 때 표시될 정류장 이름
+              image: markerImage,
+              title: station.nodenm,
+              map: map,
             });
 
-            // 마커를 지도에 추가합니다.
-            stationMarker.setMap(map);
+            newMarkers.set(station.nodeid, stationMarker);
 
-            // 마커에 마우스를 올렸을 때 정보 창을 표시합니다.
-            const infowindow = new kakao.maps.InfoWindow({
-              content: `<div style="padding:5px;font-size:12px;">${station.nodenm}</div>`,
-            });
-            kakao.maps.event.addListener(stationMarker, 'mouseover', () => {
-              infowindow.open(map, stationMarker);
-            });
-            kakao.maps.event.addListener(stationMarker, 'mouseout', () => {
-              infowindow.close();
+            kakao.maps.event.addListener(stationMarker, 'click', () => {
+              setSelectedStation(prevStation => {
+                if (prevStation) {
+                  const prevMarker = markers.get(prevStation.nodeid);
+                  if (prevMarker) {
+                    prevMarker.setImage(new kakao.maps.MarkerImage(images.map.bus, imageSize, imageOption));
+                  }
+                }
+                stationMarker.setImage(new kakao.maps.MarkerImage(images.map.bus_select, imageSize, imageOption));
+                return station;
+              });
             });
           });
+          setMarkers(newMarkers);
         }
       });
     }
-  }, [gps, stations]); // gps 값 또는 stations 배열이 변경될 때마다 useEffect를 실행합니다.
+  }, [gps, stations, selectedStation]);
 
   return (
     <>
-      <div>KakaoMap</div>
       <MapDiv ref={mapRef} />
+      <StationList>
+        {stations?.map((station) => (
+          <StationName
+            key={station.nodeid}
+            onClick={() => setSelectedStation(station)}
+            selected={station === selectedStation}
+          >
+            {station.nodenm}
+          </StationName>
+        ))}
+      </StationList>
     </>
   );
 };
 
 const MapDiv = styled.div`
-  width: 500px;
-  height: 400px;
+  width: 50%;
+  height: 100%;
+`;
+
+const StationList = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+  color: white;
+`;
+
+const StationName = styled.div<{ selected?: boolean }>`
+  padding: 5px;
+  border-bottom: 1px solid #ddd;
+  background-color: ${(props) => (props.selected ? '#a0a0a0' : 'transparent')};
+  &:hover {
+    background-color: #f0f0f0;
+  }
 `;
 
 export default KakaoMap;

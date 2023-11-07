@@ -76,77 +76,45 @@ const initialState: BusState = {
   // stations: null,
   stations: [
     {
-      "citycode": "37050",
-      "gpslati": "36.10720185",
-      "gpslong": "128.418282",
-      "nodeid": "GMB383",
-      "nodenm": "삼성전자후문",
-      "nodeno": "10383"
+      citycode: "37050",
+      gpslati: "36.10720185",
+      gpslong: "128.418282",
+      nodeid: "GMB383",
+      nodenm: "삼성전자후문",
+      nodeno: "10383",
     },
     {
-      "citycode": "37390",
-      "gpslati": "36.107202",
-      "gpslong": "128.418282",
-      "nodeid": "CGB383",
-      "nodenm": "삼성전자후문",
-      "nodeno": "10383"
+      citycode: "37390",
+      gpslati: "36.106965",
+      gpslong: "128.418984",
+      nodeid: "CGB704",
+      nodenm: "인동사거리",
+      nodeno: "10704",
     },
     {
-      "citycode": "37390",
-      "gpslati": "36.106965",
-      "gpslong": "128.418984",
-      "nodeid": "CGB704",
-      "nodenm": "인동사거리",
-      "nodeno": "10704"
+      citycode: "37050",
+      gpslati: "36.10588136",
+      gpslong: "128.4188821",
+      nodeid: "GMB771",
+      nodenm: "진미동행정복지센터앞",
+      nodeno: "10771",
     },
     {
-      "citycode": "37050",
-      "gpslati": "36.10588136",
-      "gpslong": "128.4188821",
-      "nodeid": "GMB771",
-      "nodenm": "진미동행정복지센터앞",
-      "nodeno": "10771"
+      citycode: "37390",
+      gpslati: "36.105877",
+      gpslong: "128.41933",
+      nodeid: "CGB772",
+      nodenm: "진미동주민센터",
+      nodeno: "10772",
     },
     {
-      "citycode": "37390",
-      "gpslati": "36.105881",
-      "gpslong": "128.418882",
-      "nodeid": "CGB771",
-      "nodenm": "진미동주민센터",
-      "nodeno": "10771"
+      citycode: "37390",
+      gpslati: "36.108109",
+      gpslong: "128.422248",
+      nodeid: "CGB708",
+      nodenm: "인동정류장",
+      nodeno: "10708",
     },
-    {
-      "citycode": "37390",
-      "gpslati": "36.105877",
-      "gpslong": "128.41933",
-      "nodeid": "CGB772",
-      "nodenm": "진미동주민센터",
-      "nodeno": "10772"
-    },
-    {
-      "citycode": "37050",
-      "gpslati": "36.10587721",
-      "gpslong": "128.4193304",
-      "nodeid": "GMB772",
-      "nodenm": "진미동행정복지센터건너",
-      "nodeno": "10772"
-    },
-    {
-      "citycode": "37390",
-      "gpslati": "36.108109",
-      "gpslong": "128.422248",
-      "nodeid": "CGB708",
-      "nodenm": "인동정류장",
-      "nodeno": "10708"
-    },
-    {
-      "citycode": "37050",
-      "gpslati": "36.10810857",
-      "gpslong": "128.4222485",
-      "nodeid": "GMB708",
-      "nodenm": "인동정류장(인동사거리방면)",
-      "nodeno": "10708"
-    }
   ],
   station: null,
   busData: null,
@@ -164,6 +132,18 @@ const busSlice = createSlice({
     // GPS 상태를 업데이트하는 액션
     setGps: (state, action: PayloadAction<[number, number]>) => {
       state.gps = action.payload;
+
+      // nodeid를 기준으로 중복을 제거합니다.
+      if (state.stations) {
+        const uniqueNodeIds = new Set();
+        const filteredStations = state.stations.filter((station) => {
+          const isDuplicate = uniqueNodeIds.has(station.nodeid);
+          uniqueNodeIds.add(station.nodeid);
+          return !isDuplicate;
+        });
+
+        state.stations = filteredStations;
+      }
     },
   },
   extraReducers: (builder) => {
