@@ -6,16 +6,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Collections;
 import java.util.List;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BusListApiResponseDto implements ApiResponseDto<BusListApiResponseDto.Response.Body.Items.Item, BusResponseDto> {
+public class BusStationListApiResponseDto implements ApiResponseDto<BusStationListApiResponseDto.Response.Body.Items.Item, BusStationResponseDto> {
     private Response response;
-
 
     @Getter
     @Builder
@@ -56,16 +54,12 @@ public class BusListApiResponseDto implements ApiResponseDto<BusListApiResponseD
                 @NoArgsConstructor
                 @AllArgsConstructor
                 public static class Item {
-                    private Integer arrprevstationcnt;
-                    private Integer arrtime;
-
+                    private Integer citycode;
+                    private String gpslati;
+                    private String gpslong;
                     private String nodeid;
                     private String nodenm;
-
-                    private String routeid;
-                    private String routeno;
-                    private String routetp;
-                    private String vehicletp;
+                    private Integer nodeno;
                 }
             }
         }
@@ -73,24 +67,19 @@ public class BusListApiResponseDto implements ApiResponseDto<BusListApiResponseD
 
     @Override
     public List<Response.Body.Items.Item> _getItems() {
-        Response.Body.Items items = this.getResponse().getBody().getItems();
-        if (items == null || items.getItem() == null) {
-            return Collections.emptyList(); // Return an empty list if 'items' or 'item' is null
-        }
-        return items.getItem();
+        // 위와 같이 해당 DTO 구조에 맞게 구현
+        return this.getResponse().getBody().getItems().getItem();
     }
 
     @Override
-    public BusResponseDto of(Response.Body.Items.Item item) {
-        return BusResponseDto.builder()
-                .arrivalPrevStationCount(item.getArrprevstationcnt())
-                .arrivalTime(item.getArrtime())
-                .nodeId(item.getNodeid())
-                .nodeName(item.getNodenm())
-                .routeId(item.getRouteid())
-                .routeNo(item.getRouteno())
-                .routeType(item.getRoutetp())
-                .vehicleType(item.getVehicletp())
-                .build();
+    public BusStationResponseDto of(Response.Body.Items.Item item) {
+        return BusStationResponseDto.builder()
+                            .cityCode(item.getCitycode())
+                            .latitude(item.getGpslati())
+                            .longitude(item.getGpslong())
+                            .nodeName(item.getNodenm())
+                            .nodeId(item.getNodeid())
+                            .nodeNo(item.getNodeno())
+                            .build();
     }
 }
