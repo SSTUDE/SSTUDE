@@ -7,6 +7,7 @@ import { WeatherDataResponse, WeatherDataCustom } from './types';
 
 const Weather = () => {
   const [dailySky, setDailySky] = useState<WeatherDataResponse[]>([]);
+  const [TempDatas, setTempDatas] = useState<WeatherDataResponse[]>([]);
 
 
   const day = new Date();
@@ -47,16 +48,26 @@ const Weather = () => {
         fcstDate: item.fcstDate,
         fcstTime: item.fcstTime,
         fcstValue: item.fcstValue
-      }));
+      }))
+      .filter((item: WeatherDataCustom) => {
+        return (item.fcstDate === currentDate && item.fcstTime >= currentTime) || (item.fcstDate > currentDate);
+      });
       
       // 현재 시간 이후의 데이터만 / 하늘 정보만 필터링.
       const CloudDatas = CustomData
       .filter((item: WeatherDataCustom) => {
-        return (item.fcstDate === currentDate && item.fcstTime >= currentTime && item.category === "SKY") || (item.fcstDate > currentDate && item.category === "SKY");
+        return (item.category === "SKY");
       })
-
       setDailySky(CloudDatas);
-      console.log(CloudDatas);
+      // console.log(CloudDatas);
+
+      // 기온 정보만 필터링
+      const TempDatas = CustomData
+      .filter((item: WeatherDataCustom) => {
+        return (item.category === "TMP");
+      })
+      setTempDatas(TempDatas);
+      console.log(TempDatas);
 
     } catch (error) {
       console.error("데이터를 가져오는 데 실패했습니다:", error);
@@ -64,13 +75,13 @@ const Weather = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, []);
 
   return (
     <>
       <Today></Today>
-      <Hourly dailySky={dailySky}></Hourly>
+      <Hourly dailySky={dailySky} TempDatas={TempDatas}></Hourly>
       <Week></Week>
     </>
   )
