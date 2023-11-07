@@ -17,6 +17,7 @@ import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCa
 import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
 import DiagnosisLoading from "../components/Personal/Results/PersonalColor/DiagnosisLoading";
 
+
 const routes = [
   {
     path: "/",
@@ -93,6 +94,7 @@ const routes = [
     path: "/weather",
     Component: Weather,
   },
+
 ];
 
 export default routes;
