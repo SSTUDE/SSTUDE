@@ -13,6 +13,9 @@ import Calender from "../components/Personal/Main/Calender";
 import Weather from "../components/Weather/Weather";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
 import SelectContents from "../components/Personal/Capture/SelectContents";
+import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCapture";
+import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
+import DiagnosisLoading from "../components/Personal/Results/PersonalColor/DiagnosisLoading";
 
 const routes = [
   {
@@ -73,6 +76,18 @@ const routes = [
   {
     path: "/personalselectcontents",
     Component: SelectContents,
+  },
+  {
+    path: "/personalselectpersonal",
+    Component: PersonalColorCapture,
+  },
+  {
+    path: "/personalselectclothes",
+    Component: ClothesCapture,
+  },
+  {
+    path: "/personalloading",
+    Component: DiagnosisLoading,
   },
   {
     path: "/weather",

@@ -1,3 +1,4 @@
+// 로딩 중
 import React from "react";
 import { createGlobalStyle, styled } from "styled-components";
 

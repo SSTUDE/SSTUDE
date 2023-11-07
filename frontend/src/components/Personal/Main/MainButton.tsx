@@ -1,9 +1,12 @@
+// 홈 및 뒤로가기 버튼
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 
+// 전체 컨테이너
 const StyledContainer = styled.div``;
 
+// 홈 버튼
 const StyledHomeButton = styled.button`
   position: absolute;
   right: 15%;
@@ -18,6 +21,7 @@ const StyledHomeButton = styled.button`
   cursor: pointer;
 `;
 
+// 홈 아이콘
 const HomeIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -35,6 +39,7 @@ const HomeIcon = () => (
   </svg>
 );
 
+// 뒤로가기 버튼
 const StyledPrevButton = styled.button`
   position: absolute;
   right: 5%;
@@ -49,6 +54,7 @@ const StyledPrevButton = styled.button`
   cursor: pointer;
 `;
 
+// 뒤로가기 아이콘
 const BackIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

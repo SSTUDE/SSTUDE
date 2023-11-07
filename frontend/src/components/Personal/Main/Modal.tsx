@@ -1,7 +1,6 @@
+// 달력에 있는 날짜 클릭 시 나오는 모달창
 import { useState } from "react";
-// import "./Modal.css";
 import { styled, keyframes } from "styled-components";
-import { useNavigate } from "react-router-dom";
 import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../Previous/PreviousClothesResults";
 import Button from "./HeaderButton";

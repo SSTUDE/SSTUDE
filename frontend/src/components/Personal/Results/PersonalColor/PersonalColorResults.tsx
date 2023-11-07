@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import ResultsImg from "./ResultsImg";
 import ResultsInfo from "./ResultsInfo";
 import Palette from "./Palette";
+import DiagnosisLoading from "./DiagnosisLoading";
 
 const StyledContainer = styled.div`
   /* overflow: hidden; */
@@ -41,17 +42,41 @@ const StyledResultsContainer = styled.section`
 const StyledPersonalColorResults = styled.section``;
 
 const PersonalColorResults = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer); // 컴포넌트 unmount시 타이머 해제
+  }, []);
+
+  // useEffect(() => {
+  //   const image = new Image();
+  //   image.src = "이미지 URL";
+  //   image.onload = () => {
+  //     setIsLoading(false);
+  //   };
+  // }, []);
+
   return (
     <StyledContainer>
-      <StyledTitle>진단 결과</StyledTitle>
-      <StyledResultsContainer>
-        <ResultsImg />
-        <ResultsInfo />
-      </StyledResultsContainer>
+      {isLoading ? (
+        <DiagnosisLoading />
+      ) : (
+        <>
+          <StyledTitle>진단 결과</StyledTitle>
+          <StyledResultsContainer>
+            <ResultsImg />
+            <ResultsInfo />
+          </StyledResultsContainer>
 
-      <StyledPersonalColorResults>
-        <Palette />
-      </StyledPersonalColorResults>
+          <StyledPersonalColorResults>
+            <Palette />
+          </StyledPersonalColorResults>
+        </>
+      )}
     </StyledContainer>
   );
 };

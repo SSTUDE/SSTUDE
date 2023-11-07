@@ -1,3 +1,4 @@
+// 퍼스널 컬러 메인 페이지 겸 달력
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "./Calender.css";
