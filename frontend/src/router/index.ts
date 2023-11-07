@@ -16,6 +16,7 @@ import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
 import BusDetail from "../components/Bus/BusDetail";
 import KakaoMap from "../components/Bus/KakaoMap";
+import BusList from "../components/Bus/BusList";
 
 const routes = [
   {
@@ -83,6 +84,10 @@ const routes = [
   {
     path: "/busdetail",
     Component: BusDetail,
+  },
+  {
+    path: "/buslist",
+    Component: BusList,
   },
   // 카카오 지도
   {

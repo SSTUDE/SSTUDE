@@ -1,28 +1,30 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sendGpsData, fetchBusData } from './BusSlice';
+import { gpsToServer, tadaBusStop } from './BusSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 
 const BusDetail = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { busData, loading, error, gps } = useSelector((state: RootState) => state.bus);
+  const { busStop, loading, error, gps } = useSelector((state: RootState) => state.bus);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchBusData());
+    //NOTE - 리덕스에서 기존 데이터 받아와서 자세히 출력
   }, [dispatch]);
 
-  // 버스 상세 정보로 이동하기 전에 GPS 데이터를 서버로 전송합니다.
   const handleDetailClick = () => {
     if (gps) {
-      dispatch(sendGpsData());
+      dispatch(gpsToServer());
+      //NOTE - 아래껀 서버에서 api 받아오는거 실패시 직접 버스 정거장 데이터 끌고오는 용도
+      dispatch(tadaBusStop());
       navigate('/kakaomap');
     }
   };
 
   return (
     <>
+      <button onClick={handleDetailClick}>정거장 선택</button>
       <div>
         <h1>버스 정보</h1>
         {loading ? (
@@ -30,10 +32,9 @@ const BusDetail = () => {
         ) : error ? (
           <p>오류 발생: {error}</p>
         ) : (
-          <pre>{JSON.stringify(busData, null, 2)}</pre>
+          <pre>{JSON.stringify(busStop, null, 2)}</pre>
         )}
       </div>
-      <button onClick={handleDetailClick}>정거장 선택</button>
     </>
   )
 }

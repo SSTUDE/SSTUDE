@@ -1,5 +1,5 @@
 
-export interface Station {
+export interface busStops {
     citycode: string;
     gpslati: string;
     gpslong: string;
@@ -7,13 +7,24 @@ export interface Station {
     nodenm: string;
     nodeno: string;
   }
-  
+
+  export interface bus {
+    arrprevstationcnt: string;
+    arrtime: string;
+    nodeid: string;
+    nodenm: string;
+    routeid: string;
+    routeno: string;
+    routetp: string;
+    vehicletp: string;
+  }
 
 export interface BusState {
-    stations: Station[] | null;
-    station: string | null;
-    busData: any;
+    busStops: busStops[] | null;
+    // station: string | null;
+    busStop: any;
     loading: boolean;
     error: any;
     gps: [number, number] | null;
+    busList: bus[] | null;
   }

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { fetchBusData } from './BusSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
@@ -7,21 +6,21 @@ import { AppDispatch, RootState } from '../../store/store';
 function Bus() {
 
   const dispatch = useDispatch<AppDispatch>();
-  const { busData, loading, error } = useSelector((state: RootState) => state.bus);
+  const { busStop, loading, error } = useSelector((state: RootState) => state.bus);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchBusData());
+    //NOTE - 서버에서 기존 데이터 호출 + 리덕스에 저장
+    // dispatch(fetchBusData());
   }, [dispatch]);
 
-  // 버스 상세 정보로 이동하기 전에 GPS 데이터를 서버로 전송합니다.
   const handleDetailClick = () => {
     navigate('/busdetail');
   };
 
-  // 렌더링 부분
   return (
     <>
+      <button onClick={handleDetailClick}>버스 상세 정보</button>
       <div>
         <h1>버스 정보</h1>
         {loading ? (
@@ -29,10 +28,9 @@ function Bus() {
         ) : error ? (
           <p>오류 발생: {error}</p>
         ) : (
-          <pre>{JSON.stringify(busData, null, 2)}</pre>
+          <pre>{JSON.stringify(busStop, null, 2)}</pre>
         )}
       </div>
-      <button onClick={handleDetailClick}>버스 상세 정보</button>
     </>
   );
 }

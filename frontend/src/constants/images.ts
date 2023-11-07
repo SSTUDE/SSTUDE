@@ -6,8 +6,8 @@ export const images = {
     menuBtn: "/assets/images/question.svg",
   },
   map: {
-    bus: "/assets/images/bus.svg",
-    bus_select: "/assets/images/bus_select.svg",
-    home: "/assets/images/home.svg",
+    bus: "/assets/images/bus.png",
+    bus_select: "/assets/images/bus_select.png",
+    home: "/assets/images/home.png",
   },
 };
