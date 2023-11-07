@@ -108,6 +108,10 @@ springdoc:
 #        name: Makeup
 #      - url: /docs
 #        name: Makeup
+#      - url: /health-service/v3/api-docs
+#        name: Health
+#      - url: /mission-service/v3/api-docs
+#        name: Mission
 #      - url: /store-service/v3/api-docs
 #        name: Store
 #      - url: /character-service/v3/api-docs
