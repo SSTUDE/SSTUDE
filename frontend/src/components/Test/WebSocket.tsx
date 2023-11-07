@@ -8,8 +8,8 @@ import { TEXT_COLOR } from '../../constants/defaultSlices';
 
 const WebSocket = () => {
   const { messages, handleReconnect, sendMessage } = useWebSocket('ws://localhost:8765');
-  const navigate = useNavigate();
   const [inputMessage, setInputMessage] = useState('');
+  const navigate = useNavigate();
 
   const handleSendMessage = () => {
     sendMessage(inputMessage);

@@ -11,10 +11,19 @@ import MenuBtn from "../components/Common/MenuBtn";
 import Calender from "../components/Personal/Main/Calender";
 import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
+// import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
+import Bus from "../components/Bus/Bus";
+import BusDetail from "../components/Bus/BusDetail";
+import KakaoMap from "../components/Bus/KakaoMap";
+import BusList from "../components/Bus/BusList";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
 import GetWeatherData from "../components/Weather/GetWeatherData";
 
+import SelectContents from "../components/Personal/Capture/SelectContents";
+import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCapture";
+import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
+import DiagnosisLoading from "../components/Personal/Results/PersonalColor/DiagnosisLoading";
 
 const routes = [
   {
@@ -73,6 +82,22 @@ const routes = [
     Component: PersonalColorResults,
   },
   {
+    path: "/personalselectcontents",
+    Component: SelectContents,
+  },
+  {
+    path: "/personalselectpersonal",
+    Component: PersonalColorCapture,
+  },
+  {
+    path: "/personalselectclothes",
+    Component: ClothesCapture,
+  },
+  {
+    path: "/personalloading",
+    Component: DiagnosisLoading,
+  },
+  {
     path: "/weather",
     Component: Weather,
   },
@@ -81,6 +106,24 @@ const routes = [
     Component: GetWeatherData,
   },
 
+  // 버스정보
+  {
+    path: "/bus",
+    Component: Bus,
+  },
+  {
+    path: "/busdetail",
+    Component: BusDetail,
+  },
+  {
+    path: "/buslist",
+    Component: BusList,
+  },
+  // 카카오 지도
+  {
+    path: "/kakaomap",
+    Component: KakaoMap,
+  },
 ];
 
 export default routes;

@@ -1,9 +1,15 @@
+// 달력에 있는 날짜 클릭 시 나오는 모달창
 import { useState } from "react";
-// import "./Modal.css";
-import { styled } from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { styled, keyframes } from "styled-components";
 import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../Previous/PreviousClothesResults";
+import Button from "./HeaderButton";
+
+const GradientAnimation = keyframes`
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+`;
 
 // 모달 뒤 배경
 const ModalOverlay = styled.div`
@@ -25,62 +31,75 @@ const ModalContainer = styled.div`
   position: relative;
   overflow: auto;
 
-  width: 30%;
+  width: 32%;
   max-height: 95%;
-  /* padding: 20px; */
 
-  background-color: white;
-  border-radius: 20px;
-  background-color: rgba(90, 85, 85);
-  color: white;
+  background: linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb);
+  background-size: 200% 200%;
+  animation: ${GradientAnimation} 4s linear infinite;
+  border-radius: 5px;
+
+  color: black;
+`;
+
+// 날짜
+const DateContainer = styled.div`
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background-color: #ffffff;
+
+  width: 20%;
+  height: 7vh;
+
+  border-radius: 5px;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 
   p {
-    margin: 0;
     text-align: center;
-    font-size: 30px;
-    padding: 3% 0 0;
+    font-size: 40px;
+    font-family: "Giants-Bold";
+
+    margin: 0;
   }
 `;
 
 // 모달 닫기 버튼
 const ModalCloseButton = styled.button`
   position: absolute;
-  cursor: pointer;
-
   right: 20px;
   top: 20px;
+
+  cursor: pointer;
+  font-size: 20px;
+
   padding: 0;
 
   border: none;
   background: none;
-  font-size: 20px;
-  color: white;
 `;
 
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
   width: 100%;
   margin: 5% 0;
+
+  position: relative;
 `;
 
 const StyledLink = styled.div`
   flex: 1;
   text-decoration: none;
-`;
-
-const ContentButton = styled.button<{ isActive: boolean }>`
-  width: 100%;
-  height: 7vh;
-
-  cursor: pointer;
-
-  font-size: 1.5rem;
-  color: white;
-
-  background-color: ${(props) => (props.isActive ? "#ffffff50" : "#ffffff12")};
-  border: none;
+  /* width: 100%; */
 `;
 
 type ModalProps = {
@@ -94,7 +113,7 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   selectedDate,
 }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const [currentView, setCurrentView] = useState("personalColor");
 
@@ -126,23 +145,26 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <ModalOverlay onClick={handleClose}>
       <ModalContainer onClick={stopPropagation}>
-        <p>{formattedDate}</p>
+        <DateContainer>
+          <p>{formattedDate}</p>
+        </DateContainer>
+
         <HeaderContainer>
           <StyledLink>
-            <ContentButton
+            <Button
               isActive={currentView === "personalColor"}
               onClick={handleClickPersonalColor}
             >
               퍼스널 컬러 진단
-            </ContentButton>
+            </Button>
           </StyledLink>
           <StyledLink>
-            <ContentButton
+            <Button
               isActive={currentView === "clothes"}
               onClick={handleClickClothes}
             >
               의상 진단
-            </ContentButton>
+            </Button>
           </StyledLink>
         </HeaderContainer>
 

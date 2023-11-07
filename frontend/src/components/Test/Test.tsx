@@ -13,6 +13,7 @@ const Test = () => {
       <Btn onClick={() => navigate('/testmain')}>Test</Btn>
       <Btn onClick={() => navigate('/websocket')}>웹소켓</Btn>
       <Btn onClick={() => navigate('/testcolor')}>색 테스트</Btn>
+      <Btn onClick={() => navigate('/bus')}>버스</Btn>
       <Btn onClick={() => navigate('/personalmain')}>퍼스널 컬러 메인</Btn>
       <Btn onClick={() => navigate('/testmain')}>날씨상세</Btn>
       <Btn onClick={() => navigate('/getweather')}>API 요청 테스트</Btn>
