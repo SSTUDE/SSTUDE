@@ -45,7 +45,8 @@ const TimeSkyWrap = styled.div`
 const TodayLabel = styled.div`
   position: relative; 
   top: 0%; 
-  left: 50%;
+  text-align: center;
+  /* left: 50%; */
 `
 
 export default DayCloud;

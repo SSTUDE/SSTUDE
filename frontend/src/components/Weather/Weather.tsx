@@ -8,7 +8,9 @@ import { WeatherDataResponse, WeatherDataCustom } from './types';
 const Weather = () => {
   const [dailySky, setDailySky] = useState<WeatherDataResponse[]>([]);
   const [TempDatas, setTempDatas] = useState<WeatherDataResponse[]>([]);
-
+  const [RainRateDatas, setRainRateDatas] = useState<WeatherDataResponse[]>([]);
+  const [RainAmountDatas, setRainAmountDatas] = useState<WeatherDataResponse[]>([]);
+  const [HumidityDatas, setHumidityDatas] = useState<WeatherDataResponse[]>([]);
 
   const day = new Date();
   const hour = day.getHours(); 
@@ -67,7 +69,32 @@ const Weather = () => {
         return (item.category === "TMP");
       })
       setTempDatas(TempDatas);
-      console.log(TempDatas);
+      // console.log(TempDatas);
+
+      // 강수확률 정보 필터링
+      const RainRateDatas = CustomData
+      .filter((item: WeatherDataCustom) => {
+        return (item.category === "POP");
+      })
+      setRainRateDatas(RainRateDatas);
+      // console.log(RainRateDatas);
+
+
+      // 강수량 정보 필터링
+      const RainAmountDatas = CustomData
+      .filter((item: WeatherDataCustom) => {
+        return (item.category === "PCP");
+      })
+      setRainAmountDatas(RainAmountDatas);
+      console.log(RainAmountDatas);
+      
+      // 습도 정보 필터링
+      const HumidityDatas = CustomData
+      .filter((item: WeatherDataCustom) => {
+        return (item.category === "REH");
+      })
+      setHumidityDatas(HumidityDatas);
+      // console.log(HumidityDatas);
 
     } catch (error) {
       console.error("데이터를 가져오는 데 실패했습니다:", error);
@@ -75,13 +102,19 @@ const Weather = () => {
   };
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
 
   return (
     <>
       <Today></Today>
-      <Hourly dailySky={dailySky} TempDatas={TempDatas}></Hourly>
+      <Hourly 
+        dailySky={dailySky} 
+        TempDatas={TempDatas} 
+        RainRateDatas={RainRateDatas} 
+        RainAmountDatas={RainAmountDatas}
+        HumidityDatas={HumidityDatas}
+        ></Hourly>
       <Week></Week>
     </>
   )
