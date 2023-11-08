@@ -33,7 +33,8 @@ public class MobileService {
         }
 
         Mobile mobile = optionalMobile.get();
-
+        mobile.setStatus(true);  // status를 true로 변경
+        mobileRepository.save(mobile);  // 변경된 상태를 저장
         return createToken(mobile);
     }
 
@@ -59,7 +60,7 @@ public class MobileService {
 
     @Transactional
     public MobileResponseDto relogin(Long memberId) {
-        Optional<Mobile> optionalMobile = mobileRepository.findByMemberIdAndIsActiveTrue(memberId);
+        Optional<Mobile> optionalMobile = mobileRepository.findByMemberIdAndStatusTrue(memberId);
 
         if (!optionalMobile.isPresent()) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);

@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Setter
 @Document(collection = "healthdatas")
-@Builder
 public class HealthData {
     @Id
     private String id;
@@ -29,5 +28,16 @@ public class HealthData {
 
     private int sleepTime;
     private int steps;
+
+    @Builder
+    public HealthData(String id, Long memberId, LocalDateTime createdAt, int burntKcal, int consumedKcal, int sleepTime, int steps) {
+        this.id = id;
+        this.memberId = memberId;
+        this.createdAt = createdAt;
+        this.burntKcal = burntKcal;
+        this.consumedKcal = consumedKcal;
+        this.sleepTime = sleepTime;
+        this.steps = steps;
+    }
 
 }

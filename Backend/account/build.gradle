@@ -32,7 +32,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // eureka
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+//    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
