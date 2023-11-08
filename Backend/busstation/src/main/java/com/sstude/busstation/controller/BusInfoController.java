@@ -8,6 +8,7 @@ import com.sstude.busstation.global.swagger.CustomApi;
 import com.sstude.busstation.dto.request.GpsRequestDto;
 import com.sstude.busstation.service.BusInfoService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,10 +32,10 @@ public class BusInfoController {
     @CustomApi
     @PostMapping("/near")
     public ResponseEntity<List<BusStationResponseDto>> findBusListInform(
-            @RequestBody @Validated GpsRequestDto gpsRequestDto
-//            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
+            @RequestBody @Validated GpsRequestDto gpsRequestDto,
+            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
-//        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
         List<BusStationResponseDto> response = busInfoService.findBusStationListInform(gpsRequestDto);
 
         return ResponseEntity.ok(response);
@@ -44,10 +45,10 @@ public class BusInfoController {
     @CustomApi
     @PostMapping("/businform")
     public ResponseEntity<List<BusResponseDto>> findBusInform(
-            @RequestBody @Validated StationRequestDto stationRequestDto
-//            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
+            @RequestBody @Validated StationRequestDto stationRequestDto,
+            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
-//        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
         List<BusResponseDto> response = busInfoService.findBusListInform(stationRequestDto);
 
         return ResponseEntity.ok(response);
