@@ -35,7 +35,7 @@ def my_color(userid, current_date, TargetLab):
         
         similarities.append(delta_e)
     
-    print(i, min(similarities))
+    print(i, min(similarities), match_color[i])
     score = 100-int(min(similarities))
     print(score)
     
