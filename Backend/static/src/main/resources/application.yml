@@ -13,12 +13,11 @@ spring:
     name: static
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/makeup?serverTimezone=Asia/Seoul
-#    url: jdbc:mysql://k9d204.p.ssafy.io:3306/makeup?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3306/makeup?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://k9d204.p.ssafy.io:3306/makeup?serverTimezone=Asia/Seoul
     username: root
 #    password: ENC(ruBvYLBdp/4OQHTchrz3FA==)
-#    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9) ####이거
-    password: qwe123
+    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
 
   data:
     mongodb:
