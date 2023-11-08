@@ -124,7 +124,7 @@ while True:
         data = getSignInInfo.loadUserInfo(userSignInInfoFile)
         
         Info = {
-            "type" : "signUp",
+            "type" : "signIn",
             "data" : data
         }
     
