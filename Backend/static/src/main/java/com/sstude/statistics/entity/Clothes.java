@@ -18,7 +18,7 @@ public class Clothes {
     // memberid는 join??
     private Long memberId;
     private Integer score;
-    private String img_uri;
+    private String imguri;
 
     private LocalDateTime calender;
 

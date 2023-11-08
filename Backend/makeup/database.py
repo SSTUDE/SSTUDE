@@ -1,5 +1,9 @@
 import pymysql
 from pymongo import MongoClient
+from dotenv import dotenv_values #env파일 가져오기
+
+
+env_variables = dotenv_values(".env")
 
 
 def connectMySQL():
@@ -10,7 +14,13 @@ def connectMySQL():
 
 
 def connectPymongo():
-    client = MongoClient('mongodb://localhost:27017/')  # MongoDB URI 입력
+    MONGODB_USERNAME = env_variables.get("MONGODB_USERNAME")
+    MONGODB_PASSWORD = env_variables.get("MONGODB_PASSWORD")
+    MONGODB_HOST = env_variables.get("MONGODB_HOST")
+    MONGODB_PORT = env_variables.get("MONGODB_PORT")
+    uri = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/?authSource=admin"
+
+    client = MongoClient(uri)  # MongoDB URI 입력
     db = client['clothes']
     collection = db['clothes']
 

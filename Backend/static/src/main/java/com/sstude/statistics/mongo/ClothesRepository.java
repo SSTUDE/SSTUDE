@@ -13,4 +13,5 @@ public interface ClothesRepository extends MongoRepository<Clothes, Long> {
 
     List<Clothes> findAllByCalenderBetweenAndMemberId(LocalDateTime startday, LocalDateTime endday, Long memberId);
 
+    List<Clothes> findAllByMemberId(Long memberId);
 }

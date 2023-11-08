@@ -25,10 +25,10 @@ spring:
 #      host: localhost
       host: k9d204.p.ssafy.io
       port: 27017
-      authentication-database: admin
       database: clothes
       username: root
       password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+      authentication-database: admin
 
   jpa:
     database: mysql

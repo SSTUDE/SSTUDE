@@ -155,7 +155,7 @@ async def read_item(file: UploadFile = File(),
             
             # DB에 저장
             collection.insert_one({'memberId': userid,
-                                   'img_uri':s3uri,
+                                   'imguri':s3uri,
                                    "score":score,
                                    "calender":current_date_time})
             
@@ -163,7 +163,7 @@ async def read_item(file: UploadFile = File(),
             # 쿼리 실행 및 결과 정렬, 제한
             result = collection.find({"memberId":userid,
                                       "calender": {"$gte": datetime(current_date_time.year, current_date_time.month, current_date_time.day), "$lt": datetime(current_date_time.year, current_date_time.month, current_date_time.day, 23, 59, 59, 999999)}}
-                                     ,{"_id":0, "score":1, "img_uri":1})
+                                     ,{"_id":0, "score":1, "imguri":1})
             lst = []
             for r in result:
                 lst.append(r)
