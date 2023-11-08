@@ -55,7 +55,17 @@ const Weather = () => {
       .filter((item: WeatherDataCustom) => {
         return (item.fcstDate === currentDate && item.fcstTime >= currentTime) || (item.fcstDate > currentDate);
       });
+
+
       
+      // 현재 시간 이후의 데이터만 / 하늘 정보만 필터링.
+      const TempTopDatas = CustomData
+      .filter((item: WeatherDataCustom) => {
+        return (item.category === "TMN" || item.category === "TMX" );
+      })
+      // setDailySky(CloudDatas);
+      console.log(TempTopDatas);
+
       // 현재 시간 이후의 데이터만 / 하늘 정보만 필터링.
       const CloudDatas = CustomData
       .filter((item: WeatherDataCustom) => {
@@ -101,6 +111,7 @@ const Weather = () => {
       const HumidityData = CustomData.find((item : WeatherDataCustom) => item.category === "REH");
       const WindSpeedData = CustomData.find((item : WeatherDataCustom) => item.category === "WSD");
       const SkyData = CustomData.find((item : WeatherDataCustom) => item.category === "SKY");
+      const RainData = CustomData.find((item : WeatherDataCustom) => item.category === "PCP");
       const highestRainRateData = CustomData
       .filter((item : WeatherDataCustom) => item.category === "POP" && item.fcstDate === currentDate)
       .reduce((max: WeatherDataCustom, item: WeatherDataCustom) => max.fcstValue > item.fcstValue ? max : item);
@@ -110,11 +121,14 @@ const Weather = () => {
         HumidityData,
         WindSpeedData,
         SkyData,
+        RainData,
         highestRainRateData
         ].filter(item => item !== undefined);
       setNowDatas(NowDatas);
-      console.log(NowDatas);
+      // console.log(NowDatas);
 
+      // 오늘, 내일 최고/ 최저 온도(단기예보)
+    
     } catch (error) {
       console.error("데이터를 가져오는 데 실패했습니다:", error);
     }
