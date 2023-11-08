@@ -1,20 +1,19 @@
+import React from 'react';
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import MenuBtn from '../Common/MenuBtn';
+import DateTime from '../Common/DateTime';
+import HelloWorld from '../Common/HelloWorld';
 import { useNavigate } from 'react-router-dom';
-import { gpsToServer, tadaBusStop } from './BusSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { TEXT_COLOR } from '../../constants/defaultSlices';
 import { BusRealTimeData, TimeCircleProps } from './types';
+import { gpsToServer, tadaBusStop } from './BusSlice';
 
 const BusDetail = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { gps, busStop, busRealTime, loading } = useSelector((state: RootState) => state.bus);
+  console.log(busRealTime)
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // dispatch(tadaBusRealTime)
-  }, [dispatch]);
 
   const toSelectBusStop = () => {
     if (gps) {
@@ -25,12 +24,13 @@ const BusDetail = () => {
     }
   };
 
-  
   const formatTime = (seconds: number): number => {
     return Math.floor(seconds / 60);
   };
 
-  const sortedBusRealTime = busRealTime ? [...busRealTime].sort((a, b) => a.arrtime - b.arrtime) : [];
+  const sortedBusRealTime = busRealTime
+    ? [...busRealTime].sort((a, b) => a.arrtime - b.arrtime)
+    : [];
 
   const renderBusInfo = () => {
     if (loading) {
@@ -38,12 +38,12 @@ const BusDetail = () => {
     } else if (!busStop) {
       return <Message>정거장을 선택해주세요.</Message>;
     } else if (busStop && !busRealTime) {
-      return <Message>현재 도착 정보가 없습니다.</Message>;
+      return <Message>도착 예정 버스가 없습니다.</Message>;
     } else if (sortedBusRealTime && sortedBusRealTime.length > 0) {
-      const firstFourBusTimes = sortedBusRealTime.slice(0, 4);
-      return (
+      const numberOfInfo = Math.ceil(sortedBusRealTime.length / 4);
+      return Array.from({ length: numberOfInfo }, (_, index) => (
         <BusInfoList>
-          {firstFourBusTimes.map((bus: BusRealTimeData, index: number) => (
+          {sortedBusRealTime.slice(index * 4, (index + 1) * 4).map((bus: BusRealTimeData, index: number) => (
             <BusInfoItem key={index}>
               <TimeIndicator>
                 <TimeCircle timeLeft={formatTime(bus.arrtime)}>{formatTime(bus.arrtime)}</TimeCircle>
@@ -59,40 +59,58 @@ const BusDetail = () => {
             </BusInfoItem>
           ))}
         </BusInfoList>
-      );
+      ));
     } else {
       return <Message>버스 정보가 없습니다.</Message>;
     }
   };
 
   return (
-    <>
-      <Btn onClick={toSelectBusStop}>정거장 선택</Btn>
+    <Container>
+      <Header>
+        <MenuBtn type="menu" />
+        <HelloWorld />
+        <DateTime />
+      </Header>
       <BusContainer>
         {renderBusInfo()}
-    </BusContainer>
-    </>
+      </BusContainer>
+      <Btn onClick={toSelectBusStop}>정거장 선택</Btn>
+    </Container>
   )
 }
 
-const Btn = styled.p`
-padding: 10px 20px;
-font-size: 1.5em;
-font-weight: bold;
-margin: 5px; 
-color: ${TEXT_COLOR};
-cursor: pointer; 
-`
-
-
-const BusContainer = styled.div`
-  padding: 20px;
-  margin: 20px;
-  max-width: 30vh;
+const Header = styled.div`
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0 20px;
 `;
 
-const BusInfo = styled.div`
-  cursor: pointer;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; 
+  
+`
+
+const Btn = styled.p`
+  align-self: flex-end;
+  padding: 10px 20px;
+  font-size: 4em;
+  font-weight: bold;
+  margin: 15px; 
+  cursor: pointer; 
+`
+
+const BusContainer = styled.div`
+  display: flex;       
+  align-items: flex-start; 
+  justify-content: flex-end;
+  padding: 20px;
+  margin: 20px;
+  gap: 10%;
 `;
 
 const BusInfoList = styled.ul`
@@ -122,18 +140,18 @@ const TimeIndicator = styled.div`
 `;
 
 const TimeCircle = styled.span<TimeCircleProps>`
-  width: ${({ timeLeft }) => 50 + (30 - timeLeft) * 0.5}px;
-  height: ${({ timeLeft }) => 50 + (30 - timeLeft) * 0.5}px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background-color: white;
   color: black;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${({ timeLeft }) => 12 + (30 - timeLeft) * 0.5}px;
+  font-size: 27px;
   font-weight: bold;
   font-size: 2rem;
-  line-height: ${({ timeLeft }) => 15 + (30 - timeLeft) * 0.5}px;
+  line-height: 27px;
 `;
 
 const BusDetails = styled.div`
@@ -149,8 +167,8 @@ const BusId = styled.p`
 
 const BusStopCount = styled.p`
   margin-left: 5px;
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-size: 1.5rem;
+  font-weight: normal;
 `;
 
 const Message = styled.p`

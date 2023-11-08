@@ -1,19 +1,32 @@
 import styled from 'styled-components';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { tadaBusRealTime } from './BusSlice';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { BusRealTimeData, TimeCircleProps } from './types';
 
 function Bus() {
   const dispatch = useDispatch<AppDispatch>();
-  const { busStop, busRealTime, loading } = useSelector((state: RootState) => state.bus);
   const navigate = useNavigate();
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
+  const { busStop, busRealTime, loading } = useSelector(
+    (state: RootState) => state.bus,
+    shallowEqual
+  );
 
   useEffect(() => {
     //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
     dispatch(tadaBusRealTime())
+    // const id = setInterval(() => {
+    //   dispatch(tadaBusRealTime());
+    // }, 30000);
+    // setIntervalId(id);
+
+    // return () => {
+    //   if (intervalId) clearInterval(intervalId);
+    // };
   }, [dispatch]);
 
   const toBusDetail = () => {
@@ -28,7 +41,7 @@ function Bus() {
 
   const renderBusInfo = () => {
     if (loading) {
-      return <Message>데이터를 불러오는 중...</Message>;
+      return ;
     } else if (!busStop) {
       return <Message>정거장을 선택해주세요.</Message>;
     } else if (busStop && !busRealTime) {
@@ -105,18 +118,18 @@ const TimeIndicator = styled.div`
 `;
 
 const TimeCircle = styled.span<TimeCircleProps>`
-  width: ${({ timeLeft }) => 50 + (30 - timeLeft) * 0.5}px;
-  height: ${({ timeLeft }) => 50 + (30 - timeLeft) * 0.5}px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   background-color: white;
   color: black;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: ${({ timeLeft }) => 12 + (30 - timeLeft) * 0.5}px;
+  font-size: 27px;
   font-weight: bold;
   font-size: 2rem;
-  line-height: ${({ timeLeft }) => 15 + (30 - timeLeft) * 0.5}px;
+  line-height: 27px;
 `;
 
 const BusDetails = styled.div`

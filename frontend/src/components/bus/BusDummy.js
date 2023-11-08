@@ -1,3 +1,5 @@
+import BusDetail from "./BusDetail"
+
 busStop: [
   {
     citycode: "37050",

@@ -34,13 +34,13 @@ const Header = styled.div`
   align-items: center; 
   padding: 0 20px;
 `;
+
 const Body = styled.div`
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
   padding: 0 20px; 
 `;
-
 
 const Bottom = styled.div`
   /* background-color: yellow; */

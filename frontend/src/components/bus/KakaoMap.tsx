@@ -149,6 +149,7 @@ const PageButton = styled.p`
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-weight: bold;
 `;
 
 export default KakaoMap;

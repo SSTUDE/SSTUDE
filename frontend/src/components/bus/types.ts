@@ -19,6 +19,7 @@ export interface bus {
 }
 
 export interface BusState {
+  gps: [number, number] | null;
   busStops: busStops[] | null;
   // station: string | null;
   busStop: any;
@@ -27,7 +28,6 @@ export interface BusState {
   busRealTime: any;
   loading: boolean;
   error: any;
-  gps: [number, number] | null;
 }
 
 export type SelectedBuses = {
