@@ -22,20 +22,20 @@ const DayRainAmount: React.FC<DayRainAmountProps> = ({ RainAmountDatas, index })
   let RainAmount = RainAmountDatas.fcstValue === '강수없음' ? '0' : RainAmountDatas.fcstValue;
     
   return (
-    <Wrap index={index}>
+    <Wrap $index={index}>
         <span className="time">{RainAmount}</span> 
     </Wrap>
   );
 };
 
 // 그리드 컨테이너에 맞게 스타일링된 컴포넌트
-const Wrap = styled.div<{ index: number }>`
+const Wrap = styled.div<{ $index: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0 8px;
-  grid-column-start: ${props => props.index + 1}; // index 값을 기반으로 열 시작 위치를 지정합니다.
+  grid-column-start: ${props => props.$index + 1}; // index 값을 기반으로 열 시작 위치를 지정합니다.
 `;
 
 const Label = styled.div`

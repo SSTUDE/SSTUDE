@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MenuBtn from '../Common/MenuBtn';
 import HelloWorld from '../Common/HelloWorld';
-import DateTime from '../Common/dateTime';
+import DateTime from '../Common/DateTime';
 import { useNavigate } from 'react-router-dom';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
 

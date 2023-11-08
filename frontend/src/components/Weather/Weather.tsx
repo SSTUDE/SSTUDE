@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import Today from './Today'
+import Today from './Today/Today'
 import Week from './Week'
 import Hourly from './Hourly/Hourly'
 import { getWeatherData } from '../../apis/api'
 import { WeatherDataResponse, WeatherDataCustom } from './types';
 
 const Weather = () => {
-  const [dailySky, setDailySky] = useState<WeatherDataResponse[]>([]);
-  const [TempDatas, setTempDatas] = useState<WeatherDataResponse[]>([]);
-  const [RainRateDatas, setRainRateDatas] = useState<WeatherDataResponse[]>([]);
-  const [RainAmountDatas, setRainAmountDatas] = useState<WeatherDataResponse[]>([]);
-  const [HumidityDatas, setHumidityDatas] = useState<WeatherDataResponse[]>([]);
+  const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
+  const [TempDatas, setTempDatas] = useState<WeatherDataCustom[]>([]);
+  const [RainRateDatas, setRainRateDatas] = useState<WeatherDataCustom[]>([]);
+  const [RainAmountDatas, setRainAmountDatas] = useState<WeatherDataCustom[]>([]);
+  const [HumidityDatas, setHumidityDatas] = useState<WeatherDataCustom[]>([]);
+  const [NowDatas, setNowDatas] = useState<WeatherDataCustom[]>([]);
 
   const day = new Date();
   const hour = day.getHours(); 
@@ -79,14 +80,13 @@ const Weather = () => {
       setRainRateDatas(RainRateDatas);
       // console.log(RainRateDatas);
 
-
       // 강수량 정보 필터링
       const RainAmountDatas = CustomData
       .filter((item: WeatherDataCustom) => {
         return (item.category === "PCP");
       })
       setRainAmountDatas(RainAmountDatas);
-      console.log(RainAmountDatas);
+      // console.log(RainAmountDatas);
       
       // 습도 정보 필터링
       const HumidityDatas = CustomData
@@ -95,6 +95,25 @@ const Weather = () => {
       })
       setHumidityDatas(HumidityDatas);
       // console.log(HumidityDatas);
+
+      // 지금 정보(기온, 강수확률, 습도, 풍속=WSD) 필터링
+      const TempData = CustomData.find((item : WeatherDataCustom) => item.category === "TMP");
+      const HumidityData = CustomData.find((item : WeatherDataCustom) => item.category === "REH");
+      const WindSpeedData = CustomData.find((item : WeatherDataCustom) => item.category === "WSD");
+      const SkyData = CustomData.find((item : WeatherDataCustom) => item.category === "SKY");
+      const highestRainRateData = CustomData
+      .filter((item : WeatherDataCustom) => item.category === "POP" && item.fcstDate === currentDate)
+      .reduce((max: WeatherDataCustom, item: WeatherDataCustom) => max.fcstValue > item.fcstValue ? max : item);
+
+      const NowDatas : (WeatherDataCustom)[] = [
+        TempData,
+        HumidityData,
+        WindSpeedData,
+        SkyData,
+        highestRainRateData
+        ].filter(item => item !== undefined);
+      setNowDatas(NowDatas);
+      console.log(NowDatas);
 
     } catch (error) {
       console.error("데이터를 가져오는 데 실패했습니다:", error);
@@ -107,16 +126,20 @@ const Weather = () => {
 
   return (
     <>
-      <Today></Today>
+      {NowDatas.length > 0 ? (
+        <Today NowDatas={NowDatas} />
+      ) : (
+        <></>
+      )}
       <Hourly 
         dailySky={dailySky} 
         TempDatas={TempDatas} 
         RainRateDatas={RainRateDatas} 
         RainAmountDatas={RainAmountDatas}
         HumidityDatas={HumidityDatas}
-        ></Hourly>
-      <Week></Week>
-    </>
+      />
+      <Week/>
+  </>
   )
 }
 
