@@ -1,18 +1,22 @@
 package com.sstude.busstation.service;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sstude.busstation.dto.request.GpsRequestDto;
 import com.sstude.busstation.dto.request.StationRequestDto;
-import com.sstude.busstation.dto.response.BusListApiResponseDto;
-import com.sstude.busstation.dto.response.BusResponseDto;
-import com.sstude.busstation.dto.response.BusStationListApiResponseDto;
-import com.sstude.busstation.dto.response.BusStationResponseDto;
+import com.sstude.busstation.dto.response.*;
 import com.sstude.busstation.global.error.BusinessException;
 import com.sstude.busstation.global.error.ErrorCode;
 import com.sstude.busstation.utils.ApiResponseDto;
 import com.sstude.busstation.utils.MapFiller;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +63,7 @@ public class BusInfoService {
 
         String jsonResponse = apiService(station_inform_api, hashMap);
 
-        List<BusStationResponseDto> responseDto = parseResponse(jsonResponse, BusStationListApiResponseDto.class);
+        List<BusStationResponseDto> responseDto = parseResponse(jsonResponse, BusStationApiResponseDto.class);
 
         return responseDto;
     }
@@ -72,28 +77,88 @@ public class BusInfoService {
 
         String jsonResponse = apiService(bus_arrival_inform_api, hashMap);
 
-        List<BusResponseDto> responseDto = parseResponse(jsonResponse, BusListApiResponseDto.class);
+        List<BusResponseDto> responseDto = parseResponse(jsonResponse, BusInformApiResponseDto.class);
 
         return responseDto;
     }
 
-    private <Item, T extends ApiResponseDto<Item, R>, R> List<R> parseResponse(String jsonResponse, Class<T> responseApiDtoClass) {
+
+    private JSONParser parser = new JSONParser();
+    private String[] jsonFindPath = new String[]{"response", "body", "items"};
+    private String arrayPath = "item";
+
+    private <T extends ApiResponseDto<T, R>, R> List<R> parseResponse(String jsonResponse, Class<T> responseApiDtoClass) {
         try {
+            T responseDto = responseApiDtoClass.getDeclaredConstructor().newInstance();
 
-            T apiResponse = objectMapper.readValue(jsonResponse, responseApiDtoClass);
 
-            List<Item> responseInforms = apiResponse._getItems();
+            // Json 정보 파싱
+            JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);
 
-            return responseInforms.stream()
-                    .map(apiResponse::of)
+            JSONObject intermediate = getJsonObject(jsonObject, jsonFindPath);
+
+            JSONArray jsonArray = getJsonArray(intermediate);
+
+            List<T> itemList = new ArrayList<>();
+
+            for (Object element : jsonArray){
+                JSONObject itemJson = (JSONObject) element;
+
+                // JSONObject를 JSON 문자열로 변환
+                String json = itemJson.toString();
+
+                // JSON 문자열을 T 클래스의 인스턴스로 변환
+                T test = objectMapper.readValue(json, responseApiDtoClass);
+
+                itemList.add(test);
+            }
+
+            List<R> responseInforms = itemList.stream()
+                    .map(responseDto::of)
                     .collect(Collectors.toList());
 
+            return responseInforms;
+
         } catch (JsonProcessingException e) {
-            System.out.println(e);
             throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        } catch(Exception e){
+            throw new RuntimeException(e.getMessage());
         }
     }
 
+    private JSONObject getJsonObject(JSONObject jsonObject, String[] keyArray) {
+
+        if(keyArray != null){
+            for(String key : keyArray){
+                try{
+                    jsonObject = (JSONObject) jsonObject.get(key);
+                }catch (Exception e){
+                    return new JSONObject();
+                }
+
+            }
+        }
+        return jsonObject;
+    }
+
+    private JSONArray getJsonArray(JSONObject object) {
+        Object obj = object.get(arrayPath);
+
+        // obj가 이미 JSONArray인 경우 그대로 반환합니다.
+        if (obj instanceof JSONArray) {
+            return (JSONArray) obj;
+        }
+
+        // obj가 JSONObject 혹은 기타 다른 데이터 타입인 경우, 이를 JSONArray에 포함시켜 반환합니다.
+        JSONArray jsonArray = new JSONArray();
+        if (obj != null) {
+            jsonArray.add(obj);
+        }
+
+        return jsonArray;
+    }
 
     private String apiService(String uri, Map<String, String> queryParams) {
         RestTemplate restTemplate = new RestTemplate();

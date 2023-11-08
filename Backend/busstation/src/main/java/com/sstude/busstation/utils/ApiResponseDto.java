@@ -2,7 +2,7 @@ package com.sstude.busstation.utils;
 
 import java.util.List;
 
-public interface ApiResponseDto<Item, R> {
-    List<Item> _getItems();
-    R of(Item item);
+public interface ApiResponseDto<T, R> {
+    List<T> _getItems();
+    R of(T item);
 }
