@@ -171,8 +171,12 @@ while True:
         known_face_encodings, known_face_names = getUserInfo.from_users_folder()
     
     ## Camera on off mapping process
-    if msg_type == "camera" and finish_time < datetime.now():
+    if msg_type == "camera" and datetime.now() < finish_time:
         pass
+    
+    ## getting accessToken for send img
+    if msg_type == "accessToken" and datetime.now() < finish_time :
+        msg_data = msg.get("data")
     
     ##############################################
     
