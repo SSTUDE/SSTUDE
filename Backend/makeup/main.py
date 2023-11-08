@@ -3,19 +3,19 @@ from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis import personal_color
 from clothes_analysis.clothes_score import clothes_score
-from database import connectMySQL, connectPymongo
+from database import connectMySQL, connectPymongo, redis_config
 from S3backet import s3
 from service import changeId
 from datetime import datetime
 # from fastapi.openapi.utils import get_openapi
 import requests
-from redis_config import redis_config
 import os
 
 
 app = FastAPI()
 rd = redis_config()
 current_date = datetime.now().date()
+current_date_time = datetime.now()
 
 # @app.get("makeup-service/v3/api-docs", include_in_schema=False)
 # def get_open_api_endpoint():
@@ -34,27 +34,22 @@ async def runColor(
 ):
     connect, curs = connectMySQL()
     ##############토큰으로 spring에서 유저찾아오기######################
-    # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    userid=2
-    
-    ## 하루에 3번 이상 요청할 수 없음 
-    # with connect.cursor() as curs:
-    #     query = """SELECT COUNT(*) AS request_count
-    #                 FROM makeups
-    #                 WHERE member_id = %s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
-    #     curs.execute(query, (userid, current_date))
-    #     result = curs.fetchone()
-    #     count = result[0] if result else 0
-    count =0    
-    
-    #################캐싱적용해보기##########################
-    # data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
-    # if data:
-    #     count=int(data)+1
-    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count)
-    # else:
-    #     count=0
-    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count)
+    response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+
+    #################캐싱적용##########################
+    data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
+    if data:
+        count=int(data)+1
+        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    else:
+        count=0
+        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
     
     if count >=1:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
@@ -79,8 +74,8 @@ async def runColor(
             result = result.split('톤')[0]
             
             with connect.cursor() as curs:
-                query = """INSERT INTO makeups (member_id, img_uri, result) VALUES (%s, %s, %s)"""
-                curs.execute(query, (userid, s3uri, result))
+                query = """INSERT INTO makeups (member_id, img_uri, result, calender) VALUES (%s, %s, %s, %s)"""
+                curs.execute(query, (userid, s3uri, result, current_date_time))
             connect.commit()
             
             match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
@@ -110,19 +105,22 @@ async def read_item(file: UploadFile = File(),
             access_token: Optional[str] = Header(None, convert_underscores=False)):
     collection = connectPymongo()
    ##############토큰으로 spring에서 유저찾아오기######################
-    # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    userid=2
+    response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
-    current_date_time = datetime.now()
-    count =0
-    #################캐싱적용해보기##########################
-    # data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
-    # if data:
-    #     count=int(data)+1
-    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count)
-    # else:
-    #     count=0
-    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count)
+    #################캐싱적용##########################
+    data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
+    if data:
+        count=int(data)+1
+        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    else:
+        count=0
+        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
         
     if count >=3:
         raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
@@ -143,10 +141,9 @@ async def read_item(file: UploadFile = File(),
             clothes_score_obj = clothes_score(uri, userid, current_date_time)
             score = clothes_score_obj.score
             
-            
             # DB에 저장
             collection.insert_one({'memberId': userid,
-                                   'img_uri':s3uri,
+                                   'imguri':s3uri,
                                    "score":score,
                                    "calender":current_date_time})
             
@@ -154,7 +151,7 @@ async def read_item(file: UploadFile = File(),
             # 쿼리 실행 및 결과 정렬, 제한
             result = collection.find({"memberId":userid,
                                       "calender": {"$gte": datetime(current_date_time.year, current_date_time.month, current_date_time.day), "$lt": datetime(current_date_time.year, current_date_time.month, current_date_time.day, 23, 59, 59, 999999)}}
-                                     ,{"_id":0, "score":1, "img_uri":1})
+                                     ,{"_id":0, "score":1, "imguri":1})
             lst = []
             for r in result:
                 lst.append(r)
@@ -176,10 +173,14 @@ def getRecordDetail (
     access_token: Optional[str] = Header(None, convert_underscores=False)):
     try:
         connect, curs = connectMySQL()
-        # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
-        # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
         
-        userid=2
+        response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+        if response.status_code == 200:
+            response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+            userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+            print(userid)
+        else:
+            raise HTTPException(status_code=400, detail="잘못된 요청입니다")
         
         date_obj = datetime.strptime(request, "%Y-%m-%d").date()
         
@@ -209,30 +210,3 @@ def getRecordDetail (
                          'skin':skin, 'eye':eye,
                          'eng': eng })
 
-    
-###########################################################################   
-    
-# # 퍼스널 컬러 이전 기록 리스트로 반환(달력) 
-# @app.get("/makeup/list")
-# def getRecordList (
-#     request: MonthRequestDto,
-#     access_token: Optional[str] = Header(None, convert_underscores=False)):
-#     # 헤더에 담긴 엑세스토큰을 spring으로 넘겨주고 받음 
-#     # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    
-#     userid=1
-#     connect, curs = connectMySQL()
-
-#     # 날짜별 몇건의 사진이 있는지
-#     query_select = """SELECT COUNT(*), DAY(calender) 
-#                     FROM makeups 
-#                     WHERE member_id=%s AND YEAR(calender)=%s AND MONTH(calender)=%s 
-#                     GROUP BY DAY(calender)"""
-#     curs.execute(query_select,(userid, request.year, request.month))
-#     row = curs.fetchall()
-    
-#     lst = []
-#     for r in row:
-#          lst.append({'count': r[0], 'day': r[1]})
-    
-#     return {"month": request.month, "list":lst}

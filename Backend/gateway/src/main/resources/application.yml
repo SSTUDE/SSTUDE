@@ -126,8 +126,8 @@ spring:
 
 
   redis:
-#    host: k9d204.p.ssafy.io
-    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+    host: k9d204.p.ssafy.io
+#    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
     port: 6379
 
 jwt:

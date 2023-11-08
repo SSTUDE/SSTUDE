@@ -40,7 +40,7 @@ public class StaticService {
         List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, userid);
 
 
-        StaticAllResponseDto responseDtoList = new StaticAllResponseDto();
+
         st= new HashSet<>();
         for (Makeups makeup : makeupsList) {
             LocalDateTime calender = makeup.getCalender();
@@ -55,8 +55,7 @@ public class StaticService {
         }
         ArrayList<Integer> list2 = new ArrayList<>(st);
 
-        responseDtoList.setMakeup(list);
-        responseDtoList.setClothes(list2);
+        StaticAllResponseDto responseDtoList = StaticAllResponseDto.of(list, list2);
 
         return responseDtoList;
     }

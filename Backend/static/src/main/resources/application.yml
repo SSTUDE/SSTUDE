@@ -18,15 +18,16 @@ spring:
     username: root
 #    password: ENC(ruBvYLBdp/4OQHTchrz3FA==)
     password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+
   data:
     mongodb:
 #      host: localhost
       host: k9d204.p.ssafy.io
       port: 27017
-      authentication-database: admin
       database: clothes
       username: root
       password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+      authentication-database: admin
 
   jpa:
     database: mysql
@@ -55,8 +56,8 @@ springdoc:
 
 openapi:
   service:
-    url: http://k9d204a.p.ssafy.io:8000/
-#    url: http://localhost:8000/
+#    url: http://k9d204a.p.ssafy.io:8000/
+    url: http://localhost:8000/
 
 jasypt:
   encryptor:
