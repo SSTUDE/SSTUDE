@@ -36,7 +36,6 @@ class WebSocketService:
         
 
         
-        
     def start(self):
         print(f"start web_socket connection. portNo is {self.portNo}")
         if not self.server:
@@ -61,6 +60,7 @@ class WebSocketService:
                 print("send start")
                 await websocket.send(message)
                 await websocket.close()
+                self.latest_message = None
 
         except Exception as e:
             print("서버와의 연결에 실패했습니다.")

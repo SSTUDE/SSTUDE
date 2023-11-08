@@ -28,7 +28,19 @@ def update_finish_time(_now):
     global finish_time, update_min
     finish_time = _now + timedelta(minutes=update_min)
 
+def initialize_camera():
+    global cam
+    cam = cv2.VideoCapture(0, cv2.CAP_V4L2)
+    if not cam.isOpened():
+        print("카메라를 열 수 없습니다.")
+        return False
+    return True
 
+def release_camera():
+    global cam
+    if cam is not None:
+        cam.release()
+        cam = None
 
 # 기본작업 세팅
 
@@ -48,10 +60,10 @@ thread = threading.Thread(target=start_websocket_service)
 thread.start()
 
 # 카메라 등록
-cam = cv2.VideoCapture(0, cv2.CAP_V4L2)
-if not cam.isOpened():
-    print("카메라를 열 수 없습니다.")
-    exit()
+cam = None 
+
+# 카메라 초기화
+initialize_camera()
 
 ###
 # 회원정보 불러오기
@@ -69,6 +81,9 @@ process_this_frame = True
 service_on = False
 update_min = 6
 finish_time = datetime.now()
+cool_down_counter = 10
+cnt = -1
+is_cooler_on = False
 while True:
     
     userRecogn = False
@@ -76,6 +91,8 @@ while True:
             "type" : "",
             "data" : ""
         }
+    
+    if not cam : continue
     
     ret, frame = cam.read()
     now = datetime.now()
@@ -111,14 +128,56 @@ while True:
 
             # Or instead, use the known face with the smallest distance to the new face
             face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-            best_match_index = np.argmin(face_distances)
-            if matches[best_match_index]:
-                name = known_face_names[best_match_index]
-                userRecogn = True
+
+            if 0 < len(face_distances):
+                best_match_index = np.argmin(face_distances)
+                if matches[best_match_index]:
+                    name = known_face_names[best_match_index]
+                    userRecogn = True
+            else:
+                pass
+                # print("face_distances 배열이 비어 있습니다.")
+
                 
             face_names.append(name)
-
-
+    process_this_frame = not process_this_frame
+    
+    ###### connection with web socket data ####### 
+    message = ws_service.checkLatestMessage()
+    
+    msg = json.loads(message) if message is not None else dict()
+    msg_type = msg.get("type")
+    
+    ####### caring about message cuz of threading
+    if msg_type and not is_cooler_on: is_cooler_on = True
+    if is_cooler_on : cnt += 1
+    if cnt == cool_down_counter :
+        is_cooler_on = False
+        cnt = -1
+    ##############################
+    ## Sign Up Messageing process
+    if not userRecogn and msg_type == "signUp" and cnt == 0:
+        ws_service.eventTrigger()
+        userName = getUserInfo.createUser()
+        
+        path = f'./users/{userName}/' + now.strftime("%Y%m%d_%H%M%S.jpg")
+        cv2.imwrite(path, frame)
+        
+        msg["data"] = getSignInInfo.loadUserInfo(userSignInInfoFile)
+        msg["data"]["userInfo"] = userName
+        print("Sign Up Process Started : ", msg)
+        asyncio.run(ws_service.sendInfo(json.dumps(msg)));
+        
+        known_face_encodings, known_face_names = getUserInfo.from_users_folder()
+    
+    ## Camera on off mapping process
+    if msg_type == "camera" and finish_time < datetime.now():
+        pass
+    
+    ##############################################
+    
+    
+    ######## about camera servie ###############
     if userRecogn :
         getSignInInfo.updateUserInfo(userSignInInfoFile, name)
         data = getSignInInfo.loadUserInfo(userSignInInfoFile)
@@ -127,8 +186,45 @@ while True:
             "type" : "signIn",
             "data" : data
         }
-    
-    
+        print(data)
+
+    key = cv2.waitKey(1)
+       
+    if key==27:
+        break
+
+    # 서비스 유지시간 업데이트
+    if userRecogn and is_need_to_update(now):
+        update_finish_time(now)
+        print("타겟 시간 변경 : ", finish_time)
+        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
+
+    # 서비스 실행
+    if userRecogn and not service_on :
+        update_finish_time(now)
+        print("타겟 시간 : ", finish_time)
+        service_on = True
+        
+        ## 
+        open_service()
+        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
+
+
+    # 서비스 종료
+    if service_on and finish_time < datetime.now():
+        service_on = False
+        
+        ## 
+        close_service()
+
+        data = getSignInInfo.loadUserInfo(userSignInInfoFile)
+        Info = {
+            "type" : "signOut",
+            "data" : data
+        }
+        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
+    #############################################################
+            
     # Display the results #######
     for (top, right, bottom, left), name in zip(face_locations, face_names):
         # Scale back up face locations since the frame we detected in was scaled to 1/4 size
@@ -144,60 +240,12 @@ while True:
         cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
         font = cv2.FONT_HERSHEY_DUPLEX
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-    
-    process_this_frame = not process_this_frame
+
     
     cv2.imshow("Camera", frame)
     #############################
-
-    key = cv2.waitKey(1)
-
-    # for que test
-    if key== 113 or key == 81:
-        message = ws_service.checkLatestMessage()
-        msg = json.loads(jsonString)
-        
-        msg_type = msg.get("type")
-        print("Check Message : ", msg)
-        
-        
-    
-    if key==27:
-        break
-
-    # 서비스 유지시간 업데이트
-    if key == 32 :
-    #    if key == 32 and is_need_to_update(now):
-        update_finish_time(now)
-        print("타겟 시간 변경 : ", finish_time)
-        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
-
-    # 서비스 실행
-    if key == 32 and not service_on :
-        update_finish_time(now)
-        print("타겟 시간 : ", finish_time)
-        service_on = True
-        
-        ## 
-        open_service()
-        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
-
-    # 서비스 종료
-    if service_on and finish_time < datetime.now():
-        service_on = False
-        
-        ## 
-        close_service()
-
-        data = getSignInInfo.loadUserInfo(userSignInInfoFile)
-        Info = {
-            "type" : "signOut",
-            "data" : data
-        }
-        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
         
 
 cam.release()
 cv2.destroyAllWindows()
 ws_service.stop()
-

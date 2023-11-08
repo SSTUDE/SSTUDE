@@ -34,3 +34,10 @@ def from_users_folder():
 
 	print(known_face_names)
 	return known_face_encodings, known_face_names
+	
+def createUser():
+    file_name = token_urlsafe(16)
+    path = f'./users/{file_name}'
+    os.makedirs(path)
+    print("The new directory is created!")
+    return file_name
