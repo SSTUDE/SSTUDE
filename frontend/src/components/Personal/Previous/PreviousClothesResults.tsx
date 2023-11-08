@@ -5,7 +5,8 @@ import Carousel from "./Carousel";
 
 const StyledSection = styled.section`
   width: 100%;
-  height: 70vh;
+  height: 65vh;
+  position: relative;
 `;
 
 const InfoArticle = styled.article`
@@ -14,8 +15,8 @@ const InfoArticle = styled.article`
   align-items: center;
 
   position: relative;
-  top: -8%;
-  height: 26.5vh;
+  top: -44px;
+  height: calc(65% - 159px);
 
   background-color: #000000c2;
   color: white;
@@ -28,9 +29,9 @@ const StyledScoreName = styled.p`
   justify-content: center;
 
   position: relative;
-  top: 30px;
+  margin: 3% 0 0 0;
 
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: "KBO-Dia-Gothic_bold";
   text-shadow: 3px 2px 2px grey;
 `;
@@ -41,9 +42,9 @@ const StyledScore = styled.p`
   justify-content: center;
 
   position: relative;
-  top: 50px;
+  top: 20px;
 
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 600;
   font-family: "KBO-Dia-Gothic_bold";
   text-shadow: 3px 2px 2px grey;
@@ -55,9 +56,9 @@ const StyledHighestScore = styled.p`
   justify-content: center;
 
   position: relative;
-  top: 80px;
+  top: 50px;
 
-  font-size: 3.5rem;
+  font-size: 3rem;
   font-weight: 600;
   font-family: "LeferiPoint-BlackObliqueA";
   color: #469be1;

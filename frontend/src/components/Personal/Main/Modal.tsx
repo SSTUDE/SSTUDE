@@ -31,17 +31,14 @@ const ModalContainer = styled.div`
   position: relative;
   overflow: auto;
 
-  width: 35%;
+  width: 32%;
   max-height: 95%;
-  /* padding: 20px; */
 
-  /* background-color: white; */
   background: linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb);
   background-size: 200% 200%;
   animation: ${GradientAnimation} 4s linear infinite;
   border-radius: 5px;
-  /* background-color: rgba(90, 85, 85); */
-  /* color: white; */
+
   color: black;
 `;
 
@@ -70,7 +67,6 @@ const DateContainer = styled.div`
     font-family: "Giants-Bold";
 
     margin: 0;
-    /* padding: 3% 0 0; */
   }
 `;
 
@@ -98,7 +94,6 @@ const HeaderContainer = styled.div`
   margin: 5% 0;
 
   position: relative;
-  top: 20px;
 `;
 
 const StyledLink = styled.div`

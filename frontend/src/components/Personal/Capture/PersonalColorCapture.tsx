@@ -22,9 +22,9 @@ const StyledTitle = styled.h1`
 // 캡쳐 앵글
 const StyledCaptureAngle = styled.div`
   position: relative;
-  margin-top: 50px;
+  /* margin-top: 40px; */
   width: 50vh;
-  height: 70vh;
+  height: 65vh;
 `;
 
 // 앵글 모서리
@@ -36,7 +36,7 @@ const Corner = styled.div`
   &::before {
     content: "";
     position: absolute;
-    border: 1px solid wheat;
+    border: 3px solid skyblue;
     width: 100%;
     height: 100%;
   }
@@ -88,7 +88,7 @@ const BottomRight = styled(Corner)`
 
 // 안내 정보
 const StyledCaptureInfo = styled.p`
-  margin-top: 1%;
+  margin-top: 1.5%;
 
   font-family: "Giants-Bold";
   font-size: 2rem;
@@ -98,7 +98,7 @@ const StyledCaptureInfo = styled.p`
 // 카메라 버튼
 const StyledCameraButton = styled.button`
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
 

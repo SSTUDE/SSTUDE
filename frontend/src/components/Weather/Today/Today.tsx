@@ -1,39 +1,39 @@
 import React from 'react'
 import styled from 'styled-components';
-import { ReactComponent as SunWithCloud } from '../../assets/images/sun_with_cloud.svg';
-import { ReactComponent as Humidity } from '../../assets/images/humidity.svg';
-import { ReactComponent as Umbrella } from '../../assets/images/umbrella.svg';
-import { ReactComponent as Wind } from '../../assets/images/Wind.svg';
- 
+import { ReactComponent as Humidity } from '../../../assets/images/humidity.svg';
+import { ReactComponent as Umbrella } from '../../../assets/images/umbrella.svg';
+import { ReactComponent as Wind } from '../../../assets/images/Wind.svg';
+import { WeatherDataCustom } from '../types';
+import SkyToday from './SkyToday';
 
-const Today = () => {
+type TodayProps = {
+  NowDatas: WeatherDataCustom[];
+};
+
+const Today: React.FC<TodayProps> = ({ NowDatas }) => {
   return (
     <Container>
         <LeftTop>
           <SvgContainer>
-            <SunSvg/>
-            <div>
-              <span>18ºC</span>
-              <span>밝음</span>
-            </div>
+            <SkyToday NowDatas={NowDatas}/>
           </SvgContainer>
           <SvgContainer>
             <UmbSvg/>
             <div>
-                <span>60%</span>
-                <span>11시</span>
+                <span>{NowDatas[4].fcstValue}%</span>
+                <span>{NowDatas[4].fcstTime.slice(0, 2)}시</span>
             </div>
           </SvgContainer>
           <SvgContainer>
             <HumSvg/>
             <div>
-                <span>70%</span>
+                <span>{NowDatas[1].fcstValue}%</span>
             </div>
           </SvgContainer>
           <SvgContainer>
             <WindSvg/>
             <div>
-                <span>2.5</span>
+                <span>{NowDatas[2].fcstValue}</span>
                 <span>m/s</span>
             </div>
           </SvgContainer>
@@ -81,11 +81,6 @@ const SvgContainer = styled.div`
   }
 
   }
-`
-
-const SunSvg = styled(SunWithCloud)`
-  width: 130px;
-  height: 130px;
 `
 
 const HumSvg = styled(Humidity)`

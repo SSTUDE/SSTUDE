@@ -6,17 +6,19 @@ import { useNavigate } from "react-router-dom";
 // 퍼스널 컬러 진단 컨테이너
 const StyledSection = styled.section`
   width: 100%;
-  height: 70vh;
+  height: 65vh;
   color: white;
 `;
 
 // 이미지 컨테이너
 const StyledFigure = styled.figure`
+  position: relative;
+
   display: flex;
   justify-content: center;
   height: 70%;
+
   img {
-    /* border-radius: 20px; */
     box-shadow: 0 0 10px 5px black;
   }
 `;
@@ -28,17 +30,17 @@ const InfoArticle = styled.article`
   align-items: center;
 
   position: relative;
-  top: -10%;
-  height: 26.5vh;
+  top: -60px;
+  height: calc(65% - 159px); // Adjust this calculation based on your layout
+  /* overflow: auto; */
 
   background-color: #000000c2;
-  /* background-color: black; */
 `;
 
 // 진단 영문명
 const ColorNameEN = styled.div`
   font-family: "LeferiPoint-BlackObliqueA" !important;
-  font-size: 4rem !important;
+  font-size: 3.5rem !important;
   color: #469be1;
 
   display: flex;
@@ -51,7 +53,7 @@ const ColorNameEN = styled.div`
 // 진단 한글
 const ColorNameKR = styled.div`
   font-family: "KBO-Dia-Gothic_bold" !important;
-  font-size: 3rem;
+  font-size: 2rem;
   color: #469be1;
 
   padding: 0 !important;
@@ -60,13 +62,13 @@ const ColorNameKR = styled.div`
 // 상세보기 버튼
 const DetailButton = styled.button`
   /* margin-top: 5%; */
-  margin: 7% 0;
+  margin: 4% 0;
 
   background-color: transparent;
   border: none;
 
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: white;
   font-family: "KBO-Dia-Gothic_bold" !important;
 `;

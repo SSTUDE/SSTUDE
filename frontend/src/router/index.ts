@@ -9,6 +9,8 @@ import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
 import Calender from "../components/Personal/Main/Calender";
+import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
+import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
@@ -16,11 +18,12 @@ import BusDetail from "../components/Bus/BusDetail";
 import KakaoMap from "../components/Bus/KakaoMap";
 import BusList from "../components/Bus/BusList";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
+import GetWeatherData from "../components/Weather/GetWeatherData";
+
 import SelectContents from "../components/Personal/Capture/SelectContents";
 import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCapture";
 import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
 import DiagnosisLoading from "../components/Personal/Results/PersonalColor/DiagnosisLoading";
-
 
 const routes = [
   {
@@ -97,6 +100,10 @@ const routes = [
   {
     path: "/weather",
     Component: Weather,
+  },
+  {
+    path: "/getweather",
+    Component: GetWeatherData,
   },
 
   // 버스정보

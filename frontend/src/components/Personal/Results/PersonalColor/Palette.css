@@ -30,7 +30,7 @@
 /* 색상 카드 */
 .swatch {
   height: 300px;
-  width: 180px;
+  width: 150px;
 
   transition: 800ms all;
   display: block;
@@ -48,11 +48,11 @@
 /* 색상 코드 */
 .swatch span {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 35px;
+  font-size: 2rem;
   display: block;
   position: absolute;
   left: -19px;
-  top: 60px;
+  top: 50px;
   text-transform: uppercase;
   transform: rotate(90deg);
   transition: 200ms color;
@@ -76,7 +76,7 @@
   /* margin-top: 10%; */
   padding: 10px;
 
-  width: 200px;
+  width: 210px;
   /* height: 120px; */
 
   transition: 600ms all;
@@ -136,54 +136,54 @@
 
 /* 왼쪽부터 색상정보들 */
 .swatch:nth-child(1) {
-  transform: rotate(0deg) translateX(-375px);
+  transform: rotate(0deg) translateX(-360px) translateY(-30px);
 }
 
 .swatch:nth-child(2) {
-  transform: rotate(0deg) translateX(-275px);
+  transform: rotate(0deg) translateX(-275px) translateY(-30px);
 }
 
 .swatch:nth-child(3) {
-  transform: rotate(0deg) translateX(-175px);
+  transform: rotate(0deg) translateX(-175px) translateY(-30px);
 }
 
 .swatch:nth-child(4) {
-  transform: rotate(0deg) translateX(-75px);
+  transform: rotate(0deg) translateX(-75px) translateY(-30px);
 }
 
 .swatch:nth-child(5) {
-  transform: rotate(0deg) translateX(25px);
+  transform: rotate(0deg) translateX(25px) translateY(-30px);
 }
 
 .swatch:nth-child(6) {
-  transform: rotate(0deg) translateX(125px);
+  transform: rotate(0deg) translateX(125px) translateY(-30px);
 }
 
 .swatch:nth-child(7) {
-  transform: rotate(0deg) translateX(225px);
+  transform: rotate(0deg) translateX(225px) translateY(-30px);
 }
 
 .swatch:nth-child(8) {
-  transform: rotate(0deg) translateX(325px);
+  transform: rotate(0deg) translateX(325px) translateY(-30px);
 }
 
 .swatch:nth-child(9) {
-  transform: rotate(0deg) translateX(425px);
+  transform: rotate(0deg) translateX(425px) translateY(-30px);
 }
 
 .swatch:nth-child(10) {
-  transform: rotate(0deg) translateX(525px);
+  transform: rotate(0deg) translateX(525px) translateY(-30px);
 }
 
 .swatch:nth-child(11) {
-  transform: rotate(0deg) translateX(625px);
+  transform: rotate(0deg) translateX(625px) translateY(-30px);
 }
 
 .swatch:nth-child(12) {
-  transform: rotate(0deg) translateX(725px);
+  transform: rotate(0deg) translateX(725px) translateY(-30px);
 }
 .swatch:nth-child(13) {
-  transform: rotate(0deg) translateX(825px);
+  transform: rotate(0deg) translateX(820px) translateY(-30px);
 }
 
 .swatch.select {
@@ -240,5 +240,5 @@
 }
 
 .swatch.select:nth-child(13) {
-  transform: rotate(0deg) translateX(800px) translateY(-100px);
+  transform: rotate(0deg) translateX(780px) translateY(-100px);
 }

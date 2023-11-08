@@ -3,8 +3,7 @@ import { styled } from "styled-components";
 import { images } from "../../../constants/images";
 
 const CarouselMain = styled.section`
-  width: 458px;
-  /* height: 70%; */
+  width: 350px;
 
   position: relative;
 
@@ -14,6 +13,8 @@ const CarouselMain = styled.section`
 
 // 이미지 보이게 하기 위한 더 큰 컨테이너
 const CarouselWrapperContainer = styled.div`
+  height: 70%;
+
   overflow: hidden;
   box-shadow: 0 0 10px 5px black;
 `;
@@ -27,7 +28,7 @@ const CarouselWrapper = styled.div`
 
 // 캐러셀 슬라이드
 const CarouselSlide = styled.figure`
-  flex: 0 0 458px;
+  flex: 0 0 350px;
   position: relative;
   margin: 0;
 `;
@@ -71,7 +72,6 @@ const CarouselPrev = styled(CarouselButton)`
   position: absolute;
   left: -70px;
 
-  /* background-color: rgba(0, 0, 0, 0.3); */
   padding-top: 5px;
   padding-bottom: 5px;
 `;
@@ -84,7 +84,6 @@ const CarouselNext = styled(CarouselButton)`
 
   position: absolute;
   right: -70px;
-  /* background-color: rgba(0, 0, 0, 0.3); */
 `;
 
 // 현재 슬라이드 위치

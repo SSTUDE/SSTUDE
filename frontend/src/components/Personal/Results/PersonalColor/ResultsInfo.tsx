@@ -4,6 +4,9 @@ import "./font.css";
 
 const StyledContainer = styled.section`
   flex: 1;
+  position: relative;
+  right: 30px;
+  height: 100%;
 `;
 
 // 진단값 영문명
@@ -49,6 +52,7 @@ const StyledMyBeautyTipContainer = styled.div``;
 const StyledMyBeautyTipTitle = styled.div`
   display: flex;
   flex-direction: row;
+  padding-top: 1.5%;
 `;
 
 // 뷰티팁 타이틀 영문명
@@ -62,7 +66,7 @@ const StyledMyBeautyTipTitleEN = styled.p`
   font-weight: 900;
   color: #469be1;
 
-  margin: 2% 0;
+  /* margin: 2% 0; */
 `;
 
 // 뷰티팁 타이틀 한글
@@ -89,7 +93,7 @@ const StyledMyBeautyTipContent = styled.p`
   font-size: 2rem;
   font-weight: 500;
 
-  margin: 0 0 2% 0;
+  /* margin: 0 0 2% 0; */
 `;
 
 // 뷰티팁 컨텐츠 설명
@@ -103,31 +107,15 @@ const StyledMyBeautyTipInfo = styled.p`
   margin: 0 0 3.5% 0;
 `;
 
-// 정보 캐러셀 버튼
-const StyledCarouselButtonContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 70%;
-  transform: translateX(-50%);
-
-  button {
-    border: none;
-    background-color: transparent;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
-`;
-
 // 현재 슬라이드 위치
 const CarouselPagination = styled.nav`
   display: flex;
   justify-content: center;
 
-  position: absolute;
-  bottom: 0;
-  left: 70%;
-  transform: translateX(-50%);
+  position: fixed;
+  bottom: 20%;
+  left: 78%;
+  /* transform: translateX(-50%); */
 `;
 
 // 슬라이드 위치 요소
@@ -177,10 +165,6 @@ const ResultsInfo = () => {
           <StyledColorNameKR>여름 뮤트</StyledColorNameKR>
           <StyledColorInfo>
             <div>장밋빛의 잿빛 피부를 가지고 있는 뮤트톤!</div>
-            <div>
-              밝은 쿨톤의 색을 사용하고 과감한 포인트 배색으로 리듬감 있는
-              스타일링을 해주세요.
-            </div>
             <div>
               섀도우는 밝은 애쉬그레이나 로즈빛으로 가볍게, 립은 핫핑크나
               체리레드로 대비를 주어 생동감 있게 메이크업 해주세요!
