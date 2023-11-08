@@ -126,18 +126,20 @@ const Weather = () => {
 
   return (
     <>
-      <Today
-        NowDatas={NowDatas}
-        />
+      {NowDatas.length > 0 ? (
+        <Today NowDatas={NowDatas} />
+      ) : (
+        <></>
+      )}
       <Hourly 
         dailySky={dailySky} 
         TempDatas={TempDatas} 
         RainRateDatas={RainRateDatas} 
         RainAmountDatas={RainAmountDatas}
         HumidityDatas={HumidityDatas}
-        />
+      />
       <Week/>
-    </>
+  </>
   )
 }
 
