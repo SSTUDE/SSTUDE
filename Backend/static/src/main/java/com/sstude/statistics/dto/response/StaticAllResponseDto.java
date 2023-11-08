@@ -14,12 +14,12 @@ public class StaticAllResponseDto {
     private ArrayList<Integer> makeup;
     private ArrayList<Integer> clothes;
 
+    public StaticAllResponseDto(ArrayList<Integer> makeup, ArrayList<Integer> clothes) {
+        this.makeup = makeup;
+        this.clothes=clothes;
+    }
 
-    @Builder
     public static StaticAllResponseDto of(ArrayList<Integer> makeup, ArrayList<Integer> clothes){
-        return StaticAllResponseDto.builder()
-                .makeup(makeup)
-                .clothes(clothes)
-                .build();
+        return new StaticAllResponseDto(makeup, clothes);
     }
 }

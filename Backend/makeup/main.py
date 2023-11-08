@@ -34,8 +34,13 @@ async def runColor(
 ):
     connect, curs = connectMySQL()
     ##############토큰으로 spring에서 유저찾아오기######################
-    # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    userid=2
+    response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     ## 하루에 3번 이상 요청할 수 없음 
     # with connect.cursor() as curs:
@@ -110,8 +115,13 @@ async def read_item(file: UploadFile = File(),
             access_token: Optional[str] = Header(None, convert_underscores=False)):
     collection = connectPymongo()
    ##############토큰으로 spring에서 유저찾아오기######################
-    # userid = requests.post("http://k9d204.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    userid=2
+    response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     current_date_time = datetime.now()
     count =0
@@ -142,7 +152,6 @@ async def read_item(file: UploadFile = File(),
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
             clothes_score_obj = clothes_score(uri, userid, current_date_time)
             score = clothes_score_obj.score
-            
             
             # DB에 저장
             collection.insert_one({'memberId': userid,

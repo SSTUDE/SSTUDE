@@ -41,6 +41,7 @@ public class StaticService {
 
 
 
+
         st= new HashSet<>();
         for (Makeups makeup : makeupsList) {
             LocalDateTime calender = makeup.getCalender();

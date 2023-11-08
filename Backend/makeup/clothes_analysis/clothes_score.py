@@ -28,7 +28,6 @@ class clothes_score:
         #색상을 lab으로 변환
         lab = convert_color(rgb, LabColor, through_rgb_type=sRGBColor)
         print(lab)
-
         # 사용자의 퍼스널컬러 결과 가져와서 어울리는 색과 비교해서 점수 매기기  
         self.score = my_color(userid, current_date, lab)
     

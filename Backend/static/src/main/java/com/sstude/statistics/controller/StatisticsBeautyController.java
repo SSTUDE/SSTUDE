@@ -3,6 +3,7 @@ package com.sstude.statistics.controller;
 import com.sstude.statistics.dto.request.StaticDayRequestDto;
 import com.sstude.statistics.dto.response.ClothesDetailResponseDto;
 import com.sstude.statistics.dto.response.ColorDetailResponseDto;
+import com.sstude.statistics.global.jwt.JwtTokenProvider;
 import com.sstude.statistics.service.BeautyService;
 import com.sstude.statistics.service.StaticService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,17 +21,17 @@ import java.util.List;
 public class StatisticsBeautyController {
         private final StaticService staticService;
         private final BeautyService beautyService;
-//        private final JwtTokenProvider jwtTokenProvider;
+        private final JwtTokenProvider jwtTokenProvider;
 
         // 그날의 퍼스널컬러 조회
         @Operation(summary = "그날의 퍼스널컬러 디테일 조회", description = "요청 시, 해당 달의 모든 운동, 뷰티 체크 여부를 전달합니다. ")
         @PostMapping(value = "/beauty")
-//        public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
-//                , @RequestBody StaticDayRequestDto requestDto) {
-        public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestBody StaticDayRequestDto requestDto) {
+        public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
+                , @RequestBody StaticDayRequestDto requestDto) {
+//        public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestBody StaticDayRequestDto requestDto) {
 
-//            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-            Long memberId = 2L;
+            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
+//            Long memberId = 2L;
             ColorDetailResponseDto colorDetail = beautyService.getColorDetail(memberId, requestDto);
             return new ResponseEntity<>(colorDetail, HttpStatus.OK);
         }
@@ -38,11 +39,11 @@ public class StatisticsBeautyController {
         // 그날의 의상 조회
         @Operation(summary = "그날의 의상 디테일 조회", description = "요청 시, 해당 달의 모든 운동, 뷰티 체크 여부를 전달합니다. ")
         @PostMapping(value = "/clothes")
-//        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
-//                , @RequestBody StaticDayRequestDto requestDto) {
-        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestBody StaticDayRequestDto requestDto) {
-            Long memberId = 2L;
-//            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
+        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
+                , @RequestBody StaticDayRequestDto requestDto) {
+//        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestBody StaticDayRequestDto requestDto) {
+//            Long memberId = 2L;
+            Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
             List<ClothesDetailResponseDto> responseDtos = beautyService.getClothesDetail(memberId, requestDto);
             return new ResponseEntity<>(responseDtos, HttpStatus.OK);
         }

@@ -23,8 +23,9 @@ spring:
     url: jdbc:mysql://localhost:3306/account?serverTimezone=Asia/Seoul
 #    url: jdbc:mysql://k9d204.p.ssafy.io:3306/account?serverTimezone=Asia/Seoul
     username: root
-    password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==)
+#    password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==) ### 여기여기
 #    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+    password: qwe123
 
   jpa:
     database: mysql
@@ -37,8 +38,8 @@ spring:
 
 
   redis:
-    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
-#    host: k9d204.p.ssafy.io
+#    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+    host: k9d204.p.ssafy.io
     port: 6379
 
 jwt:
