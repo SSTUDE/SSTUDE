@@ -20,8 +20,8 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      authentication-database: admin
-      database: clothes
+#      authentication-database: admin
+#      database: clothes
 
   jpa:
     database: mysql
