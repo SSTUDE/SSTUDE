@@ -115,6 +115,8 @@ spring:
 #          uri: http://businfo:8015
           predicates:
             - Path=/bus-station/**
+          filters:
+            - AuthenticationFilter
         - id: businfo-service
           uri: http://localhost:8015
 #          uri: http://businfo:8015
