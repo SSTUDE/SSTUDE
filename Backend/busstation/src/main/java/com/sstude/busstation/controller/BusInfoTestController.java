@@ -1,20 +1,22 @@
 package com.sstude.busstation.controller;
 
+import com.sstude.busstation.dto.request.GpsRequestDto;
 import com.sstude.busstation.dto.request.StationRequestDto;
 import com.sstude.busstation.dto.response.BusResponseDto;
 import com.sstude.busstation.dto.response.BusStationResponseDto;
 import com.sstude.busstation.global.jwt.JwtTokenProvider;
 import com.sstude.busstation.global.swagger.CustomApi;
-import com.sstude.busstation.dto.request.GpsRequestDto;
 import com.sstude.busstation.service.BusInfoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,8 +24,8 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/bus-station")
-public class BusInfoController {
+@RequestMapping("/bus-station-test")
+public class BusInfoTestController {
 
     private final BusInfoService busInfoService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -32,10 +34,10 @@ public class BusInfoController {
     @CustomApi
     @PostMapping("/near")
     public ResponseEntity<List<BusStationResponseDto>> findBusListInform(
-            @RequestBody @Validated GpsRequestDto gpsRequestDto,
-            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
+            @RequestBody @Validated GpsRequestDto gpsRequestDto
+//            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
-        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+//        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
         List<BusStationResponseDto> response = busInfoService.findBusStationListInform(gpsRequestDto);
 
         return ResponseEntity.ok(response);
@@ -45,10 +47,10 @@ public class BusInfoController {
     @CustomApi
     @PostMapping("/businform")
     public ResponseEntity<List<BusResponseDto>> findBusInform(
-            @RequestBody @Validated StationRequestDto stationRequestDto,
-            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
+            @RequestBody @Validated StationRequestDto stationRequestDto
+//            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
-        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+//        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
         List<BusResponseDto> response = busInfoService.findBusListInform(stationRequestDto);
 
         return ResponseEntity.ok(response);

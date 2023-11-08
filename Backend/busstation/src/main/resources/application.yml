@@ -14,11 +14,11 @@ spring:
     name: businfo
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/businfo?serverTimezone=Asia/Seoul
-    url: jdbc:mysql://k9d204.p.ssafy.io:3306/businfo?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/businfo?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://k9d204.p.ssafy.io:3306/businfo?serverTimezone=Asia/Seoul
     username: root
-#    password: ENC(SwKfL2NcG9o7brplw9slLw==)
-    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+    password: ENC(SwKfL2NcG9o7brplw9slLw==)
+#    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
   jpa:
     database: mysql
     hibernate:
@@ -45,8 +45,8 @@ springdoc:
 
 openapi:
   service:
-    url: http://k9d204a.p.ssafy.io:8000/
-#    url: http://localhost:8000/
+#    url: http://k9d204a.p.ssafy.io:8000/
+    url: http://localhost:8000/
 
 
 jasypt:
