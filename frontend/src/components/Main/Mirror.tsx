@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import MenuBtn from '../Common/MenuBtn';
 import HelloWorld from '../Common/HelloWorld';
-import DateTime from '../Common/dateTime';
+import DateTime from '../Common/DateTime';
 import { useNavigate } from 'react-router-dom';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import Bus from '../Bus/Bus';
 
 const Mirror = () => {
   const navigate = useNavigate()
@@ -17,23 +18,29 @@ const Mirror = () => {
         <DateTime/>
       </Header>
       <Body>
+        <Btn onClick={() => navigate('/')}>초기 화면</Btn>
+        <Btn onClick={() => navigate('/')}>초기 화면</Btn>
+        <Bus/>
       </Body>
       <Bottom>
-        <Btn onClick={() => navigate('/')}>초기 화면</Btn>
       </Bottom>
     </>
   )
 }
 
 const Header = styled.div`
-  width: 100vw;
-  /* background-color: red; */
-`
-
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0 20px;
+`;
 const Body = styled.div`
-  text-align: center;
-  /* background-color: lightblue; */
-`
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding: 0 20px; 
+`;
+
 
 const Bottom = styled.div`
   /* background-color: yellow; */

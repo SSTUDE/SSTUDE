@@ -7,4 +7,4 @@ export const BUS_API = "http://apis.data.go.kr/1613000";
 export const BUS_APIS = "https://apis.data.go.kr/1613000";
 export const BUS_STOP = "/BusSttnInfoInqireService/getCrdntPrxmtSttnList";
 export const BUS_LIST = "/BusSttnInfoInqireService/getSttnThrghRouteList";
-export const a = "/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList";
+export const BUS_REAL_TIME = "/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList";

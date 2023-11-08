@@ -8,8 +8,8 @@ export interface busStops {
 }
 
 export interface bus {
-  arrprevstationcnt: string;
-  arrtime: string;
+  arrprevstationcnt: string | number;
+  arrtime: string | number;
   nodeid: string;
   nodenm: string;
   routeid: string;
@@ -24,6 +24,7 @@ export interface BusState {
   busStop: any;
   busList: bus[] | null;
   busSave: any;
+  busRealTime: any;
   loading: boolean;
   error: any;
   gps: [number, number] | null;
@@ -37,3 +38,18 @@ export type BusButtonProps = {
   selected?: boolean;
   onClick?: () => void;
 };
+
+export interface TimeCircleProps {
+  timeLeft: number;
+}
+
+export interface BusRealTimeData {
+  arrprevstationcnt: number;
+  arrtime: number;
+  nodeid: string;
+  nodenm: string;
+  routeid: string;
+  routeno: string;
+  routetp: string;
+  vehicletp: string;
+}

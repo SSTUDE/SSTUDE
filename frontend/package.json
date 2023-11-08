@@ -61,7 +61,6 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@types/react-chartjs-2": "^2.5.7",
     "@types/react-datepicker": "^4.19.1",
-    "kakao.maps.d.ts": "^0.1.39",
-    "@types/react-datepicker": "^4.19.1"
+    "kakao.maps.d.ts": "^0.1.39"
   }
 }

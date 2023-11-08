@@ -9,7 +9,9 @@ import { busSaveToServer, setBusSave } from './BusSlice';
 const BusList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const busList = useSelector((state: RootState) => state.bus.busList) || [];
-  const validBusList = Array.isArray(busList) ? busList : [busList];
+  const validBusList = Array.isArray(busList)
+    ? busList.filter(bus => bus !== undefined)
+    : busList ? [busList] : [];
   const [selectedBuses, setSelectedBuses] = useState<SelectedBuses>({});
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -22,11 +24,20 @@ const BusList = () => {
     }));
   };
 
+  const allSelect = () => {
+    const newSelectedBuses: SelectedBuses = validBusList.reduce((selected, bus) => {
+      selected[bus.routeid] = true;
+      return selected;
+    }, {} as SelectedBuses);
+    setSelectedBuses(newSelectedBuses);
+    setErrorMessage("");
+  };
+
   const resetSelection = () => {
     setSelectedBuses({});
     setErrorMessage("");
   };
-
+  
   const saveSelection = () => {
     const selectedRouteIds = Object.keys(selectedBuses).filter(routeid => selectedBuses[routeid]);
     if (selectedRouteIds.length === 0) {
@@ -35,35 +46,37 @@ const BusList = () => {
     }
     dispatch(setBusSave(selectedRouteIds));
     dispatch(busSaveToServer(selectedRouteIds));
-    navigate('/test');
+    navigate('/mirror');
   };
 
   return (
     <BusListContainer>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-      <Title>실시간 조회할 버스를 골라주세요</Title>
-      <ButtonGrid>
-        {validBusList.map(bus => (
-          <BusButton
-            key={bus.routeid}
-            selected={selectedBuses[bus.routeid]}
-            onClick={() => toggleBusSelection(bus.routeid)}
-          >
-            <BusInfo>
-              <BusType>{bus.routetp.replace('버스', '')}</BusType>
-              <BusNumber>{bus.routeno}</BusNumber>
-            </BusInfo>
-          </BusButton>
-        ))}
-      </ButtonGrid>
+      <Title>
+        {validBusList.length > 0 ? '실시간 조회할 버스를 골라주세요' : '해당 정류장의 버스 정보는 제공되지 않습니다 '}
+      </Title>
+      {validBusList.length > 0 ? (
+        <ButtonGrid>
+          {validBusList.map(bus => (
+            <BusButton
+              key={bus.routeid}
+              selected={selectedBuses[bus.routeid]}
+              onClick={() => toggleBusSelection(bus.routeid)}
+            >
+              <BusInfo>
+                <BusType>{bus.routetp.replace('버스', '')}</BusType>
+                <BusNumber>{bus.routeno}</BusNumber>
+              </BusInfo>
+            </BusButton>
+          ))}
+        </ButtonGrid>
+      ) : null}
       <ButtonContainer>
-        <ResetButton onClick={resetSelection}>
-          초기화
-        </ResetButton>
-        <NavigationButton onClick={saveSelection}>
-          저장
-        </NavigationButton>
+        <SelectAllButton onClick={allSelect}>전부 선택</SelectAllButton>
+        <ResetButton onClick={resetSelection}>초기화</ResetButton>
+        <NavigationButton onClick={saveSelection}>저장</NavigationButton>
       </ButtonContainer>
+
     </BusListContainer>
   );
 };
@@ -131,6 +144,10 @@ const NavigationButton = styled.button`
   background-color: #3498db;
   border-radius: 5px;
   cursor: pointer;
+`;
+
+const SelectAllButton = styled(NavigationButton)`
+    background-color: #2ecc71;
 `;
 
 const ResetButton = styled(NavigationButton)`

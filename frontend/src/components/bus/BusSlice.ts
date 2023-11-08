@@ -2,7 +2,12 @@ import axios, { AxiosError } from "axios";
 import { BusState, busStops } from "./types";
 import { RootState } from "../../store/store";
 import axiosToken from "../../apis/http-common";
-import { BUS_API, BUS_STOP, BUS_LIST, BUS_APIS } from "../../apis/constants";
+import {
+  BUS_API,
+  BUS_STOP,
+  BUS_LIST,
+  BUS_REAL_TIME,
+} from "../../apis/constants";
 import {
   createSlice,
   createAsyncThunk,
@@ -50,6 +55,7 @@ export const tadaBusStop = createAsyncThunk(
           serviceKey: BUS_KEY,
           gpsLati: gps[0],
           gpsLong: gps[1],
+          numOfRows: 50,
         },
       });
 
@@ -104,8 +110,10 @@ export const tadaBusList = createAsyncThunk(
           serviceKey: BUS_KEY,
           cityCode: selectedStation.citycode,
           nodeid: selectedStation.nodeid,
+          numOfRows: 50,
         },
       });
+
       if (
         typeof response.data === "string" &&
         response.data.includes("SERVICE_KEY_IS_NOT_REGISTERED_ERROR")
@@ -129,7 +137,7 @@ export const busSaveToServer = createAsyncThunk(
   async (selectedBusList: string[], { rejectWithValue }) => {
     try {
       const response = await axiosToken.post("/selected-bus-list-endpoint", {
-        selectedBusList
+        selectedBusList,
       });
       return response.data;
     } catch (error: unknown) {
@@ -142,14 +150,139 @@ export const busSaveToServer = createAsyncThunk(
   }
 );
 
+//NOTE - TADA API 버스 실시간 데이터 호출
+export const tadaBusRealTime = createAsyncThunk(
+  "bus/tadaBusRealTime",
+  async (_, { getState, rejectWithValue }) => {
+    console.log("버스 실시간 데이터 가져올게~");
+
+    const state = getState() as RootState;
+    const { busStop, busSave } = state.bus;
+    if (!busStop) return rejectWithValue("버스정거장이 선택되지 않았습니다.");
+
+    const savedRouteIds = busSave || [];
+
+    try {
+      const response = await axios.get(`${BUS_API}${BUS_REAL_TIME}`, {
+        params: {
+          serviceKey: BUS_KEY,
+          cityCode: busStop.citycode,
+          nodeId: busStop.nodeid,
+          numOfRows: 50,
+        },
+      });
+
+      const busRealTimeData = response.data.response.body.items.item;
+      const validBusRealTimeData = Array.isArray(busRealTimeData)
+        ? busRealTimeData.filter((bus) => savedRouteIds.includes(bus.routeid))
+        : savedRouteIds.includes(busRealTimeData.routeid)
+        ? [busRealTimeData]
+        : [];
+
+      if (
+        typeof response.data === "string" &&
+        response.data.includes("SERVICE_KEY_IS_NOT_REGISTERED_ERROR")
+      ) {
+        return rejectWithValue("서비스 키가 등록되지 않았습니다.");
+      }
+      return validBusRealTimeData;
+    } catch (error: unknown) {
+      return rejectWithValue(
+        error instanceof AxiosError
+          ? error.message
+          : "알 수 없는 오류가 발생했습니다"
+      );
+    }
+  }
+);
+
 const initialState: BusState = {
   // gps: null,
   gps: [36.107, 128.417],
   // gps: [37.49648606, 127.02836155],
   busStops: null,
-  busStop: null,
+  // busStop: null,
+  busStop: {
+    citycode: "37050",
+    gpslati: "36.10720185",
+    gpslong: "128.418282",
+    nodeid: "GMB383",
+    nodenm: "삼성전자후문",
+    nodeno: "10383",
+  },
   busList: null,
-  busSave: null,
+  // busSave: null,
+  busSave: [
+    "GMB18210",
+    "GMB18610",
+    "GMB380-110",
+    "GMB510010",
+    "GMB18510",
+    "GMB18010",
+    "GMB89010",
+    "GMB182-110",
+    "GMB89110",
+    "GMB9011",
+    "GMB38010",
+    "GMB380-210",
+    "GMB18110",
+    "GMB18410",
+    "GMB891-111",
+    "GMB95-111",
+  ],
+  busRealTime: null,
+  // busRealTime: [
+  //   {
+  //     "arrprevstationcnt": 5,
+  //     "arrtime": 441,
+  //     "nodeid": "GMB383",
+  //     "nodenm": "삼성전자후문",
+  //     "routeid": "GMB18110",
+  //     "routeno": 181,
+  //     "routetp": "일반버스",
+  //     "vehicletp": "저상버스"
+  //   },
+  //   {
+  //     "arrprevstationcnt": 17,
+  //     "arrtime": 1181,
+  //     "nodeid": "GMB383",
+  //     "nodenm": "삼성전자후문",
+  //     "routeid": "GMB18410",
+  //     "routeno": 184,
+  //     "routetp": "좌석버스",
+  //     "vehicletp": "일반차량"
+  //   },
+  //   {
+  //     "arrprevstationcnt": 11,
+  //     "arrtime": 753,
+  //     "nodeid": "GMB383",
+  //     "nodenm": "삼성전자후문",
+  //     "routeid": "GMB18510",
+  //     "routeno": 185,
+  //     "routetp": "좌석버스",
+  //     "vehicletp": "일반차량"
+  //   },
+  //   {
+  //     "arrprevstationcnt": 15,
+  //     "arrtime": 990,
+  //     "nodeid": "GMB383",
+  //     "nodenm": "삼성전자후문",
+  //     "routeid": "GMB38010",
+  //     "routeno": 380,
+  //     "routetp": "일반버스",
+  //     "vehicletp": "저상버스"
+  //   },
+  //   {
+  //     "arrprevstationcnt": 12,
+  //     "arrtime": 948,
+  //     "nodeid": "GMB383",
+  //     "nodenm": "삼성전자후문",
+  //     "routeid": "GMB89010",
+  //     "routeno": 890,
+  //     "routetp": "좌석버스",
+  //     "vehicletp": "일반차량"
+  //   }
+  // ],
   loading: false,
   error: null,
 };
@@ -224,6 +357,10 @@ const busSlice = createSlice({
     handleAsyncReducer<any>(builder, tadaBusList, (state, action) => {
       const busData = action.payload.response.body.items.item;
       state.busList = Array.isArray(busData) ? busData : [busData];
+    });
+
+    handleAsyncReducer<any>(builder, tadaBusRealTime, (state, action) => {
+      state.busRealTime = action.payload;
     });
   },
 });
