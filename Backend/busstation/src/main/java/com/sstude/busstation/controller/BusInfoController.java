@@ -36,7 +36,7 @@ public class BusInfoController {
             @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
-        List<BusStationResponseDto> response = busInfoService.findBusStationListInform(gpsRequestDto);
+        List<BusStationResponseDto> response = busInfoService.findBusStationListInform(gpsRequestDto,memberId);
 
         return ResponseEntity.ok(response);
     }
@@ -49,7 +49,7 @@ public class BusInfoController {
             @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
-        List<BusResponseDto> response = busInfoService.findBusListInform(stationRequestDto);
+        List<BusResponseDto> response = busInfoService.findBusListInform(stationRequestDto,memberId);
 
         return ResponseEntity.ok(response);
     }

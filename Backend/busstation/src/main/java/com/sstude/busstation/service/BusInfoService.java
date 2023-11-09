@@ -5,8 +5,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sstude.busstation.dto.request.GpsRequestDto;
 import com.sstude.busstation.dto.request.StationRequestDto;
 import com.sstude.busstation.dto.response.*;
+import com.sstude.busstation.entity.Bus;
+import com.sstude.busstation.entity.BusStation;
 import com.sstude.busstation.global.error.BusinessException;
 import com.sstude.busstation.global.error.ErrorCode;
+import com.sstude.busstation.repository.BusRepository;
+import com.sstude.busstation.repository.BusStationRepository;
 import com.sstude.busstation.utils.ApiResponseDto;
 import com.sstude.busstation.utils.MapFiller;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +57,10 @@ public class BusInfoService {
     private String bus_arrival_inform_api;
 
     private final ObjectMapper objectMapper;
+    private final BusRepository busRepository;
+    private final BusStationRepository busStationRepository;
 
-    public List<BusStationResponseDto> findBusStationListInform(GpsRequestDto gpsInform){
+    public List<BusStationResponseDto> findBusStationListInform(GpsRequestDto gpsInform,Long memberId){
 
         Map<String, String> hashMap = buildHashMap(gpsInform, (map, dto) -> {
             map.put("gpsLati", dto.getLatitude());
@@ -65,10 +71,24 @@ public class BusInfoService {
 
         List<BusStationResponseDto> responseDto = parseResponse(jsonResponse, BusStationApiResponseDto.class);
 
+        List<BusStation> busStations = responseDto.stream()
+                .map(dto -> BusStation.builder()
+                        .memberId(memberId)
+                        .cityCode(dto.getCityCode())
+                        .latitude(dto.getLatitude())
+                        .longitude(dto.getLongitude())
+                        .nodeId(dto.getNodeId())
+                        .nodeName(dto.getNodeName())
+                        .nodeNo(dto.getNodeNo())
+                        .build())
+                .collect(Collectors.toList());
+
+        busStationRepository.saveAll(busStations);
+
         return responseDto;
     }
 
-    public List<BusResponseDto> findBusListInform(StationRequestDto stationInform){
+    public List<BusResponseDto> findBusListInform(StationRequestDto stationInform,Long memberId){
 
         Map<String, String> hashMap = buildHashMap(stationInform, (map, dto) -> {
             map.put("cityCode", dto.getCityCode());
@@ -79,6 +99,22 @@ public class BusInfoService {
 
         List<BusResponseDto> responseDto = parseResponse(jsonResponse, BusInformApiResponseDto.class);
 
+        List<Bus> buses = responseDto.stream()
+                .map(dto -> Bus.builder()
+                        .memberId(memberId)
+                        .arrivalPrevStationCount(dto.getArrivalPrevStationCount())
+                        .arrivalTime(dto.getArrivalTime())
+                        .nodeId(dto.getNodeId())
+                        .nodeName(dto.getNodeName())
+                        .routeId(dto.getRouteId())
+                        .routeNo(dto.getRouteNo())
+                        .routeType(dto.getRouteType())
+                        .vehicleType(dto.getVehicleType())
+                        .build())
+                .collect(Collectors.toList());
+
+        busRepository.saveAll(buses);
+        
         return responseDto;
     }
 
