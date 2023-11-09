@@ -6,4 +6,5 @@ import lombok.Getter;
 public class StationRequestDto {
     private String cityCode;
     private String nodeId;
+    private String numOfRows;
 }
