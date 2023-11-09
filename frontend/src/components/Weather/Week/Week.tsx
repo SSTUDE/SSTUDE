@@ -1,48 +1,66 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
-import { ReactComponent as SunWithCloud } from '../../../assets/images/sun_with_cloud.svg';
-import { MidLandForecastCustom } from '../types'
-
+import {  MidForecastCombined } from '../types'
+import SkyWeek from './SkyWeek'
 
 type WeekProps = {
-  LandForDatas : MidLandForecastCustom[];
+  CombinedDatas : MidForecastCombined[];
 }
 
-const Week: React.FC<WeekProps> = ({ LandForDatas }) => {
-  console.log(LandForDatas);
-  const [data, setdata] = useState([1,2,3,4,5,6,7])
+const Week: React.FC<WeekProps> = ({  CombinedDatas }) => {
+   // 날짜와 요일을 계산하는 함수
+   const getFormattedDate = (addDays: number) => {
+    const today = new Date();
+    const targetDate = new Date(today.setDate(today.getDate() + addDays));
+    const day = targetDate.getDate().toString().padStart(2, '0');
+    const month = (targetDate.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
+
+    // 요일을 계산합니다.
+    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+    const weekday = weekdays[targetDate.getDay()];
+
+    return {
+      formattedDate: `${month}.${day}`,
+      weekday,
+    };
+  };
 
   return (
     <Container>
-        <StyledList>
-          {data.map((item, index) => (
+      <StyledList>
+        {CombinedDatas.map((item, index) => {
+          const { formattedDate, weekday } = getFormattedDate(index+2);
+          const skyAmData = CombinedDatas[index].wfAm
+          const skyPmData = CombinedDatas[index].wfPm
+          return (
             <li key={index}>
               <WeatherContainer>
                 <div>
-                  <strong>토</strong>
-                  <p>11.02</p>
+                  <strong>{weekday}</strong>
+                  <p>{formattedDate}</p>
                 </div>
                 <DayContainer>
                   <div>
-                    <SunSvg/>
-                    <p>30%</p>
+                    <SkyWeek skyData={skyAmData}/>
+                    <p>{item.rnStAm}%</p>
                   </div>
                   <div>
-                    <SunSvg />
-                    <p>30%</p>
+                    <SkyWeek skyData={skyPmData}/>
+                    <p>{item.rnStPm}%</p>
                   </div>
                 </DayContainer>
-                  <DayContainer>
-                    <strong>14ºC</strong>
-                    <strong>23ºC</strong>
-                  </DayContainer>
+                <DayContainer>
+                  <strong>{item.taMin}ºC</strong>
+                  <strong>{item.taMax}ºC</strong>
+                </DayContainer>
               </WeatherContainer>
             </li>
-          ))}
-        </StyledList>
+          );
+        })}
+      </StyledList>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.div`
   width: 100%;
@@ -64,6 +82,7 @@ const WeatherContainer = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
+  width: 120px;
 
   >div {
     font-size: 21px;
@@ -84,15 +103,6 @@ const DayContainer = styled.div`
   display: flex;
   justify-content: space-around;
 `
-
-
-const SunSvg = styled(SunWithCloud)`
-  width: 45px;
-  height: 45px;
-  margin: 0 10px;
-`
-
-
 
 
 export default Week

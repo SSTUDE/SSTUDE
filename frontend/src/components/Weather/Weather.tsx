@@ -3,7 +3,14 @@ import Today from './Today/Today'
 import Week from './Week/Week'
 import Hourly from './Hourly/Hourly'
 import { getWeatherData, getMidLandForecast, getMidTemperatureForecast } from '../../apis/api'
-import { WeatherDataResponse, WeatherDataCustom, MidLandForecastResponse, MidLandForecastCustom, MidTempForecastResponse, MidTempForecastCustom } from './types';
+import { 
+  WeatherDataResponse, 
+  WeatherDataCustom, 
+  MidLandForecastResponse, 
+  MidLandForecastCustom, 
+  MidTempForecastResponse, 
+  MidTempForecastCustom, 
+  MidForecastCombined } from './types';
 
 const Weather = () => {
   const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
@@ -13,9 +20,10 @@ const Weather = () => {
   const [HumidityDatas, setHumidityDatas] = useState<WeatherDataCustom[]>([]);
   const [NowDatas, setNowDatas] = useState<WeatherDataCustom[]>([]);
 
-  // const [LandShortForDatas, setLandShortForDatas] = useState<WeatherDataCustom[]>([]);
+  const [LandShortForDatas, setLandShortForDatas] = useState<WeatherDataCustom[]>([]);
   const [LandForDatas, setLandForDatas] = useState<MidLandForecastCustom[]>([]);
   const [LandTempForDatas, setLandTempForDatas] = useState<MidTempForecastCustom[]>([]);
+  const [CombinedDatas, setCombinedDatas] = useState<MidForecastCombined[]>([]);
 
   const day = new Date();
   const hour = day.getHours(); 
@@ -146,7 +154,7 @@ const Weather = () => {
         numOfRows: 1000,
         dataType: "JSON",
         regId: "11H10000",
-        tmFc: "202311081800",
+        tmFc: "202311090600",
       });
 
       const items : MidLandForecastResponse[] = response;
@@ -163,7 +171,7 @@ const Weather = () => {
         });
       }
       setLandForDatas(dailyForecastData);
-      console.log(dailyForecastData);
+      // console.log(dailyForecastData);
       return dailyForecastData; // 함수에서 직접 반환하는 경우
 
     } catch (error) {
@@ -179,7 +187,7 @@ const Weather = () => {
         numOfRows: 1000,
         dataType: "JSON",
         regId: "11H10602",
-        tmFc: "202311081800",
+        tmFc: "202311090600",
       });
 
       const items : MidTempForecastResponse[] = response;
@@ -194,7 +202,7 @@ const Weather = () => {
         });
       }
       setLandTempForDatas(dailyForecastData);
-      console.log(dailyForecastData);
+      // console.log(dailyForecastData);
       return dailyForecastData; // 함수에서 직접 반환하는 경우
 
     } catch (error) {
@@ -202,11 +210,32 @@ const Weather = () => {
     }
   };
 
+  // LandForDatas와 LandTempForDatas를 합치는 함수
+  const combineForecastData = (
+    landForDatas: MidLandForecastCustom[],
+    landTempForDatas: MidTempForecastCustom[]
+  ): MidForecastCombined[] => {
+    return landForDatas.map((landData, index) => {
+      const tempData = landTempForDatas[index];
+      return {
+        ...landData,
+        taMin: tempData.taMin,
+        taMax: tempData.taMax,
+      };
+    });
+  };
+
+  // useEffect 내에서 데이터를 합치고 <Week/> 컴포넌트에 props로 넘겨주는 로직
   useEffect(() => {
-    // fetchShortData();
-    fetchMidLandData();
-    fetchMidTempData();
-  }, []);
+    const fetchData = async () => {
+      // fetchShortData();
+      await fetchMidLandData();
+      await fetchMidTempData();
+      const combinedData : MidForecastCombined[] = combineForecastData(LandForDatas, LandTempForDatas);
+      setCombinedDatas(combinedData); 
+      };
+      fetchData();
+    }, []);
 
   return (
     <>
@@ -222,10 +251,13 @@ const Weather = () => {
         RainAmountDatas={RainAmountDatas}
         HumidityDatas={HumidityDatas}
       />
-      <Week
-        // LandArray={LandArray}
-        LandForDatas={LandForDatas}
+      {CombinedDatas.length > 0 ? (
+        <Week
+        CombinedDatas={CombinedDatas}
         />
+      ) : (
+        <></>
+      )}
   </>
   )
 }

@@ -187,3 +187,13 @@ export type MidTempForecastCustom = {
   taMin: number;
   taMax: number;
 }
+
+// 중기 육상 예보와 중기 기온 예보를 합친 커스텀 타입
+export type MidForecastCombined = {
+  rnStAm: number;
+  rnStPm: number;
+  wfAm: string;
+  wfPm: string;
+  taMin: number;
+  taMax: number;
+};
