@@ -50,7 +50,7 @@ springdoc:
 
 openapi:
   service:
-    url: http://k9d204.p.ssafy.io:8000/
+    url: http://k9d204a.p.ssafy.io:8000/
 #    url: http://localhost:8000/
 
 jasypt:
