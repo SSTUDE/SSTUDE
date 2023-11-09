@@ -106,8 +106,8 @@ public class HealthService {
         return healthDataDto;
     }
 
-//    @Scheduled(cron = "0 0 0 * * *")  // 매일 밤 12시에 실행
-    @Scheduled(cron = "0 21 2 * * *")  // 매일 밤 12시에 실행
+    @Scheduled(cron = "0 0 0 * * *")  // 매일 밤 12시에 실행
+//    @Scheduled(cron = "0 21 2 * * *")  // 매일 밤 12시에 실행
     @Transactional
     public void saveLatestHealthData() {
         LocalDateTime start = LocalDateTime.now().minusDays(1);

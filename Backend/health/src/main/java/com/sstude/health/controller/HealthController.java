@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Health", description = "삼성 헬스 데이터 관련")
+@Tag(name = "Health 인데 테스트 성공?", description = "삼성 헬스 데이터 관련")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
