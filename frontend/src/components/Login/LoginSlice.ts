@@ -7,7 +7,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
 const handleAuthentication = async (
   url: string,
-  data: { deviceNumber: string },
+  data: { deviceNum: string },
   sendMessage: (message: string) => void
 ) => {
   const response = await axiosToken.post(url, data);
@@ -22,11 +22,11 @@ const handleAuthentication = async (
 
 export const signUpUser = createAsyncThunk(
   "login/signUpUser",
-  async (data: { deviceNumber: string }, { rejectWithValue }) => {
+  async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
-      const { sendMessage } = useWebSocketContext();
-      const safeSendMessage = sendMessage || (() => {});
-      return await handleAuthentication(SIGN_UP_URL, data, safeSendMessage);
+      const response = await axiosToken.post(SIGN_UP_URL, data);
+      const memberId = response.data.memberId;
+      return memberId;
     } catch (err: any) {
       return rejectWithValue(err.response?.data);
     }
@@ -35,7 +35,7 @@ export const signUpUser = createAsyncThunk(
 
 export const signInUser = createAsyncThunk(
   "login/signInUser",
-  async (data: { deviceNumber: string }, { rejectWithValue }) => {
+  async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
       const { sendMessage } = useWebSocketContext();
       const safeSendMessage = sendMessage || (() => {});
@@ -52,6 +52,7 @@ const initialState: LoginState = {
   signUp: false,
   signIn: false,
   memberId: "",
+  gps:null,
 };
 
 export const LoginSlice = createSlice({
@@ -62,15 +63,19 @@ export const LoginSlice = createSlice({
       state: LoginState,
       action: PayloadAction<{
         type: "signUp" | "signIn" | "signOut";
-        data: { userInfo: string; serialNum: string };
+        data: { userInfo: string; serialNum: string, gps: [number, number] | null };
       }>
     ) => {
       const { type, data } = action.payload;
-      if (type === "signUp" || type === "signIn") {
+      if (type === "signUp") {
         state.userInfo = data.userInfo;
         state.serialNum = data.serialNum;
-        state[type] = true;
-        state.signIn = true;
+        state.signUp = true;
+      } else if (type === "signIn") {
+        state.userInfo = data.userInfo;
+        state.serialNum = data.serialNum;
+        state.gps = data.gps;
+        state.signUp = true;
       } else if (type === "signOut") {
         state.userInfo = "";
         state.serialNum = "";
