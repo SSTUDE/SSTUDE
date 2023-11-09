@@ -114,7 +114,7 @@ public class BusInfoService {
                 .collect(Collectors.toList());
 
         busRepository.saveAll(buses);
-        
+
         return responseDto;
     }
 
