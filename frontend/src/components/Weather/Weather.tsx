@@ -3,7 +3,7 @@ import Today from './Today/Today'
 import Week from './Week/Week'
 import Hourly from './Hourly/Hourly'
 import { getWeatherData, getMidLandForecast, getMidTemperatureForecast } from '../../apis/api'
-import { WeatherDataResponse, WeatherDataCustom, MidLandForecastResponse, MidLandForecastCustom } from './types';
+import { WeatherDataResponse, WeatherDataCustom, MidLandForecastResponse, MidLandForecastCustom, MidTempForecastResponse, MidTempForecastCustom } from './types';
 
 const Weather = () => {
   const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
@@ -13,8 +13,9 @@ const Weather = () => {
   const [HumidityDatas, setHumidityDatas] = useState<WeatherDataCustom[]>([]);
   const [NowDatas, setNowDatas] = useState<WeatherDataCustom[]>([]);
 
-  const [LandShortForDatas, setLandShortForDatas] = useState<WeatherDataCustom[]>([]);
+  // const [LandShortForDatas, setLandShortForDatas] = useState<WeatherDataCustom[]>([]);
   const [LandForDatas, setLandForDatas] = useState<MidLandForecastCustom[]>([]);
+  const [LandTempForDatas, setLandTempForDatas] = useState<MidTempForecastCustom[]>([]);
 
   const day = new Date();
   const hour = day.getHours(); 
@@ -149,7 +150,7 @@ const Weather = () => {
       });
 
       const items : MidLandForecastResponse[] = response;
-      console.log(items);
+      // console.log(items);
       const dailyForecastData: MidLandForecastCustom[] = [];
 
       // API로부터 받은 데이터를 날짜별로 매핑
@@ -166,6 +167,37 @@ const Weather = () => {
       return dailyForecastData; // 함수에서 직접 반환하는 경우
 
     } catch (error) {
+      console.error("중기 기온 데이터를 가져오는 데 실패했습니다:", error);
+    }
+  };
+
+  // 중기 기온 예보 API
+  const fetchMidTempData = async () => {
+    try {
+      const response = await getMidTemperatureForecast({
+        pageNo: 1,
+        numOfRows: 1000,
+        dataType: "JSON",
+        regId: "11H10602",
+        tmFc: "202311081800",
+      });
+
+      const items : MidTempForecastResponse[] = response;
+      // console.log(items);
+      const dailyForecastData: MidTempForecastCustom[] = [];
+
+      // API로부터 받은 데이터를 날짜별로 매핑
+      for (let i = 3; i <= 7; i++) {
+        dailyForecastData.push({
+          taMin: items[0][`taMin${i}`] as number,
+          taMax: items[0][`taMax${i}`] as number,
+        });
+      }
+      setLandTempForDatas(dailyForecastData);
+      console.log(dailyForecastData);
+      return dailyForecastData; // 함수에서 직접 반환하는 경우
+
+    } catch (error) {
       console.error("중기 육상 데이터를 가져오는 데 실패했습니다:", error);
     }
   };
@@ -173,6 +205,7 @@ const Weather = () => {
   useEffect(() => {
     // fetchShortData();
     fetchMidLandData();
+    fetchMidTempData();
   }, []);
 
   return (
