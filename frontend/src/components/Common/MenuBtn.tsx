@@ -28,9 +28,10 @@ function MenuBtn({ type }: MenuBtnProps) {
 }
 
 const Wrap = styled.div`
-  display: inline-flex;
-  padding: 10px 16px;
+  /* display: inline-flex; */
+  padding: 30px 36px;
   border-radius: 15%;
+  background-color: #4F4F4F;
   border: 2px solid white;
 `;
 
@@ -40,8 +41,12 @@ const Button = styled.button`
   cursor: pointer;
   padding: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  /* align-items: center; */
+  /* justify-content: center; */
+
+  img {
+    transform: scale(1.5);
+  }
 `;
 
 export default MenuBtn;

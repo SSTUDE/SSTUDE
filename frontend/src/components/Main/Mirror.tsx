@@ -1,58 +1,89 @@
+import React, { useState } from 'react';
 import Bus from '../Bus/Bus';
 import styled from 'styled-components';
 import MenuBtn from '../Common/MenuBtn';
-import React, { useState } from 'react';
 import DateTime from '../Common/DateTime';
 import HelloWorld from '../Common/HelloWorld';
 import { useNavigate } from 'react-router-dom';
-import { useSwipeable } from 'react-swipeable';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
 
 const Mirror = () => {
   const navigate = useNavigate();
-  const [busIndex, setBusIndex] = useState(0);
+  const [activePage, setActivePage] = useState('bus');
 
-  const handlers = useSwipeable({
-    onSwipedLeft: () => setBusIndex((prev) => (prev + 1) % 2),
-    onSwipedRight: () => setBusIndex((prev) => (prev - 1 + 2) % 2),
-    preventScrollOnSwipe : true, 
-    trackMouse: true
-  });
+  const renderRightContent = () => {
+    switch (activePage) {
+      case 'bus':
+        return <Bus />;
+      case 'bus1':
+        return <Bus />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
       <Header>
-        <MenuBtn type="menu" />
-        <HelloWorld />
-        <DateTime />
+        <Left>
+          <MenuBtn type="menu" />
+        </Left>
+        <Center>
+          <HelloWorld />
+        </Center>
+        <Right>
+          <DateTime />
+        </Right>
       </Header>
-      <Body {...handlers}>
-        <Btn onClick={() => navigate('/')}>초기 화면</Btn>
-        <Btn onClick={() => navigate('/')}>초기 화면</Btn>
-        {busIndex === 0 ? <Bus /> : <Btn onClick={() => navigate('/')}>초기 화면</Btn>}
-      </Body>
-      <Bottom />
+      <MainContainer>
+        <Left>
+        </Left>
+        <Center>
+          <Btn onClick={() => navigate('/test')}>초기 화면</Btn>
+        </Center>
+        <Right>
+          <RightHeader>
+            <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
+            <PageButton onClick={() => setActivePage('bus1')}>버스 정보</PageButton>
+          </RightHeader>
+          {renderRightContent()}
+        </Right>
+      </MainContainer>
     </>
   );
 };
 
 const Header = styled.div`
   display: flex; 
-  justify-content: space-between; 
+  height: 22%;
   align-items: center; 
   padding: 0 20px;
 `;
 
-const Body = styled.div`
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 0 20px; 
+const Left = styled.div`
+  flex: 25%; 
+  display: flex;
+  justify-content: flex-end;
 `;
 
-const Bottom = styled.div`
-  /* background-color: yellow; */
-`
+const Center = styled.div`
+  flex: 50%; 
+  display: flex; 
+  justify-content: space-around; 
+`;
+
+const Right = styled.div`
+  flex: 25%; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+`;
+
+const MainContainer = styled.div`
+  display: flex; 
+  padding: 0 20px; 
+  height: 78%;
+`;
 
 const Btn = styled.p`
 padding: 10px 20px;
@@ -62,6 +93,30 @@ margin: 5px;
 color: ${TEXT_COLOR};
 cursor: pointer; 
 `;
+
+const RightHeader = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  
+`;
+
+const PageButton = styled.button`
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  font-size: 22px;
+  background-color: transparent;
+  color: ${TEXT_COLOR};
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    border-bottom: 2px solid ${TEXT_COLOR}; 
+  }
+`;
+
 
 
 export default Mirror
