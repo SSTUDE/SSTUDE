@@ -5,8 +5,6 @@ from colormath.color_diff import delta_e_cie2000 #색차식(색을 수치화)
 from colormath.color_objects import LabColor, sRGBColor
 from colormath.color_conversions import convert_color
 import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity  # 코사인 유사도 계산을 위한 scikit-learn 라이브러리 import
-import dump
 
 # 퍼스널 컬러가져와서 
 # 거기에 어울리는 색상들 추출하기
@@ -24,17 +22,20 @@ def my_color(userid, current_date, TargetLab):
     
     similarities = []
     i = 0
+    sum = 0
     for idx, mc in enumerate(match_color):
         rgb = sRGBColor(int(mc[0:2], 16), int(mc[2:4], 16), int(mc[4:6], 16), is_upscaled=True)
         lab = convert_color(rgb, LabColor, through_rgb_type=sRGBColor)
         
         #### CIEDE2000 기준으로 차이 계산
         delta_e = delta_e_cie2000(TargetLab, lab)
+        sum+=delta_e
         if similarities and min(similarities) > delta_e:
             i = idx
         
         similarities.append(delta_e)
     
+    print(sum/len(match_color), sum)
     print(i, min(similarities), match_color[i])
     score = 100-int(min(similarities))
     print(score)

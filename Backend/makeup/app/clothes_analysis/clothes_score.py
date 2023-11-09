@@ -4,7 +4,6 @@ from clothes_analysis.color_extract import color_extract
 from clothes_analysis.clothes_detect_face import DetectFace
 from colormath.color_objects import LabColor, sRGBColor, HSVColor
 from colormath.color_conversions import convert_color
-from urllib.request import urlopen
 from clothes_analysis.clothes_similarity import *
 
 class clothes_score:
@@ -23,7 +22,6 @@ class clothes_score:
         print("주요색상")
         print(clothes_color[0]) # RGB
     
-        Lab_b, hsv_s = [], []
         rgb = sRGBColor(temp[0][0], temp[0][1], temp[0][2], is_upscaled=True)
         #색상을 lab으로 변환
         lab = convert_color(rgb, LabColor, through_rgb_type=sRGBColor)

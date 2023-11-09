@@ -1,7 +1,6 @@
 import boto3
 from dotenv import dotenv_values #env파일 가져오기
-import uuid
-from datetime import datetime
+# from datetime import datetime
 
 
 env_variables = dotenv_values(".env")

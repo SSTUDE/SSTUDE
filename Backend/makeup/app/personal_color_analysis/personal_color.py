@@ -5,7 +5,6 @@ from personal_color_analysis.detect_face import DetectFace
 from personal_color_analysis.color_extract import DominantColors
 from colormath.color_objects import LabColor, sRGBColor, HSVColor
 from colormath.color_conversions import convert_color
-from urllib.request import urlopen
 
 def analysis(imgpath):
     # 열굴인식

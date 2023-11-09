@@ -3,7 +3,7 @@ from imutils import face_utils
 import numpy as np
 import dlib
 import cv2
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import os
 
 class DetectFace:
