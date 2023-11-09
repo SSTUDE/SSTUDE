@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status
 from fastapi.responses import JSONResponse
 from typing import Optional
-from personal_color_analysis import personal_color
+from personal_color_analysis.personal_color import analysis
 from clothes_analysis.clothes_score import clothes_score
 from database import connectMySQL, connectPymongo, redis_config
 from S3backet import s3
@@ -16,6 +16,7 @@ app = FastAPI()
 rd = redis_config()
 current_date = datetime.now().date()
 current_date_time = datetime.now()
+userid=2
 
 # @app.get("makeup-service/v3/api-docs", include_in_schema=False)
 # def get_open_api_endpoint():
@@ -33,23 +34,24 @@ async def runColor(
     access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
     connect, curs = connectMySQL()
-    ##############토큰으로 spring에서 유저찾아오기######################
-    response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    if response.status_code == 200:
-        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
-        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-        print(userid)
-    else:
-        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
-
+    # ##############토큰으로 spring에서 유저찾아오기######################
+    # response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    # if response.status_code == 200:
+    #     response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+    #     userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+    #     print(userid)
+    # else:
+    #     raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    
     #################캐싱적용##########################
-    data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
-    if data:
-        count=int(data)+1
-        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
-    else:
-        count=0
-        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    # data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
+    # if data:
+    #     count=int(data)+1
+    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    # else:
+    #     count=0
+    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    count = 0
     
     if count >=1:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
@@ -69,7 +71,7 @@ async def runColor(
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
             match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
-            result = personal_color.analysis(uri)
+            result = analysis(uri)
             
             result = result.split('톤')[0]
             
@@ -105,23 +107,23 @@ async def read_item(file: UploadFile = File(),
             access_token: Optional[str] = Header(None, convert_underscores=False)):
     collection = connectPymongo()
    ##############토큰으로 spring에서 유저찾아오기######################
-    response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    if response.status_code == 200:
-        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
-        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-        print(userid)
-    else:
-        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    # response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    # if response.status_code == 200:
+    #     response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+    #     userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+    #     print(userid)
+    # else:
+    #     raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
-    data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
-    if data:
-        count=int(data)+1
-        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-    else:
-        count=0
-        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-        
+    # data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
+    # if data:
+    #     count=int(data)+1
+    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    # else:
+    #     count=0
+    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    count=0
     if count >=3:
         raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
     

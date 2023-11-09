@@ -13,12 +13,23 @@ def connectMySQL():
     return connect, curs
 
 
+# def connectPymongo():
+#     MONGODB_USERNAME = env_variables.get("MONGODB_USERNAME")
+#     MONGODB_PASSWORD = env_variables.get("MONGODB_PASSWORD")
+#     MONGODB_HOST = env_variables.get("MONGODB_HOST")
+#     MONGODB_PORT = env_variables.get("MONGODB_PORT")
+#     uri = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/?authSource=admin"
+
+#     client = MongoClient(uri)  # MongoDB URI 입력
+#     db = client['clothes']
+#     collection = db['clothes']
+
+#     return collection
+
 def connectPymongo():
-    MONGODB_USERNAME = env_variables.get("MONGODB_USERNAME")
-    MONGODB_PASSWORD = env_variables.get("MONGODB_PASSWORD")
     MONGODB_HOST = env_variables.get("MONGODB_HOST")
     MONGODB_PORT = env_variables.get("MONGODB_PORT")
-    uri = f"mongodb://{MONGODB_USERNAME}:{MONGODB_PASSWORD}@{MONGODB_HOST}:{MONGODB_PORT}/?authSource=admin"
+    uri = f"mongodb://{MONGODB_HOST}:{MONGODB_PORT}/?authSource=admin"
 
     client = MongoClient(uri)  # MongoDB URI 입력
     db = client['clothes']
