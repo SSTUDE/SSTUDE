@@ -25,14 +25,18 @@ export const gpsToServer = createAsyncThunk(
 
     const { gps } = (getState() as RootState).bus;
     if (!gps) return rejectWithValue("GPS 좌표가 설정되지 않았습니다.");
+    console.log(gps);
 
     try {
-      const response = await axiosToken.post("/gps-endpoint", {
+      const response = await axiosToken.post("/bus-station/near", {
         latitude: gps[0],
         longitude: gps[1],
+        // numOfRows: 50,
       });
+      console.log(response);
       return response.data;
     } catch (error: unknown) {
+      console.log(error)
       return rejectWithValue(
         error instanceof AxiosError
           ? error.message
@@ -80,12 +84,19 @@ export const tadaBusStop = createAsyncThunk(
 export const busStopToServer = createAsyncThunk(
   "bus/busStopToServer",
   async (selectedStation: busStops, { rejectWithValue }) => {
+    if (!selectedStation) {
+      return rejectWithValue("선택된 정거장이 없습니다.");
+    }
     try {
       const response = await axiosToken.post(
-        "/selected-station-endpoint",
-        selectedStation
+        "/bus-station/businform",{
+          cityCode: selectedStation.citycode,
+          nodeid: selectedStation.nodeid,
+          // numOfRows: 50
+        }
       );
-      return response.data;
+      // return response.data;
+      return ;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error.response?.data);
@@ -136,7 +147,7 @@ export const busSaveToServer = createAsyncThunk(
   "bus/busSaveToServer",
   async (selectedBusList: string[], { rejectWithValue }) => {
     try {
-      const response = await axiosToken.post("/selected-bus-list-endpoint", {
+      const response = await axiosToken.post("/bus-station/businform", {
         selectedBusList,
       });
       return response.data;
