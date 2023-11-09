@@ -33,7 +33,7 @@ def loadUserInfo(file_name):
         with open(file_name, 'r') as f:
             data = json.load(f)
 	    
-    except FileNotFoundError:
+    except :
         # 파일이 존재하지 않으면 새로운 파일을 생성하고 기본 정보를 저장
         data = {
             "userInfo": "",
