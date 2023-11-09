@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "https://apis.data.go.kr/1360000";
 const SERVICE_KEY = process.env.REACT_APP_WEATHER_API_KEY
+const SERVICE_KEY_MINE = process.env.REACT_APP_LANDWEATHER_API_KEY
 
 // 단기 날씨 정보 요청
 export const getWeatherData = async (params: {
@@ -24,7 +25,7 @@ export const getWeatherData = async (params: {
     return response.data.response.body.items.item;
 
   } catch (error) {
-    console.error("API 요청 중 오류가 발생했습니다:", error);
+    console.error("단기 예보 API 요청 중 오류가 발생했습니다:", error);
     throw error;
   }
 };
@@ -40,7 +41,7 @@ export const getMidLandForecast = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/MidFcstInfoService/getMidLandFcst`, {
       params: {
-        serviceKey: SERVICE_KEY,
+        serviceKey: SERVICE_KEY_MINE,
         ...params
       }
     });
@@ -53,8 +54,8 @@ export const getMidLandForecast = async (params: {
 
 // 중기 기온 정보 API
 export const getMidTemperatureForecast = async (params: {
-  pageNo?: number;
   numOfRows?: number;
+  pageNo?: number;
   dataType?: string;
   regId: string;
   tmFc: string;
@@ -62,7 +63,7 @@ export const getMidTemperatureForecast = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/MidFcstInfoService/getMidTa`, {
       params: {
-        serviceKey: SERVICE_KEY,
+        serviceKey: SERVICE_KEY_MINE,
         ...params
       }
     });

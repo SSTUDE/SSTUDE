@@ -1,10 +1,16 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
-import { ReactComponent as SunWithCloud } from '../../assets/images/sun_with_cloud.svg';
+import { ReactComponent as SunWithCloud } from '../../../assets/images/sun_with_cloud.svg';
+import { MidLandForecastCustom } from '../types'
 
-const Week = () => {
+
+type WeekProps = {
+  LandForDatas : MidLandForecastCustom[];
+}
+
+const Week: React.FC<WeekProps> = ({ LandForDatas }) => {
+  console.log(LandForDatas);
   const [data, setdata] = useState([1,2,3,4,5,6,7])
-
 
   return (
     <Container>

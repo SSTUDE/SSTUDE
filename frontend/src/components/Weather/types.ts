@@ -70,6 +70,7 @@ export type SFGridItem ={
   latitude: string|number
 };
 
+// 단기 예보 API 응답 데이터 타입
 export type WeatherDataResponse = {
   baseDate: string;
   baseTime: string;
@@ -87,3 +88,43 @@ export type WeatherDataCustom = {
   fcstTime: string;
   fcstValue: string;
 }
+
+// 중기 육상(강수, 하늘상태) 예보 API 응답 데이터 타입
+export type MidLandForecastResponse = {
+  regId: string;
+  [key: string]: number | string; // 인덱스 시그니처 추가
+  rnSt3Am: number;
+  rnSt3Pm: number;
+  rnSt4Am: number;
+  rnSt4Pm: number;
+  rnSt5Am: number;
+  rnSt5Pm: number;
+  rnSt6Am: number;
+  rnSt6Pm: number;
+  rnSt7Am: number;
+  rnSt7Pm: number;
+  rnSt8: number;
+  rnSt9: number;
+  rnSt10: number;
+  wf3Am: string;
+  wf3Pm: string;
+  wf4Am: string;
+  wf4Pm: string;
+  wf5Am: string;
+  wf5Pm: string;
+  wf6Am: string;
+  wf6Pm: string;
+  wf7Am: string;
+  wf7Pm: string;
+  wf8: string;
+  wf9: string;
+  wf10: string;
+};
+
+export type MidLandForecastCustom = {
+  rnStAm: number;
+  rnStPm: number;
+  wfAm: string;
+  wfPm: string;
+};
+

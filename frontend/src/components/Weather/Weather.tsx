@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Today from './Today/Today'
-import Week from './Week'
+import Week from './Week/Week'
 import Hourly from './Hourly/Hourly'
-import { getWeatherData } from '../../apis/api'
-import { WeatherDataResponse, WeatherDataCustom } from './types';
+import { getWeatherData, getMidLandForecast, getMidTemperatureForecast } from '../../apis/api'
+import { WeatherDataResponse, WeatherDataCustom, MidLandForecastResponse, MidLandForecastCustom } from './types';
 
 const Weather = () => {
   const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
@@ -12,6 +12,9 @@ const Weather = () => {
   const [RainAmountDatas, setRainAmountDatas] = useState<WeatherDataCustom[]>([]);
   const [HumidityDatas, setHumidityDatas] = useState<WeatherDataCustom[]>([]);
   const [NowDatas, setNowDatas] = useState<WeatherDataCustom[]>([]);
+
+  const [LandShortForDatas, setLandShortForDatas] = useState<WeatherDataCustom[]>([]);
+  const [LandForDatas, setLandForDatas] = useState<MidLandForecastCustom[]>([]);
 
   const day = new Date();
   const hour = day.getHours(); 
@@ -24,49 +27,51 @@ const Weather = () => {
 
   const year = day.getFullYear(); 
   const month = (day.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
-  const date = day.getDate().toString().padStart(2, '0');
+  const yesterday = (day.getDate()-1).toString().padStart(2, '0'); 
+  const date = day.getDate().toString().padStart(2, '0'); 
+  const tomorrow  = (day.getDate()+1).toString().padStart(2, '0'); 
 
+  const formattedDateYester = `${year}${month}${yesterday}`;
   const formattedDate = `${year}${month}${date}`;
+  const formattedDateTommor = `${year}${month}${tomorrow}`;
+
+  const isAm = (fcstTime: string) => parseInt(fcstTime) < 1200;
 
   // 현재 시간을 기점으로 이후 데이터만 사용하기 위해
+  // 밤 12시 이후 다음날 5시 이전에 대한 날짜에 오류 수정 필요
   const currentDate = formattedDate; // 'YYYYMMDD' 형식
   const currentTime = `${hour.toString().padStart(2, '0')}${minutes.toString().padStart(2, '0')}`;
 
 
-  const fetchData = async () => {
+  const fetchShortData = async () => {
     try {
       const response = await getWeatherData({
         numOfRows: 1000,
         pageNo: 1,
         dataType: "JSON",
-        base_date: formattedDate,
+        base_date: formattedDateYester,
         base_time: "0500",
         nx: 86,
         ny: 95
       });
 
+      // 필요한 데이터만 포매팅
       const items = response;
-      const CustomData = items.map((item: WeatherDataResponse) => ({
+      const FormatData = items.map((item: WeatherDataResponse) => ({
         category: item.category,
         fcstDate: item.fcstDate,
         fcstTime: item.fcstTime,
         fcstValue: item.fcstValue
       }))
+      
+      // 현재 시간 이후의 데이터 필터링
+      const CustomData = FormatData
       .filter((item: WeatherDataCustom) => {
         return (item.fcstDate === currentDate && item.fcstTime >= currentTime) || (item.fcstDate > currentDate);
       });
+      // console.log(CustomData);
 
-
-      
-      // 현재 시간 이후의 데이터만 / 하늘 정보만 필터링.
-      const TempTopDatas = CustomData
-      .filter((item: WeatherDataCustom) => {
-        return (item.category === "TMN" || item.category === "TMX" );
-      })
-      // setDailySky(CloudDatas);
-      console.log(TempTopDatas);
-
-      // 현재 시간 이후의 데이터만 / 하늘 정보만 필터링.
+      // 하늘 정보만 필터링.
       const CloudDatas = CustomData
       .filter((item: WeatherDataCustom) => {
         return (item.category === "SKY");
@@ -127,15 +132,47 @@ const Weather = () => {
       setNowDatas(NowDatas);
       // console.log(NowDatas);
 
-      // 오늘, 내일 최고/ 최저 온도(단기예보)
-    
     } catch (error) {
-      console.error("데이터를 가져오는 데 실패했습니다:", error);
+      console.error("단기 예보 데이터를 가져오는 데 실패했습니다:", error);
+    }
+  };
+
+  // 중기 육상 예보 API
+  const fetchMidLandData = async () => {
+    try {
+      const response = await getMidLandForecast({
+        pageNo: 1,
+        numOfRows: 1000,
+        dataType: "JSON",
+        regId: "11H10000",
+        tmFc: "202311081800",
+      });
+
+      const items : MidLandForecastResponse[] = response;
+      console.log(items);
+      const dailyForecastData: MidLandForecastCustom[] = [];
+
+      // API로부터 받은 데이터를 날짜별로 매핑
+      for (let i = 3; i <= 7; i++) {
+        dailyForecastData.push({
+          rnStAm: items[0][`rnSt${i}Am`] as number,
+          rnStPm: items[0][`rnSt${i}Pm`] as number,
+          wfAm: items[0][`wf${i}Am`] as string,
+          wfPm: items[0][`wf${i}Pm`] as string,
+        });
+      }
+      setLandForDatas(dailyForecastData);
+      console.log(dailyForecastData);
+      return dailyForecastData; // 함수에서 직접 반환하는 경우
+
+    } catch (error) {
+      console.error("중기 육상 데이터를 가져오는 데 실패했습니다:", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    // fetchShortData();
+    fetchMidLandData();
   }, []);
 
   return (
@@ -152,7 +189,10 @@ const Weather = () => {
         RainAmountDatas={RainAmountDatas}
         HumidityDatas={HumidityDatas}
       />
-      <Week/>
+      <Week
+        // LandArray={LandArray}
+        LandForDatas={LandForDatas}
+        />
   </>
   )
 }
