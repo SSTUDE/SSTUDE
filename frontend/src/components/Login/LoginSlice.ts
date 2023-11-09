@@ -10,12 +10,11 @@ const handleAuthentication = async (
   data: { deviceNum: string },
   sendMessage: (message: string) => void
 ) => {
-  console.log("13 - 서버 통신중.....")
+  console.log("13 - 서버 통신중.....");
   const response = await axiosToken.post(url, data);
-  console.log("14 - 받아온 데이터", response)
+  console.log("14 - 받아온 데이터", response);
   storageData(
     response.data.accessToken,
-    response.data.refreshToken,
     sendMessage
   );
 
@@ -26,10 +25,10 @@ export const signUpUser = createAsyncThunk(
   "login/signUpUser",
   async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
-      console.log("6 - 서버용 회원가입 함수")
+      console.log("6 - 서버용 회원가입 함수");
       const response = await axiosToken.post(SIGN_UP_URL, data);
       const memberId = response.data.memberId;
-      console.log("7 - 회원가입후 받아온 memberId", memberId)
+      console.log("7 - 회원가입후 완료 memberId", memberId);
       return memberId;
     } catch (err: any) {
       return rejectWithValue(err.response?.data);
@@ -41,9 +40,13 @@ export const signInUser = createAsyncThunk(
   "login/signInUser",
   async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
-      console.log("10 - 서버용 로그인 함수")
-      const { sendMessage } = useWebSocketContext();
-      const safeSendMessage = sendMessage || (() => {});
+      console.log("10 - 서버용 로그인 함수");
+      // const { sendMessage } = useWebSocketContext();
+      // const safeSendMessage = sendMessage || (() => {});
+      // NOTE - 아래껀 라즈베리 없어도 되게 하는 더미에용
+      const safeSendMessage = (message: string) => {
+        console.log("더미 메시지 전송:", message);
+      };
       return await handleAuthentication(SIGN_IN_URL, data, safeSendMessage);
     } catch (err: any) {
       return rejectWithValue(err.response?.data);
@@ -57,7 +60,7 @@ const initialState: LoginState = {
   signUp: false,
   signIn: false,
   memberId: "",
-  gps:null,
+  gps: null,
 };
 
 export const LoginSlice = createSlice({
@@ -68,7 +71,11 @@ export const LoginSlice = createSlice({
       state: LoginState,
       action: PayloadAction<{
         type: "signUp" | "signIn" | "signOut";
-        data: { userInfo: string; serialNum: string, gps: [number, number] | null };
+        data: {
+          userInfo: string;
+          serialNum: string;
+          gps: [number, number] | null;
+        };
       }>
     ) => {
       const { type, data } = action.payload;

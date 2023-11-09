@@ -16,6 +16,8 @@ const KakaoMap = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  console.log(busStops)
+
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
       kakao.maps.load(() => {
@@ -79,7 +81,7 @@ const KakaoMap = () => {
   const reResponse = () => {
     dispatch(gpsToServer());
     //NOTE - 아래껀 서버에서 api 받아오는거 실패시 직접 버스 정거장 데이터 끌고오는 용도
-    dispatch(tadaBusStop());
+    // dispatch(tadaBusStop());
   };
 
   return (

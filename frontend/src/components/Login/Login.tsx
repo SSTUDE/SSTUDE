@@ -23,8 +23,8 @@ const Login = () => {
 
   const handleSignUp = useCallback(async () => {
     const data = {
-      // deviceNum: "d204"
-      deviceNum: loginState.serialNum + loginState.userInfo
+      deviceNum: "d204"
+      // deviceNum: loginState.serialNum + loginState.userInfo
     };
     console.log("5 - 회원가입 deviceNum", data)
     const actionResult = await dispatch(signUpUser(data));
@@ -39,8 +39,8 @@ const Login = () => {
 
   const handleSignIn = useCallback(async () => {
     const data = {
-      // deviceNum: "d204"
-      deviceNum: loginState.serialNum + loginState.userInfo
+      deviceNum: "d204"
+      // deviceNum: loginState.serialNum + loginState.userInfo
     };
     console.log("9 - 로그인 deviceNum", data)
     const actionResult = await dispatch(signInUser(data));
@@ -70,6 +70,10 @@ const Login = () => {
   }, [loginState, handleSignUp, handleSignIn]);
 
   const handleLogoClick = () => {
+
+    // NOTE - 이건 라즈베리 없어도 되게 하는 더미데이터 작동 코드에용
+    handleSignIn()
+
     console.log("3 -  로고 클릭해서 회원가입 시도")
 
     if (!isLogoClickable) return;

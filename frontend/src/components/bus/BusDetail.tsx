@@ -19,7 +19,7 @@ const BusDetail = () => {
     if (gps) {
       dispatch(gpsToServer());
       //NOTE - 아래껀 서버에서 api 받아오는거 실패시 직접 버스 정거장 데이터 끌고오는 용도
-      dispatch(tadaBusStop());
+      // dispatch(tadaBusStop());
       navigate('/kakaomap');
     }
   };

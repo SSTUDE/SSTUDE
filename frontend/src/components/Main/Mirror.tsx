@@ -1,32 +1,40 @@
-import React from 'react';
+import Bus from '../Bus/Bus';
 import styled from 'styled-components';
 import MenuBtn from '../Common/MenuBtn';
-import HelloWorld from '../Common/HelloWorld';
+import React, { useState } from 'react';
 import DateTime from '../Common/DateTime';
+import HelloWorld from '../Common/HelloWorld';
 import { useNavigate } from 'react-router-dom';
+import { useSwipeable } from 'react-swipeable';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
-import Bus from '../Bus/Bus';
 
 const Mirror = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [busIndex, setBusIndex] = useState(0);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setBusIndex((prev) => (prev + 1) % 2),
+    onSwipedRight: () => setBusIndex((prev) => (prev - 1 + 2) % 2),
+    preventScrollOnSwipe : true, 
+    trackMouse: true
+  });
 
   return (
     <>
       <Header>
         <MenuBtn type="menu" />
         <HelloWorld />
-        <DateTime/>
+        <DateTime />
       </Header>
-      <Body>
+      <Body {...handlers}>
         <Btn onClick={() => navigate('/')}>초기 화면</Btn>
         <Btn onClick={() => navigate('/')}>초기 화면</Btn>
-        <Bus/>
+        {busIndex === 0 ? <Bus /> : <Btn onClick={() => navigate('/')}>초기 화면</Btn>}
       </Body>
-      <Bottom>
-      </Bottom>
+      <Bottom />
     </>
-  )
-}
+  );
+};
 
 const Header = styled.div`
   display: flex; 

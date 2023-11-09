@@ -36,7 +36,7 @@ export const gpsToServer = createAsyncThunk(
       console.log(response);
       return response.data;
     } catch (error: unknown) {
-      console.log(error)
+      console.log(error);
       return rejectWithValue(
         error instanceof AxiosError
           ? error.message
@@ -88,15 +88,13 @@ export const busStopToServer = createAsyncThunk(
       return rejectWithValue("선택된 정거장이 없습니다.");
     }
     try {
-      const response = await axiosToken.post(
-        "/bus-station/businform",{
-          cityCode: selectedStation.citycode,
-          nodeid: selectedStation.nodeid,
-          // numOfRows: 50
-        }
-      );
+      const response = await axiosToken.post("/bus-station/businform", {
+        cityCode: selectedStation.citycode,
+        nodeid: selectedStation.nodeid,
+        // numOfRows: 50
+      });
       // return response.data;
-      return ;
+      return;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error.response?.data);
@@ -345,7 +343,29 @@ const busSlice = createSlice({
   },
   extraReducers: (builder) => {
     handleAsyncReducer<any>(builder, gpsToServer, (state, action) => {
-      state.busStops = action.payload.busStops;
+      const busStopsData = action.payload;
+      console.log(busStopsData);
+      const validBusStops = Array.isArray(busStopsData)
+        ? busStopsData
+        : [busStopsData];
+      const uniqueNodeNos = new Set();
+    
+      state.busStops = validBusStops
+        .map(station => ({ 
+          citycode: station.cityCode.toString(),
+          gpslati: station.latitude,
+          gpslong: station.longitude,
+          nodeid: station.nodeId,
+          nodenm: station.nodeName,
+          nodeno: station.nodeNo.toString()
+        }))
+        .filter(station => { 
+          if (!uniqueNodeNos.has(station.nodeno)) {
+            uniqueNodeNos.add(station.nodeno);
+            return true;
+          }
+          return false;
+        });
     });
 
     handleAsyncReducer<any>(builder, tadaBusStop, (state, action) => {
