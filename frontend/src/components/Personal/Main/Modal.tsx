@@ -137,7 +137,7 @@ const Modal: React.FC<ModalProps> = ({
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일
 
-  const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"]; // ex. (월)
+  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // ex. (월)
   const dayOfWeek = daysOfWeek[currentDate.getDay()];
 
   const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`; // 설정된 값

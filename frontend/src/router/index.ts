@@ -8,7 +8,7 @@ import TestColor from "../components/Test/TestColor";
 import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
-import Calender from "../components/Personal/Main/Calender";
+import Calender from "../components/Personal/Main/PersonalCalender";
 // import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
@@ -19,7 +19,10 @@ import PersonalColorResults from "../components/Personal/Results/PersonalColor/P
 import SelectContents from "../components/Personal/Capture/SelectContents";
 import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCapture";
 import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
-import DiagnosisLoading from "../components/Personal/Results/PersonalColor/DiagnosisLoading";
+import DiagnosisLoading from "../components/Personal/Results/DiagnosisLoading";
+import ClothesResults from "../components/Personal/Results/Clothes/ClothesResults";
+import TodayHealthCard from "../components/Health/TodayHealthCard";
+import TodayHealth from "../components/Health/TodayHealth";
 
 const routes = [
   {
@@ -70,28 +73,48 @@ const routes = [
 
   // 퍼스널 컬러 파트
   {
+    // 퍼스널 컬러 메인
     path: "/personalmain",
     Component: Calender,
   },
   {
-    path: "/personalcolor",
+    // 퍼스널 컬러 진단 결과
+    path: "/personalcolorsresults",
     Component: PersonalColorResults,
   },
   {
+    // 의상 진단 결과
+    path: "/personalclothesresults",
+    Component: ClothesResults,
+  },
+  {
+    // 진단 컨텐츠 선택창
     path: "/personalselectcontents",
     Component: SelectContents,
   },
   {
+    // 퍼스널 컬러 캡쳐 선택창
     path: "/personalselectpersonal",
     Component: PersonalColorCapture,
   },
   {
+    // 의상 캡쳐 선택창
     path: "/personalselectclothes",
     Component: ClothesCapture,
   },
   {
+    // 진단 중 로딩창
     path: "/personalloading",
     Component: DiagnosisLoading,
+  },
+  // 삼성 헬스
+  {
+    path: "/healthmain",
+    Component: TodayHealth,
+  },
+  {
+    path: "/healthtest",
+    Component: TodayHealthCard,
   },
   {
     path: "/weather",

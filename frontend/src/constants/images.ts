@@ -13,4 +13,12 @@ export const images = {
   personal: {
     dummy1: "/assets/images/boyoung.jpg",
   },
+  health: {
+    steps: "/assets/images/steps.png",
+    sleepTime: "/assets/images/sleepTime.png",
+    consumedKcal: "/assets/images/consumedKcal.png",
+    burntKcal: "/assets/images/burntKcal.png",
+    heartBeat: "/assets/images/heartBeat.png",
+    clock: "/assets/images/clock.png",
+  },
 };
