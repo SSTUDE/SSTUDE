@@ -208,7 +208,6 @@ public class BusInfoService {
         // 기본 옵션
         params.put("serviceKey", secretKey);
         params.put("pageNo", "1");
-        params.put("numOfRows", "10");
         params.put("_type", "json");
 
         // DTO에 맞게 옵션을 추가하는 로직
@@ -218,29 +217,4 @@ public class BusInfoService {
         return params;
     }
 
-
-//    private List<BusStationResponseDto> parseResponse(String jsonResponse) {
-//        try {
-//
-//            BusListApiResponseDto apiResponse = objectMapper.readValue(jsonResponse, BusListApiResponseDto.class);
-//            List<BusListApiResponseDto.Response.Body.Items.Item> busStationInforms = apiResponse.getResponse().getBody().getItems().getItem();  // 첫 번째 아이템만 가져옵니다.
-//
-//            return busStationInforms.stream().map(
-//                    station_inform
-//                            -> BusStationResponseDto.builder()
-//                            .cityCode(station_inform.getCitycode())
-//                            .latitude(station_inform.getGpslati())
-//                            .longitude(station_inform.getGpslong())
-//                            .nodeName(station_inform.getNodenm())
-//                            .nodeId(station_inform.getNodeid())
-//                            .nodeNo(station_inform.getNodeno())
-//                            .build()
-//            ).toList();
-//
-//        } catch (JsonProcessingException e) {
-//            System.out.println(e);
-//            throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-
-}
+    }
