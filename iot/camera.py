@@ -252,4 +252,9 @@ while True:
 
 cam.release()
 cv2.destroyAllWindows()
-ws_service.stop()
+
+# 서비스가 돌아가고 있는 이벤트 루프에 접근
+loop = ws_service.loop
+# stop 코루틴을 스케줄링
+loop.call_soon_threadsafe(loop.create_task, ws_service.stop())
+
