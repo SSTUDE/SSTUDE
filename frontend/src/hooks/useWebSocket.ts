@@ -75,8 +75,11 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
   // 메시지 보내기
   const sendMessage = (message: string) => {
+    console.log("웹소켓 연결중....")
+
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(message);
+      console.log("웹소켓 연결후 메시지 전송")
     } else {
       console.error("웹소켓이 연결되지 않았습니다.");
     }

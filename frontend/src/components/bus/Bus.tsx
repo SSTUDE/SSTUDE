@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
-import { tadaBusRealTime } from './BusSlice';
+import { setGps, tadaBusRealTime } from './BusSlice';
 import { useNavigate } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
@@ -15,6 +15,13 @@ function Bus() {
     (state: RootState) => state.bus,
     shallowEqual
   );
+
+  const { gps } = useSelector(
+    (state: RootState) => state.login,
+  )
+  if (gps) {
+  dispatch(setGps(gps));
+}
 
   useEffect(() => {
     //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
