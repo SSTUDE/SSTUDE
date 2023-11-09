@@ -224,7 +224,7 @@ const TodayHealthCard = () => {
           {index === 2 ? (
             <>
               <CarouselIcon src={cardsData[index].icon} alt="" />
-              <CarouselTitle>Today's Date</CarouselTitle>
+              <CarouselTitle>오늘 날짜</CarouselTitle>
               <CarouselText>{formattedDate}</CarouselText>
             </>
           ) : (

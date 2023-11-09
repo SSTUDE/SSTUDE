@@ -55,6 +55,14 @@ const CircleBruntKcalChartPercentage = styled.span`
   transform: translate(50%, -50%);
 `;
 
+const CircleBruntKcalChartSpan = styled.span`
+  color: #fa5834;
+`;
+
+const CircleConsumedKcalChartSpan = styled.span`
+  color: #35b6e9;
+`;
+
 // 애니메이션 정의
 const fillAnimation = keyframes`
   0% {
@@ -66,7 +74,7 @@ const fillAnimation = keyframes`
 `;
 
 const Circle = styled.circle`
-  animation: ${fillAnimation} 1.35s linear;
+  animation: ${fillAnimation} 1s linear;
 `;
 
 const TodayKcalChart = () => {
@@ -91,7 +99,7 @@ const TodayKcalChart = () => {
           <CircleChart viewBox="0 0 36 36">
             <Circle
               stroke="#fa5834"
-              strokeWidth="3"
+              strokeWidth="4"
               fill="none"
               strokeLinecap="round"
               cx="18"
@@ -101,9 +109,9 @@ const TodayKcalChart = () => {
             />
             <Circle
               stroke="#35b6e9"
-              strokeWidth="3"
+              strokeWidth="4"
               fill="none"
-              strokeLinecap="round"
+              strokeLinecap="butt"
               cx="18"
               cy="18"
               r="16"
@@ -112,10 +120,12 @@ const TodayKcalChart = () => {
             />
           </CircleChart>
           <CircleConsumedKcalChartPercentage>
-            섭취 Kcal: {consumedKcalPercentage.toFixed(1)}%
+            <CircleConsumedKcalChartSpan>섭취</CircleConsumedKcalChartSpan>{" "}
+            Kcal: {consumedKcalPercentage.toFixed(1)}%
           </CircleConsumedKcalChartPercentage>
           <CircleBruntKcalChartPercentage>
-            소모 Kcal: {burntKcalPercentage.toFixed(1)}%
+            <CircleBruntKcalChartSpan>소모</CircleBruntKcalChartSpan> Kcal:
+            {burntKcalPercentage.toFixed(1)}%
           </CircleBruntKcalChartPercentage>
         </CircleChartContainer>
       </StyledKcalDataContainer>
