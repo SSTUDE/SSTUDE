@@ -12,6 +12,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { signUpUser, signInUser, setMemberId } from "./LoginSlice";
 
 const Login = () => {
+  console.log("0 - 렌더링")
+
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const [signUpAlert, setsignUpAlert] = useState('');
   const dispatch = useDispatch<AppDispatch>();
@@ -24,6 +26,7 @@ const Login = () => {
       deviceNum: "d204"
       // deviceNum: loginState.serialNum + loginState.userInfo
     };
+    console.log("5 - 회원가입 deviceNum", data)
     const actionResult = await dispatch(signUpUser(data));
     const res = actionResult.payload;
     if (res && res.memberId) {
@@ -39,6 +42,7 @@ const Login = () => {
       deviceNum: "d204"
       // deviceNum: loginState.serialNum + loginState.userInfo
     };
+    console.log("9 - 로그인 deviceNum", data)
     const actionResult = await dispatch(signInUser(data));
     const res = actionResult.payload;
     if (res && res.memberId) {
@@ -50,18 +54,24 @@ const Login = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (loginState.signIn) {
-      //NOTE - 로그인 체크용 + 서버 연결되면 완료 알림 지울거
-      setsignUpAlert('로그인 완료');
-      handleSignIn();
-    } else if (loginState.signUp) {
-      //NOTE - 회원가입 체크용 + 서버 연결되면 완료 알림 지울거
-      setsignUpAlert('회원가입 완료');
-      handleSignUp();
-    }
+    console.log("1 -  로고 페이지 입장")
+    if (loginState.signUp) {
+      console.log("4 -  회원가입 시도")
+        //NOTE - 회원가입 체크용 + 서버 연결되면 완료 알림 지울거
+        setsignUpAlert('회원가입 완료');
+        handleSignUp();
+      } else if (loginState.signIn) {
+      console.log("8 -  로그인 시도")
+        //NOTE - 로그인 체크용 + 서버 연결되면 완료 알림 지울거
+        setsignUpAlert('로그인 완료');
+        handleSignIn();
+      }
+    console.log("2 - 로그인, 회원가입 아직 안됨")
   }, [loginState, handleSignUp, handleSignIn]);
 
   const handleLogoClick = () => {
+    console.log("3 -  로고 클릭해서 회원가입 시도")
+
     if (!isLogoClickable) return;
 
     setIsLogoClickable(false);
