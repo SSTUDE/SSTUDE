@@ -114,9 +114,9 @@ spring:
           uri: http://health:8014
           predicates:
             - Path=/health/**
-            - Method=GET,POST,PUT,DELETE
-          filters:
-            - AuthenticationFilter
+#            - Method=GET,POST,PUT,DELETE
+#          filters:
+#            - AuthenticationFilter
         - id: health
 #          uri: http://localhost:8014
           uri: http://health:8014
