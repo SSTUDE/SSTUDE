@@ -31,7 +31,7 @@ export const gpsToServer = createAsyncThunk(
       const response = await axiosToken.post("/bus-station/near", {
         latitude: gps[0],
         longitude: gps[1],
-        // numOfRows: 50,
+        numOfRows: 50,
       });
       console.log(response);
       return response.data;
@@ -349,17 +349,17 @@ const busSlice = createSlice({
         ? busStopsData
         : [busStopsData];
       const uniqueNodeNos = new Set();
-    
+
       state.busStops = validBusStops
-        .map(station => ({ 
+        .map((station) => ({
           citycode: station.cityCode.toString(),
           gpslati: station.latitude,
           gpslong: station.longitude,
           nodeid: station.nodeId,
           nodenm: station.nodeName,
-          nodeno: station.nodeNo.toString()
+          nodeno: station.nodeNo.toString(),
         }))
-        .filter(station => { 
+        .filter((station) => {
           if (!uniqueNodeNos.has(station.nodeno)) {
             uniqueNodeNos.add(station.nodeno);
             return true;

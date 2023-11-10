@@ -7,7 +7,12 @@ export const handleAuthentication = async (
   data: { year: string; month: string },
   sendMessage: (message: string) => void
 ) => {
-  const response = await axiosToken.post(url, data);
+  const data1 = {
+    year: 2023,
+    month: 11,
+    day: 10,
+  };
+  const response = await axiosToken.post("/auth/test", {});
   console.log(response);
   storageData(response.data.accessToken, sendMessage);
   return response.data;
