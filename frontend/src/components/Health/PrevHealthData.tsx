@@ -1,6 +1,83 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { images } from "../../constants/images";
+import PrevHealth from "./PrevHealth";
+
+// 차트 전체 컨테이너
+const StyledChartContainer = styled.section`
+  display: flex;
+  justify-content: center;
+
+  margin: 4% 0;
+`;
+
+//
+const StyledKcalDataContainer = styled.article`
+  display: flex;
+  justify-content: center;
+
+  width: 40%;
+  height: 20vh;
+  padding: 1%;
+
+  border: 6px solid white;
+  border-radius: 20px;
+`;
+
+const CircleChartContainer = styled.section`
+  position: relative;
+  max-width: 180px;
+  width: 100%;
+`;
+
+const CircleChart = styled.svg`
+  transform: rotate(-90deg);
+  overflow: visible;
+`;
+
+const CircleConsumedKcalChartPercentage = styled.span`
+  font-family: "KBO-Dia-Gothic_bold";
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  position: absolute;
+  left: -70%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const CircleBruntKcalChartPercentage = styled.span`
+  font-family: "KBO-Dia-Gothic_bold";
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  position: absolute;
+  right: -70%;
+  top: 50%;
+  transform: translate(50%, -50%);
+`;
+
+const CircleBruntKcalChartSpan = styled.span`
+  color: #fa5834;
+`;
+
+const CircleConsumedKcalChartSpan = styled.span`
+  color: #35b6e9;
+`;
+
+// 애니메이션 정의
+const fillAnimation = keyframes`
+  0% {
+    stroke-dasharray: 0 100;
+  }
+  100% {
+    stroke-dasharray: 100 100;
+  }
+`;
+
+const Circle = styled.circle`
+  animation: ${fillAnimation} 1s linear;
+`;
 
 const options = ["far-left", "left", "center", "right", "far-right"];
 
@@ -95,8 +172,21 @@ const CarouselText = styled.p`
   margin: 0 0 2rem 0;
 `;
 
-const TodayHealthCard = () => {
+const PrevHealthData = () => {
   const [cardPositions, setCardPositions] = useState(options);
+  const [burntKcalPercentage, setBurntKcalPercentage] = useState(0);
+  const [consumedKcalPercentage, setConsumedKcalPercentage] = useState(0);
+
+  // 더미 데이터
+  const totalKcal = 5000;
+  const burntKcal = 2000;
+  const consumedKcal = 3000;
+
+  useEffect(() => {
+    // 비율 계산
+    setBurntKcalPercentage((burntKcal / totalKcal) * 100);
+    setConsumedKcalPercentage((consumedKcal / totalKcal) * 100);
+  }, []);
 
   const currentDate = new Date();
 
@@ -212,32 +302,71 @@ const TodayHealthCard = () => {
   };
 
   return (
-    <CarouselContainer>
-      {options.map((option, index) => (
-        <CarouselCard
-          key={index}
-          id={option}
-          className="carousel-card"
-          position={cardPositions[index]}
-          onClick={() => moveToCenter(index)}
-        >
-          {index === 2 ? (
-            <>
-              <CarouselIcon src={cardsData[index].icon} alt="" />
-              <CarouselTitle>오늘 날짜</CarouselTitle>
-              <CarouselText>{formattedDate}</CarouselText>
-            </>
-          ) : (
-            <>
-              <CarouselIcon src={cardsData[index].icon} alt="" />
-              <CarouselTitle>{cardsData[index].title}</CarouselTitle>
-              <CarouselText>{cardsData[index].text}</CarouselText>
-            </>
-          )}
-        </CarouselCard>
-      ))}
-    </CarouselContainer>
+    <>
+      <StyledChartContainer>
+        <StyledKcalDataContainer>
+          <CircleChartContainer>
+            <CircleChart viewBox="0 0 36 36">
+              <Circle
+                stroke="#fa5834"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="round"
+                cx="18"
+                cy="18"
+                r="16"
+                strokeDasharray={`${burntKcalPercentage} 100`}
+              />
+              <Circle
+                stroke="#35b6e9"
+                strokeWidth="4"
+                fill="none"
+                strokeLinecap="butt"
+                cx="18"
+                cy="18"
+                r="16"
+                strokeDasharray={`${consumedKcalPercentage} 100`}
+                strokeDashoffset={-burntKcalPercentage}
+              />
+            </CircleChart>
+            <CircleConsumedKcalChartPercentage>
+              <CircleConsumedKcalChartSpan>섭취</CircleConsumedKcalChartSpan>{" "}
+              Kcal: {consumedKcalPercentage.toFixed(1)}%
+            </CircleConsumedKcalChartPercentage>
+            <CircleBruntKcalChartPercentage>
+              <CircleBruntKcalChartSpan>소모</CircleBruntKcalChartSpan> Kcal:
+              {burntKcalPercentage.toFixed(1)}%
+            </CircleBruntKcalChartPercentage>
+          </CircleChartContainer>
+        </StyledKcalDataContainer>
+      </StyledChartContainer>
+      <CarouselContainer>
+        {options.map((option, index) => (
+          <CarouselCard
+            key={index}
+            id={option}
+            className="carousel-card"
+            position={cardPositions[index]}
+            onClick={() => moveToCenter(index)}
+          >
+            {index === 2 ? (
+              <>
+                <CarouselIcon src={cardsData[index].icon} alt="" />
+                <CarouselTitle>오늘 날짜</CarouselTitle>
+                <CarouselText>{formattedDate}</CarouselText>
+              </>
+            ) : (
+              <>
+                <CarouselIcon src={cardsData[index].icon} alt="" />
+                <CarouselTitle>{cardsData[index].title}</CarouselTitle>
+                <CarouselText>{cardsData[index].text}</CarouselText>
+              </>
+            )}
+          </CarouselCard>
+        ))}
+      </CarouselContainer>
+    </>
   );
 };
 
-export default TodayHealthCard;
+export default PrevHealthData;

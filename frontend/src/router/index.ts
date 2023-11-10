@@ -21,8 +21,10 @@ import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCa
 import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
 import DiagnosisLoading from "../components/Personal/Results/DiagnosisLoading";
 import ClothesResults from "../components/Personal/Results/Clothes/ClothesResults";
-import TodayHealthCard from "../components/Health/TodayHealthCard";
 import TodayHealth from "../components/Health/TodayHealth";
+import HealthCalender from "../components/Health/HealthCalender";
+import PrevHealth from "../components/Health/PrevHealth";
+import TodayHealthData from "../components/Health/TodayHealthData";
 
 const routes = [
   {
@@ -112,9 +114,19 @@ const routes = [
     path: "/healthmain",
     Component: TodayHealth,
   },
+  // 헬스 캘린더
+  {
+    path: "/healthcalender",
+    Component: HealthCalender,
+  },
+  // 이전 헬스 정보
+  {
+    path: "/prevhealth",
+    Component: PrevHealth,
+  },
   {
     path: "/healthtest",
-    Component: TodayHealthCard,
+    Component: TodayHealthData,
   },
   {
     path: "/weather",

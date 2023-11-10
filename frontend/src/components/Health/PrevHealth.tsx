@@ -1,11 +1,8 @@
 // 헬스 메인 페이지
-import React, { useCallback } from "react";
-import TodayHealthCard from "./TodayHealthData";
+import React from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store/store";
-import { HealthCalender } from "./HealthSlice";
+import PrevHealthData from "./PrevHealthData";
 
 const StyledContainer = styled.section``;
 
@@ -51,36 +48,34 @@ const CalenderIcon = () => (
   </svg>
 );
 
-const TodayHealth = () => {
+type PrevHealthProps = {
+  setCurrentComponent: (component: string) => void;
+  healthData: {
+    steps: number | null;
+    burntKcal: number | null;
+    consumedKcal: number | null;
+    sleepTime: number | null;
+  };
+};
+const PrevHealth: React.FC<PrevHealthProps> = ({
+  setCurrentComponent,
+  healthData,
+}) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
 
   const handleCalenderClick = () => {
-    handleMonth();
-    navigate("/healthcalender");
+    setCurrentComponent("HealthCalendar"); // Set currentComponent to 'HealthCalendar'
   };
-
-  const handleMonth = useCallback(async () => {
-    const data = {
-      year: "2023",
-      month: "11",
-    };
-    const actionResult = await dispatch(HealthCalender(data));
-    const res = actionResult.payload;
-    if (res) {
-      // dispatch(setMemberId(res.memberId));
-    }
-  }, [dispatch]);
 
   return (
     <StyledContainer>
       <StyledCalenderButton onClick={handleCalenderClick}>
         <CalenderIcon />
       </StyledCalenderButton>
-      <StyledTitle>오늘의 일일 활동</StyledTitle>
-      <TodayHealthCard />
+      <StyledTitle>이전 일일 활동</StyledTitle>
+      <PrevHealthData />
     </StyledContainer>
   );
 };
 
-export default TodayHealth;
+export default PrevHealth;

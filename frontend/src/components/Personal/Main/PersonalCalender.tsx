@@ -16,7 +16,7 @@ const diagnosisData: DiagnosisData = {
   "2023-10-30": { personalColor: true, outfit: true },
 };
 
-const Calender: React.FC = () => {
+const PersonalCalender: React.FC = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("personalColor");
@@ -117,4 +117,4 @@ const Calender: React.FC = () => {
   );
 };
 
-export default Calender;
+export default PersonalCalender;
