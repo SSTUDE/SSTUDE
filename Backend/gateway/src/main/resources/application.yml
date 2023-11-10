@@ -74,53 +74,56 @@ spring:
 #            - Path=/docs
 #          filters:
 #            - RewritePath=/makeup-service/docs, /docs
-        - id: health-blue-filter
-          uri: http://health-blue:8014
-          predicates:
-            - Path=/health/**
-            - Method=GET,POST,PUT,DELETE
-          filters:
-            - AuthenticationFilter
-        - id: health-blue
-          uri: http://health-blue:8014
-          predicates:
-            - Path=/mobile/**
-        - id: health-service-blue
-          uri: http://health-blue:8014
-          predicates:
-            - Path=/health-service/**
-
-        - id: health-green-filter
-          uri: http://health-green:8114
-          predicates:
-            - Path=/health/**
-            - Method=GET,POST,PUT,DELETE
-          filters:
-            - AuthenticationFilter
-        - id: health-green
-          uri: http://health-green:8114
-          predicates:
-            - Path=/mobile/**
-        - id: health-service-green
-          uri: http://health-green:8114
-          predicates:
-            - Path=/health-service/**
-
-#        - id: health
-#          uri: http://localhost:8014
+#        - id: health-blue-filter
+#          uri: http://health-blue:8014
 #          predicates:
 #            - Path=/health/**
 #            - Method=GET,POST,PUT,DELETE
 #          filters:
 #            - AuthenticationFilter
-#        - id: health
-#          uri: http://localhost:8014
+#        - id: health-blue
+#          uri: http://health-blue:8014
 #          predicates:
 #            - Path=/mobile/**
-#        - id: health-service
-#          uri: http://localhost:8014
+#        - id: health-service-blue
+#          uri: http://health-blue:8014
 #          predicates:
 #            - Path=/health-service/**
+#
+#        - id: health-green-filter
+#          uri: http://health-green:8114
+#          predicates:
+#            - Path=/health/**
+#            - Method=GET,POST,PUT,DELETE
+#          filters:
+#            - AuthenticationFilter
+#        - id: health-green
+#          uri: http://health-green:8114
+#          predicates:
+#            - Path=/mobile/**
+#        - id: health-service-green
+#          uri: http://health-green:8114
+#          predicates:
+#            - Path=/health-service/**
+
+        - id: health
+#          uri: http://localhost:8014
+          uri: http://health:8014
+          predicates:
+            - Path=/health/**
+            - Method=GET,POST,PUT,DELETE
+          filters:
+            - AuthenticationFilter
+        - id: health
+#          uri: http://localhost:8014
+          uri: http://health:8014
+          predicates:
+            - Path=/mobile/**
+        - id: health-service
+#          uri: http://localhost:8014
+          uri: http://health:8014
+          predicates:
+            - Path=/health-service/**
 
         - id: businfo
 #          uri: http://localhost:8015
