@@ -1,5 +1,6 @@
-package com.sstude.busstation.dto.response;
+package com.sstude.busstation.dto.response.ApiResponse;
 
+import com.sstude.busstation.dto.response.BusResponseDto;
 import com.sstude.busstation.utils.ApiResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
