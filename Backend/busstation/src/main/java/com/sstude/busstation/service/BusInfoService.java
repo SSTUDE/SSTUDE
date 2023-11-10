@@ -111,7 +111,7 @@ public class BusInfoService {
 
         Map<String, String> hashMap = buildHashMap(stationInform, (map, dto) -> {
             map.put("cityCode", dto.getCityCode());
-            map.put("nodeId", dto.getNodeId());
+            map.put("nodeid", dto.getNodeId());
             map.put("numOfRows", dto.getNumOfRows());
         });
 
