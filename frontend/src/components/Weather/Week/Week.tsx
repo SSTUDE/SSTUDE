@@ -25,11 +25,13 @@ const Week: React.FC<WeekProps> = ({  CombinedDatas }) => {
     };
   };
 
+  // console.log(CombinedDatas);
+
   return (
     <Container>
       <StyledList>
         {CombinedDatas.map((item, index) => {
-          const { formattedDate, weekday } = getFormattedDate(index+2);
+          const { formattedDate, weekday } = getFormattedDate(index);
           const skyAmData = CombinedDatas[index].wfAm
           const skyPmData = CombinedDatas[index].wfPm
           return (

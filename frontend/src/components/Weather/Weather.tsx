@@ -13,6 +13,7 @@ import {
   MidForecastCombined } from './types';
 
 const Weather = () => {
+  // 단기 예보 데이터 표에서 사용하는 데이터 저장
   const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
   const [TempDatas, setTempDatas] = useState<WeatherDataCustom[]>([]);
   const [RainRateDatas, setRainRateDatas] = useState<WeatherDataCustom[]>([]);
@@ -20,7 +21,10 @@ const Weather = () => {
   const [HumidityDatas, setHumidityDatas] = useState<WeatherDataCustom[]>([]);
   const [NowDatas, setNowDatas] = useState<WeatherDataCustom[]>([]);
 
-  const [LandShortForDatas, setLandShortForDatas] = useState<WeatherDataCustom[]>([]);
+  // 단기 예보(최고/저 기온, (하늘상태, 강수량), 강수확률) - 오전/오후 데이터 저장
+  const [LandShortForDatas, setLandShortForDatas] = useState<MidForecastCombined[]>([]);
+
+  // 중기 예보(기온 / 육상(강수확률 , 하늘상태)) 데이터 저장
   const [LandForDatas, setLandForDatas] = useState<MidLandForecastCustom[]>([]);
   const [LandTempForDatas, setLandTempForDatas] = useState<MidTempForecastCustom[]>([]);
   const [CombinedDatas, setCombinedDatas] = useState<MidForecastCombined[]>([]);
@@ -141,8 +145,78 @@ const Weather = () => {
       setNowDatas(NowDatas);
       // console.log(NowDatas);
 
+      // 오늘, 내일 데이터 필터링
+      const todayData = FormatData.filter((item: WeatherDataCustom) => item.fcstDate === currentDate);
+      const tomorrowData = FormatData.filter((item: WeatherDataCustom) => item.fcstDate === formattedDateTommor);
+
+      // 오늘/오후 중에  강수확률을 가장 높은 함수
+      const findHighestRainRate = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
+        const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod && item.category === "POP");
+        return periodData.reduce((max: WeatherDataCustom, item: WeatherDataCustom) => max.fcstValue > item.fcstValue ? max : item);
+      };
+      // console.log(findHighestRainRate(todayData, true));
+
+      // 오전/오후 중에 날씨 상태를 나타내는 함수
+      const getWeatherCondition = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
+        const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod);
+        const rainData = periodData.find(item => item.category === "PCP" && !isNaN(Number(item.fcstValue)) && Number(item.fcstValue) > 0);
+        const skyData = periodData.find(item => item.category === "SKY");
+
+        if (rainData) {
+          // 강수량이 존재하면 '비' 반환
+          return '비';
+        } else if (skyData) {
+          // 강수량이 없으면 하늘 상태값에 따라 반환
+          switch (skyData.fcstValue) {
+            case '1':
+            case '2':
+              return '맑음';
+            case '3':
+              return '구름많음';
+            case '4':
+              return '흐림';
+            default:
+              return '알 수 없음'; // 예상치 못한 값에 대한 처리
+          }
+        } else {
+          return '날씨 데이터 없음'; // 강수량과 하늘 상태 데이터가 없는 경우
+        }
+      };
+
+
+      // 오늘, 내일 최고/저 기온 상태 값 저장
+      const XNtempDatas = FormatData
+      .filter((item: WeatherDataCustom) => { 
+        return (item.fcstDate > formattedDateYester) && (item.category === 'TMX' || item.category === 'TMN');
+      });
+      // console.log(XNtempDatas);
+
+
+      // 오늘 오전/오후 강수확률 최고값과 하늘 상태 최고값을 찾습니다.
+      const LandArray = [{
+        rnStAm: parseInt(findHighestRainRate(todayData, true).fcstValue),
+        rnStPm: parseInt(findHighestRainRate(todayData, false).fcstValue),
+        wfAm: getWeatherCondition(todayData, true),
+        wfPm:getWeatherCondition(todayData, false),
+        taMin: parseInt(XNtempDatas[0].fcstValue),
+        taMax: parseInt(XNtempDatas[1].fcstValue),
+      },
+      {
+        rnStAm: parseInt(findHighestRainRate(tomorrowData, true).fcstValue),
+        rnStPm: parseInt(findHighestRainRate(tomorrowData, false).fcstValue),
+        wfAm: getWeatherCondition(tomorrowData, true),
+        wfPm:getWeatherCondition(tomorrowData, false),
+        taMin: parseInt(XNtempDatas[2].fcstValue),
+        taMax: parseInt(XNtempDatas[3].fcstValue),
+      }
+    ];
+    // console.log(LandArray);
+    setLandShortForDatas(LandArray);
+    return Promise.resolve(); // promise를 제대로 사용하기 위해
+
     } catch (error) {
       console.error("단기 예보 데이터를 가져오는 데 실패했습니다:", error);
+      return Promise.reject(error);
     }
   };
 
@@ -154,7 +228,7 @@ const Weather = () => {
         numOfRows: 1000,
         dataType: "JSON",
         regId: "11H10000",
-        tmFc: "202311090600",
+        tmFc: "202311091800",
       });
 
       const items : MidLandForecastResponse[] = response;
@@ -172,10 +246,11 @@ const Weather = () => {
       }
       setLandForDatas(dailyForecastData);
       // console.log(dailyForecastData);
-      return dailyForecastData; // 함수에서 직접 반환하는 경우
+      return Promise.resolve(dailyForecastData);
 
     } catch (error) {
       console.error("중기 기온 데이터를 가져오는 데 실패했습니다:", error);
+      return Promise.reject(error);
     }
   };
 
@@ -187,7 +262,7 @@ const Weather = () => {
         numOfRows: 1000,
         dataType: "JSON",
         regId: "11H10602",
-        tmFc: "202311090600",
+        tmFc: "202311091800",
       });
 
       const items : MidTempForecastResponse[] = response;
@@ -203,19 +278,21 @@ const Weather = () => {
       }
       setLandTempForDatas(dailyForecastData);
       // console.log(dailyForecastData);
-      return dailyForecastData; // 함수에서 직접 반환하는 경우
+      return Promise.resolve(dailyForecastData); // Promise를 반환
 
     } catch (error) {
       console.error("중기 육상 데이터를 가져오는 데 실패했습니다:", error);
+      return Promise.reject(error);
     }
   };
 
   // LandForDatas와 LandTempForDatas를 합치는 함수
   const combineForecastData = (
     landForDatas: MidLandForecastCustom[],
-    landTempForDatas: MidTempForecastCustom[]
+    landTempForDatas: MidTempForecastCustom[], 
+    LandShortForDatas: MidForecastCombined[]
   ): MidForecastCombined[] => {
-    return landForDatas.map((landData, index) => {
+    const combinedData = landForDatas.map((landData, index) => {
       const tempData = landTempForDatas[index];
       return {
         ...landData,
@@ -223,19 +300,29 @@ const Weather = () => {
         taMax: tempData.taMax,
       };
     });
+  
+    // 이제 단기 예보 데이터를 합친다.
+    combinedData.unshift(...LandShortForDatas.slice(0, 2));
+    return combinedData;
   };
-
-  // useEffect 내에서 데이터를 합치고 <Week/> 컴포넌트에 props로 넘겨주는 로직
+  
+  
   useEffect(() => {
-    const fetchData = async () => {
-      // fetchShortData();
-      await fetchMidLandData();
-      await fetchMidTempData();
-      const combinedData : MidForecastCombined[] = combineForecastData(LandForDatas, LandTempForDatas);
-      setCombinedDatas(combinedData); 
-      };
-      fetchData();
-    }, []);
+    const fetchShortDataPromise = fetchShortData(); 
+    const fetchMidLandDataPromise = fetchMidLandData(); 
+    const fetchMidTempDataPromise = fetchMidTempData(); 
+  
+    // Promise.all을 사용하여 모든 데이터가 준비되었을 때 combineForecastData를 호출합니다.
+    Promise.all([fetchShortDataPromise, fetchMidLandDataPromise, fetchMidTempDataPromise])
+      .then(() => {
+        const allCombinedData = combineForecastData(LandForDatas, LandTempForDatas, LandShortForDatas);
+        setCombinedDatas(allCombinedData);
+      })
+      .catch(error => {
+        console.error("데이터를 가져오는 데 실패했습니다:", error);
+      });
+  }, [LandShortForDatas]);
+
 
   return (
     <>
@@ -253,7 +340,7 @@ const Weather = () => {
       />
       {CombinedDatas.length > 0 ? (
         <Week
-        CombinedDatas={CombinedDatas}
+          CombinedDatas={CombinedDatas}
         />
       ) : (
         <></>
