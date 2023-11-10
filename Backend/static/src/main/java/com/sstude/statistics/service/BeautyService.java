@@ -38,7 +38,9 @@ public class BeautyService {
         LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 23, 59);
 
         // 이미지 점수
-        List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, memberId);
+        List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, memberId)
+                .collectList()
+                .block();
 
         List<ClothesDetailResponseDto> clothesDetailList = clothesList.stream()
                 .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImguri()))
