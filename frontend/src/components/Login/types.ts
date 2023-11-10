@@ -5,4 +5,5 @@ export interface LoginState {
     signUp: boolean;
     signIn: boolean;
     memberId: string;
+    gps: [number, number] | null;
   }

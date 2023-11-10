@@ -1,6 +1,6 @@
 import baseAxios from "axios";
 import { SERVER_URL, REFRESH_TOKEN_URL } from "./constants";
-import { storageData, retrieveData, getRefreshToken } from "./JWT-common";
+import { storageData, retrieveData } from "./JWT-common";
 import { useWebSocketContext } from "../components/Common/WebSocketContext";
 
 const axiosToken = baseAxios.create({
@@ -27,23 +27,14 @@ axiosToken.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.data.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = getRefreshToken();
-      if (refreshToken) {
-        try {
-          const response = await axiosToken.post(REFRESH_TOKEN_URL, {
-            refreshToken,
-          });
-          const { accessToken } = response.data;
-          const { sendMessage } = useWebSocketContext();
-          storageData(accessToken, refreshToken, sendMessage ?? (() => {}));
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return axiosToken(originalRequest);
-        } catch (refreshError) {
-          return Promise.reject(refreshError);
-        }
-      }
+      const response = await axiosToken.post(REFRESH_TOKEN_URL);
+      const { accessToken } = response.data;
+      const { sendMessage } = useWebSocketContext();
+      storageData(accessToken, sendMessage ?? (() => {}));
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+      return axiosToken(originalRequest);
     }
     return Promise.reject(error);
   }

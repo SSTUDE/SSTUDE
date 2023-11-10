@@ -8,20 +8,20 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
   const reconnectAttempts = useRef(0);
   const [messages, setMessages] = useState<string[]>([]);
 
-  const captureConsoleLog = () => {
-    const originalConsoleLog = console.log;
-    const originalConsoleError = console.error;
+  // const captureConsoleLog = () => {
+  //   const originalConsoleLog = console.log;
+  //   const originalConsoleError = console.error;
 
-    console.log = (...args: any[]) => {
-      setMessages((prev) => [...prev, `Log: ${args.join(" ")}`]);
-      originalConsoleLog(...args);
-    };
+  //   console.log = (...args: any[]) => {
+  //     setMessages((prev) => [...prev, `Log: ${args.join(" ")}`]);
+  //     originalConsoleLog(...args);
+  //   };
 
-    console.error = (...args: any[]) => {
-      setMessages((prev) => [...prev, `Error: ${args.join(" ")}`]);
-      originalConsoleError(...args);
-    };
-  };
+  //   console.error = (...args: any[]) => {
+  //     setMessages((prev) => [...prev, `Error: ${args.join(" ")}`]);
+  //     originalConsoleError(...args);
+  //   };
+  // };
 
   // 웹소켓 연결 함수
   const connect = () => {
@@ -57,7 +57,7 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
   // 웹소켓 연결 및 정리
   useEffect(() => {
-    captureConsoleLog();
+    // captureConsoleLog();
     connect();
 
     return () => {
@@ -75,8 +75,11 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
   // 메시지 보내기
   const sendMessage = (message: string) => {
+    console.log("웹소켓 연결중....")
+
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(message);
+      console.log("웹소켓 연결후 메시지 전송")
     } else {
       console.error("웹소켓이 연결되지 않았습니다.");
     }

@@ -3,7 +3,10 @@ export const images = {
     logo: "/assets/images/logo.png",
   },
   default: {
-    menuBtn: "/assets/images/question.svg",
+    menuBtn: "/assets/images/menu.svg",
+    beautyBtn: "/assets/images/beauty.svg",
+    healthBtn: "/assets/images/health.svg",
+    questionBtn: "/assets/images/question.svg",
   },
   map: {
     bus: "/assets/images/bus.png",
@@ -12,5 +15,13 @@ export const images = {
   },
   personal: {
     dummy1: "/assets/images/boyoung.jpg",
+  },
+  health: {
+    steps: "/assets/images/steps.png",
+    sleepTime: "/assets/images/sleepTime.png",
+    consumedKcal: "/assets/images/consumedKcal.png",
+    burntKcal: "/assets/images/burntKcal.png",
+    heartBeat: "/assets/images/heartBeat.png",
+    clock: "/assets/images/clock.png",
   },
 };

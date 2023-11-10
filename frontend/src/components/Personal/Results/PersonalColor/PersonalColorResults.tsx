@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import ResultsImg from "./ResultsImg";
 import ResultsInfo from "./ResultsInfo";
 import Palette from "./Palette";
-import DiagnosisLoading from "./DiagnosisLoading";
+import DiagnosisLoading from "../DiagnosisLoading";
 
 const StyledContainer = styled.div`
   /* overflow: hidden; */
