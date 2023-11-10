@@ -77,7 +77,7 @@ const PreviousPersonalColorResults = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate("/personalcolor");
+    navigate("/personalcolorsresults");
   };
 
   return (

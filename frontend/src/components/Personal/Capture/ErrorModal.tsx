@@ -26,8 +26,8 @@ const StyledModalContent = styled.div`
 
   margin: 20% auto;
   padding: 20px;
-  width: 50%;
-  height: 35vh;
+  width: 55%;
+  height: 40vh;
 
   border: none;
 `;
@@ -66,9 +66,9 @@ const ErrorMessage = styled.div`
 
 const StyledPersonalColorCaptureButton = styled.button`
   position: relative;
+  top: 100px;
 
   width: 100%;
-  margin: 120px 0;
 
   border: none;
   background-color: transparent;
@@ -104,7 +104,11 @@ const ErrorModal: React.FC<IErrorModalProps> = ({
     }
   };
 
-  const handlePersonalColorCapture = () => {};
+  // 퍼스널 컬러 진단으로 보내는 이벤트
+  const handlePersonalColorCapture = () => {
+    // navigate("/personalselectpersonal"); 이걸로 교체하기
+    navigate("/personalselectclothes");
+  };
 
   if (!isOpen) return null;
   return (
@@ -113,7 +117,7 @@ const ErrorModal: React.FC<IErrorModalProps> = ({
         <ErrorCircle />
         <StyledCloseButton onClick={onClose}>&times;</StyledCloseButton>
         <ErrorMessage>{errorMessage}</ErrorMessage>
-        <StyledPersonalColorCaptureButton>
+        <StyledPersonalColorCaptureButton onClick={handlePersonalColorCapture}>
           퍼스널 컬러 진단하러 가기
         </StyledPersonalColorCaptureButton>
       </StyledModalContent>
