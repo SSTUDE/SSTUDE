@@ -18,8 +18,7 @@ const Wrap = styled.div`
 `;
 
 const Hello = styled.p`
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 50px;
   margin: 0;
   color: ${TEXT_COLOR}
 `;

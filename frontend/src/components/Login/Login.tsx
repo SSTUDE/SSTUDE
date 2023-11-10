@@ -71,9 +71,6 @@ const Login = () => {
 
   const handleLogoClick = () => {
 
-    // NOTE - 이건 라즈베리 없어도 되게 하는 더미데이터 작동 코드에용
-    handleSignIn()
-
     console.log("3 -  로고 클릭해서 회원가입 시도")
 
     if (!isLogoClickable) return;
@@ -91,6 +88,16 @@ const Login = () => {
     }, 5000);
   };
 
+
+  // NOTE - 이건 라즈베리 없어도 되게 하는 더미데이터 작동 코드에용
+  const SignClick = () => {
+    handleSignUp()
+  }
+
+  const loginClick = () => {
+    handleSignIn()
+  }
+
   return (
     <Wrap>
       <StyledImage
@@ -98,6 +105,8 @@ const Login = () => {
         alt="로고"
         onClick={handleLogoClick}
       />
+      <Btn onClick={() => SignClick()}>회원가입</Btn>
+      <Btn onClick={() => loginClick()}>로그인</Btn>
       <Btn>{signUpAlert}</Btn>
     </Wrap>
   );

@@ -44,23 +44,21 @@ const TimeNow = styled.div`
 `;
 
 const MainP = styled.p`
-  font-size: 50px;
+  font-size: 100px;
   font-weight: bold;
-  margin: 0;
   color: ${TEXT_COLOR}
 `;
 
 const AmPm = styled.p`
-  font-size: 25px;
+  font-size: 50px;
   font-weight: 500;
-  margin: 0;
+  font-weight: bold;
   color: ${TEXT_COLOR}
 `;
 
 const DateNow = styled.p`
-  font-size: 20px;
+  font-size: 40px;
   font-weight: 500;
-  margin: 0;
   color: ${TEXT_COLOR}
 `;
 

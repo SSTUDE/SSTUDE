@@ -37,7 +37,7 @@ const BusList = () => {
     setSelectedBuses({});
     setErrorMessage("");
   };
-  
+
   const saveSelection = () => {
     const selectedRouteIds = Object.keys(selectedBuses).filter(routeid => selectedBuses[routeid]);
     if (selectedRouteIds.length === 0) {

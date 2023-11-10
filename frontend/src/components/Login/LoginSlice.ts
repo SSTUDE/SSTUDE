@@ -13,10 +13,7 @@ const handleAuthentication = async (
   console.log("13 - 서버 통신중.....");
   const response = await axiosToken.post(url, data);
   console.log("14 - 받아온 데이터", response);
-  storageData(
-    response.data.accessToken,
-    sendMessage
-  );
+  storageData(response.data.accessToken, sendMessage);
 
   return response.data;
 };

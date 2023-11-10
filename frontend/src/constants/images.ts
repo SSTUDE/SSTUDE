@@ -3,7 +3,10 @@ export const images = {
     logo: "/assets/images/logo.png",
   },
   default: {
-    menuBtn: "/assets/images/question.svg",
+    menuBtn: "/assets/images/menu.svg",
+    beautyBtn: "/assets/images/beauty.svg",
+    healthBtn: "/assets/images/health.svg",
+    questionBtn: "/assets/images/question.svg",
   },
   map: {
     bus: "/assets/images/bus.png",
