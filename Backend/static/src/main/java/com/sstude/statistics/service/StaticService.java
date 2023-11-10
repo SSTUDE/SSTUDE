@@ -37,7 +37,9 @@ public class StaticService {
                 .minusSeconds(1);
 
         List<Makeups> makeupsList = makeupRepository.findAllByCalenderBetweenAndMemberId(startday, endday, userid);
-        List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, userid);
+        List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, userid)
+                .collectList()
+                .block();
 
 
 
