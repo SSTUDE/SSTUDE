@@ -5,7 +5,7 @@ export const storageData = async (
   sendMessage: (message: string) => void
 ) => {
   try {
-  console.log("15 - 토큰 저장중")
+    console.log("15 - 토큰 저장중");
     localStorage.setItem("SSTUDE", JSON.stringify({ accessToken }));
     sendMessage(JSON.stringify({ type: "accessToken", token: accessToken }));
   } catch (err) {

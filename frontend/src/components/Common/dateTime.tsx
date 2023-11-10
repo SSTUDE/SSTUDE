@@ -52,6 +52,7 @@ const MainP = styled.p`
 const AmPm = styled.p`
   font-size: 50px;
   font-weight: 500;
+  font-weight: bold;
   color: ${TEXT_COLOR}
 `;
 
