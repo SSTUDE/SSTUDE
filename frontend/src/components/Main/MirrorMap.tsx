@@ -12,7 +12,6 @@ const MirrorMap = () => {
         <Btn onClick={() => navigate('/login')}>로그인</Btn>
         <Btn onClick={() => navigate('/mirror')}>메인페이지</Btn>
         <Btn onClick={() => navigate('/test')}>테스트</Btn>
-        <Btn onClick={() => navigate('/testmain')}>날씨상세</Btn>
         {/* <Btn onClick={() => navigate('/menubtn')}>메뉴버튼</Btn> */}
       </Body>
       <Bottom></Bottom>

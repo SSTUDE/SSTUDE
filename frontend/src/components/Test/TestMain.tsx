@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import Weather from '../Weather/Weather';
 import { useNavigate } from 'react-router-dom';
+import DateTime from '../Common/DateTime'
 
 const TestMain = () => {
   const currentDate = new Date();
@@ -33,7 +34,10 @@ const TestMain = () => {
       </LeftContainer>
       <MainSide>
         <MainTop>
-
+          {/* <DateTime/> */}
+          <div>
+            시간, 날짜 정보 들어갈거임
+          </div>
         </MainTop>
         <MainBottom>
           <Weather/>
@@ -53,7 +57,7 @@ const LeftContainer = styled.div`
   display: grid(2f);
   width: 28.8%;
   height: 100%;
-  border: 1px solid #fff;
+  border-right: 1px solid #fff;
 `
 
 const MainSide = styled.div`
@@ -67,7 +71,12 @@ const MainSide = styled.div`
 const MainTop = styled.div`
   width: 100%;
   height: 15%;
-  background-color: lightblue;
+  /* background-color: lightblue; */
+
+  >div {
+    text-align: center;
+    font-size: 30px;
+  }
 `
 
 const MainBottom = styled.div`

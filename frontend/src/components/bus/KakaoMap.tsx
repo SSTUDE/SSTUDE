@@ -16,6 +16,8 @@ const KakaoMap = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
+  console.log(busStops)
+
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
       kakao.maps.load(() => {
@@ -79,7 +81,7 @@ const KakaoMap = () => {
   const reResponse = () => {
     dispatch(gpsToServer());
     //NOTE - 아래껀 서버에서 api 받아오는거 실패시 직접 버스 정거장 데이터 끌고오는 용도
-    dispatch(tadaBusStop());
+    // dispatch(tadaBusStop());
   };
 
   return (
@@ -108,52 +110,48 @@ const KakaoMap = () => {
 };
 
 const Container = styled.div`
-  display: flex; 
-  height: 100vh; 
+  display: flex;
+  height: 100vh;
 `;
 
 const Spacer = styled.div`
-  flex: 0.3; 
+  flex: 0.3;
 `;
 
 const MapDiv = styled.div`
-  flex: 0.7; 
-  height: 100%; 
+  flex: 0.7;
 `;
 
 const StationList = styled.div`
-  width: 29vh; 
-  height: 100%; 
-  overflow-y: auto; 
+  width: 29vh;
   padding: 10px;
-  color: white;
-  flex-direction: column; 
-  justify-content: center; 
 `;
 
 const StationName = styled.div<{ selected?: boolean }>`
-  padding: 5px;
-  border-bottom: 1px solid #ddd;
-  background-color: ${(props) => (props.selected ? '#a0a0a0' : 'transparent')};
-  &:hover {
-    background-color: #f0f0f0;
-  }
+  padding: 10px;
+  margin: 5px 0;
+  border-bottom: 1px solid #484e5a;
+  background-color: ${(props) => (props.selected ? '#4cd137' : 'transparent')};
   cursor: pointer;
+  transition: background-color 0.3s;
 `;
 
 const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
   padding: 10px;
-  border: 1px solid #ddd;
+  margin: 10px 0;
   border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 `;
 
 const PageButton = styled.p`
-  padding: 5px 10px;
+  padding: 15px 30px;
   margin: 5px;
+  background-color: #4cd137;
+  color: #dcdde1;
+  border-radius: 5px;
   cursor: pointer;
-
+  transition: all 0.3s ease;
+  font-weight: bold;
 `;
 
 export default KakaoMap;

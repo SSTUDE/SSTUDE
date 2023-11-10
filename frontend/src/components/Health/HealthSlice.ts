@@ -9,11 +9,7 @@ export const handleAuthentication = async (
 ) => {
   const response = await axiosToken.post(url, data);
   console.log(response);
-  storageData(
-    response.data.accessToken,
-    response.data.refreshToken,
-    sendMessage
-  );
+  storageData(response.data.accessToken, sendMessage);
   return response.data;
 };
 
@@ -23,11 +19,7 @@ export const handleGetAuthentication = async (
 ) => {
   const response = await axiosToken.get(url);
   console.log(response);
-  storageData(
-    response.data.accessToken,
-    response.data.refreshToken,
-    sendMessage
-  );
+  storageData(response.data.accessToken, sendMessage);
   return response.data;
 };
 

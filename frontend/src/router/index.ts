@@ -16,6 +16,8 @@ import BusDetail from "../components/Bus/BusDetail";
 import KakaoMap from "../components/Bus/KakaoMap";
 import BusList from "../components/Bus/BusList";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
+import GetWeatherData from "../components/Weather/GetWeatherData";
+
 import SelectContents from "../components/Personal/Capture/SelectContents";
 import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCapture";
 import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
@@ -131,6 +133,10 @@ const routes = [
   {
     path: "/weather",
     Component: Weather,
+  },
+  {
+    path: "/getweather",
+    Component: GetWeatherData,
   },
 
   // 버스정보
