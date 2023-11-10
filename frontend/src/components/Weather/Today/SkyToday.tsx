@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { ReactComponent as SunWithCloud } from '../../../assets/images/sun_with_cloud.svg';
-import { BsSunFill, BsMoonStarsFill, BsCloudSunFill, BsCloudRainFill } from 'react-icons/bs'
+import { BsSunFill, BsMoonStarsFill, BsCloudSunFill, BsCloudRainFill, BsCloudFill } from 'react-icons/bs'
 import { WeatherDataCustom } from '../types';
 
 type SkyTodayProps = {
@@ -25,7 +25,7 @@ type SkyTodayProps = {
       IconComponent = isNightTime ? <StyledMoonFill size={130} /> : <StyledSunFill size={130} />;
       SkyContidion = '맑음'
     } else if (SkyStatus >= 6 && SkyStatus <= 8) {
-      IconComponent = <StyledCloudSunFill size={130} />;
+      IconComponent = <StyledCloudFill size={130} />;
       SkyContidion = '구름 많음'
     } else if (SkyStatus >= 9 && SkyStatus <= 10) {
       IconComponent = <SunSvg/>;
@@ -67,6 +67,12 @@ const StyledCloudRainFill = styled(BsCloudRainFill)`
   color: #7a7a7a;
   margin-top: 5px;
 `;
+
+const StyledCloudFill = styled(BsCloudFill)`
+  color: #7a7a7a;
+  margin-top: 5px;
+`;
+
 
 
 export default SkyToday

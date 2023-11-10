@@ -62,7 +62,7 @@ const Weather = () => {
         numOfRows: 1000,
         pageNo: 1,
         dataType: "JSON",
-        base_date: formattedDateYester,
+        base_date: formattedDate,
         base_time: "0500",
         nx: 86,
         ny: 95
@@ -184,12 +184,23 @@ const Weather = () => {
       };
 
 
-      // 오늘, 내일 최고/저 기온 상태 값 저장
-      const XNtempDatas = FormatData
-      .filter((item: WeatherDataCustom) => { 
-        return (item.fcstDate > formattedDateYester) && (item.category === 'TMX' || item.category === 'TMN');
-      });
-      // console.log(XNtempDatas);
+      // // 오늘, 내일 최고/저 기온 상태 값 저장
+      // const XNtempDatas = FormatData
+      // .filter((item: WeatherDataCustom) => { 
+      //   return (item.fcstDate > formattedDateYester) && (item.category === 'TMX' || item.category === 'TMN');
+      // });
+      // // console.log(XNtempDatas);
+
+      // 기온 데이터 중에서 최고 기온을 찾는 함수
+      const findMaxTemperature = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
+        const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod && item.category === "TMP");
+        return periodData.reduce((max: WeatherDataCustom, item: WeatherDataCustom) => max.fcstValue > item.fcstValue ? max : item);
+      };
+
+      const findMinTemperature = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
+        const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod && item.category === "TMP");
+        return periodData.reduce((min: WeatherDataCustom, item: WeatherDataCustom) => min.fcstValue < item.fcstValue ? min : item);
+      };
 
 
       // 오늘 오전/오후 강수확률 최고값과 하늘 상태 최고값을 찾습니다.
@@ -198,21 +209,21 @@ const Weather = () => {
         rnStPm: parseInt(findHighestRainRate(todayData, false).fcstValue),
         wfAm: getWeatherCondition(todayData, true),
         wfPm:getWeatherCondition(todayData, false),
-        taMin: parseInt(XNtempDatas[0].fcstValue),
-        taMax: parseInt(XNtempDatas[1].fcstValue),
+        taMin: parseInt(findMinTemperature(todayData, true).fcstValue), 
+        taMax: parseInt(findMaxTemperature(todayData, false).fcstValue),
       },
       {
         rnStAm: parseInt(findHighestRainRate(tomorrowData, true).fcstValue),
         rnStPm: parseInt(findHighestRainRate(tomorrowData, false).fcstValue),
         wfAm: getWeatherCondition(tomorrowData, true),
         wfPm:getWeatherCondition(tomorrowData, false),
-        taMin: parseInt(XNtempDatas[2].fcstValue),
-        taMax: parseInt(XNtempDatas[3].fcstValue),
+        taMin: parseInt(findMinTemperature(tomorrowData, true).fcstValue), 
+        taMax: parseInt(findMaxTemperature(tomorrowData, false).fcstValue),
       }
     ];
     // console.log(LandArray);
     setLandShortForDatas(LandArray);
-    return Promise.resolve(); // promise를 제대로 사용하기 위해
+    return Promise.resolve(LandArray); // promise를 제대로 사용하기 위해
 
     } catch (error) {
       console.error("단기 예보 데이터를 가져오는 데 실패했습니다:", error);
@@ -308,22 +319,33 @@ const Weather = () => {
   
   
   useEffect(() => {
+    // 데이터를 가져오는 함수들을 정의합니다.
     const fetchShortDataPromise = fetchShortData(); 
     const fetchMidLandDataPromise = fetchMidLandData(); 
     const fetchMidTempDataPromise = fetchMidTempData(); 
   
-    // Promise.all을 사용하여 모든 데이터가 준비되었을 때 combineForecastData를 호출합니다.
+    // Promise.all을 사용하여 모든 데이터가 준비되었을 때 상태를 업데이트합니다.
     Promise.all([fetchShortDataPromise, fetchMidLandDataPromise, fetchMidTempDataPromise])
-      .then(() => {
-        const allCombinedData = combineForecastData(LandForDatas, LandTempForDatas, LandShortForDatas);
-        setCombinedDatas(allCombinedData);
+      .then(([shortData, midLandData, midTempData]) => {
+        // 각각의 데이터를 상태로 설정합니다.
+        setLandShortForDatas(shortData);
+        setLandForDatas(midLandData);
+        setLandTempForDatas(midTempData);
       })
       .catch(error => {
         console.error("데이터를 가져오는 데 실패했습니다:", error);
       });
-  }, [LandShortForDatas]);
-
-
+  }, []);
+  
+  // 상태가 업데이트되었을 때 combineForecastData를 호출합니다.
+  useEffect(() => {
+    if (LandForDatas.length > 0 && LandTempForDatas.length > 0 && LandShortForDatas.length > 0) {
+      const allCombinedData = combineForecastData(LandForDatas, LandTempForDatas, LandShortForDatas);
+      setCombinedDatas(allCombinedData);
+      console.log(allCombinedData);
+    }
+  }, [LandForDatas, LandTempForDatas, LandShortForDatas]); // 상태를 의존성 배열에 추가합니다.
+  
   return (
     <>
       {NowDatas.length > 0 ? (
@@ -338,7 +360,7 @@ const Weather = () => {
         RainAmountDatas={RainAmountDatas}
         HumidityDatas={HumidityDatas}
       />
-      {CombinedDatas.length > 0 ? (
+      {CombinedDatas.length > 2 ? (
         <Week
           CombinedDatas={CombinedDatas}
         />

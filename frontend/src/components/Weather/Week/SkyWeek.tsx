@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { ReactComponent as SunWithCloud } from '../../../assets/images/sun_with_cloud.svg';
-import { BsSunFill, BsCloudSunFill, BsCloudRainFill } from 'react-icons/bs'
+import { BsSunFill, BsCloudSunFill, BsCloudRainFill, BsCloudFill } from 'react-icons/bs'
 
 type SkyWeekProps = {
   skyData : string;
@@ -15,7 +15,7 @@ const SkyWeek : React.FC<SkyWeekProps> = ({ skyData }) => {
       } else if (skyCondition.includes('구름많음')) {
         return <SunSvg />;
       } else if (skyCondition.includes('흐림')) {
-        return <StyledCloudRainFill size={45}/>;
+        return <StyledCloudFill size={45}/>;
       } else if (skyCondition.includes('비') || skyCondition.includes('소나기')) {
         // '비'나 '소나기'를 포함하는 경우
         return <BsCloudRainFill size={45}/>;
@@ -53,5 +53,9 @@ const StyledCloudRainFill = styled(BsCloudRainFill)`
   margin-top: 5px;
 `;
 
+const StyledCloudFill = styled(BsCloudFill)`
+  color: #7a7a7a;
+  margin-top: 5px;
+`;
 
 export default SkyWeek;
