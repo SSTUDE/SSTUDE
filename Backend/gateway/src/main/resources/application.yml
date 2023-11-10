@@ -64,10 +64,12 @@ spring:
           uri: http://static:8012
           predicates:
             - Path=/static-service/**
-#        - id: makeup
-#          uri: http://127.0.0.1:8013
-#          predicates:
-#            - Path=/makeup/**
+        - id: makeup
+          uri: http://makeup:8013
+          predicates:
+            - Path=/makeup/**
+          filters:
+            - AuthenticationFilter
 #        - id: makeup-service
 #          uri: http://127.0.0.1:8013
 #          predicates:
