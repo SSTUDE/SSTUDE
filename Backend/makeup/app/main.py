@@ -174,7 +174,7 @@ def getRecordDetail (
     try:
         connect, curs = connectMySQL()
         
-        response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+        response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
         if response.status_code == 200:
             response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
             userid = response_json["memberId"]  # 본문에서 특정 값을 추출
