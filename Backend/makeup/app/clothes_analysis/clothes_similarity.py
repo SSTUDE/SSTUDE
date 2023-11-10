@@ -15,18 +15,9 @@ def my_color(userid, current_date, TargetLab):
         curs.execute(query, (userid, current_date.date()))
         result = curs.fetchone()[0]
     
-    # print(result)
+    print(result)
     match_color, _, _, _, _, _, _ = changeId(result)
     
-    match_color = ['FFDAB9', 'FFDEAD', 'FFE4B5', 'FFB6C1', 'FFA07A', 'FF7F50', 'FF6347', 'FFD700', 'FFA500','FF8C00', 
-     'F08080','D8BFD8', 'D2B48C', 'CD5C5C', 'BDB76B', 'BC8F8F', 'B0C4DE','B0E57C', '9ACD32', '98FB98', 
-     '9370DB', 'F4A460', 'DEB887', 'FFE4E1', 'E6E6FA', 'FFC0CB', 'FFB347', 'F5BA59', 'E97451', 'E95C4B',
-     'E89866', 'E39191', 'DEA5A4', 'D9A6A9', 'D68A59', 'D6738A', 'D0417E', 'C46210', 'C19A6B',  'BC987E',
-     'B94E48', 'B2EC5D', 'B0BFDE', 'AE98AA', 'AD8884', 'AD6DAD', 'A67B5B', 'A3C1AD', 'A1CAF1', '9E5B40', 
-     '9EBD9E', '9A6EAE', '967117', '967BB6', '954535', '9470C4', '926F5B','578363', '8DB600', '87A96B',
-     '836953', '80461B', '77DD77', '76D7EA', '72A0C1', '71A6D2', '6F4E37', '6C541E', '6A5ACD', '66ADA4',
-     '6456B7', '624E9A', '60A57F', '5D8AA8', '5B92E5', '44798E', '42647F','3A8EBA', '3A75C4', '39627C'
-    ]
     
     similarities = []
     i = 0

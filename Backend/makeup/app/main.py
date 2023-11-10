@@ -16,7 +16,6 @@ app = FastAPI()
 rd = redis_config()
 current_date = datetime.now().date()
 current_date_time = datetime.now()
-userid=2
 
 # @app.get("makeup-service/v3/api-docs", include_in_schema=False)
 # def get_open_api_endpoint():
@@ -35,24 +34,23 @@ async def runColor(
 ):
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
-    # response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    # if response.status_code == 200:
-    #     response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
-    #     userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-    #     print(userid)
-    # else:
-    #     raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
-    # data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
-    # if data:
-    #     count=int(data)+1
-    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
-    # else:
-    #     count=0
-    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
-    count = 0
-    
+    data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
+    if data:
+        count=int(data)+1
+        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    else:
+        count=0
+        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    # count =0
     if count >=1:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
     
@@ -107,23 +105,23 @@ async def read_item(file: UploadFile = File(),
             access_token: Optional[str] = Header(None, convert_underscores=False)):
     collection = connectPymongo()
    ##############토큰으로 spring에서 유저찾아오기######################
-    # response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    # if response.status_code == 200:
-    #     response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
-    #     userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-    #     print(userid)
-    # else:
-    #     raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
-    # data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
-    # if data:
-    #     count=int(data)+1
-    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-    # else:
-    #     count=0
-    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-    count=0
+    data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
+    if data:
+        count=int(data)+1
+        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    else:
+        count=0
+        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    # count =0
     if count >=3:
         raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
     
