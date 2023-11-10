@@ -138,7 +138,7 @@ const PersonalColorCapture = () => {
   const navigate = useNavigate();
 
   const handleCaptureClick = () => {
-    navigate("/personalcolor");
+    navigate("/personalcolorsresults");
   };
 
   return (

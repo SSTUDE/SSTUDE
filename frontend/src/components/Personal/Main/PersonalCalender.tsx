@@ -1,8 +1,7 @@
-// 퍼스널 컬러 메인 페이지 겸 달력
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "./Calender.css";
-import { ko } from "date-fns/esm/locale";
+import { enGB } from "date-fns/esm/locale";
 import Modal from "./Modal";
 import MainButton from "./MainButton";
 import CameraButton from "./CameraButton";
@@ -17,7 +16,7 @@ const diagnosisData: DiagnosisData = {
   "2023-10-30": { personalColor: true, outfit: true },
 };
 
-const Calender: React.FC = () => {
+const PersonalCalender: React.FC = () => {
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("personalColor");
@@ -42,7 +41,11 @@ const Calender: React.FC = () => {
           setIsModalOpen(true);
         }}
         inline
-        locale={ko}
+        locale={enGB}
+        calendarStartDay={0}
+        formatWeekDay={(nameOfDay: string) =>
+          nameOfDay.slice(0, 3).toUpperCase()
+        }
         renderDayContents={(day: React.ReactNode, date: Date) => {
           const dateStr = date.toLocaleDateString("fr-CA");
           const diagnosis = diagnosisData[dateStr];
@@ -90,7 +93,7 @@ const Calender: React.FC = () => {
               {"<"}
             </button>
             <div>
-              {date.toLocaleString("ko-KR", { year: "numeric", month: "long" })}
+              {date.getFullYear()}. {("0" + (date.getMonth() + 1)).slice(-2)}
             </div>
             <button
               className="button"
@@ -107,11 +110,11 @@ const Calender: React.FC = () => {
         <Modal
           activeButton={activeButton}
           onClose={() => setIsModalOpen(false)}
-          selectedDate={startDate} // 추가된 prop
+          selectedDate={startDate}
         />
       )}
     </div>
   );
 };
 
-export default Calender;
+export default PersonalCalender;
