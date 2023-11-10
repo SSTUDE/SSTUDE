@@ -51,4 +51,9 @@ public class MobileController {
         MobileResponseDto response = mobileService.relogin(memberId);
         return ResponseEntity.ok(response);
     }
+    
+    @GetMapping("/t")
+    public String hey(){
+        return "t!";
+    }
 }
