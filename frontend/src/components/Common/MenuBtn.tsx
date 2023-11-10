@@ -41,7 +41,7 @@ function MenuBtn({ type }: MenuBtnProps) {
   };
 
   return (
-    <Wrap isMenuOpen={isMenuOpen} type={type} onClick={handleClick}>
+    <Wrap $isMenuOpen={isMenuOpen} type={type} onClick={handleClick}>
       <Button>
         <img src={getImageSrc(type)} alt={`${type} 버튼`} />
       </Button>
@@ -49,11 +49,11 @@ function MenuBtn({ type }: MenuBtnProps) {
   );
 }
 
-const Wrap = styled.div<{ isMenuOpen: boolean; type: ButtonType; }>`
+const Wrap = styled.div<{ $isMenuOpen: boolean; type: ButtonType; }>`
   width: 100px;
   height: 100px;
   border-radius: 15%;
-  background-color: ${(props) => props.type === 'menu' && props.isMenuOpen ? '#2ecc71' : '#4F4F4F'};
+  background-color: ${(props) => props.type === 'menu' && props.$isMenuOpen ? '#2ecc71' : '#4F4F4F'};
   border: 2px solid white;
   display: flex;
   align-items: center;

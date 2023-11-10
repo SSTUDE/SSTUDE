@@ -154,7 +154,7 @@ const StyledImage = styled.img`
 
 const Btn = styled.p`
 padding: 10px 20px;
-font-size: 1.5em;
+font-size: 3em;
 font-weight: bold;
 margin: 5px; 
 color: ${TEXT_COLOR};

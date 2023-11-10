@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { SelectedBuses, BusButtonProps } from './types';
-import { busSaveToServer, setBusSave } from './BusSlice';
+import { busRealTimeForServer, setBusSave } from './BusSlice';
 
 const BusList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const busList = useSelector((state: RootState) => state.bus.busList) || [];
+  console.log(busList)
   const validBusList = Array.isArray(busList)
     ? busList.filter(bus => bus !== undefined)
     : busList ? [busList] : [];
@@ -17,16 +18,16 @@ const BusList = () => {
 
   const navigate = useNavigate();
 
-  const toggleBusSelection = (routeid: string) => {
+  const toggleBusSelection = (routeId: string) => {
     setSelectedBuses(prevSelected => ({
       ...prevSelected,
-      [routeid]: !prevSelected[routeid],
+      [routeId]: !prevSelected[routeId],
     }));
   };
 
   const allSelect = () => {
     const newSelectedBuses: SelectedBuses = validBusList.reduce((selected, bus) => {
-      selected[bus.routeid] = true;
+      selected[bus.routeId] = true;
       return selected;
     }, {} as SelectedBuses);
     setSelectedBuses(newSelectedBuses);
@@ -45,7 +46,7 @@ const BusList = () => {
       return;
     }
     dispatch(setBusSave(selectedRouteIds));
-    dispatch(busSaveToServer(selectedRouteIds));
+    dispatch(busRealTimeForServer());
     navigate('/mirror');
   };
 
@@ -59,13 +60,13 @@ const BusList = () => {
         <ButtonGrid>
           {validBusList.map(bus => (
             <BusButton
-              key={bus.routeid}
-              selected={selectedBuses[bus.routeid]}
-              onClick={() => toggleBusSelection(bus.routeid)}
+              key={bus.routeId}
+              selected={selectedBuses[bus.routeId]}
+              onClick={() => toggleBusSelection(bus.routeId)}
             >
               <BusInfo>
-                <BusType>{bus.routetp.replace('버스', '')}</BusType>
-                <BusNumber>{bus.routeno}</BusNumber>
+                <BusType>{bus.routeType.replace('버스', '')}</BusType>
+                <BusNumber>{bus.routeNo}</BusNumber>
               </BusInfo>
             </BusButton>
           ))}
