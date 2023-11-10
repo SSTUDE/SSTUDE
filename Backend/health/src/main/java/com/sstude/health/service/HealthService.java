@@ -26,6 +26,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
@@ -44,6 +45,7 @@ public class HealthService {
     private HealthData createHealthData(Long memberId, HealthDataRequestDto requestDto){
         return HealthData.builder()
                 .memberId(memberId)
+                .createdAt(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                 .burntKcal(requestDto.getBurntKcal())
                 .consumedKcal(requestDto.getConsumedKcal())
                 .sleepTime(requestDto.getSleepTime())
@@ -51,18 +53,28 @@ public class HealthService {
                 .build();
     }
 
+//    @Transactional
+//    public HealthRecordResponseDto record(Long memberId, HealthDataRequestDto healthDataRequestDto) {
+//        HealthData healthData = createHealthData(memberId, healthDataRequestDto);
+//
+//        // MongoDB에 저장
+//        healthData = healthDataRepository.save(healthData);
+//
+//        // HealthRecordResponseDto 생성
+//        HealthRecordResponseDto response = new HealthRecordResponseDto(healthData);
+//
+//        return response;
+//    }
+
     @Transactional
-    public HealthRecordResponseDto record(Long memberId, HealthDataRequestDto healthDataRequestDto) {
+    public Mono<HealthRecordResponseDto> record(Long memberId, HealthDataRequestDto healthDataRequestDto) {
         HealthData healthData = createHealthData(memberId, healthDataRequestDto);
 
         // MongoDB에 저장
-        healthData = healthDataRepository.save(healthData);
-
-        // HealthRecordResponseDto 생성
-        HealthRecordResponseDto response = new HealthRecordResponseDto(healthData);
-
-        return response;
+        return healthDataRepository.save(healthData)
+                .map(HealthRecordResponseDto::new);  // HealthData를 HealthRecordResponseDto로 변환
     }
+
 
     @Transactional
     public CertificationResponseDto certification(Long memberId){
@@ -85,60 +97,109 @@ public class HealthService {
         return certification;
     }
 
+//    @Transactional
+//    public HealthDetailResponseDto detail(Long memberId){
+//        //가장 최신값 가져오기
+//        Optional<HealthData> optionalHealthData = healthDataRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId);
+//
+//        if (!optionalHealthData.isPresent()) {
+//            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
+//        }
+//
+//        HealthData healthData = optionalHealthData.get();
+//
+//        HealthDetailResponseDto healthDataDto = HealthDetailResponseDto.builder()
+//                .burntKcal(healthData.getBurntKcal())
+//                .consumedKcal(healthData.getConsumedKcal())
+//                .sleepTime(healthData.getSleepTime())
+//                .steps(healthData.getSteps())
+//                .build();
+//
+//        return healthDataDto;
+//    }
+
     @Transactional
-    public HealthDetailResponseDto detail(Long memberId){
+    public Mono<HealthDetailResponseDto> detail(Long memberId){
         //가장 최신값 가져오기
-        Optional<HealthData> optionalHealthData = healthDataRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId);
-
-        if (!optionalHealthData.isPresent()) {
-            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
-        }
-
-        HealthData healthData = optionalHealthData.get();
-
-        HealthDetailResponseDto healthDataDto = HealthDetailResponseDto.builder()
-                .burntKcal(healthData.getBurntKcal())
-                .consumedKcal(healthData.getConsumedKcal())
-                .sleepTime(healthData.getSleepTime())
-                .steps(healthData.getSteps())
-                .build();
-
-        return healthDataDto;
+        return healthDataRepository.findFirstByMemberIdOrderByCreatedAtDesc(memberId)
+                .switchIfEmpty(Mono.error(new BusinessException(ErrorCode.MEMBER_NOT_EXISTS)))  // 데이터가 없는 경우 에러 반환
+                .map(healthData -> {  // HealthData를 HealthDetailResponseDto로 변환
+                    return HealthDetailResponseDto.builder()
+                            .burntKcal(healthData.getBurntKcal())
+                            .consumedKcal(healthData.getConsumedKcal())
+                            .sleepTime(healthData.getSleepTime())
+                            .steps(healthData.getSteps())
+                            .build();
+                });
     }
 
-    @Scheduled(cron = "0 0 0 * * *")  // 매일 밤 12시에 실행
-//    @Scheduled(cron = "0 21 2 * * *")  // 매일 밤 12시에 실행
+
+//    @Scheduled(cron = "0 0 0 * * *")  // 매일 밤 12시에 실행
+////    @Scheduled(cron = "0 21 2 * * *")
+//    @Transactional
+//    public void saveLatestHealthData() {
+//        LocalDateTime start = LocalDateTime.now().minusDays(1);
+//        LocalDateTime end = LocalDateTime.now();
+//
+//        // 어제 날짜로 저장된 데이터를 가져오기
+//        List<HealthData> healthDataList = healthDataRepository.findByCreatedAtBetween(start, end);
+//
+//        for (HealthData healthData : healthDataList) {
+//            // memberId 별로 가장 최신의 값을 가져오기
+//            Optional<HealthData> latestHealthDataOpt = healthDataRepository.findFirstByMemberIdOrderByCreatedAtDesc(healthData.getMemberId());
+//
+//            if (!latestHealthDataOpt.isPresent()) {
+//                // 가장 최신의 데이터가 없는 경우, 다음 회원의 데이터 처리로 넘어감
+//                continue;
+//            }
+//
+//            HealthData latestHealthData = latestHealthDataOpt.get();
+//
+//            Health health = Health.builder()
+//                    .memberId(latestHealthData.getMemberId())
+//                    .recordDate(Date.from(LocalDateTime.now().minusDays(1).atZone(ZoneId.systemDefault()).toInstant()))
+//                    .burntKcal(latestHealthData.getBurntKcal())
+//                    .consumedKcal(latestHealthData.getConsumedKcal())
+//                    .sleepTime(latestHealthData.getSleepTime())
+//                    .steps(latestHealthData.getSteps())
+//                    .build();
+//
+//            healthRepository.save(health);
+//        }
+//    }
+
+
+
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void saveLatestHealthData() {
-        LocalDateTime start = LocalDateTime.now().minusDays(1);
-        LocalDateTime end = LocalDateTime.now();
+        log.info("시간들어옴!!!!");
+        // 한국 시간대의 어제 날짜와 현재 날짜를 가져옴
+        LocalDateTime start = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1);
+        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
-        // 어제 날짜로 저장된 데이터를 가져오기
-        List<HealthData> healthDataList = healthDataRepository.findByCreatedAtBetween(start, end);
+        // MongoDB에서 해당 기간의 데이터를 가져옴
+        healthDataRepository.findByCreatedAtBetween(start, end)
+                .filter(healthData -> healthData.getMemberId() != null)  // memberId가 null이 아닌 데이터만 선택
+                .groupBy(HealthData::getMemberId)  // memberId로 그룹화
+                .flatMap(group -> group.reduce((a, b) -> a.getCreatedAt().isAfter(b.getCreatedAt()) ? a : b))  // 각 그룹에서 가장 최신 데이터 선택
+                .flatMap(latestHealthData -> {  // 선택된 데이터를 이용하여 Health 객체 생성 후 저장
+                    Health health = Health.builder()
+                            .memberId(latestHealthData.getMemberId())
+                            .recordDate(Date.from(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1).atZone(ZoneId.systemDefault()).toInstant()))
+                            .burntKcal(latestHealthData.getBurntKcal())
+                            .consumedKcal(latestHealthData.getConsumedKcal())
+                            .sleepTime(latestHealthData.getSleepTime())
+                            .steps(latestHealthData.getSteps())
+                            .build();
 
-        for (HealthData healthData : healthDataList) {
-            // memberId 별로 가장 최신의 값을 가져오기
-            Optional<HealthData> latestHealthDataOpt = healthDataRepository.findFirstByMemberIdOrderByCreatedAtDesc(healthData.getMemberId());
-
-            if (!latestHealthDataOpt.isPresent()) {
-                // 가장 최신의 데이터가 없는 경우, 다음 회원의 데이터 처리로 넘어감
-                continue;
-            }
-
-            HealthData latestHealthData = latestHealthDataOpt.get();
-
-            Health health = Health.builder()
-                    .memberId(latestHealthData.getMemberId())
-                    .recordDate(Date.from(LocalDateTime.now().minusDays(1).atZone(ZoneId.systemDefault()).toInstant()))
-                    .burntKcal(latestHealthData.getBurntKcal())
-                    .consumedKcal(latestHealthData.getConsumedKcal())
-                    .sleepTime(latestHealthData.getSleepTime())
-                    .steps(latestHealthData.getSteps())
-                    .build();
-
-            healthRepository.save(health);
-        }
+                    return Mono.fromCallable(() -> healthRepository.save(health)).then();  // Health를 저장 후 Mono로 변환
+                })
+                .subscribe();  // 리액티브 스트림 구독
     }
+
+
+
 
     @Transactional
     public MonthResponseDto month(Long memberId, MonthRequestDto requestDto){
