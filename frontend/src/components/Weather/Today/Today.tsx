@@ -20,8 +20,8 @@ const Today: React.FC<TodayProps> = ({ NowDatas }) => {
           <SvgContainer>
             <UmbSvg/>
             <div>
-                <span>{NowDatas[4].fcstValue}%</span>
-                <span>{NowDatas[4].fcstTime.slice(0, 2)}시</span>
+                <span>{NowDatas[5].fcstValue}%</span>
+                <span>{NowDatas[5].fcstTime.slice(0, 2)}시</span>
             </div>
           </SvgContainer>
           <SvgContainer>
