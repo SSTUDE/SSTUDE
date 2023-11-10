@@ -39,7 +39,7 @@ spring:
 #          uri: http://localhost:8011
           predicates:
             - Path=/auth/**
-            - Method=GET,POST,PUT,DELETE
+            - Method=GET,POST,PUT,DELETE,OPTIONS
           filters:
             - AuthenticationFilter
         - id: account
