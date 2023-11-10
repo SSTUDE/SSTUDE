@@ -89,4 +89,13 @@ public class HealthController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/t")
+    public String hey(@RequestHeader("Authorization") @Parameter(hidden = true) final String token){
+        return "t!";
+    }
+
+    @GetMapping("/t2")
+    public String hey2(@RequestHeader("Authorization") @Parameter(hidden = true) final String token){
+        return token;
+    }
 }
