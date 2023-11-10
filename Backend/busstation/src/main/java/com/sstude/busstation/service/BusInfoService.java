@@ -1,10 +1,12 @@
 package com.sstude.busstation.service;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sstude.busstation.dto.request.GpsRequestDto;
 import com.sstude.busstation.dto.request.StationRequestDto;
 import com.sstude.busstation.dto.response.*;
+import com.sstude.busstation.dto.response.ApiResponse.BusInformApiResponseDto;
+import com.sstude.busstation.dto.response.ApiResponse.BusInformByStationApiResponseDto;
+import com.sstude.busstation.dto.response.ApiResponse.BusStationApiResponseDto;
 import com.sstude.busstation.entity.Bus;
 import com.sstude.busstation.entity.BusStation;
 import com.sstude.busstation.global.error.BusinessException;
@@ -14,7 +16,6 @@ import com.sstude.busstation.repository.BusStationRepository;
 import com.sstude.busstation.utils.ApiResponseDto;
 import com.sstude.busstation.utils.MapFiller;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -56,6 +57,10 @@ public class BusInfoService {
     @Value("${spring.data.bus.bus_arrival_inform_api}")
     private String bus_arrival_inform_api;
 
+    @Value("${spring.data.bus.station_bus_route_api}")
+    private String station_bus_route_api;
+
+
     private final ObjectMapper objectMapper;
     private final BusRepository busRepository;
     private final BusStationRepository busStationRepository;
@@ -65,6 +70,7 @@ public class BusInfoService {
         Map<String, String> hashMap = buildHashMap(gpsInform, (map, dto) -> {
             map.put("gpsLati", dto.getLatitude());
             map.put("gpsLong", dto.getLongitude());
+            map.put("numOfRows", dto.getNumOfRows());
         });
 
         String jsonResponse = apiService(station_inform_api, hashMap);
@@ -72,15 +78,7 @@ public class BusInfoService {
         List<BusStationResponseDto> responseDto = parseResponse(jsonResponse, BusStationApiResponseDto.class);
 
         List<BusStation> busStations = responseDto.stream()
-                .map(dto -> BusStation.builder()
-                        .memberId(memberId)
-                        .cityCode(dto.getCityCode())
-                        .latitude(dto.getLatitude())
-                        .longitude(dto.getLongitude())
-                        .nodeId(dto.getNodeId())
-                        .nodeName(dto.getNodeName())
-                        .nodeNo(dto.getNodeNo())
-                        .build())
+                .map(dto -> BusStation.toEntity(memberId, dto))
                 .collect(Collectors.toList());
 
         busStationRepository.saveAll(busStations);
@@ -93,27 +91,40 @@ public class BusInfoService {
         Map<String, String> hashMap = buildHashMap(stationInform, (map, dto) -> {
             map.put("cityCode", dto.getCityCode());
             map.put("nodeId", dto.getNodeId());
+            map.put("numOfRows", dto.getNumOfRows());
         });
 
         String jsonResponse = apiService(bus_arrival_inform_api, hashMap);
 
         List<BusResponseDto> responseDto = parseResponse(jsonResponse, BusInformApiResponseDto.class);
 
+//        List<Bus> buses = responseDto.stream()
+//                .map(dto -> Bus.toEntity(memberId, dto))
+//                .collect(Collectors.toList());
+//
+//        busRepository.saveAll(buses);
+
+        return responseDto;
+    }
+
+    public List<BusInformByStationResponseDto> findBusListAtStation(StationRequestDto stationInform,Long memberId){
+
+        Map<String, String> hashMap = buildHashMap(stationInform, (map, dto) -> {
+            map.put("cityCode", dto.getCityCode());
+            map.put("nodeId", dto.getNodeId());
+            map.put("numOfRows", dto.getNumOfRows());
+        });
+
+        String jsonResponse = apiService(station_bus_route_api, hashMap);
+
+        List<BusInformByStationResponseDto> responseDto = parseResponse(jsonResponse, BusInformByStationApiResponseDto.class);
+
         List<Bus> buses = responseDto.stream()
-                .map(dto -> Bus.builder()
-                        .memberId(memberId)
-                        .arrivalPrevStationCount(dto.getArrivalPrevStationCount())
-                        .arrivalTime(dto.getArrivalTime())
-                        .nodeId(dto.getNodeId())
-                        .nodeName(dto.getNodeName())
-                        .routeId(dto.getRouteId())
-                        .routeNo(dto.getRouteNo())
-                        .routeType(dto.getRouteType())
-                        .vehicleType(dto.getVehicleType())
-                        .build())
+                .map(dto -> Bus.toEntity(memberId, dto))
                 .collect(Collectors.toList());
 
         busRepository.saveAll(buses);
+
 
         return responseDto;
     }

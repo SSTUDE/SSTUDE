@@ -1,5 +1,7 @@
 package com.sstude.busstation.entity;
 
+import com.sstude.busstation.dto.response.BusInformByStationResponseDto;
+import com.sstude.busstation.dto.response.BusResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,28 +23,44 @@ public class Bus {
     private Long id;
     private Long memberId;
 
-    private Integer arrivalPrevStationCount;
-    private Integer arrivalTime;
-
-    private String nodeId;
-    private String nodeName;
+//    private Integer arrivalPrevStationCount;
+//    private Integer arrivalTime;
+//
+//    private String nodeId;
+//    private String nodeName;
+//
+//    private String routeId;
+//    private String routeNo;
+//    private String routeType;
+//    private String vehicleType;
 
     private String routeId;
     private String routeNo;
     private String routeType;
-    private String vehicleType;
+
+    private String startNodeNum;
+    private String endNodeNum;
 
     @Builder
-    public Bus(Long id, Long memberId, Integer arrivalPrevStationCount, Integer arrivalTime, String nodeId, String nodeName, String routeId, String routeNo, String routeType, String vehicleType) {
+    public Bus(Long id, Long memberId, String routeId, String routeNo, String routeType,
+               String startNodeNum, String endNodeNum ) {
         this.id = id;
         this.memberId = memberId;
-        this.arrivalPrevStationCount = arrivalPrevStationCount;
-        this.arrivalTime = arrivalTime;
-        this.nodeId = nodeId;
-        this.nodeName = nodeName;
         this.routeId = routeId;
         this.routeNo = routeNo;
         this.routeType = routeType;
-        this.vehicleType = vehicleType;
+        this.startNodeNum = startNodeNum;
+        this.endNodeNum = endNodeNum;
+    }
+
+    public static Bus toEntity(Long memberId, BusInformByStationResponseDto dto){
+        return Bus.builder()
+                .memberId(memberId)
+                .routeId(dto.getRouteId())
+                .routeNo(dto.getRouteNo())
+                .routeType(dto.getRouteType())
+                .startNodeNum(dto.getStartNodeNum())
+                .endNodeNum(dto.getEndNodeNum())
+                .build();
     }
 }
