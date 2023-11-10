@@ -1,17 +1,6 @@
 server:
   port: 8000
 
-#eureka:
-#  instance:
-#    leaseRenewalIntervalInSeconds: 10
-#    leaseExpirationDurationInSeconds: 30
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
-##      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
-
 spring:
   application:
     name: gateway
@@ -24,7 +13,6 @@ spring:
           '[/**]':
             allowedOrigins:
               - '*'
-#            allow-credentials: true
             allowedHeaders:
               - x-requested-with
               - Authorization
@@ -47,33 +35,33 @@ spring:
               - OPTIONS
       routes:
         - id: account
-#          uri: http://account:8011
-          uri: http://localhost:8011
+          uri: http://account:8011
+#          uri: http://localhost:8011
           predicates:
             - Path=/auth/**
             - Method=GET,POST,PUT,DELETE
           filters:
             - AuthenticationFilter
         - id: account
-#          uri: http://account:8011
-          uri: http://localhost:8011
+          uri: http://account:8011
+#          uri: http://localhost:8011
           predicates:
             - Path=/account/**
         - id: account-service
-#          uri: http://account:8011
-          uri: http://localhost:8011
+          uri: http://account:8011
+#          uri: http://localhost:8011
           predicates:
             - Path=/account-service/**
         - id: static
-#          uri: http://static:8012
-          uri: http://localhost:8012
+          uri: http://static:8012
+#          uri: http://localhost:8012
           predicates:
             - Path=/static/**, /detail/**
           filters:
             - AuthenticationFilter
         - id: static-service
-          uri: http://localhost:8012
-#          uri: http://static:8012
+#          uri: http://localhost:8012
+          uri: http://static:8012
           predicates:
             - Path=/static-service/**
 #        - id: makeup
@@ -86,40 +74,64 @@ spring:
 #            - Path=/docs
 #          filters:
 #            - RewritePath=/makeup-service/docs, /docs
-        - id: health
-#          uri: http://health:8014
-          uri: http://localhost:8014
+        - id: health-blue-filter
+          uri: http://health-blue:8014
           predicates:
             - Path=/health/**
             - Method=GET,POST,PUT,DELETE
           filters:
             - AuthenticationFilter
-        - id: health
-#          uri: http://health:8014
-          uri: http://localhost:8014
+        - id: health-blue
+          uri: http://health-blue:8014
           predicates:
             - Path=/mobile/**
-        - id: health-service
-#          uri: http://health:8014
-          uri: http://localhost:8014
+        - id: health-service-blue
+          uri: http://health-blue:8014
           predicates:
             - Path=/health-service/**
-#        - id: businfo
-#          uri: http://businfo:8015
+
+        - id: health-green-filter
+          uri: http://health-green:8114
+          predicates:
+            - Path=/health/**
+            - Method=GET,POST,PUT,DELETE
+          filters:
+            - AuthenticationFilter
+        - id: health-green
+          uri: http://health-green:8114
+          predicates:
+            - Path=/mobile/**
+        - id: health-service-green
+          uri: http://health-green:8114
+          predicates:
+            - Path=/health-service/**
+
+#        - id: health
+#          uri: http://localhost:8014
 #          predicates:
-#            - Path=//**
+#            - Path=/health/**
+#            - Method=GET,POST,PUT,DELETE
 #          filters:
 #            - AuthenticationFilter
+#        - id: health
+#          uri: http://localhost:8014
+#          predicates:
+#            - Path=/mobile/**
+#        - id: health-service
+#          uri: http://localhost:8014
+#          predicates:
+#            - Path=/health-service/**
+
         - id: businfo
-          uri: http://localhost:8015
-#          uri: http://businfo:8015
+#          uri: http://localhost:8015
+          uri: http://businfo:8015
           predicates:
             - Path=/bus-station/**
           filters:
             - AuthenticationFilter
         - id: businfo-service
-          uri: http://localhost:8015
-#          uri: http://businfo:8015
+#          uri: http://localhost:8015
+          uri: http://businfo:8015
           predicates:
             - Path=/businfo-service/**
 
