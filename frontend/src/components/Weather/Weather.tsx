@@ -55,7 +55,6 @@ const Weather = () => {
   const currentDate = formattedDate; // 'YYYYMMDD' 형식
   const currentTime = `${hour.toString().padStart(2, '0')}${minutes.toString().padStart(2, '0')}`;
 
-
   const fetchShortData = async () => {
     try {
       const response = await getWeatherData({
@@ -152,7 +151,11 @@ const Weather = () => {
       // 오늘/오후 중에  강수확률을 가장 높은 함수
       const findHighestRainRate = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
         const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod && item.category === "POP");
-        return periodData.reduce((max: WeatherDataCustom, item: WeatherDataCustom) => max.fcstValue > item.fcstValue ? max : item);
+        return periodData.reduce((max: WeatherDataCustom, item: WeatherDataCustom) => {
+          const maxValue = parseInt(max.fcstValue);
+          const itemValue = parseInt(item.fcstValue);
+          return maxValue > itemValue ? max : item;
+        });
       };
       // console.log(findHighestRainRate(todayData, true));
 
@@ -183,25 +186,24 @@ const Weather = () => {
         }
       };
 
-
-      // // 오늘, 내일 최고/저 기온 상태 값 저장
-      // const XNtempDatas = FormatData
-      // .filter((item: WeatherDataCustom) => { 
-      //   return (item.fcstDate > formattedDateYester) && (item.category === 'TMX' || item.category === 'TMN');
-      // });
-      // // console.log(XNtempDatas);
-
       // 기온 데이터 중에서 최고 기온을 찾는 함수
       const findMaxTemperature = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
         const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod && item.category === "TMP");
-        return periodData.reduce((max: WeatherDataCustom, item: WeatherDataCustom) => max.fcstValue > item.fcstValue ? max : item);
+        return periodData.reduce((max: WeatherDataCustom, item: WeatherDataCustom) =>  {
+          const maxValue = parseInt(max.fcstValue);
+          const itemValue = parseInt(item.fcstValue);
+          return maxValue > itemValue ? max : item;
+        });
       };
 
       const findMinTemperature = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
         const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod && item.category === "TMP");
-        return periodData.reduce((min: WeatherDataCustom, item: WeatherDataCustom) => min.fcstValue < item.fcstValue ? min : item);
+        return periodData.reduce((min: WeatherDataCustom, item: WeatherDataCustom) => {
+          const minValue = parseInt(min.fcstValue);
+          const itemValue = parseInt(item.fcstValue);
+          return minValue < itemValue ? min : item;
+        });
       };
-
 
       // 오늘 오전/오후 강수확률 최고값과 하늘 상태 최고값을 찾습니다.
       const LandArray = [{
@@ -342,7 +344,7 @@ const Weather = () => {
     if (LandForDatas.length > 0 && LandTempForDatas.length > 0 && LandShortForDatas.length > 0) {
       const allCombinedData = combineForecastData(LandForDatas, LandTempForDatas, LandShortForDatas);
       setCombinedDatas(allCombinedData);
-      console.log(allCombinedData);
+      // console.log(allCombinedData);
     }
   }, [LandForDatas, LandTempForDatas, LandShortForDatas]); // 상태를 의존성 배열에 추가합니다.
   
