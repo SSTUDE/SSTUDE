@@ -1,6 +1,7 @@
 package com.sstude.busstation.controller;
 
 import com.sstude.busstation.dto.request.StationRequestDto;
+import com.sstude.busstation.dto.response.BusInformByStationResponseDto;
 import com.sstude.busstation.dto.response.BusResponseDto;
 import com.sstude.busstation.dto.response.BusStationResponseDto;
 import com.sstude.busstation.global.jwt.JwtTokenProvider;
@@ -41,15 +42,28 @@ public class BusInfoController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "버스 도착정보 확인", description = "버스 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 버스정류장 ID와 도시정보를 바탕으로 해당정류장의 버스들을 찾습니다. 조회받은 데이터를 활용해 버스의 도착 예정 정보를 줍니다. Json에 도시정보[cityCode] 정류소ID[nodeId]를 JSON으로 넘겨주세요. \n\n")
+    @Operation(summary = "버스 도착정보 확인", description = "버스 도착 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 버스정류장 ID와 도시정보를 바탕으로 해당정류장의 버스들을 찾습니다. 조회받은 데이터를 활용해 버스의 도착 예정 정보를 줍니다. Json에 도시정보[cityCode] 정류소ID[nodeId]를 JSON으로 넘겨주세요. \n\n")
     @CustomApi
-    @PostMapping("/businform")
+    @PostMapping("/bus-arrival-inform")
     public ResponseEntity<List<BusResponseDto>> findBusInform(
             @RequestBody @Validated StationRequestDto stationRequestDto,
             @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
         List<BusResponseDto> response = busInfoService.findBusListInform(stationRequestDto,memberId);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "버스 정류장별 버스 번호 조회", description = "버스 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 버스정류장 ID와 도시정보를 바탕으로 해당정류장의 버스들을 찾습니다. 조회받은 데이터를 활용해 버스의 정보를 줍니다. Json에 도시정보[cityCode] 정류소ID[nodeId]를 JSON으로 넘겨주세요. \n\n")
+    @CustomApi
+    @PostMapping("/bus-inform")
+    public ResponseEntity<List<BusInformByStationResponseDto>> findBusListAtStation(
+            @RequestBody @Validated StationRequestDto stationRequestDto,
+            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
+    ) {
+        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+        List<BusInformByStationResponseDto> response = busInfoService.findBusListAtStation(stationRequestDto,memberId);
 
         return ResponseEntity.ok(response);
     }
