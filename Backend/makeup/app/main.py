@@ -74,12 +74,14 @@ async def runColor(
             
             result = result.split('톤')[0]
             
+            match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+            
             with connect.cursor() as curs:
-                query = """INSERT INTO makeups (member_id, img_uri, result, calender) VALUES (%s, %s, %s, %s)"""
-                curs.execute(query, (userid, s3uri, result, current_date_time))
+                query = """INSERT INTO makeups (member_id, img_uri, result, eng, calender) VALUES (%s, %s, %s, %s, %s)"""
+                curs.execute(query, (userid, s3uri, result, eng, current_date_time))
             connect.commit()
             
-            match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+            
             match_color= match_color[0:13]
             
             os.remove(file_name)

@@ -11,7 +11,7 @@ import numpy as np
 def my_color(userid, current_date, TargetLab):
     connect, curs = connectMySQL()
     with connect.cursor() as curs:
-        query = """SELECT result FROM makeups WHERE member_id=%s AND DATE_FORMAT(current_date, '%%Y-%%m-%%d')=%s"""
+        query = """SELECT result FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')=%s"""
         curs.execute(query, (userid, current_date.date()))
         result = curs.fetchone()[0]
     

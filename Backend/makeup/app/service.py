@@ -2,7 +2,7 @@ import dump
 
 
 def changeId(result):
-    if result=='봄웜':
+    if result=='봄 웜':
         match_color = dump.spring_tone[0]
         hair = dump.spring_tone[1]
         accessary = dump.spring_tone[2]
@@ -11,7 +11,7 @@ def changeId(result):
         eye = dump.spring_tone[5]
         eng = dump.spring_tone[7]
         
-    elif result=='여름쿨':
+    elif result=='여름 쿨':
         match_color = dump.summer_tone[0]
         hair = dump.summer_tone[1]
         accessary = dump.summer_tone[2]
@@ -20,7 +20,7 @@ def changeId(result):
         eye = dump.summer_tone[5]
         eng = dump.summer_tone[7]
         
-    elif result=='가을웜':
+    elif result=='가을 웜':
         match_color = dump.fall_tone[0]
         hair = dump.fall_tone[1]
         accessary = dump.fall_tone[2]
@@ -29,7 +29,7 @@ def changeId(result):
         eye = dump.fall_tone[5]
         eng = dump.fall_tone[7]
         
-    elif result=='겨울쿨':
+    elif result=='겨울 쿨':
         match_color = dump.winter_tone[0]
         hair = dump.winter_tone[1]
         accessary = dump.winter_tone[2]
