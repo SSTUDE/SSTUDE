@@ -21,37 +21,37 @@ const Login = () => {
   const [isLogoClickable, setIsLogoClickable] = useState(true);
   const navigate = useNavigate();
 
-  const handleSignUp = useCallback(async () => {
-    const data = {
-      // deviceNum: "d204"
-      deviceNum: loginState.serialNum + loginState.userInfo
-    };
-    console.log("5 - 회원가입 deviceNum", data)
-    const actionResult = await dispatch(signUpUser(data));
-    const res = actionResult.payload;
-    if (res && res.memberId) {
-      dispatch(setMemberId(res.memberId));
-      setsignUpAlert('회원가입 완료');
-      //NOTE - 서버쪽 되면 미러 네비게이션 주석 해제할거임 + 위에 회원가입 알림 지울거임
-      // navigate('/mirror');
-    }
-  }, [dispatch]);
+  // const handleSignUp = useCallback(async () => {
+  //   const data = {
+  //     // deviceNum: "d204"
+  //     deviceNum: loginState.serialNum + loginState.userInfo
+  //   };
+  //   console.log("5 - 회원가입 deviceNum", data)
+  //   const actionResult = await dispatch(signUpUser(data));
+  //   const res = actionResult.payload;
+  //   if (res && res.memberId) {
+  //     dispatch(setMemberId(res.memberId));
+  //     setsignUpAlert('회원가입 완료');
+  //     //NOTE - 서버쪽 되면 미러 네비게이션 주석 해제할거임 + 위에 회원가입 알림 지울거임
+  //     // navigate('/mirror');
+  //   }
+  // }, [dispatch]);
 
-  const handleSignIn = useCallback(async () => {
-    const data = {
-      // deviceNum: "d204"
-      deviceNum: loginState.serialNum + loginState.userInfo
-    };
-    console.log("9 - 로그인 deviceNum", data)
-    const actionResult = await dispatch(signInUser(data));
-    const res = actionResult.payload;
-    if (res && res.memberId) {
-      dispatch(setMemberId(res.memberId));
-      setsignUpAlert('로그인 완료');
-      //NOTE - 서버쪽 되면 미러 네비게이션 주석 해제할거임
-      navigate('/mirror');
-    }
-  }, [dispatch]);
+  // const handleSignIn = useCallback(async () => {
+  //   const data = {
+  //     // deviceNum: "d204"
+  //     deviceNum: loginState.serialNum + loginState.userInfo
+  //   };
+  //   console.log("9 - 로그인 deviceNum", data)
+  //   const actionResult = await dispatch(signInUser(data));
+  //   const res = actionResult.payload;
+  //   if (res && res.memberId) {
+  //     dispatch(setMemberId(res.memberId));
+  //     setsignUpAlert('로그인 완료');
+  //     //NOTE - 서버쪽 되면 미러 네비게이션 주석 해제할거임
+  //     navigate('/mirror');
+  //   }
+  // }, [dispatch]);
 
   useEffect(() => {
     console.log("useEffect 재작동")
@@ -68,7 +68,7 @@ const Login = () => {
       // handleSignUp();
     }
     console.log("2 - 로그인, 회원가입 아직 안됨")
-  }, [loginState, handleSignUp, handleSignIn]);
+  }, [loginState]);
 
   const handleLogoClick = () => {
 
@@ -93,8 +93,12 @@ const Login = () => {
   const SignClick = () => {
     const message = JSON.stringify({ type: "signUp", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
-    sendMessage({ type: "signUp", data: "회원가입 데이터" })
+    sendMessage(message)
     .then(response => {
+      if (loginState.signUp) {
+        console.log("웹소켓 응답 받았고 서버로 회원가입 전송")
+        signUpUser();
+      }
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
     })
@@ -103,15 +107,18 @@ const Login = () => {
       console.error("메시지 전송에 실패했습니다:", error);
     });    // if (loginState.signUp) {
     //   console.log("서버로 전송")
-      handleSignUp();
     // }
   }
 
   const loginClick = () => {
     const message = JSON.stringify({ type: "signIn", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
-    sendMessage({ type: "signUp", data: "회원가입 데이터" })
+    sendMessage(message)
     .then(response => {
+      if (loginState.signUp) {
+        console.log("웹소켓 응답 받았고 서버로 로그인 전송")
+        signInUser();
+      }
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
     })
@@ -120,7 +127,6 @@ const Login = () => {
       console.error("메시지 전송에 실패했습니다:", error);
     });    // if (loginState.signIn) {
     //   console.log("서버로 전송")
-      handleSignIn();
     // }
   }
 
