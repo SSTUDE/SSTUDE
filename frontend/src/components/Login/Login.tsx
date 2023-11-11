@@ -93,22 +93,14 @@ const Login = () => {
   const SignClick = () => {
     const message = JSON.stringify({ type: "signUp", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
-<<<<<<< HEAD
+
     sendMessage({ type: "signUp", data: "" })
-    .then(response => {
-      // console.log(loginState);
-      // if (loginState.signUp) {
-      console.log("웹소켓 응답 받았고 서버로 회원가입 전송")
-      dispatch(signUpUser());
-      // }
-=======
-    sendMessage(message)
     .then((response: any) => { // 여기서 'any' 대신 더 구체적인 타입을 사용하는 것이 좋습니다.
-      if (loginState.signUp) {
-        console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
-        dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
-      }
->>>>>>> origin/iot
+      // if (loginState.signUp) {
+      console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
+      dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
+      // }
+
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
     })
