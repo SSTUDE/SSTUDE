@@ -93,21 +93,35 @@ const Login = () => {
   const SignClick = () => {
     const message = JSON.stringify({ type: "signUp", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
-    sendMessage(message);
-    if (loginState.signUp) {
-      console.log("서버로 전송")
+    sendMessage({ type: "signUp", data: "회원가입 데이터" })
+    .then(response => {
+      // 서버로부터의 응답 처리
+      console.log("응답 받음:", response);
+    })
+    .catch(error => {
+      // 에러 처리
+      console.error("메시지 전송에 실패했습니다:", error);
+    });    // if (loginState.signUp) {
+    //   console.log("서버로 전송")
       handleSignUp();
-    }
+    // }
   }
 
   const loginClick = () => {
     const message = JSON.stringify({ type: "signIn", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
-    sendMessage(message);
-    if (loginState.signIn) {
-      console.log("서버로 전송")
+    sendMessage({ type: "signUp", data: "회원가입 데이터" })
+    .then(response => {
+      // 서버로부터의 응답 처리
+      console.log("응답 받음:", response);
+    })
+    .catch(error => {
+      // 에러 처리
+      console.error("메시지 전송에 실패했습니다:", error);
+    });    // if (loginState.signIn) {
+    //   console.log("서버로 전송")
       handleSignIn();
-    }
+    // }
   }
 
   return (
