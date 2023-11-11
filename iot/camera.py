@@ -86,67 +86,73 @@ cnt = -1
 is_cooler_on = False
 while True:
     
+    message = ws_service.checkLatestMessage()
+    now = datetime.now()
     userRecogn = False
+    
+    if not cam and message is None: continue
+    
+    ###### connection with web socket data ####### 
+    msg = json.loads(message) if message is not None else dict()
+    msg_type = msg.get("type")
+    
     Info = {
             "type" : "",
             "data" : ""
         }
     
-    if not cam : continue
-    
-    ret, frame = cam.read()
-    now = datetime.now()
-    if not ret:
-        print("프레임을 읽을 수 없습니다. 종료합니다")
-        break
-    
-    
-    # Only process every other frame of video to save time
-    if process_this_frame:
-        # Resize frame of video to 1/4 size for faster face recognition processing
-        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
-        # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
-        # rgb_small_frame = small_frame[:, :, ::-1]
-        rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
-                
-        # Find all the faces and face encodings in the current frame of video
-        face_locations = face_recognition.face_locations(rgb_small_frame)
-        face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
-
-        face_names = []
+    
+    if cam : 
+        ret, frame = cam.read()
         
-        for face_encoding in face_encodings:
-            # See if the face is a match for the known face(s)
-            matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-            name = "Unknown"
+        if not ret:
+            print("프레임을 읽을 수 없습니다. 종료합니다")
+            break
+        
+        
+        # Only process every other frame of video to save time
+        if process_this_frame:
+            # Resize frame of video to 1/4 size for faster face recognition processing
+            small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+
+            # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
+            # rgb_small_frame = small_frame[:, :, ::-1]
+            rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
+                    
+            # Find all the faces and face encodings in the current frame of video
+            face_locations = face_recognition.face_locations(rgb_small_frame)
+            face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+
+            face_names = []
             
-            # # If a match was found in known_face_encodings, just use the first one.
-            # if True in matches:
-            #     first_match_index = matches.index(True)
-            #     name = known_face_names[first_match_index]
-
-            # Or instead, use the known face with the smallest distance to the new face
-            face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-
-            if 0 < len(face_distances):
-                best_match_index = np.argmin(face_distances)
-                if matches[best_match_index]:
-                    name = known_face_names[best_match_index]
-                    userRecogn = True
-            else:
-                pass
-                # print("face_distances 배열이 비어 있습니다.")
-
+            for face_encoding in face_encodings:
+                # See if the face is a match for the known face(s)
+                matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
+                name = "Unknown"
                 
-            face_names.append(name)
+                # # If a match was found in known_face_encodings, just use the first one.
+                # if True in matches:
+                #     first_match_index = matches.index(True)
+                #     name = known_face_names[first_match_index]
+
+                # Or instead, use the known face with the smallest distance to the new face
+                face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
+
+                if 0 < len(face_distances):
+                    best_match_index = np.argmin(face_distances)
+                    if matches[best_match_index]:
+                        name = known_face_names[best_match_index]
+                        userRecogn = True
+                else:
+                    pass
+                    # print("face_distances 배열이 비어 있습니다.")
+
+                    
+                face_names.append(name)
+        
     process_this_frame = not process_this_frame
     
-    ###### connection with web socket data ####### 
-    message = ws_service.checkLatestMessage()
-    
-    msg = json.loads(message) if message is not None else dict()
-    msg_type = msg.get("type")
     
     ####### caring about message cuz of threading
     if msg_type and not is_cooler_on: is_cooler_on = True
@@ -156,7 +162,7 @@ while True:
         cnt = -1
     ##############################
     ## Sign Up Messageing process
-    if not userRecogn and msg_type == "signUp" and cnt == 0:
+    if cam and not userRecogn and msg_type == "signUp" and cnt == 0:
         ws_service.eventTrigger()
         userName = getUserInfo.createUser()
         
@@ -171,8 +177,13 @@ while True:
         known_face_encodings, known_face_names = getUserInfo.from_users_folder()
     
     ## Camera on off mapping process
-    if msg_type == "camera" and datetime.now() < finish_time:
-        pass
+    if msg_type == "camera" and datetime.now() < finish_time :
+        msg_data = msg.get("data")
+        if msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
+            pass
+        elif msg_data == "off": # 프론트에서 카메라가 사용 종료 되는 상황
+            pass
+
     
     ## getting accessToken for send img
     if msg_type == "accessToken" and datetime.now() < finish_time :
