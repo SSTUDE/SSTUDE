@@ -91,7 +91,7 @@ const Login = () => {
 
   // NOTE - 이건 라즈베리 없어도 되게 하는 더미데이터 작동 코드에용
   const SignClick = () => {
-    const message = JSON.stringify({ type: "signUp", data: "" });
+    const message = { type: "signUp", data: "" };
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
 
     sendMessage({ type: "signUp", data: "" })
@@ -114,7 +114,7 @@ const Login = () => {
   }
 
   const loginClick = () => {
-    const message = JSON.stringify({ type: "signIn", data: "" });
+    const message = { type: "signIn", data: "" };
     console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
     sendMessage(message)
     .then((response: any) => { // 여기서 'any' 대신 더 구체적인 타입을 사용하는 것이 좋습니다.

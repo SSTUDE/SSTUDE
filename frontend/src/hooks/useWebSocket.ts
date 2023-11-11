@@ -106,15 +106,15 @@ const sendMessage = (message: any) => {
     socket.send(JSON.stringify(message));
 
     // 선택적: 타임아웃을 설정하여 일정 시간 후에 응답이 없으면 Promise를 reject
-    const timeout = setTimeout(() => {
-      socket.removeEventListener("message", messageListener);
-      reject(new Error("Response timeout."));
-    }, 10000); // 10초 후 타임아웃
+    // const timeout = setTimeout(() => {
+    //   socket.removeEventListener("message", messageListener);
+    //   reject(new Error("Response timeout."));
+    // }, 10000); // 10초 후 타임아웃
 
     // 클린업 함수: 타임아웃 클리어
-    const cleanup = () => {
-      clearTimeout(timeout);
-    };
+    // const cleanup = () => {
+    //   clearTimeout(timeout);
+    // };
 
     // 현재 생성된 Promise에 대한 참조를 cleanup 함수에 연결
     // 이것이 올바른 방법입니다.
