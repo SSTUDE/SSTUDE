@@ -20,6 +20,7 @@ public class Makeups {
     private Long memberId;
     private String result;
     private String imgUri;
+    private String eng;
 
     private LocalDateTime calender;
 

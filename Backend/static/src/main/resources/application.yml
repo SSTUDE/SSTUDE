@@ -1,46 +1,39 @@
 server:
   port: 8012
 
-#eureka:
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka
-
 spring:
   application:
     name: static
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/makeup?serverTimezone=Asia/Seoul
-#    url: jdbc:mysql://k9d204.p.ssafy.io:3306/makeup?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3306/makeup?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://k9d204.p.ssafy.io:3306/makeup?serverTimezone=Asia/Seoul
     username: root
 #    password: ENC(ruBvYLBdp/4OQHTchrz3FA==)
-#    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
-    password: qwe123
+    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+#    password: qwe123
 
   data:
     mongodb:
-      host: localhost
-#      host: k9d204.p.ssafy.io
+#      host: localhost
+      host: k9d204.p.ssafy.io
       port: 27017
       database: clothes
-#      username: root
-#      password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+      username: root
+      password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
       authentication-database: admin
 
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show_sql: true
 
   redis:
-    #    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+#      host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
     host: k9d204.p.ssafy.io
     port: 6379
 
@@ -57,8 +50,8 @@ springdoc:
 
 openapi:
   service:
-#    url: http://k9d204a.p.ssafy.io:8000/
-    url: http://localhost:8000/
+    url: http://k9d204a.p.ssafy.io:8000/
+#    url: http://localhost:8000/
 
 jasypt:
   encryptor:
