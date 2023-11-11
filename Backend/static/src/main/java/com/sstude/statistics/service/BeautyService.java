@@ -27,7 +27,7 @@ public class BeautyService {
         // 이미지, result, 상세보기
         Makeups makeups = makeupRepository.findMakeupsByYearMonthDayAndMemberId(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
 
-        return new ColorDetailResponseDto(makeups.getResult(), makeups.getImgUri());
+        return new ColorDetailResponseDto(makeups.getResult(), makeups.getImgUri(), makeups.getEng());
     }
 
     // 전체 의상 반환
