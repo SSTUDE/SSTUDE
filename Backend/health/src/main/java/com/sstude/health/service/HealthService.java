@@ -210,8 +210,8 @@ public class HealthService {
         // DB에서 해당 기간의 데이터를 가져옴
         List<Health> healthDataList = healthRepository.findByMemberIdAndRecordDateBetween(memberId, java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate));
 
-        List<Integer> dateList = healthDataList.stream()
-                .map(health -> new java.sql.Date(health.getRecordDate().getTime()).toLocalDate().getDayOfMonth())
+        List<LocalDate> dateList = healthDataList.stream()
+                .map(health -> new java.sql.Date(health.getRecordDate().getTime()).toLocalDate())
                 .collect(Collectors.toList());
 
         return new MonthResponseDto(dateList);
