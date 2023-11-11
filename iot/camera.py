@@ -177,16 +177,16 @@ while True:
         known_face_encodings, known_face_names = getUserInfo.from_users_folder()
     
     ## Camera on off mapping process
-    if msg_type == "camera" and datetime.now() < finish_time :
+    if msg_type == "camera" and datetime.now() < finish_time and cnt == 0:
         msg_data = msg.get("data")
         if msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
-            pass
+            release_camera()
         elif msg_data == "off": # 프론트에서 카메라가 사용 종료 되는 상황
-            pass
+            initialize_camera()
 
     
     ## getting accessToken for send img
-    if msg_type == "accessToken" and datetime.now() < finish_time :
+    if msg_type == "accessToken" and datetime.now() < finish_time and cnt == 0:
         msg_data = msg.get("data")
     
     ##############################################
