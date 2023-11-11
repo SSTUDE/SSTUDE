@@ -8,16 +8,15 @@ import TestColor from "../components/Test/TestColor";
 import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
+import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
+import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 import Calender from "../components/Personal/Main/PersonalCalender";
-// import GetWeatherData from "../components/Weather/GetWeatherData";
 import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
 import BusDetail from "../components/Bus/BusDetail";
 import KakaoMap from "../components/Bus/KakaoMap";
 import BusList from "../components/Bus/BusList";
 import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
-import GetWeatherData from "../components/Weather/GetWeatherData";
-
 import SelectContents from "../components/Personal/Capture/SelectContents";
 import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCapture";
 import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
@@ -111,6 +110,7 @@ const routes = [
     path: "/personalloading",
     Component: DiagnosisLoading,
   },
+  // 날씨 정보
   // 삼성 헬스
   {
     path: "/healthmain",
@@ -133,10 +133,6 @@ const routes = [
   {
     path: "/weather",
     Component: Weather,
-  },
-  {
-    path: "/getweather",
-    Component: GetWeatherData,
   },
 
   // 버스정보

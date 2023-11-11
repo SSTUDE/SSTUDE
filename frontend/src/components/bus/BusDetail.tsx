@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import MenuBtn from '../Common/MenuBtn';
-import DateTime from '../Common/DateTime';
-import HelloWorld from '../Common/HelloWorld';
+import { gpsToServer } from './BusSlice';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import { BusRealTimeData, TimeCircleProps } from './types';
-import { gpsToServer, tadaBusStop } from './BusSlice';
 
-const BusDetail = () => {
+interface BusProps {
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}
+
+const BusDetail: React.FC<BusProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { gps, busStop, busRealTime, loading } = useSelector((state: RootState) => state.bus);
-  console.log(busRealTime)
   const navigate = useNavigate();
 
   const toSelectBusStop = () => {
@@ -23,18 +23,19 @@ const BusDetail = () => {
       navigate('/kakaomap');
     }
   };
+  console.log(busRealTime)
 
   const formatTime = (seconds: number): number => {
     return Math.floor(seconds / 60);
   };
 
   const sortedBusRealTime = busRealTime
-    ? [...busRealTime].sort((a, b) => a.arrtime - b.arrtime)
+    ? [...busRealTime].sort((a, b) => a.arrivalTime - b.arrivalTime)
     : [];
 
   const renderBusInfo = () => {
     if (loading) {
-      return <Message>데이터를 불러오는 중...</Message>;
+      return;
     } else if (!busStop) {
       return <Message>정거장을 선택해주세요.</Message>;
     } else if (busStop && !busRealTime) {
@@ -42,18 +43,18 @@ const BusDetail = () => {
     } else if (sortedBusRealTime && sortedBusRealTime.length > 0) {
       const numberOfInfo = Math.ceil(sortedBusRealTime.length / 4);
       return Array.from({ length: numberOfInfo }, (_, index) => (
-        <BusInfoList>
-          {sortedBusRealTime.slice(index * 4, (index + 1) * 4).map((bus: BusRealTimeData, index: number) => (
-            <BusInfoItem key={index}>
+        <BusInfoList key={`bus-info-list-${index}`}>
+          {sortedBusRealTime.slice(index * 4, (index + 1) * 4).map((bus: BusRealTimeData) => (
+            <BusInfoItem key={bus.arrivalPrevStationCount - bus.arrivalTime}>
               <TimeIndicator>
-                <TimeCircle timeLeft={formatTime(bus.arrtime)}>{formatTime(bus.arrtime)}</TimeCircle>
+                <TimeCircle >{formatTime(bus.arrivalTime)}</TimeCircle>
               </TimeIndicator>
               <BusDetails>
                 <BusId>
-                  {bus.routeno} <br />
+                  {bus.routeNo} <br />
                 </BusId>
                 <BusStopCount>
-                  {bus.arrprevstationcnt} 정거장
+                  {bus.arrivalPrevStationCount} 정거장
                 </BusStopCount>
               </BusDetails>
             </BusInfoItem>
@@ -66,51 +67,36 @@ const BusDetail = () => {
   };
 
   return (
-    <Container>
-      <Header>
-        <MenuBtn type="menu" />
-        <HelloWorld />
-        <DateTime />
-      </Header>
-      <BusContainer>
+    <BusDetailContainer>
+      <BusContainer onClick={onClick}>
         {renderBusInfo()}
       </BusContainer>
       <Btn onClick={toSelectBusStop}>정거장 선택</Btn>
-    </Container>
+    </BusDetailContainer>
   )
 }
 
-const Header = styled.div`
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 0 20px;
-`;
-
-const Container = styled.div`
+const BusDetailContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh; 
-  
+  padding: 20px;
+  margin: 20px;
 `
 
 const Btn = styled.p`
-  align-self: flex-end;
-  padding: 10px 20px;
+  align-self: center;
   font-size: 4em;
   font-weight: bold;
-  margin: 15px; 
-  cursor: pointer; 
+  cursor: pointer;
+  writing-mode: vertical-rl;
 `
 
 const BusContainer = styled.div`
   display: flex;       
   align-items: flex-start; 
-  justify-content: flex-end;
+  justify-content: flex-start;
   padding: 20px;
   margin: 20px;
-  gap: 10%;
+  gap: 2%;
 `;
 
 const BusInfoList = styled.ul`
@@ -139,7 +125,7 @@ const TimeIndicator = styled.div`
   left: 0px;
 `;
 
-const TimeCircle = styled.span<TimeCircleProps>`
+const TimeCircle = styled.span`
   width: 60px;
   height: 60px;
   border-radius: 50%;

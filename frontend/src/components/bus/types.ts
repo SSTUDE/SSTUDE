@@ -1,10 +1,10 @@
 export interface busStops {
-  citycode: string;
-  gpslati: string;
-  gpslong: string;
-  nodeid: string;
-  nodenm: string;
-  nodeno: string;
+  cityCode: number;
+  latitude: string;
+  longitude: string;
+  nodeId: string;
+  nodeName: string;
+  nodeNo: number;
 }
 
 export interface bus {
@@ -18,14 +18,22 @@ export interface bus {
   vehicletp: string;
 }
 
+export interface busServer {
+  endNodeNum: string | number;
+  routeId: string;
+  routeNo: string;
+  routeType: string;
+  startNodeNum: string;
+}
+
 export interface BusState {
   gps: [number, number] | null;
   busStops: busStops[] | null;
   // station: string | null;
   busStop: any;
-  busList: bus[] | null;
+  busList: busServer[] | null;
   busSave: any;
-  busRealTime: any;
+  busRealTime: BusRealTimeData[] | null;
   loading: boolean;
   error: any;
 }
@@ -44,12 +52,12 @@ export interface TimeCircleProps {
 }
 
 export interface BusRealTimeData {
-  arrprevstationcnt: number;
-  arrtime: number;
-  nodeid: string;
-  nodenm: string;
-  routeid: string;
-  routeno: string;
-  routetp: string;
-  vehicletp: string;
+  arrivalPrevStationCount: number;
+  arrivalTime: number;
+  nodeId: string;
+  nodeName: string;
+  routeId: string;
+  routeNo: string;
+  routeType: string;
+  vehicleType: string;
 }

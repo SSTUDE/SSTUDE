@@ -27,6 +27,7 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
         <DayCloud 
           key={index} 
           dailySky={item} 
+          RainAmountDatas={RainAmountDatas}
           index={index} />
       ))}
       {TempDatas.map((item, index) => (

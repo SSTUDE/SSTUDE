@@ -41,17 +41,17 @@ export const PersonalCalender = createAsyncThunk(
   }
 );
 
-type HealthState = {};
+type PersonalState = {};
 
-const initialState: HealthState = {};
+const initialState: PersonalState = {};
 
-export const HealthSlice = createSlice({
-  name: "health",
+export const PersonalSlice = createSlice({
+  name: "personal",
   initialState,
   reducers: {},
   extraReducers: (builder) => {},
 });
 
-export const {} = HealthSlice.actions;
+export const {} = PersonalSlice.actions;
 
-export default HealthSlice.reducer;
+export default PersonalSlice.reducer;

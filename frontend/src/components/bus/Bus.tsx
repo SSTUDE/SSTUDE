@@ -1,15 +1,18 @@
 import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
-import { setGps, tadaBusRealTime } from './BusSlice';
 import { useNavigate } from 'react-router-dom';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { setGps, busRealTimeForServer } from './BusSlice';
 import { AppDispatch, RootState } from '../../store/store';
 import { BusRealTimeData, TimeCircleProps } from './types';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-function Bus() {
+interface BusProps {
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}
+
+const Bus: React.FC<BusProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+  const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
 
   const { busStop, busRealTime, loading } = useSelector(
     (state: RootState) => state.bus,
@@ -20,15 +23,19 @@ function Bus() {
     (state: RootState) => state.login,
   )
   if (gps) {
-  dispatch(setGps(gps));
-}
+    dispatch(setGps(gps));
+  }
 
   useEffect(() => {
     //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
-    dispatch(tadaBusRealTime())
+    // dispatch(tadaBusRealTime())
+    dispatch(busRealTimeForServer())
+
     // const id = setInterval(() => {
-    //   dispatch(tadaBusRealTime());
+    // // dispatch(tadaBusRealTime());
+    // dispatch(busRealTimeForServer())
     // }, 30000);
+
     // setIntervalId(id);
 
     // return () => {
@@ -36,19 +43,15 @@ function Bus() {
     // };
   }, [dispatch]);
 
-  const toBusDetail = () => {
-    navigate("/busdetail");
-  };
-
   const formatTime = (seconds: number): number => {
     return Math.floor(seconds / 60);
   };
 
-  const sortedBusRealTime = busRealTime ? [...busRealTime].sort((a, b) => a.arrtime - b.arrtime) : [];
+  const sortedBusRealTime = busRealTime ? [...busRealTime].sort((a, b) => a.arrivalTime - b.arrivalTime) : [];
 
   const renderBusInfo = () => {
     if (loading) {
-      return ;
+      return;
     } else if (!busStop) {
       return <Message>정거장을 선택해주세요.</Message>;
     } else if (busStop && !busRealTime) {
@@ -60,14 +63,14 @@ function Bus() {
           {firstFourBusTimes.map((bus: BusRealTimeData, index: number) => (
             <BusInfoItem key={index}>
               <TimeIndicator>
-                <TimeCircle timeLeft={formatTime(bus.arrtime)}>{formatTime(bus.arrtime)}</TimeCircle>
+                <TimeCircle >{formatTime(bus.arrivalTime)}</TimeCircle>
               </TimeIndicator>
               <BusDetails>
                 <BusId>
-                  {bus.routeno} <br />
+                  {bus.routeNo} <br />
                 </BusId>
                 <BusStopCount>
-                  {bus.arrprevstationcnt} 정거장
+                  {bus.arrivalPrevStationCount} 정거장
                 </BusStopCount>
               </BusDetails>
             </BusInfoItem>
@@ -75,13 +78,13 @@ function Bus() {
         </BusInfoList>
       );
     } else {
-      return <Message onClick={toBusDetail}>버스 정보가 없습니다.</Message>;
+      return <Message >버스 정보가 없습니다.</Message>;
     }
   };
 
   return (
-    <BusContainer>
-      <BusInfo onClick={toBusDetail}>
+    <BusContainer onClick={onClick}>
+      <BusInfo >
         {renderBusInfo()}
       </BusInfo>
     </BusContainer>
@@ -124,7 +127,7 @@ const TimeIndicator = styled.div`
   left: 0px;
 `;
 
-const TimeCircle = styled.span<TimeCircleProps>`
+const TimeCircle = styled.span`
   width: 60px;
   height: 60px;
   border-radius: 50%;

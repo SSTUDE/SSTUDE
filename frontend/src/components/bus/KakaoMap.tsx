@@ -39,22 +39,22 @@ const KakaoMap = () => {
 
           const newMarkers = new Map();
           busStops?.forEach((station: busStops) => {
-            const stationPosition = new kakao.maps.LatLng(parseFloat(station.gpslati), parseFloat(station.gpslong));
-            const markerImageSrc = selectedStation && selectedStation.nodeid === station.nodeid ? images.map.bus_select : images.map.bus;
+            const stationPosition = new kakao.maps.LatLng(parseFloat(station.latitude), parseFloat(station.longitude));
+            const markerImageSrc = selectedStation && selectedStation.nodeId === station.nodeId ? images.map.bus_select : images.map.bus;
             const markerImage = new kakao.maps.MarkerImage(markerImageSrc, imageSize, imageOption);
             const stationMarker = new kakao.maps.Marker({
               position: stationPosition,
               image: markerImage,
-              title: station.nodenm,
+              title: station.nodeName,
               map: map,
             });
 
-            newMarkers.set(station.nodeid, stationMarker);
+            newMarkers.set(station.nodeId, stationMarker);
 
             kakao.maps.event.addListener(stationMarker, 'click', () => {
               setSelectedStation(prevStation => {
                 if (prevStation) {
-                  const prevMarker = markers.get(prevStation.nodeid);
+                  const prevMarker = markers.get(prevStation.nodeId);
                   if (prevMarker) {
                     prevMarker.setImage(new kakao.maps.MarkerImage(images.map.bus, imageSize, imageOption));
                   }
@@ -74,7 +74,7 @@ const KakaoMap = () => {
     if (selectedStation) {
       dispatch(setBusStop(selectedStation));
       dispatch(busStopToServer(selectedStation));
-      dispatch(tadaBusList(selectedStation));
+      // dispatch(tadaBusList(selectedStation));
       navigate('/buslist');
     }
   };
@@ -90,18 +90,19 @@ const KakaoMap = () => {
       <MapDiv ref={mapRef} />
       <StationList>
         <Pagination>
-          <PageButton onClick={filterBus}>버스 목록</PageButton>
+          <PageButton onClick={filterBus} isActive={!!selectedStation}>
+            버스 목록</PageButton>
         </Pagination>
         <Pagination>
           <PageButton onClick={reResponse}>정류장 갱신</PageButton>
         </Pagination>
         {busStops?.map((station) => (
           <StationName
-            key={station.nodeid}
+            key={station.nodeId}
             onClick={() => setSelectedStation(station)}
             selected={station === selectedStation}
           >
-            {station.nodenm}
+            {station.nodeName}
           </StationName>
         ))}
       </StationList>
@@ -143,11 +144,11 @@ const Pagination = styled.div`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 `;
 
-const PageButton = styled.p`
+const PageButton = styled.p<{ isActive?: boolean }>`
   padding: 15px 30px;
   margin: 5px;
-  background-color: #4cd137;
-  color: #dcdde1;
+  background-color: ${(props) => (props.isActive ? '#4cd137' : 'white')};
+  color: ${(props) => (props.isActive ? 'black' : 'black')};
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;

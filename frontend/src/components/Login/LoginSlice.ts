@@ -83,7 +83,7 @@ export const LoginSlice = createSlice({
       } else if (type === "signIn") {
         state.userInfo = data.userInfo;
         state.serialNum = data.serialNum;
-        state.gps = data.gps;
+        // state.gps = data.gps;
         state.signIn = true;
       } else if (type === "signOut") {
         state.userInfo = "";

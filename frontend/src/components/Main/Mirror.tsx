@@ -1,26 +1,38 @@
 import Bus from '../Bus/Bus';
-import styled, { keyframes } from 'styled-components';
+import MenuBar from './MenuBar';
 import MenuBtn from '../Common/MenuBtn';
 import React, { useState } from 'react';
+import Weather from '../Weather/Weather';
+import BusDetail from '../Bus/BusDetail';
 import DateTime from '../Common/DateTime';
-import HelloWorld from '../Common/HelloWorld';
-import { useNavigate } from 'react-router-dom';
-import { TEXT_COLOR } from '../../constants/defaultSlices';
-import { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
+import HelloWorld from '../Common/HelloWorld';
+import { RootState } from '../../store/store';
+import { useNavigate } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
+import { TEXT_COLOR } from '../../constants/defaultSlices';
 
 const Mirror = () => {
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState('bus');
+  const { isMenuOpen } = useSelector((state: RootState) => state.mirror);
 
-  const isMenuOpen = useSelector((state: RootState) => state.mirror.isMenuOpen);
+  const handleBusClick = () => {
+    setActivePage('busDetail');
+  };
+
+  const handleBusDetailClick = () => {
+    setActivePage('bus');
+  };
 
   const renderCenterContent = () => {
     switch (activePage) {
       case 'bus':
-        return <Bus />;
-      case 'bus1':
-        return <Bus />;
+        return <Bus onClick={handleBusClick} />;
+      case 'weather':
+        return <Weather />;
+      case 'busDetail':
+        return <BusDetail onClick={handleBusDetailClick} />;
       default:
         return null;
     }
@@ -28,96 +40,93 @@ const Mirror = () => {
 
   return (
     <Container>
-      <Left>
-        <Header>
+      <Header>
+        <Left>
           <MenuBtn type="menu" />
           <MenuBtn type="beauty" />
           <MenuBtn type="health" />
-        </Header>
-        <Body>
-        </Body>
-      </Left>
-      <Center>
-        <Header>
+        </Left>
+        <Center>
           <HelloWorld />
-        </Header>
-        <Body>
-          <Btn onClick={() => navigate('/')}>초기 화면</Btn>
-        </Body>
-      </Center>
-      {isMenuOpen ? (
-        <RightMenuOpen>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-        <MenuGrid><MenuBtn type="question" /></MenuGrid>
-      </RightMenuOpen>
-      ) : (
-        <Right>
-          <Header>
-            <DateTime />
-          </Header>
-          <Body>
-            <PageHeader>
-              <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
-              <PageButton onClick={() => setActivePage('bus1')}>버스 정보</PageButton>
-            </PageHeader>
-            <PageBody key={activePage}>
-              {renderCenterContent()}
-            </PageBody>
-          </Body>
-        </Right>
-      )}
+        </Center>
+        <RightHeader>
+          <DateTime />
+        </RightHeader>
+      </Header>
+      <Body>
+        <Left>
+        </Left>
+        {activePage === 'busDetail' ? (
+          <BusDetail onClick={handleBusDetailClick} />
+        ) : (
+          <>
+            <Center>
+              <Btn onClick={() => navigate('/')}>초기 화면</Btn>
+              <Btn onClick={() => navigate('/login')}>로그인</Btn>
+              <Btn onClick={() => navigate('/test')}>테스트</Btn>
+            </Center>
+            {isMenuOpen ? <MenuBar /> : (
+              <Right>
+                <PageHeader>
+                  <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
+                  <PageButton onClick={() => setActivePage('bus1')}>버스 정보</PageButton>
+                </PageHeader>
+                <PageBody key={activePage}>
+                  {renderCenterContent()}
+                </PageBody>
+              </Right>
+            )}
+          </>
+        )}
+      </Body>
     </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
   height: 100%;
-`;
-
-const Left = styled.div`
-  flex: 25%;
-  display: flex;
-  flex-direction: column;
-  align-items: end;
-`;
-
-const Center = styled.div`
-  flex: 50%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Right = styled.div`
-  flex: 25%;
-  display: flex;
-  flex-direction: column;
 `;
 
 const Header = styled.div`
   display: flex; 
   height: 22%;
-  justify-content: center;
-  align-items: center; 
-  padding: 0 20px;
-  gap: 20px;
 `;
 
 const Body = styled.div`
+  display: flex;
   height: 78%;
+`;
+
+const Left = styled.div`
+  display: flex;
+  flex: 25%;
+  justify-content: end;
+  align-items: center;
+  gap: 20px;
+`;
+
+const Center = styled.div`
+  display: flex;
+  flex: 50%;
+  flex-direction: column;
   justify-content: center;
-  padding: 0 20px; 
+  align-items: center;
+`;
+
+const Right = styled.div`
+  flex: 25%;
+  justify-content: center;
+`;
+
+const RightHeader = styled.div`
+  display: flex;
+  flex: 25%;
+  justify-content: center;
 `;
 
 const Btn = styled.p`
 padding: 10px 20px;
-font-size: 1.5em;
+font-size: 3em;
 font-weight: bold;
 text-align:center;
 margin: 5px; 
@@ -126,7 +135,6 @@ cursor: pointer;
 `;
 
 const PageHeader = styled.div`
-  width: 100%;
   display: flex;
   justify-content: space-around;
   padding: 10px;
@@ -170,25 +178,5 @@ const PageBody = styled.div`
   opacity: 1; 
   animation: ${fadeIn} 1s ease forwards;
 `;
-
-const RightMenuOpen = styled.div`
-  flex: 25%;
-  display: flex;
-  flex-direction: row; // 방향을 row로 변경
-  flex-wrap: wrap; // 아이템들이 줄바꿈되도록 설정
-  justify-content: center; // 가운데 정렬
-  align-items: center; // 세로축 가운데 정렬
-  background-color: rgba(0, 0, 0, 0.7);
-  gap: 10px;
-`;
-
-const MenuGrid = styled.div`
-  display: flex;
-  flex-basis: calc(50% - 10px); // 가로 크기를 부모의 50%로 설정하고, gap을 고려하여 조정
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px; // 세로 간격
-`;
-
 
 export default Mirror
