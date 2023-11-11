@@ -163,7 +163,6 @@ while True:
     ##############################
     ## Sign Up Messageing process
     if cam and not userRecogn and msg_type == "signUp" and cnt == 0:
-        ws_service.eventTrigger()
         userName = getUserInfo.createUser()
         
         path = f'./users/{userName}/' + now.strftime("%Y%m%d_%H%M%S.jpg")

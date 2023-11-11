@@ -93,12 +93,13 @@ const Login = () => {
   const SignClick = () => {
     const message = JSON.stringify({ type: "signUp", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
-    sendMessage(message)
+    sendMessage({ type: "signUp", data: "" })
     .then(response => {
-      if (loginState.signUp) {
-        console.log("웹소켓 응답 받았고 서버로 회원가입 전송")
-        signUpUser();
-      }
+      // console.log(loginState);
+      // if (loginState.signUp) {
+      console.log("웹소켓 응답 받았고 서버로 회원가입 전송")
+      dispatch(signUpUser());
+      // }
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
     })

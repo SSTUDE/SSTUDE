@@ -2,6 +2,7 @@
 import os
 from face_recognition import load_image_file as loadImageFile
 from face_recognition import face_encodings as encodeFace
+from secrets import token_urlsafe
 
 def from_users_folder():
 	# 현재 디렉토리 내의 './users' 폴더에 있는 모든 폴더를 리스트업
