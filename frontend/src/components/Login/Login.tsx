@@ -23,8 +23,8 @@ const Login = () => {
 
   const handleSignUp = useCallback(async () => {
     const data = {
-      deviceNum: "d204"
-      // deviceNum: loginState.serialNum + loginState.userInfo
+      // deviceNum: "d204"
+      deviceNum: loginState.serialNum + loginState.userInfo
     };
     console.log("5 - 회원가입 deviceNum", data)
     const actionResult = await dispatch(signUpUser(data));
@@ -39,8 +39,8 @@ const Login = () => {
 
   const handleSignIn = useCallback(async () => {
     const data = {
-      deviceNum: "d204"
-      // deviceNum: loginState.serialNum + loginState.userInfo
+      // deviceNum: "d204"
+      deviceNum: loginState.serialNum + loginState.userInfo
     };
     console.log("9 - 로그인 deviceNum", data)
     const actionResult = await dispatch(signInUser(data));
