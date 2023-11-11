@@ -28,20 +28,6 @@ def update_finish_time(_now):
     global finish_time, update_min
     finish_time = _now + timedelta(minutes=update_min)
 
-def initialize_camera():
-    global cam
-    cam = cv2.VideoCapture(0, cv2.CAP_V4L2)
-    if not cam.isOpened():
-        print("카메라를 열 수 없습니다.")
-        return False
-    return True
-
-def release_camera():
-    global cam
-    if cam is not None:
-        cam.release()
-        cam = None
-
 # 기본작업 세팅
 
 # 1. 로그인 시 필요한 데이터 저장할 .json 불러오기
@@ -60,6 +46,20 @@ thread = threading.Thread(target=start_websocket_service)
 thread.start()
 
 # 카메라 등록
+def initialize_camera():
+    global cam
+    cam = cv2.VideoCapture(0, cv2.CAP_V4L2)
+    if not cam.isOpened():
+        print("카메라를 열 수 없습니다.")
+        return False
+    return True
+
+def release_camera():
+    global cam
+    if cam is not None:
+        cam.release()
+        cam = None
+        
 cam = None 
 
 # 카메라 초기화
@@ -250,11 +250,13 @@ while True:
     #############################
         
 
-cam.release()
+release_camera()
 cv2.destroyAllWindows()
 
 # 서비스가 돌아가고 있는 이벤트 루프에 접근
 loop = ws_service.loop
 # stop 코루틴을 스케줄링
 loop.call_soon_threadsafe(loop.create_task, ws_service.stop())
+
+
 
