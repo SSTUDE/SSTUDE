@@ -2,6 +2,8 @@ package com.sstude.busstation.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sstude.busstation.dto.request.GpsRequestDto;
+import com.sstude.busstation.dto.request.SaveBusRequestDto;
+import com.sstude.busstation.dto.request.SaveBusStationRequestDto;
 import com.sstude.busstation.dto.request.StationRequestDto;
 import com.sstude.busstation.dto.response.*;
 import com.sstude.busstation.dto.response.ApiResponse.BusInformApiResponseDto;
@@ -30,6 +32,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -65,7 +68,8 @@ public class BusInfoService {
     private final BusRepository busRepository;
     private final BusStationRepository busStationRepository;
 
-    public List<BusStationResponseDto> findBusStationListInform(GpsRequestDto gpsInform,Long memberId){
+    @Transactional
+    public List<BusStationResponseDto> findBusStationListInform(GpsRequestDto gpsInform, Long memberId){
 
         Map<String, String> hashMap = buildHashMap(gpsInform, (map, dto) -> {
             map.put("gpsLati", dto.getLatitude());
@@ -77,15 +81,38 @@ public class BusInfoService {
 
         List<BusStationResponseDto> responseDto = parseResponse(jsonResponse, BusStationApiResponseDto.class);
 
-        List<BusStation> busStations = responseDto.stream()
+        return responseDto;
+    }
+
+    @Transactional
+    public String saveBusStationInform(Long memberId, SaveBusStationRequestDto busStationsDto){
+
+        List<BusStationResponseDto> busStationList = busStationsDto.getBusStations();
+
+        List<BusStation> busStations = busStationList.stream()
                 .map(dto -> BusStation.toEntity(memberId, dto))
                 .collect(Collectors.toList());
 
         busStationRepository.saveAll(busStations);
 
-        return responseDto;
+        return "Save Bus Stations";
     }
 
+    @Transactional
+    public List<BusStationResponseDto> loadBusStationInform(Long memberId){
+
+        List<BusStation> busStations = busStationRepository.findBusStationsByMemberId(memberId);
+
+        List<BusStationResponseDto> busStationsList = busStations.stream()
+                .map(BusStationResponseDto::toDto)
+                .collect(Collectors.toList());
+
+        return busStationsList;
+    }
+
+// ==================================================
+
+    @Transactional
     public List<BusResponseDto> findBusListInform(StationRequestDto stationInform,Long memberId){
 
         Map<String, String> hashMap = buildHashMap(stationInform, (map, dto) -> {
@@ -98,15 +125,12 @@ public class BusInfoService {
 
         List<BusResponseDto> responseDto = parseResponse(jsonResponse, BusInformApiResponseDto.class);
 
-//        List<Bus> buses = responseDto.stream()
-//                .map(dto -> Bus.toEntity(memberId, dto))
-//                .collect(Collectors.toList());
-//
-//        busRepository.saveAll(buses);
-
         return responseDto;
     }
 
+
+// ==================================================
+    @Transactional
     public List<BusInformByStationResponseDto> findBusListAtStation(StationRequestDto stationInform,Long memberId){
 
         Map<String, String> hashMap = buildHashMap(stationInform, (map, dto) -> {
@@ -125,11 +149,34 @@ public class BusInfoService {
 
         busRepository.saveAll(buses);
 
-
         return responseDto;
     }
 
+    @Transactional
+    public String saveBusListAtStation(Long memberId, SaveBusRequestDto saveBusRequestDto){
+        List<BusInformByStationResponseDto> busesList = saveBusRequestDto.getBuses();
 
+        List<Bus> buses = busesList.stream()
+                .map(dto -> Bus.toEntity(memberId, dto))
+                .collect(Collectors.toList());
+
+        busRepository.saveAll(buses);
+
+        return "Save Bus Stations";
+    }
+
+    @Transactional
+    public List<BusInformByStationResponseDto> loadBusListAtStation(Long memberId){
+
+        List<Bus> busStations = busRepository.findBusesByMemberId(memberId);
+
+        List<BusInformByStationResponseDto> busesList = busStations.stream()
+                .map(BusInformByStationResponseDto::toDto)
+                .collect(Collectors.toList());
+
+        return busesList;
+    }
+// ================================
     private JSONParser parser = new JSONParser();
     private String[] jsonFindPath = new String[]{"response", "body", "items"};
     private String arrayPath = "item";
