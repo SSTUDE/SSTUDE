@@ -66,7 +66,7 @@ const Week: React.FC<WeekProps> = ({  CombinedDatas }) => {
 
 const Container = styled.div`
   width: 100%;
-  height: 35%;
+  height: 30%;
 
   >h2{
     margin: 10px 10px;

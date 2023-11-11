@@ -33,6 +33,8 @@ const Mirror = () => {
         return <Weather />;
       case 'busDetail':
         return <BusDetail onClick={handleBusDetailClick} />;
+      case 'WeahterDetail':
+        return <Weather />;
       default:
         return null;
     }
@@ -58,6 +60,8 @@ const Mirror = () => {
         </Left>
         {activePage === 'busDetail' ? (
           <BusDetail onClick={handleBusDetailClick} />
+        ) : activePage === 'weatherDetail' ? (
+          <Weather />
         ) : (
           <>
             <Center>
@@ -69,7 +73,7 @@ const Mirror = () => {
               <Right>
                 <PageHeader>
                   <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
-                  <PageButton onClick={() => setActivePage('bus1')}>버스 정보</PageButton>
+                  <PageButton onClick={() => setActivePage('weatherDetail')}>날씨 정보</PageButton>
                 </PageHeader>
                 <PageBody key={activePage}>
                   {renderCenterContent()}
@@ -90,11 +94,13 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex; 
   height: 22%;
+  /* background-color: lightblue; */
 `;
 
 const Body = styled.div`
   display: flex;
   height: 78%;
+  /* background-color: lightcoral; */
 `;
 
 const Left = styled.div`
@@ -103,6 +109,7 @@ const Left = styled.div`
   justify-content: end;
   align-items: center;
   gap: 20px;
+  /* background-color: lightgray; */
 `;
 
 const Center = styled.div`
@@ -111,11 +118,13 @@ const Center = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* background-color: lightgreen; */
 `;
 
 const Right = styled.div`
   flex: 25%;
   justify-content: center;
+  /* background-color: lightpink; */
 `;
 
 const RightHeader = styled.div`

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import styled from 'styled-components';
 import Today from './Today/Today'
 import Week from './Week/Week'
 import Hourly from './Hourly/Hourly'
@@ -241,7 +242,7 @@ const Weather = () => {
         numOfRows: 1000,
         dataType: "JSON",
         regId: "11H10000",
-        tmFc: "202311091800",
+        tmFc: "202311101800",
       });
 
       const items : MidLandForecastResponse[] = response;
@@ -275,7 +276,7 @@ const Weather = () => {
         numOfRows: 1000,
         dataType: "JSON",
         regId: "11H10602",
-        tmFc: "202311091800",
+        tmFc: "202311101800",
       });
 
       const items : MidTempForecastResponse[] = response;
@@ -349,7 +350,7 @@ const Weather = () => {
   }, [LandForDatas, LandTempForDatas, LandShortForDatas]); // 상태를 의존성 배열에 추가합니다.
   
   return (
-    <>
+    <Container>
       {NowDatas.length > 0 ? (
         <Today NowDatas={NowDatas} />
       ) : (
@@ -369,8 +370,16 @@ const Weather = () => {
       ) : (
         <></>
       )}
-  </>
+  </Container>
   )
 }
+
+const Container = styled.div`
+  width: 75%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* background-color: gray;s */
+`
 
 export default Weather

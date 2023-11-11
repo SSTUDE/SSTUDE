@@ -30,6 +30,7 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
           RainAmountDatas={RainAmountDatas}
           index={index} />
       ))}
+      <TemperatureLabel>기온(°C)</TemperatureLabel>
       {TempDatas.map((item, index) => (
         <TempLabel
           key={index}
@@ -93,6 +94,16 @@ const GridContainer = styled.div<{ $columns: number }>`
   &::-webkit-scrollbar {
     display: none;
   }
+  margin: 15px 20px 0 20px;
+`;
+
+const TemperatureLabel = styled.div`
+  grid-column-start: 1; // 첫 번째 열에 위치
+  grid-column-end: 2; // 두 번째 열 전까지
+  text-align: center;
+  align-self: start;
+  margin-top: 30px;
+  /* font-weight: bold;  */
 `;
 
 export default Hourly;
