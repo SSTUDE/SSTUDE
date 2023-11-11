@@ -23,8 +23,8 @@ const Login = () => {
 
   const handleSignUp = useCallback(async () => {
     const data = {
-      deviceNum: "d204"
-      // deviceNum: loginState.serialNum + loginState.userInfo
+      // deviceNum: "d204"
+      deviceNum: loginState.serialNum + loginState.userInfo
     };
     console.log("5 - 회원가입 deviceNum", data)
     const actionResult = await dispatch(signUpUser(data));
@@ -39,8 +39,8 @@ const Login = () => {
 
   const handleSignIn = useCallback(async () => {
     const data = {
-      deviceNum: "d204"
-      // deviceNum: loginState.serialNum + loginState.userInfo
+      // deviceNum: "d204"
+      deviceNum: loginState.serialNum + loginState.userInfo
     };
     console.log("9 - 로그인 deviceNum", data)
     const actionResult = await dispatch(signInUser(data));
@@ -80,7 +80,7 @@ const Login = () => {
     audio.play();
 
     const message = JSON.stringify({ type: "signUp", data: "" });
-    console.log("로고 눌렀고 서버로 { type:signUp, data: } 전송 ")
+    console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
     sendMessage(message);
 
     setTimeout(() => {
