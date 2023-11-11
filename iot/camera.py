@@ -181,8 +181,12 @@ while True:
         msg_data = msg.get("data")
         if msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
             release_camera()
+            msg["data"] = "raspberryPiCameraOff"
+            asyncio.run(ws_service.sendInfo(json.dumps(msg)));
         elif msg_data == "off": # 프론트에서 카메라가 사용 종료 되는 상황
             initialize_camera()
+            msg["data"] = "raspberryPiCameraOn"
+            asyncio.run(ws_service.sendInfo(json.dumps(msg)));
 
     
     ## getting accessToken for send img
