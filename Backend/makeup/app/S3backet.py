@@ -23,7 +23,7 @@ def s3(file, user_id, body, current_date, count):
     #         s3_client.delete_object(Bucket=env_variables.get("AWS_STORAGE_BUCKET_NAME"), Key=key)
     #         break 
     
-    key = "user/"+str(user_id) + str(current_date) + "_"+str(count)+file.filename# 파일 이름 uuid 붙이기 
+    key = "user/" + "mongo" +str(user_id) + str(current_date) + "_"+str(count)+file.filename# 파일 이름 uuid 붙이기 
     
     
     s3_client.put_object(

@@ -13,6 +13,11 @@ WORKDIR /src/app
 COPY ./app .
 COPY ./requirements.txt /src/requirements.txt
 
+RUN pip install virtualenv
+RUN virtualenv venv
+ENV PATH="/src/app/venv/bin:$PATH"
+
+
 RUN pip install -r /src/requirements.txt
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8013", "--reload"]
