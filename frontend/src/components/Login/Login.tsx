@@ -60,12 +60,12 @@ const Login = () => {
       console.log("8 -  로그인 시도")
       //NOTE - 로그인 체크용 + 서버 연결되면 완료 알림 지울거
       setsignUpAlert('로그인 완료');
-      handleSignIn();
+      // handleSignIn();
     } else if (loginState.signUp) {
       console.log("4 -  회원가입 시도")
       //NOTE - 회원가입 체크용 + 서버 연결되면 완료 알림 지울거
       setsignUpAlert('회원가입 완료');
-      handleSignUp();
+      // handleSignUp();
     }
     console.log("2 - 로그인, 회원가입 아직 안됨")
   }, [loginState, handleSignUp, handleSignIn]);
@@ -94,12 +94,20 @@ const Login = () => {
     const message = JSON.stringify({ type: "signUp", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
     sendMessage(message);
+    if (loginState.signUp) {
+      console.log("서버로 전송")
+      handleSignUp();
+    }
   }
 
   const loginClick = () => {
     const message = JSON.stringify({ type: "signIn", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
     sendMessage(message);
+    if (loginState.signIn) {
+      console.log("서버로 전송")
+      handleSignIn();
+    }
   }
 
   return (
