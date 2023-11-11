@@ -80,7 +80,7 @@ const Login = () => {
     audio.play();
 
     const message = JSON.stringify({ type: "signUp", data: "" });
-    console.log("로고 눌렀고 서버로 { type:signUp, data: } 전송 ")
+    console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
     sendMessage(message);
 
     setTimeout(() => {

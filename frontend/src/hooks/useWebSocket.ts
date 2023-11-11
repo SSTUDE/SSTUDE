@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
 import { processMessage } from "../components/Login/LoginSlice";
+import { addCameraMessage } from "../components/Personal/Capture/CaptureSlice";
 
 export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
   const dispatch = useDispatch();
@@ -35,7 +36,13 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
     ws.onmessage = (event) => {
       console.log("수신된 메시지:", event.data);
-      dispatch(processMessage(event.data));
+    
+      if (["signUp", "signIn", "signOut"].includes(event.data.type)) {
+        dispatch(processMessage(event.data));
+      }
+      else if (event.data.type === "on" || event.data.type === "off") {
+        dispatch(addCameraMessage(event.data));
+      }
     };
 
     ws.onerror = (error) => {
