@@ -91,10 +91,16 @@ const Login = () => {
 
   // NOTE - 이건 라즈베리 없어도 되게 하는 더미데이터 작동 코드에용
   const SignClick = () => {
+    const message = JSON.stringify({ type: "signUp", data: "" });
+    console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
+    sendMessage(message);
     handleSignUp()
   }
 
   const loginClick = () => {
+    const message = JSON.stringify({ type: "signIn", data: "" });
+    console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
+    sendMessage(message);
     handleSignIn()
   }
 
