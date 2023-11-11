@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
+import Weather from '../Weather/Weather';
+import { useNavigate } from 'react-router-dom';
+import DateTime from '../Common/DateTime'
 
 const TestMain = () => {
   const currentDate = new Date();
@@ -19,20 +22,27 @@ const TestMain = () => {
   const dayOfWeek = daysInKorean[currentDate.getDay()];
   const DateString = `${year}.${month}.${day}(${dayOfWeek})`;
 
+  const navigate = useNavigate(); 
+
+
   return (
     <Wrap>
       <LeftContainer>
-        <Button>버튼1</Button>
+        <Button onClick={()=>{navigate('/')}}>초기화면</Button>
         <Button>버튼2</Button>
         <Button>버튼3</Button>
       </LeftContainer>
-      <CenterSide>
-        <Text>좋은 아침, 파이썬</Text>
-      </CenterSide>
-      <RightSide>
-        <TimeText>{Time}</TimeText>
-        <DateText>{DateString}</DateText>
-      </RightSide>
+      <MainSide>
+        <MainTop>
+          {/* <DateTime/> */}
+          <div>
+            시간, 날짜 정보 들어갈거임
+          </div>
+        </MainTop>
+        <MainBottom>
+          <Weather/>
+        </MainBottom>
+      </MainSide>
     </Wrap>
   )
 }
@@ -47,47 +57,36 @@ const LeftContainer = styled.div`
   display: grid(2f);
   width: 28.8%;
   height: 100%;
-  border: 1px solid #fff;
-  /* background-color: lightblue; */
+  border-right: 1px solid #fff;
 `
 
-const CenterSide = styled.div`
-  width: 42.4%;
-  height: 100%;
-  border: 1px solid #fff;
-  /* background-color: lightgray */
-`
-
-const RightSide = styled.div`
+const MainSide = styled.div`
   display: flex;
   flex-direction: column;
-  width: 28.8%;
+  width: 71.2%; 
   height: 100%;
-  border: 1px solid #fff;
-  /* background-color: lightsalmon; */
   padding: 20px;
 `
 
-const DateText = styled.div`
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #fff;
+const MainTop = styled.div`
+  width: 100%;
+  height: 15%;
+  /* background-color: lightblue; */
+
+  >div {
+    text-align: center;
+    font-size: 30px;
+  }
 `
 
-const TimeText = styled.div`
-  font-size: 24px;
-  color: #fff;
-`
-
-const Text = styled.div`
-  font-size: 24px;
-  color: #fff;
-  margin: 15px;
+const MainBottom = styled.div`
+  width: 100%;
+  height: 85%;
 `
 
 const Button = styled.button`
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   background-color: gray;
   border: none;
   cursor: pointer;

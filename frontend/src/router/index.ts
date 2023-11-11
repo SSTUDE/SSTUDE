@@ -8,6 +8,24 @@ import TestColor from "../components/Test/TestColor";
 import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
+import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
+import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
+import Calender from "../components/Personal/Main/PersonalCalender";
+import Weather from "../components/Weather/Weather";
+import Bus from "../components/Bus/Bus";
+import BusDetail from "../components/Bus/BusDetail";
+import KakaoMap from "../components/Bus/KakaoMap";
+import BusList from "../components/Bus/BusList";
+import PersonalColorResults from "../components/Personal/Results/PersonalColor/PersonalColorResults";
+import SelectContents from "../components/Personal/Capture/SelectContents";
+import PersonalColorCapture from "../components/Personal/Capture/PersonalColorCapture";
+import ClothesCapture from "../components/Personal/Capture/ClothesCapture";
+import DiagnosisLoading from "../components/Personal/Results/DiagnosisLoading";
+import ClothesResults from "../components/Personal/Results/Clothes/ClothesResults";
+import TodayHealth from "../components/Health/TodayHealth";
+import HealthCalender from "../components/Health/HealthCalender";
+import PrevHealth from "../components/Health/PrevHealth";
+import TodayHealthData from "../components/Health/TodayHealthData";
 
 const routes = [
   {
@@ -54,6 +72,86 @@ const routes = [
     path: "/menubtn",
     Component: MenuBtn,
     props: { type: "menu" },
+  },
+
+  // 퍼스널 컬러 파트
+  {
+    // 퍼스널 컬러 메인
+    path: "/personalmain",
+    Component: Calender,
+  },
+  {
+    // 퍼스널 컬러 진단 결과
+    path: "/personalcolorsresults",
+    Component: PersonalColorResults,
+  },
+  {
+    // 의상 진단 결과
+    path: "/personalclothesresults",
+    Component: ClothesResults,
+  },
+  {
+    // 진단 컨텐츠 선택창
+    path: "/personalselectcontents",
+    Component: SelectContents,
+  },
+  {
+    // 퍼스널 컬러 캡쳐 선택창
+    path: "/personalselectpersonal",
+    Component: PersonalColorCapture,
+  },
+  {
+    // 의상 캡쳐 선택창
+    path: "/personalselectclothes",
+    Component: ClothesCapture,
+  },
+  {
+    // 진단 중 로딩창
+    path: "/personalloading",
+    Component: DiagnosisLoading,
+  },
+  // 날씨 정보
+  // 삼성 헬스
+  {
+    path: "/healthmain",
+    Component: TodayHealth,
+  },
+  // 헬스 캘린더
+  {
+    path: "/healthcalender",
+    Component: HealthCalender,
+  },
+  // 이전 헬스 정보
+  {
+    path: "/prevhealth",
+    Component: PrevHealth,
+  },
+  {
+    path: "/healthtest",
+    Component: TodayHealthData,
+  },
+  {
+    path: "/weather",
+    Component: Weather,
+  },
+
+  // 버스정보
+  {
+    path: "/bus",
+    Component: Bus,
+  },
+  {
+    path: "/busdetail",
+    Component: BusDetail,
+  },
+  {
+    path: "/buslist",
+    Component: BusList,
+  },
+  // 카카오 지도
+  {
+    path: "/kakaomap",
+    Component: KakaoMap,
   },
 ];
 

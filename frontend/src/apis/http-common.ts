@@ -1,15 +1,16 @@
 import baseAxios from "axios";
-import { BASE_URL } from "./constants";
-import { storageData, retrieveData, getRefreshToken } from "./JWT-common";
+import { SERVER_URL, REFRESH_TOKEN_URL } from "./constants";
+import { storageData, retrieveData } from "./JWT-common";
+import { useWebSocketContext } from "../components/Common/WebSocketContext";
 
-const axios = baseAxios.create({
-  baseURL: BASE_URL,
+const axiosToken = baseAxios.create({
+  baseURL: SERVER_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-axios.interceptors.request.use(
+axiosToken.interceptors.request.use(
   async (config) => {
     const accessToken = await retrieveData();
     if (accessToken) {
@@ -22,26 +23,24 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+axiosToken.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.data.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = getRefreshToken();
-      if (refreshToken) {
-        try {
-          const response = await axios.post("/account/refresh", {
-            refreshToken,
-          });
-          const { accessToken } = response.data;
-          storageData(accessToken, refreshToken);
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return axios(originalRequest);
-        } catch (refreshError) {
-          return Promise.reject(refreshError);
-        }
-      }
+      const response = await axiosToken.post(REFRESH_TOKEN_URL);
+      const { accessToken } = response.data;
+      // const { sendMessage } = useWebSocketContext();
+      
+      //NOTE - 더미 데이터
+      const sendMessage = (message: string) => {
+        console.log("더미 메시지 전송:", message);
+      };
+      
+      storageData(accessToken, sendMessage ?? (() => {}));
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+      return axiosToken(originalRequest);
     }
     return Promise.reject(error);
   }
@@ -53,7 +52,7 @@ export const requestGet = async (
 ) => {
   const token = "Bearer " + (await retrieveData());
   try {
-    const data = await axios.get(url, {
+    const data = await axiosToken.get(url, {
       params: params,
       headers: {
         Authorization: token,
@@ -72,7 +71,7 @@ export const requestPost = async (
 ) => {
   const token = "Bearer " + (await retrieveData());
   try {
-    const data = await axios.post(url, body, {
+    const data = await axiosToken.post(url, body, {
       headers: { Authorization: token },
     });
     return data;
@@ -89,7 +88,7 @@ export const requestPut = async (
 ) => {
   const token = "Bearer " + (await retrieveData());
   try {
-    const data = await axios.put(url, body, {
+    const data = await axiosToken.put(url, body, {
       headers: { Authorization: token },
     });
     return data;
@@ -101,7 +100,7 @@ export const requestPut = async (
 
 export const requestDel = async (url: string) => {
   try {
-    const data = await axios.delete(url);
+    const data = await axiosToken.delete(url);
     return data;
   } catch (error) {
     console.log(error);
@@ -109,4 +108,4 @@ export const requestDel = async (url: string) => {
   }
 };
 
-export default axios;
+export default axiosToken;

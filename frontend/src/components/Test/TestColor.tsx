@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const ColorPalette: React.FC = () => {
@@ -10,6 +11,7 @@ const ColorPalette: React.FC = () => {
 
   const [backgroundColor, setBackgroundColor] = useState<string>('white');
   const [customColor, setCustomColor] = useState<string>('#ffffff'); // 사용자 정의 색상
+  const navigate = useNavigate();
 
   return (
     <Container style={{ backgroundColor: backgroundColor }}>
@@ -31,6 +33,7 @@ const ColorPalette: React.FC = () => {
         />
       </ColorList>
       <ColorCode>선택한 색상 코드: {backgroundColor}</ColorCode>
+      <button onClick={() => navigate('/test')}>처음으로</button>
     </Container>
   );
 };
