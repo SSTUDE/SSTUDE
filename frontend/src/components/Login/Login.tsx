@@ -94,15 +94,16 @@ const Login = () => {
     const message = JSON.stringify({ type: "signUp", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
     sendMessage(message)
-    .then(response => {
+    .then((response: any) => { // 여기서 'any' 대신 더 구체적인 타입을 사용하는 것이 좋습니다.
       if (loginState.signUp) {
-        console.log("웹소켓 응답 받았고 서버로 회원가입 전송")
-        signUpUser();
+        console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
+        dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
       }
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
     })
     .catch(error => {
+      console.log(error)
       // 에러 처리
       console.error("메시지 전송에 실패했습니다:", error);
     });    // if (loginState.signUp) {
@@ -114,15 +115,16 @@ const Login = () => {
     const message = JSON.stringify({ type: "signIn", data: "" });
     console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
     sendMessage(message)
-    .then(response => {
-      if (loginState.signUp) {
-        console.log("웹소켓 응답 받았고 서버로 로그인 전송")
-        signInUser();
+    .then((response: any) => { // 여기서 'any' 대신 더 구체적인 타입을 사용하는 것이 좋습니다.
+      if (loginState.signIn) {
+        console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
+        dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
       }
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
     })
     .catch(error => {
+      console.log(error)
       // 에러 처리
       console.error("메시지 전송에 실패했습니다:", error);
     });    // if (loginState.signIn) {

@@ -21,10 +21,8 @@ import { RootState } from "../../store/store";
 
 export const signUpUser = createAsyncThunk(
   "login/signUpUser",
-  async (_, { getState, rejectWithValue }) => {
-    const { userInfo, serialNum } = (getState() as RootState).login;
+  async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
-      const data = { deviceNum: userInfo + serialNum }
       console.log("6 - 서버용 회원가입 함수", data);
       const response = await axiosToken.post(SIGN_UP_URL, data);
       console.log("7 - 회원가입후 완료 response", response);
@@ -38,10 +36,8 @@ export const signUpUser = createAsyncThunk(
 
 export const signInUser = createAsyncThunk(
   "login/signInUser",
-  async (_, { getState, rejectWithValue }) => {
-    const { userInfo, serialNum } = (getState() as RootState).login;
+  async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
-      const data = { deviceNum: userInfo + serialNum }
       console.log("6 - 서버용 로그인 함수", data);
       const response = await axiosToken.post(SIGN_IN_URL, data);
       console.log("7 - 로그인후 완료 response", response);
