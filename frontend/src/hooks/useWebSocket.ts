@@ -9,21 +9,6 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
   const reconnectAttempts = useRef(0);
   const [messages, setMessages] = useState<string[]>([]);
 
-  // const captureConsoleLog = () => {
-  //   const originalConsoleLog = console.log;
-  //   const originalConsoleError = console.error;
-
-  //   console.log = (...args: any[]) => {
-  //     setMessages((prev) => [...prev, `Log: ${args.join(" ")}`]);
-  //     originalConsoleLog(...args);
-  //   };
-
-  //   console.error = (...args: any[]) => {
-  //     setMessages((prev) => [...prev, `Error: ${args.join(" ")}`]);
-  //     originalConsoleError(...args);
-  //   };
-  // };
-
   // 웹소켓 연결 함수
   const connect = () => {
     console.log(`시도횟수 : ${reconnectAttempts.current}`);
@@ -63,7 +48,6 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
   // 웹소켓 연결 및 정리
   useEffect(() => {
-    // captureConsoleLog();
     connect();
 
     return () => {
@@ -103,22 +87,7 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
       // 메시지 전송
       socket.send(JSON.stringify(message));
-
-      // 선택적: 타임아웃을 설정하여 일정 시간 후에 응답이 없으면 Promise를 reject
-      // const timeout = setTimeout(() => {
-      //   socket.removeEventListener("message", messageListener);
-      //   reject(new Error("Response timeout."));
-      // }, 10000); // 10초 후 타임아웃
-
-      // 클린업 함수: 타임아웃 클리어
-      // const cleanup = () => {
-      //   clearTimeout(timeout);
-      // };
-
-      // 현재 생성된 Promise에 대한 참조를 cleanup 함수에 연결
-      // 이것이 올바른 방법입니다.
-      // Promise의 .then()과 .catch()를 통해 cleanup 함수가 호출되도록 설정
-    }); //.then(cleanup).catch(cleanup);
+    }); 
   };
 
   return { messages, handleReconnect, sendMessage };

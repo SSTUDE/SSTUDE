@@ -159,7 +159,7 @@ const ClothesCapture = () => {
           console.log("카메라 실행")
           
           const capturedImage = captureImage();
-          console.log("사진 찍음", captureImage)
+          console.log("사진 찍음", capturedImage)
 
           stopWebcam()
           console.log("카메라 종료")
