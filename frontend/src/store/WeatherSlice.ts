@@ -54,7 +54,7 @@ const weatherSlice = createSlice({
     });
     builder.addCase(fetchShortData.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = action.error.message || '단기 날시 예보 데이터를 불러오는 데 실패했습니다.';
     });
   },
 });
