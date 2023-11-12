@@ -1,7 +1,7 @@
 # 사용자의 퍼스널컬러 결과 가져와서 어울리는 색과 비교해서 점수 매기기
 from database import connectMySQL
 from service import changeId
-from colormath.color_diff import delta_e_cie2000 #색차식(색을 수치화)
+from new_color_diff import * #색차식(색을 수치화)
 from colormath.color_objects import LabColor, sRGBColor
 from colormath.color_conversions import convert_color
 import numpy as np

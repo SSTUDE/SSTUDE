@@ -13,21 +13,9 @@ WORKDIR /src/app
 COPY ./app .
 COPY ./requirements.txt /src/requirements.txt
 
-# RUN pip install virtualenv
-
-# #가상환경 생성
-# RUN virtualenv venv
-# ENV PATH="/src/app/venv/bin:$PATH"
 
 RUN pip install -r /src/requirements.txt
 
-RUN pip uninstall -y colormath
-
-# 수정된 color_diff.py 복사
-COPY ./venv/Lib/site-packages/colormath/color_diff.py /src/venv/Lib/site-packages/colormath/color_diff.py
-
-# colormath 패키지 재설치
-RUN pip install colormath
 
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8013", "--reload"]
