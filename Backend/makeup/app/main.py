@@ -44,13 +44,13 @@ async def runColor(
         raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
-    data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
-    if data:
-        count=int(data)+1
-        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
-    else:
-        count=0
-        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    # data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
+    # if data:
+    #     count=int(data)+1
+    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    # else:
+    #     count=0
+    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
     count =0
     if count >=1:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
@@ -117,13 +117,13 @@ async def read_item(file: UploadFile = File(),
         raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
-    data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
-    if data:
-        count=int(data)+1
-        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-    else:
-        count=0
-        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    # data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
+    # if data:
+    #     count=int(data)+1
+    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    # else:
+    #     count=0
+    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
     count =0
     if count >=3:
         raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
