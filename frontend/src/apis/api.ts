@@ -41,7 +41,7 @@ export const getMidLandForecast = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/MidFcstInfoService/getMidLandFcst`, {
       params: {
-        serviceKey: SERVICE_KEY_MINE,
+        serviceKey: SERVICE_KEY,
         ...params
       }
     });
@@ -63,7 +63,7 @@ export const getMidTemperatureForecast = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/MidFcstInfoService/getMidTa`, {
       params: {
-        serviceKey: SERVICE_KEY_MINE,
+        serviceKey: SERVICE_KEY,
         ...params
       }
     });
