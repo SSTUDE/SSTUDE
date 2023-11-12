@@ -3,10 +3,6 @@ import React from "react";
 import { styled } from "styled-components";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
-import { RASPBERRY_URL } from "../../../apis/constants";
-import { useWebSocket } from "../../../hooks/useWebSocket";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
 import useWebcam from "./useWebCam";
 
 // 전체 컨테이너
@@ -30,6 +26,17 @@ const StyledCaptureAngle = styled.div`
   /* margin-top: 40px; */
   width: 50vh;
   height: 65vh;
+  overflow: hidden;
+`;
+
+const StyledVideo = styled.video`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; // 비디오를 다른 요소들 뒤에 위치시킴
 `;
 
 // 앵글 모서리
@@ -159,7 +166,7 @@ const ClothesCapture = () => {
       <MainButton />
       <StyledTitle>퍼스널 컬러 진단</StyledTitle>
       <StyledCaptureAngle>
-        <video ref={webcamRef} autoPlay playsInline style={{ width: '100%', height: '100%' }} />
+      <StyledVideo ref={webcamRef} autoPlay playsInline />
         <TopLeft />
         <TopRight />
         <BottomLeft />
