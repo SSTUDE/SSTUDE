@@ -146,7 +146,7 @@ const ClothesCapture = () => {
   const navigate = useNavigate();
 
   //NOTE - 카메라 종료시 data:off 로 바꿔서 보내면 됨 - 돌아오는 값은 raspberryPiCameraOff
-  const message = JSON.stringify({ type: "camera", data: "on" });
+  const message = { type: "camera", data: "on" };
   
   const handleCaptureClick = () => {
     console.log("카메라 눌렀고 라즈베리로 { type:camera, data: on } 전송 ")
