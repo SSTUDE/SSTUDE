@@ -11,6 +11,7 @@ import { RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import WeatherInfo from '../Weather/WeatherInfo';
 
 const Mirror = () => {
   const navigate = useNavigate();
@@ -25,16 +26,22 @@ const Mirror = () => {
     setActivePage('bus');
   };
 
+  const handleWeatherClick = () => {
+    setActivePage('weatherDetail');
+  };
+
+  const handleWeatherDetailClick = () => {
+    setActivePage('weather');
+  };
+
   const renderCenterContent = () => {
     switch (activePage) {
       case 'bus':
         return <Bus onClick={handleBusClick} />;
       case 'weather':
-        return <Weather />;
+        return <WeatherInfo onClick={handleWeatherClick}/>;
       case 'busDetail':
         return <BusDetail onClick={handleBusDetailClick} />;
-      case 'WeahterDetail':
-        return <Weather />;
       default:
         return null;
     }
@@ -61,7 +68,7 @@ const Mirror = () => {
         {activePage === 'busDetail' ? (
           <BusDetail onClick={handleBusDetailClick} />
         ) : activePage === 'weatherDetail' ? (
-          <Weather />
+          <Weather onClick={handleWeatherDetailClick}/>
         ) : (
           <>
             <Center>
@@ -73,7 +80,7 @@ const Mirror = () => {
               <Right>
                 <PageHeader>
                   <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
-                  <PageButton onClick={() => setActivePage('weatherDetail')}>날씨 정보</PageButton>
+                  <PageButton onClick={() => setActivePage('weather')}>날씨 정보</PageButton>
                 </PageHeader>
                 <PageBody key={activePage}>
                   {renderCenterContent()}

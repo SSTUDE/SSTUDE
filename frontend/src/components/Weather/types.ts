@@ -82,6 +82,13 @@ export type WeatherDataResponse = {
   ny: number;
 };
 
+export type WeatherDataRequest = {
+  base_date: string, 
+  base_time: string, 
+  nx: number, 
+  ny: number
+}
+
 export type WeatherDataCustom = {
   category: string;
   fcstDate: string;
