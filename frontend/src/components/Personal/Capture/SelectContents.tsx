@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import MainButton from "../Main/MainButton";
 import ErrorModal from "./ErrorModal";
+import { useWebSocket } from "../../../hooks/useWebSocket";
+import { RASPBERRY_URL } from "../../../apis/constants";
+import useWebcam from "./useWebCam";
 
 // 진단 컨텐츠 고르는 전체 컨테이너
 const StyledContainer = styled.section`
@@ -81,20 +84,47 @@ const CameraIcon = () => (
 );
 
 const SelectContents = () => {
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { startWebcam } = useWebcam();
   const navigate = useNavigate();
   const [hasDiagnosedPersonalColor, setHasDiagnosedPersonalColor] =
     useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const message = { type: "camera", data: "on" };
 
   const handlePersonalCameraClick = () => {
-    navigate("/personalselectpersonal");
+    sendMessage(message)
+      .then((response: any) => {
+        console.log("응답옴: ", response)
+        if (response.data === "raspberryPiCameraOn") {
+          console.log("카메라 권한 획득")
+          startWebcam()
+          console.log("카메라 실행, 페이지 이동")
+          navigate("/personalselectpersonal");
+        }
+      })
+      .catch(error => {
+        console.log("에러 발생", error);
+      });
   };
 
   const handleClothesCameraClick = () => {
     if (!hasDiagnosedPersonalColor) {
       setIsErrorModalOpen(true);
     } else {
-      navigate("/personalselectclothes");
+      sendMessage(message)
+        .then((response: any) => {
+          console.log("응답옴: ", response)
+          if (response.data === "raspberryPiCameraOn") {
+            console.log("카메라 권한 획득")
+            startWebcam()
+            console.log("카메라 실행, 페이지 이동")
+            navigate("/personalselectclothes");
+          }
+        })
+        .catch(error => {
+          console.log("에러 발생", error);
+        });
     }
   };
 

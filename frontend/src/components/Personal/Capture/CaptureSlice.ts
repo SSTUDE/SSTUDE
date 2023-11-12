@@ -2,7 +2,7 @@ import { CaptureState, Message } from "./types";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
   const initialState: CaptureState = {
-    messages: { type: "" },
+    messages: { type: "", data:"" },
 };
   
 export const CaptureSlice = createSlice({
@@ -10,7 +10,7 @@ export const CaptureSlice = createSlice({
     initialState,
     reducers: {
       addCameraMessage: (state, action: PayloadAction<string>) => {
-        state.messages.type = action.payload;
+        state.messages.data = action.payload;
       },
     },
     extraReducers: (builder) => {
