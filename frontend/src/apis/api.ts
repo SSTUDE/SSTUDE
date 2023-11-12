@@ -41,11 +41,13 @@ export const getMidLandForecast = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/MidFcstInfoService/getMidLandFcst`, {
       params: {
-        serviceKey: SERVICE_KEY,
+        serviceKey: SERVICE_KEY_MINE,
         ...params
       }
     });
+    console.log(response.data.response.body.items.item);
     return response.data.response.body.items.item;
+    
   } catch (error) {
     console.error("중기 육상 예보 API 요청 중 오류가 발생했습니다:", error);
     throw error;
@@ -63,7 +65,7 @@ export const getMidTemperatureForecast = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/MidFcstInfoService/getMidTa`, {
       params: {
-        serviceKey: SERVICE_KEY,
+        serviceKey: SERVICE_KEY_MINE,
         ...params
       }
     });

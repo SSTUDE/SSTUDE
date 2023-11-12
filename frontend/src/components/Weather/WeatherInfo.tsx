@@ -16,32 +16,26 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const isLoading = useSelector((state: RootState) => state.weather.loading);
   const error = useSelector((state: RootState) => state.weather.error);
 
-  // 날짜, 시간과 관련된 변수
-  const day = new Date();
-  const hour = day.getHours(); 
-  const minutes = day.getMinutes();
-  const year = day.getFullYear(); 
-  const month = (day.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
-  const date = day.getDate().toString().padStart(2, '0'); 
+    // 단기 데이터(요청 시간)
+    const sDay = new Date();
+    const sHour = sDay.getHours(); 
+    const sMinutes = sDay.getMinutes();
 
-  let formattedDate = `${year}${month}${date}`;
-  
-  // 시간이 05:00를 지나지 않았다면 전날
-  if (hour < 5) {
-    day.setDate(day.getDate() - 1);
+    // 시간이 05:00를 지나지 않았다면 전날
+    if (sHour < 5) {
+      sDay.setDate(sDay.getDate() - 1);
+    }
 
-    const yYear = day.getFullYear();
-    const yMonth = (day.getMonth() + 1).toString().padStart(2, '0');
-    const yDate = day.getDate().toString().padStart(2, '0');
+    const sYear = sDay.getFullYear(); 
+    const sMonth = (sDay.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
+    const sDate = sDay.getDate().toString().padStart(2, '0'); 
+    const formattedSDate =`${sYear}${sMonth}${sDate}`
 
-    formattedDate = `${yYear}${yMonth}${yDate}`;
-  }
-
-  const currentDate = formattedDate; // 'YYYYMMDD' 형식
+  const currentDate = formattedSDate; // 'YYYYMMDD' 형식
 
   useEffect(() => {
     dispatch(fetchShortData({
-      base_date: formattedDate,
+      base_date: formattedSDate,
       base_time: '0500',
       nx: 86,
       ny: 95
@@ -54,11 +48,11 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
 // 현재 시간 이후의 데이터 필터링
 const CustomData = weatherData.filter((item: WeatherDataCustom) => {
   const itemTime = parseInt(item.fcstTime); 
-  const nextHour = hour < 23 ? (hour + 1) * 100 : 0; // 다음 시간 계산 (23시 이후는 0시로 처리)
+  const nextHour = sHour < 23 ? (sHour + 1) * 100 : 0; // 다음 시간 계산 (23시 이후는 0시로 처리)
 
   // 현재 시간이 30분 미만인 경우
-  if (minutes < 30) {
-    return (item.fcstDate === currentDate && itemTime >= hour * 100) || (item.fcstDate > currentDate);
+  if (sMinutes < 30) {
+    return (item.fcstDate === currentDate && itemTime >= sHour * 100) || (item.fcstDate > currentDate);
   } else {
     // 현재 시간이 30분 이상인 경우
     return (item.fcstDate === currentDate && itemTime >= nextHour) || (item.fcstDate > currentDate);
