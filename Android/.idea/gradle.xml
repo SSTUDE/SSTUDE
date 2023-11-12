@@ -12,6 +12,16 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/data-healthconnect" />
+            <option value="$PROJECT_DIR$/domain-base" />
+            <option value="$PROJECT_DIR$/domain-healthdata" />
+            <option value="$PROJECT_DIR$/ui-feat-main" />
+            <option value="$PROJECT_DIR$/ui-feat-overview" />
+            <option value="$PROJECT_DIR$/ui-feat-weight" />
+            <option value="$PROJECT_DIR$/ui-feat-widgets" />
+            <option value="$PROJECT_DIR$/ui-lib-common" />
+            <option value="$PROJECT_DIR$/ui-lib-navigation" />
           </set>
         </option>
       </GradleProjectSettings>
