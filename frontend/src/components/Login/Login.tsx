@@ -21,12 +21,11 @@ const Login = () => {
   }, []);
 
   const handleLogoClick = () => {
-    console.log("3 -  로고 클릭해서 회원가입 시도")
     if (!isLogoClickable) return;
     setIsLogoClickable(false);
     const audio = new Audio(sounds.main.blop);
     audio.play();
-    console.log("로그인 시도")
+    console.log("회원가입 시도")
     SignClick()
     setTimeout(() => {
       setIsLogoClickable(true);
@@ -36,37 +35,37 @@ const Login = () => {
   // NOTE - 이건 라즈베리 없어도 되게 하는 더미데이터 작동 코드에용
   const SignClick = () => {
     const message = { type: "signUp", data: "" };
-    console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
+    console.log("회원가입 - 라즈베리로 { type:signUp, data: } 전송 ")
 
     sendMessage(message)
     .then((response: any) => { 
-      console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
+      console.log("회원가입 - 웹소켓 응답 받았고 서버로 전송");
       dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
 
-      console.log("응답 받음:", response);
+      console.log("회원가입 - 응답 받음:", response);
       console.log(" !!!!! 회원가입 성공 !!!!!")
       console.log("회원가입 완료후 로그인 시도")
       loginClick()
     })
     .catch(error => {
       console.log(error)
-      console.error("메시지 전송에 실패했습니다:", error);
+      console.error("회원가입 - 메시지 전송에 실패했습니다:", error);
     });  
   }
 
   const loginClick = () => {
     const message = { type: "signIn", data: "" };
-    console.log("라즈베리로 { type:signIn, data: } 전송 ")
+    console.log("로그인 - 라즈베리로 { type:signIn, data: } 전송 ")
     sendMessage(message)
     .then((response: any) => {
-        console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
+        console.log("로그인 - 웹소켓 응답 받았고 서버로 전송");
         dispatch(signInUser({deviceNum : response.data.userInfo+response.data.serialNum}));
-      console.log("응답 받음:", response);
+      console.log("로그인 - 응답 받음:", response);
       console.log(" !!!!! 로그인 성공 !!!!!")
     })
     .catch(error => {
       console.log(error)
-      console.error("메시지 전송에 실패했습니다:", error);
+      console.error("로그인 - 메시지 전송에 실패했습니다:", error);
     });   
   }
 
