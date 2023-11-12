@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import { BsSunFill, BsCloudFill, BsMoonStarsFill, BsCloudRainFill, BsSnow2, BsCloudSunFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchShortData } from '../../store/WeatherSlice';
 import { RootState, AppDispatch } from '../../store/store';
@@ -37,14 +36,14 @@ const WeatherInfo = () => {
 
   const currentDate = formattedDate; // 'YYYYMMDD' 형식
 
-  // useEffect(() => {
-  //   dispatch(fetchShortData({
-  //     base_date: formattedDate,
-  //     base_time: '0500',
-  //     nx: 86,
-  //     ny: 95
-  //   }));
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchShortData({
+      base_date: formattedDate,
+      base_time: '0500',
+      nx: 86,
+      ny: 95
+    }));
+  }, [dispatch]);
 
   if (isLoading) return <span>데이터를 불러오는 중...</span>;
   if (error) return <span>에러 발생: {error}</span>;
@@ -93,18 +92,6 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
   const SkyData = CustomData.find((item : WeatherDataCustom) => item.category === "SKY");
   const RainData = CustomData.find((item : WeatherDataCustom) => item.category === "PTY");
   const { maxTemperature, minTemperature } = findTemperatureExtremes(weatherData);
-  
-
-
-  // 강수 확률(오늘) 가장 높은 확률
-  // let highestRainRateData: WeatherDataCustom | undefined = undefined;
-  // CustomData.forEach((item: WeatherDataCustom) => {
-  //   if (item.category === "POP" && item.fcstDate === currentDate) {
-  //     if (!highestRainRateData || item.fcstValue > highestRainRateData.fcstValue) {
-  //       highestRainRateData = item;
-  //     }
-  //   }
-  // });
 
   // 날씨 상태 표시
   const SkyStatus = SkyData?.fcstValue
@@ -128,21 +115,20 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
   } else if (SkyStatus === '4') {
     SkyContidion = '흐림'
   }
-
     
   return (
     <Container>
       <WeatherCon>
         <SkyInfoCon>
           {/* find로 인한 undefined 방지 */}
-          {/* {SkyData && RainData && (
+          {SkyData && RainData && (
             <SkyIcon 
               dailySky={SkyData}
               RainData={RainData}
               size={180}
             />
-          )} */}
-          <BsCloudFill size={200}/>
+          )}
+          {/* <BsCloudFill size={200}/> */}
           {TempData && (
           <WeatherTXTCon>
             <div>{SkyContidion}</div>
@@ -182,7 +168,7 @@ const WeatherCon = styled.div`
   
   .temp {
     font-size: 25px;
-    /* margin-top: 10px; */
+    margin-top: 20px;
   }
 
   .maxTemp {
@@ -210,7 +196,6 @@ const WeatherTXTCon = styled.div`
   flex-direction: column;
   justify-content: center;
 `
-
 
 const DustCon = styled.div`
   width: 100%;
