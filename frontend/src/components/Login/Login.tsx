@@ -1,4 +1,4 @@
-import { signUpUser } from "./LoginSlice";
+import { signInUser, signUpUser } from "./LoginSlice";
 import {  useDispatch } from 'react-redux';
 import { sounds } from '../../constants/sounds';
 import { images } from '../../constants/images';
@@ -56,11 +56,11 @@ const Login = () => {
 
   const loginClick = () => {
     const message = { type: "signIn", data: "" };
-    console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
+    console.log("라즈베리로 { type:signIn, data: } 전송 ")
     sendMessage(message)
     .then((response: any) => {
         console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
-        dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
+        dispatch(signInUser({deviceNum : response.data.userInfo+response.data.serialNum}));
       console.log("응답 받음:", response);
       console.log(" !!!!! 로그인 성공 !!!!!")
     })
