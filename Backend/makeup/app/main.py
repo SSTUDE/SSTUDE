@@ -176,40 +176,40 @@ class Item(BaseModel):
 def getRecordDetail (
     item: Item,
     access_token: Optional[str] = Header(None, convert_underscores=False)):
-    try:
-        connect, curs = connectMySQL()
+    # try:
+    connect, curs = connectMySQL()
+    
+    response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    
+    date_obj = datetime.strptime(item.date, "%Y-%m-%d").date()
+    print(date_obj)
+    
+    # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
+    with connect.cursor() as curs:
+    # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
+        query_select = """SELECT result, img_uri FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
+        curs.execute(query_select,(userid, date_obj))
+        row = curs.fetchone()
+        result = row[0]
+        img_uri = row[1]
+        print(img_uri)
         
-        response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-        if response.status_code == 200:
-            response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
-            userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-            print(userid)
-        else:
-            raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    
+    match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
+    match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+    match_color= match_color[0:13]
+    print(match_color)
         
-        date_obj = datetime.strptime(item.date, "%Y-%m-%d").date()
-        print(date_obj)
-        
-        # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
-        with connect.cursor() as curs:
-        # 결과값, 사용자값 등을 모두 가져와서 JSON형태로 반환
-            query_select = """SELECT result, img_uri FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')= %s"""
-            curs.execute(query_select,(userid, date_obj))
-            row = curs.fetchone()
-            result = row[0]
-            img_uri = row[1]
-            print(img_uri)
-            
-        
-        match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
-        match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
-        match_color= match_color[0:13]
-        print(match_color)
-            
-    except Exception as e:
-            print(e)
-            result = False
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
+    # except Exception as e:
+    #         print(e)
+    #         result = False
+    #         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
 
     
     return JSONResponse({'personal_color': result , 'user_img' : img_uri, 
