@@ -1,14 +1,13 @@
-import { RootState } from '../../store/store';
+import { signUpUser } from "./LoginSlice";
+import {  useDispatch } from 'react-redux';
 import { sounds } from '../../constants/sounds';
 import { images } from '../../constants/images';
 import { AppDispatch } from '../../store/store';
+import React, { useEffect, useState } from 'react';
 import { RASPBERRY_URL } from '../../apis/constants';
 import styled, { keyframes } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
-import React, { useEffect, useState } from 'react';
-import { signUpUser } from "./LoginSlice";
 
 const Login = () => {
   console.log("0 - 렌더링")
