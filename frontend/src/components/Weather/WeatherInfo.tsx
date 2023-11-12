@@ -37,14 +37,14 @@ const WeatherInfo = () => {
 
   const currentDate = formattedDate; // 'YYYYMMDD' 형식
 
-  useEffect(() => {
-    dispatch(fetchShortData({
-      base_date: formattedDate,
-      base_time: '0500',
-      nx: 86,
-      ny: 95
-    }));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchShortData({
+  //     base_date: formattedDate,
+  //     base_time: '0500',
+  //     nx: 86,
+  //     ny: 95
+  //   }));
+  // }, [dispatch]);
 
   if (isLoading) return <span>데이터를 불러오는 중...</span>;
   if (error) return <span>에러 발생: {error}</span>;
@@ -135,14 +135,14 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
       <WeatherCon>
         <SkyInfoCon>
           {/* find로 인한 undefined 방지 */}
-          {SkyData && RainData && (
+          {/* {SkyData && RainData && (
             <SkyIcon 
               dailySky={SkyData}
               RainData={RainData}
               size={180}
             />
-          )}
-          {/* <BsCloudFill size={200}/> */}
+          )} */}
+          <BsCloudFill size={200}/>
           {TempData && (
           <WeatherTXTCon>
             <div>{SkyContidion}</div>
@@ -165,11 +165,11 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
 }
 
 const Container = styled.div`
-  width: 25vw;
-  height: 600px;
+  width: 100%;
+  height: 593px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
-  padding: 50px;
   /* background-color: lightblue; */
 `
 
@@ -182,7 +182,7 @@ const WeatherCon = styled.div`
   
   .temp {
     font-size: 25px;
-    margin-top: 20px;
+    /* margin-top: 10px; */
   }
 
   .maxTemp {
@@ -199,6 +199,7 @@ const WeatherCon = styled.div`
 `
 
 const SkyInfoCon = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-evenly;
 `
