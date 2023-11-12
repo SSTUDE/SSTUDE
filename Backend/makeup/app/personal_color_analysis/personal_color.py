@@ -45,14 +45,14 @@ def analysis(imgpath):
     hsv_weight = [10, 1, 1]
     if(tone_analysis.is_warm(Lab_b, Lab_weight)):
         if(tone_analysis.is_spr(hsv_s, hsv_weight)):
-            tone = '봄웜톤(spring)'
+            tone = '봄 웜톤(spring)'
         else:
-            tone = '가을웜톤(fall)'
+            tone = '가을 웜톤(fall)'
     else:
         print("쿨 여기까지??")
         if(tone_analysis.is_smr(hsv_s, hsv_weight)):
-            tone = '여름쿨톤(summer)'
+            tone = '여름 쿨톤(summer)'
         else:
-            tone = '겨울쿨톤(winter)'
+            tone = '겨울 쿨톤(winter)'
             
     return tone

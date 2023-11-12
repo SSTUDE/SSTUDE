@@ -16,7 +16,7 @@ app = FastAPI()
 rd = redis_config()
 current_date = datetime.now().date()
 current_date_time = datetime.now()
-userid=2
+# userid = 1
 
 # @app.get("makeup-service/v3/api-docs", include_in_schema=False)
 # def get_open_api_endpoint():
@@ -35,13 +35,13 @@ async def runColor(
 ):
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
-    # response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    # if response.status_code == 200:
-    #     response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
-    #     userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-    #     print(userid)
-    # else:
-    #     raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
     # data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
@@ -51,8 +51,7 @@ async def runColor(
     # else:
     #     count=0
     #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
-    count = 0
-    
+    count =0
     if count >=1:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
     
@@ -75,12 +74,14 @@ async def runColor(
             
             result = result.split('톤')[0]
             
+            match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+            
             with connect.cursor() as curs:
-                query = """INSERT INTO makeups (member_id, img_uri, result, calender) VALUES (%s, %s, %s, %s)"""
-                curs.execute(query, (userid, s3uri, result, current_date_time))
+                query = """INSERT INTO makeups (member_id, img_uri, result, eng, calender) VALUES (%s, %s, %s, %s, %s)"""
+                curs.execute(query, (userid, s3uri, result, eng, current_date_time))
             connect.commit()
             
-            match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+            
             match_color= match_color[0:13]
             
             os.remove(file_name)
@@ -107,13 +108,13 @@ async def read_item(file: UploadFile = File(),
             access_token: Optional[str] = Header(None, convert_underscores=False)):
     collection = connectPymongo()
    ##############토큰으로 spring에서 유저찾아오기######################
-    # response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
-    # if response.status_code == 200:
-    #     response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
-    #     userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-    #     print(userid)
-    # else:
-    #     raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
     # data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
@@ -123,7 +124,7 @@ async def read_item(file: UploadFile = File(),
     # else:
     #     count=0
     #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-    count=0
+    count =0
     if count >=3:
         raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
     
@@ -152,8 +153,10 @@ async def read_item(file: UploadFile = File(),
             date_str = current_date_time.strftime("%Y-%m-%d")
             # 쿼리 실행 및 결과 정렬, 제한
             result = collection.find({"memberId":userid,
-                                      "calender": {"$gte": datetime(current_date_time.year, current_date_time.month, current_date_time.day), "$lt": datetime(current_date_time.year, current_date_time.month, current_date_time.day, 23, 59, 59, 999999)}}
-                                     ,{"_id":0, "score":1, "imguri":1})
+                                      "calender": {"$gte": datetime(current_date_time.year, current_date_time.month, current_date_time.day), 
+                                                   "$lt": datetime(current_date_time.year, current_date_time.month, current_date_time.day, 23, 59, 59, 999999)}}
+                                     ,{"_id":0, "score":1, "imguri":1}
+                                     ).sort("calender", -1).limit(2)
             lst = []
             for r in result:
                 lst.append(r)
@@ -176,7 +179,7 @@ def getRecordDetail (
     try:
         connect, curs = connectMySQL()
         
-        response = requests.post("http://localhost:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+        response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
         if response.status_code == 200:
             response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
             userid = response_json["memberId"]  # 본문에서 특정 값을 추출
