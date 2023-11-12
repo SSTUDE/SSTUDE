@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { styled } from "styled-components";
-import { images } from "../../../constants/images";
 import Carousel from "./Carousel";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const StyledSection = styled.section`
   width: 100%;
@@ -66,12 +67,17 @@ const StyledHighestScore = styled.p`
 `;
 
 const PreviousClothesResults = () => {
+  const { clothes } = useSelector((state: RootState) => state.personal);
+  console.log("score?", clothes);
+
   return (
     <StyledSection>
       <Carousel />
       <InfoArticle>
         <StyledScoreName>점수</StyledScoreName>
-        <StyledScore>100점</StyledScore>
+        <StyledScore>
+          {clothes ? clothes.score : "진단 결과가 없습니다"}
+        </StyledScore>
         <StyledHighestScore>High Score</StyledHighestScore>
       </InfoArticle>
     </StyledSection>

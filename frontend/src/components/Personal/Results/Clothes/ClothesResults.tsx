@@ -45,6 +45,8 @@ const StyledImgContainer1 = styled.img`
   width: 50vh;
   height: 65vh;
   margin: 0;
+  max-width: 100%;
+  max-height: 100%;
 
   object-fit: cover;
 `;

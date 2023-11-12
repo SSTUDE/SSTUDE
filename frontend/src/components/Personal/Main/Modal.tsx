@@ -142,6 +142,7 @@ const Modal: React.FC<ModalProps> = ({
 
   const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`; // 설정된 값
   console.log(formattedDate);
+
   return (
     <ModalOverlay onClick={handleClose}>
       <ModalContainer onClick={stopPropagation}>

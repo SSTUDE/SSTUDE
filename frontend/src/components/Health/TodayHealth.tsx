@@ -65,6 +65,7 @@ const TodayHealth = () => {
       year: "2023",
       month: "11",
     };
+    console.log("헬스 데이터 들어오나요?", data);
     const actionResult = await dispatch(HealthCalender(data));
     const res = actionResult.payload;
     if (res) {

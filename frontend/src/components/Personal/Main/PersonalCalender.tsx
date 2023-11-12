@@ -1,35 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import DatePicker from "react-datepicker";
 import "./Calender.css";
 import { enGB } from "date-fns/esm/locale";
 import Modal from "./Modal";
 import MainButton from "./MainButton";
 import CameraButton from "./CameraButton";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { PersonalBeautyModal, PersonalClothesyModal } from "./PersonalSlice";
 
 type DiagnosisData = {
-  [key: string]: { personalColor: boolean; outfit: boolean };
-};
-
-const diagnosisData: DiagnosisData = {
-  "2023-10-25": { personalColor: true, outfit: false },
-  "2023-10-28": { personalColor: false, outfit: true },
-  "2023-10-30": { personalColor: true, outfit: true },
+  makeup: string[];
+  clothes: string[];
 };
 
 const PersonalCalender: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+  const diagnosisData =
+    (location.state as { diagnosisData: DiagnosisData })?.diagnosisData || {};
+
+  // 달력 라이브러리
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("personalColor");
 
-  const handleClickPersonalColor = () => {
-    setActiveButton("personalColor");
-    setIsModalOpen(true);
-  };
+  // 메이크업 및 의상 진단값 있는 경우
+  const [makeupDates, setMakeupDates] = useState<string[]>([]);
+  const [clothesDates, setClothesDates] = useState<string[]>([]);
+
+  useEffect(() => {
+    setMakeupDates(diagnosisData.makeup || []);
+    setClothesDates(diagnosisData.clothes || []);
+  }, [diagnosisData]);
 
   const handleClickClothes = () => {
     setActiveButton("previousclothes");
     setIsModalOpen(true);
   };
+
+  const handlePersonalModal = useCallback(async () => {
+    const data = {
+      year: 2023,
+      month: 11,
+      day: 12,
+    };
+    try {
+      console.log("try 뜨나요");
+      const res = await dispatch(PersonalBeautyModal(data)).unwrap();
+      console.log("결과는요?", res);
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
+
+  const handleClothesModal = useCallback(async () => {
+    const data = {
+      year: 2023,
+      month: 11,
+      day: 13,
+    };
+    try {
+      console.log("의상 try 뜨나요");
+      const res = await dispatch(PersonalClothesyModal(data)).unwrap();
+      console.log("의상 결과는요?", res);
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
 
   return (
     <div className="test">
@@ -38,7 +85,16 @@ const PersonalCalender: React.FC = () => {
         selected={startDate}
         onChange={(date: Date) => {
           setStartDate(date);
-          setIsModalOpen(true);
+          const dateStr = date.toLocaleDateString("fr-CA");
+          const isMakeupDay = makeupDates.includes(dateStr);
+          const isClothesDay = clothesDates.includes(dateStr);
+          if (isMakeupDay || isClothesDay) {
+            setIsModalOpen(true);
+            handlePersonalModal();
+            handleClothesModal();
+          } else {
+            alert("메이크업 또는 의상 날짜가 아닙니다.");
+          }
         }}
         inline
         locale={enGB}
@@ -48,22 +104,17 @@ const PersonalCalender: React.FC = () => {
         }
         renderDayContents={(day: React.ReactNode, date: Date) => {
           const dateStr = date.toLocaleDateString("fr-CA");
-          const diagnosis = diagnosisData[dateStr];
+          const isMakeupDay = makeupDates.includes(dateStr);
+          const isClothesDay = clothesDates.includes(dateStr);
+
           return (
             <>
               <div>{day}</div>
               <div>
-                {diagnosis ? (
-                  <div>
-                    {diagnosis.personalColor && (
-                      <span className="icon">🎨</span>
-                    )}
-                    {diagnosis.outfit && <span className="icon">👗</span>}
-                  </div>
-                ) : (
-                  <div>
-                    <span className="icon">•</span>
-                  </div>
+                {isMakeupDay && <span className="icon">🎨</span>}
+                {isClothesDay && <span className="icon">👗</span>}
+                {!isMakeupDay && !isClothesDay && (
+                  <span className="icon">•</span>
                 )}
               </div>
             </>

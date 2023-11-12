@@ -1,21 +1,7 @@
-import React, { useEffect, FC, useState } from "react";
+import React, { useEffect, FC, useRef } from "react";
 import "./Palette.css";
-
-const swatches: string[] = [
-  "#4cadeb",
-  "#7ac2f0",
-  "#a8d7f5",
-  "#eb8a4c",
-  "#f0a87a",
-  "#f5c6a8",
-  "#9b9b9b",
-  "#b5b5b5",
-  "#4cadeb",
-  "#7ac2f0",
-  "#eb8a4c",
-  "#f5c6a8",
-  "#7ac2f0",
-];
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store/store";
 
 interface RGB {
   r: number;
@@ -24,7 +10,11 @@ interface RGB {
 }
 
 const Palette: FC = () => {
-  const [selectedColor, setSelectedColor] = useState(null);
+  const paletteRef = useRef<HTMLUListElement | null>(null);
+  const { beautyResults } = useSelector((state: RootState) => {
+    console.log("beautyResults 상태값: ", state.personal);
+    return state.personal;
+  });
 
   const hexToRgb = (hex: string): RGB | null => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -76,68 +66,73 @@ const Palette: FC = () => {
   };
 
   useEffect(() => {
-    document.querySelectorAll(".swatch").forEach((element, index) => {
-      const hex = (element as HTMLElement).dataset.color || "";
-      (element as HTMLElement).style.backgroundColor = hex;
+    const updateSwatchColors = () => {
+      if (paletteRef.current) {
+        const swatches =
+          paletteRef.current.querySelectorAll<HTMLElement>(".swatch");
+        swatches.forEach((swatch: HTMLElement, index: number) => {
+          const color = beautyResults?.match_color[index];
+          if (color) {
+            swatch.style.backgroundColor = color;
 
-      element.addEventListener("click", () => {
-        if (element.classList.contains("select")) {
-          element.classList.remove("select");
-          element.classList.add("unselect");
-        } else {
-          document.querySelectorAll(".swatch").forEach((swatch) => {
-            swatch.classList.remove("select");
-            swatch.classList.add("unselect");
-          });
-          element.classList.remove("unselect");
-          element.classList.add("select");
-        }
-      });
+            const rgb = hexToRgb(color);
+            const hsl = rgb ? rgb2hsl([rgb.r, rgb.g, rgb.b]) : null;
 
-      element.innerHTML += `<span>${hex}</span>`;
+            const rgbElement = swatch.querySelector(".rgb");
+            const hslElement = swatch.querySelector(".hsl");
+            const hexElement = swatch.querySelector(".hex");
 
-      const rgb = hexToRgb(hex);
-      if (rgb) {
-        const rgbText = `${Math.ceil(rgb.r)}, ${Math.ceil(rgb.g)}, ${Math.ceil(
-          rgb.b
-        )}`;
-        const hsl = rgb2hsl([222, 63, 126]);
-        const hslText = `${Math.ceil(hsl[0])}, ${Math.ceil(
-          hsl[1]
-        )}, ${Math.ceil(hsl[2])}`;
-
-        const rgbElement = element.querySelector("ol li:nth-child(1) i");
-        const hslElement = element.querySelector("ol li:nth-child(2) i");
-        const hexElement = element.querySelector("ol li:nth-child(3) i");
-
-        if (rgbElement) rgbElement.textContent = rgbText;
-        if (hslElement) hslElement.textContent = hslText;
-        if (hexElement) hexElement.textContent = hex;
+            if (rgbElement && hslElement && hexElement) {
+              rgbElement.textContent = rgb
+                ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+                : "";
+              hslElement.textContent = hsl
+                ? `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
+                : "";
+              hexElement.textContent = color;
+            }
+          }
+        });
       }
-    });
-  }, []);
+    };
+
+    if (beautyResults?.match_color?.length) {
+      if (paletteRef.current && paletteRef.current.children.length) {
+        updateSwatchColors();
+      } else {
+        const checkExist = setInterval(function () {
+          if (paletteRef.current && paletteRef.current.children.length) {
+            updateSwatchColors();
+            clearInterval(checkExist);
+          }
+        }, 100); // 100ms 마다 .swatch 요소들이 DOM에 추가되었는지 확인
+      }
+    }
+  }, [beautyResults?.match_color, paletteRef.current]);
 
   return (
     <div className="swatchContainer">
-      <ul className="palette">
-        {swatches.map((color, index) => (
-          <li key={index} className="swatch" data-color={color}>
-            <ol>
-              <li>
-                <b>RGB</b>
-                <i></i>
+      <ul className="palette" ref={paletteRef}>
+        {beautyResults?.match_color
+          ? beautyResults.match_color.map((color, index) => (
+              <li key={index} className="swatch" data-color={color}>
+                <ol>
+                  <li>
+                    <b>RGB</b>
+                    <p className="rgb"></p>
+                  </li>
+                  <li>
+                    <b>HSL</b>
+                    <p className="hsl"></p>
+                  </li>
+                  <li>
+                    <b>HEX</b>
+                    <p className="hex"></p>
+                  </li>
+                </ol>
               </li>
-              <li>
-                <b>HSL</b>
-                <i></i>
-              </li>
-              <li>
-                <b>HEX</b>
-                <i></i>
-              </li>
-            </ol>
-          </li>
-        ))}
+            ))
+          : null}
       </ul>
     </div>
   );

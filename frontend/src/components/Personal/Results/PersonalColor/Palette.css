@@ -12,6 +12,9 @@
   margin-left: -50px;
   top: 80%;
   width: 100px;
+
+  display: flex;
+  justify-content: space-around;
 }
 
 /* .swatch:last-child:after {
@@ -35,7 +38,7 @@
   transition: 800ms all;
   display: block;
 
-  position: absolute;
+  position: relative;
   left: 0;
   top: 50px;
 

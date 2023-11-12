@@ -6,7 +6,8 @@ import { images } from "../../constants/images";
 import { AppDispatch } from "../../store/store";
 import { setMenuBtn } from "../Main/MirrorSlice";
 import { RootState } from "../../store/store";
-import PersonalCalender from "../Personal/Main/PersonalCalender";
+import { PersonalCalender } from "../Personal/Main/PersonalSlice";
+import { healthTodayData } from "../Health/HealthSlice";
 
 type ButtonType = "menu" | "beauty" | "health" | "question";
 
@@ -19,13 +20,16 @@ function MenuBtn({ type }: MenuBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const isMenuOpen = useSelector((state: RootState) => state.mirror.isMenuOpen);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (type === "menu") {
       dispatch(setMenuBtn());
     } else if (type === "beauty") {
-      handlePersonalCalender();
-      navigate("/personalmain");
+      const response = await handlePersonalCalender();
+      console.log("메뉴에서 뷰티 눌렀을 때 되나요?", response);
+      navigate("/personalmain", { state: { diagnosisData: response } });
     } else if (type === "health") {
+      const response = await handleHealthTodayData();
+      console.log("메뉴에서 헬스 눌렀을 때 되나요?", response);
       navigate("/healthcalender");
     } else if (type === "question") {
       // navigate('/question');
@@ -37,10 +41,30 @@ function MenuBtn({ type }: MenuBtnProps) {
       year: 2023,
       month: 11,
     };
-    const actionResult = await dispatch(PersonalCalender(data));
-    const res = actionResult.payload;
-    if (res) {
-      // dispatch(setMemberId(res.memberId));
+    try {
+      console.log("try 뜨나요");
+      const res = await dispatch(PersonalCalender(data)).unwrap();
+      console.log("결과는요?", res);
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
+
+  const handleHealthTodayData = useCallback(async () => {
+    try {
+      console.log("try 뜨나요");
+      const res = await dispatch(healthTodayData()).unwrap();
+      console.log("결과는요?", res);
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
     }
   }, [dispatch]);
 

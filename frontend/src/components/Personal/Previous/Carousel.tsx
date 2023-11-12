@@ -1,9 +1,12 @@
 import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { images } from "../../../constants/images";
+import { RootState } from "../../../store/store";
+import { PersonalClothesState } from "../Main/types";
 
 const CarouselMain = styled.section`
-  width: 350px;
+  width: 300px;
 
   position: relative;
 
@@ -28,9 +31,12 @@ const CarouselWrapper = styled.div`
 
 // 캐러셀 슬라이드
 const CarouselSlide = styled.figure`
-  flex: 0 0 350px;
+  flex: 0 0 300px;
   position: relative;
   margin: 0;
+  height: 70%;
+  max-width: 100%;
+  max-height: 100%;
 `;
 
 // 캐러셀 이미지
@@ -38,8 +44,9 @@ const CarouselImage = styled.img`
   display: block;
   width: 100%;
   height: auto;
-  object-fit: cover;
+
   /* border-radius: 20px; */
+  object-fit: cover;
 `;
 
 // 버튼 컨테이너
@@ -53,14 +60,16 @@ const CarouselButtonContainer = styled.div`
 `;
 
 // 캐러셀 버튼
-const CarouselButton = styled.button`
+// 버튼 안 보임
+const CarouselButton = styled.button<CarouselButtonProps>`
   width: 50px;
   height: 50px;
-  /* color: #fff; */
+  color: #fff;
   background: transparent;
   border: none;
   outline: none;
   cursor: pointer;
+  ${({ position }) => position && `position: absolute; ${position}: -70px;`}
 `;
 
 // 이전 버튼
@@ -71,9 +80,6 @@ const CarouselPrev = styled(CarouselButton)`
 
   position: absolute;
   left: -70px;
-
-  padding-top: 5px;
-  padding-bottom: 5px;
 `;
 
 // 다음 버튼
@@ -108,9 +114,16 @@ const CarouselCircle = styled.div`
   }
 `;
 
+type CarouselButtonProps = {
+  position?: "left" | "right";
+};
+
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const swiperRef = useRef<HTMLDivElement>(null);
+
+  const clothes = useSelector((state: RootState) => state.personal.clothes);
+  const imageList = clothes ? [clothes.imgUri] : [];
 
   const showSlide = (slideIndex: number) => {
     if (swiperRef.current) {
@@ -136,82 +149,42 @@ const Carousel = () => {
   };
 
   return (
-    <>
-      <CarouselMain>
-        <CarouselWrapperContainer>
-          <CarouselWrapper ref={swiperRef}>
-            <CarouselSlide>
+    <CarouselMain>
+      <CarouselWrapperContainer>
+        <CarouselWrapper
+          ref={swiperRef}
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {imageList.map((image: string, index: number) => (
+            <CarouselSlide key={index}>
               <CarouselImage
-                src={images.personal.dummy1}
+                src={image} // 이미지 URL로 직접 매핑
                 alt="사진이 없습니다"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = images.personal.errorImg;
+                }}
               />
             </CarouselSlide>
-            <CarouselSlide>
-              <CarouselImage
-                src={images.personal.dummy1}
-                alt="사진이 없습니다"
-              />
-            </CarouselSlide>
-            <CarouselSlide>
-              <CarouselImage
-                src={images.personal.dummy1}
-                alt="사진이 없습니다"
-              />
-            </CarouselSlide>
-          </CarouselWrapper>
-        </CarouselWrapperContainer>
-        <CarouselButtonContainer>
-          <CarouselPrev onClick={handlePrevClick}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              fill="currentColor"
-              className="bi bi-chevron-double-left"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-              />
-            </svg>
-          </CarouselPrev>
-          <CarouselNext onClick={handleNextClick}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              fill="currentColor"
-              className="bi bi-chevron-double-right"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
-              />
-            </svg>
-          </CarouselNext>
-        </CarouselButtonContainer>
-
-        <CarouselPagination>
-          {[0, 1, 2].map((_, index) => (
+          ))}
+        </CarouselWrapper>
+      </CarouselWrapperContainer>
+      <CarouselButtonContainer>
+        <CarouselPrev onClick={handlePrevClick} position="left" />
+        <CarouselNext onClick={handleNextClick} position="right" />
+      </CarouselButtonContainer>
+      <CarouselPagination>
+        {Array(3)
+          .fill(0)
+          .map((_, index) => (
             <CarouselCircle
               key={index}
               className={currentSlide === index ? "active" : ""}
               onClick={() => handleBulletClick(index)}
-            ></CarouselCircle>
+            />
           ))}
-        </CarouselPagination>
-      </CarouselMain>
-    </>
+      </CarouselPagination>
+    </CarouselMain>
   );
 };
 export default Carousel;

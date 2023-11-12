@@ -15,6 +15,7 @@ export const images = {
   },
   personal: {
     dummy1: "/assets/images/boyoung.jpg",
+    errorImg: "/assets/images/404Error.png",
   },
   health: {
     steps: "/assets/images/steps.png",
