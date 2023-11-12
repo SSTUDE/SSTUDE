@@ -13,9 +13,10 @@ import { WeatherDataCustom } from '../types';
 type SkyIconProps = {
   dailySky: WeatherDataCustom;
   RainData: WeatherDataCustom;
+  size: number
 };
 
-const SkyIcon: React.FC<SkyIconProps> = ({ dailySky, RainData }) => {
+const SkyIcon: React.FC<SkyIconProps> = ({ dailySky, RainData, size }) => {
   // 밤과 낮 여부 
   const SkyStatus = dailySky.fcstValue;
   const time = dailySky.fcstTime; // 'fcstTime'은 '0500'과 같은 문자열 형태
@@ -27,21 +28,21 @@ const SkyIcon: React.FC<SkyIconProps> = ({ dailySky, RainData }) => {
   const rainType = RainData.fcstValue;
 
   if (rainType === '1' || rainType === '2') {
-    IconComponent = <StyledCloudRainFill size={30} />
+    IconComponent = <StyledCloudRainFill size={size} />
   } 
   else if (rainType === '4') {
-    IconComponent = <StyledCloudShowersHeavy size={30} />
+    IconComponent = <StyledCloudShowersHeavy size={size} />
   }
   else if (rainType === '3') {
-    IconComponent = <StyledCloudSnowFill size={30} />
+    IconComponent = <StyledCloudSnowFill size={size} />
   }
   // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
   else if(SkyStatus === '1') {
-    IconComponent = isNightTime ? <StyledMoonFill size={30} /> : <StyledSunFill size={30} />;
+    IconComponent = isNightTime ? <StyledMoonFill size={size} /> : <StyledSunFill size={size} />;
   } else if (SkyStatus === '3') {
-    IconComponent = isNightTime ? <StyledMoonFill size={30}/> : <StyledCloudSunFill size={30}/>;
+    IconComponent = isNightTime ? <StyledMoonFill size={size}/> : <StyledCloudSunFill size={size}/>;
   } else if (SkyStatus === '4') {
-    IconComponent = isNightTime ? <StyledMoonFill size={30}/> : <StyledCloudFill size={30} />;
+    IconComponent = isNightTime ? <StyledMoonFill size={size}/> : <StyledCloudFill size={size} />;
   }
   
   return (

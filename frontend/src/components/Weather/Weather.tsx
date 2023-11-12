@@ -42,11 +42,9 @@
 
     const year = day.getFullYear(); 
     const month = (day.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
-    // const yesterday = (day.getDate()-1).toString().padStart(2, '0'); 
     const date = day.getDate().toString().padStart(2, '0'); 
     const tomorrow  = (day.getDate()+1).toString().padStart(2, '0'); 
 
-    // const formattedDateYester = `${year}${month}${yesterday}`;
     const formattedDate = `${year}${month}${date}`;
     const formattedDateTommor = `${year}${month}${tomorrow}`;
     

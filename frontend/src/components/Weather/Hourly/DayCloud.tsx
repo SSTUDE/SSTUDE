@@ -35,6 +35,7 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
       <SkyIcon 
         dailySky={dailySky}
         RainData={RainData}
+        size={30}
         />
     </TimeSkyWrap>
   );
