@@ -7,7 +7,7 @@ from database import connectMySQL, connectPymongo, redis_config
 from S3backet import s3
 from service import changeId
 from datetime import datetime
-# from fastapi.openapi.utils import get_openapi
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 import os
 
@@ -18,14 +18,13 @@ current_date = datetime.now().date()
 current_date_time = datetime.now()
 # userid = 1
 
-# @app.get("makeup-service/v3/api-docs", include_in_schema=False)
-# def get_open_api_endpoint():
-#     routes = [route for route in app.routes if route.path != "/makeup-service/v3/api-docs"]
-#     return get_openapi(
-#         title="FastAPI Server",
-#         version="v3",
-#         routes=routes,
-#     )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 모든 origins 허용
+    allow_credentials=True,
+    allow_methods=["*"],  # 모든 메소드 허용
+    allow_headers=["*"],  # 모든 헤더 허용
+)
 
 # 퍼스널컬러 요청 후 결과값을 db에 저장한 후 반환한다 
 @app.post("/makeup/color")
