@@ -6,8 +6,11 @@ import { RootState, AppDispatch } from '../../store/store';
 import { WeatherDataCustom, } from './types';
 import SkyIcon from './Hourly/SkyIcon';
 
+interface WeatherInfoProps {
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}
 
-const WeatherInfo = () => {
+const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
   const weatherData = useSelector((state: RootState) => state.weather.data); // 타입 지정
   const isLoading = useSelector((state: RootState) => state.weather.loading);
@@ -117,7 +120,7 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
   }
     
   return (
-    <Container>
+    <Container onClick={onClick}>
       <WeatherCon>
         <SkyInfoCon>
           {/* find로 인한 undefined 방지 */}

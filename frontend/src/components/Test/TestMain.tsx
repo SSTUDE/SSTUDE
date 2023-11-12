@@ -40,7 +40,7 @@ const TestMain = () => {
           </div>
         </MainTop>
         <MainBottom>
-          <Weather/>
+          {/* <Weather/> */}
         </MainBottom>
       </MainSide>
     </Wrap>

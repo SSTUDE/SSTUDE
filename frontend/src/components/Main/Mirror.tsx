@@ -26,16 +26,22 @@ const Mirror = () => {
     setActivePage('bus');
   };
 
+  const handleWeatherClick = () => {
+    setActivePage('weatherDetail');
+  };
+
+  const handleWeatherDetailClick = () => {
+    setActivePage('weather');
+  };
+
   const renderCenterContent = () => {
     switch (activePage) {
       case 'bus':
         return <Bus onClick={handleBusClick} />;
       case 'weather':
-        return <WeatherInfo />;
+        return <WeatherInfo onClick={handleWeatherClick}/>;
       case 'busDetail':
         return <BusDetail onClick={handleBusDetailClick} />;
-      case 'WeahterDetail':
-        return <Weather />;
       default:
         return null;
     }
@@ -62,7 +68,7 @@ const Mirror = () => {
         {activePage === 'busDetail' ? (
           <BusDetail onClick={handleBusDetailClick} />
         ) : activePage === 'weatherDetail' ? (
-          <Weather />
+          <Weather onClick={handleWeatherDetailClick}/>
         ) : (
           <>
             <Center>

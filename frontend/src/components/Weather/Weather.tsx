@@ -13,7 +13,11 @@
     MidTempForecastCustom, 
     MidForecastCombined } from './types';
 
-  const Weather = () => {
+    interface WeatherProps {
+      onClick: React.MouseEventHandler<HTMLDivElement>;
+    }
+
+  const Weather: React.FC<WeatherProps> = ({ onClick }) => {
     // 단기 예보 데이터 표에서 사용하는 데이터 저장
     const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
     const [TempDatas, setTempDatas] = useState<WeatherDataCustom[]>([]);
@@ -377,7 +381,7 @@
     }, [LandForDatas, LandTempForDatas, LandShortForDatas]); // 상태를 의존성 배열에 추가합니다.
     
     return (
-      <Container>
+      <Container onClick={onClick}>
         {NowDatas.length > 0 ? (
           <Today NowDatas={NowDatas} />
         ) : (
