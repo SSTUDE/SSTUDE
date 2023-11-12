@@ -13,9 +13,10 @@ type HourlyProps = {
   RainRateDatas: WeatherDataCustom[];
   RainAmountDatas: WeatherDataCustom[];
   HumidityDatas: WeatherDataCustom[];
+  RainTypeDatas: WeatherDataCustom[];
 };
 
-const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, RainAmountDatas, HumidityDatas }) => {
+const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, RainAmountDatas, HumidityDatas, RainTypeDatas }) => {
   const dailySkyWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...dailySky];
   const RainRateWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...RainRateDatas];
   const RainAmountWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...RainAmountDatas];
@@ -27,7 +28,7 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
         <DayCloud 
           key={index} 
           dailySky={item} 
-          RainAmountDatas={RainAmountDatas}
+          RainTypeDatas={RainTypeDatas}
           index={index} />
       ))}
       <TemperatureLabel>기온(°C)</TemperatureLabel>

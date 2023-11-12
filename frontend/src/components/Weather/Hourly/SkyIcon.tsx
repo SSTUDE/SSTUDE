@@ -1,6 +1,13 @@
 import React from 'react'
-import { BsSunFill, BsCloudFill, BsMoonStarsFill, BsCloudRainFill, BsSnow2, BsCloudSunFill } from 'react-icons/bs'
 import styled from 'styled-components';
+import { 
+  BsSunFill, 
+  BsCloudFill, 
+  BsMoonStarsFill, 
+  BsCloudRainFill, 
+  BsCloudSnowFill, 
+  BsCloudSunFill } from 'react-icons/bs'
+import { FaCloudShowersHeavy } from "react-icons/fa";
 import { WeatherDataCustom } from '../types';
 
 type SkyIconProps = {
@@ -10,32 +17,36 @@ type SkyIconProps = {
 
 const SkyIcon: React.FC<SkyIconProps> = ({ dailySky, RainData }) => {
   // 밤과 낮 여부 
-  const SkyStatus = parseInt(dailySky.fcstValue);
+  const SkyStatus = dailySky.fcstValue;
   const time = dailySky.fcstTime; // 'fcstTime'은 '0500'과 같은 문자열 형태
   
   let IconComponent = null;
   const isNightTime = parseInt(time) >= 1800 || parseInt(time) <= 600 ;
 
-  // 강수 여부 확인
-  const hasRain = RainData.fcstValue !== '강수없음';
+  // 강수타입 확인
+  const rainType = RainData.fcstValue;
 
-  if (hasRain) {
+  if (rainType === '1' || rainType === '2') {
     IconComponent = <StyledCloudRainFill size={30} />
   } 
-  else if(SkyStatus >= 0 && SkyStatus <= 5) {
-    // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
-    IconComponent = isNightTime ? <StyledMoonFill size={30} /> : <StyledSunFill size={30} />;
-  } else if (SkyStatus >= 6 && SkyStatus <= 8) {
-    IconComponent = <StyledCloudSunFill size={30} />;
-  } else if (SkyStatus >= 9 && SkyStatus <= 10) {
-    IconComponent = <BsCloudFill size={30} />;
+  else if (rainType === '4') {
+    IconComponent = <StyledCloudShowersHeavy size={30} />
   }
-
+  else if (rainType === '3') {
+    IconComponent = <StyledCloudSnowFill size={30} />
+  }
+  // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
+  else if(SkyStatus === '1') {
+    IconComponent = isNightTime ? <StyledMoonFill size={30} /> : <StyledSunFill size={30} />;
+  } else if (SkyStatus === '3') {
+    IconComponent = isNightTime ? <StyledMoonFill size={30}/> : <StyledCloudSunFill size={30}/>;
+  } else if (SkyStatus === '4') {
+    IconComponent = isNightTime ? <StyledMoonFill size={30}/> : <StyledCloudFill size={30} />;
+  }
+  
   return (
     <>
       {IconComponent}
-      {/* <StyledCloudSunFill size={30}/>
-      <StyledCloudRainFill size={30}/> */}
     </>
   )
 }
@@ -64,6 +75,19 @@ const StyledCloudRainFill = styled(BsCloudRainFill)`
   color: #7a7a7a;
   margin-top: 5px;
 `;
+
+const StyledCloudShowersHeavy = styled(FaCloudShowersHeavy)`
+  color: #7a7a7a;
+  margin-top: 5px;
+`;
+
+const StyledCloudSnowFill = styled(BsCloudSnowFill)`
+  color: #7a7a7a;
+  margin-top: 5px;
+`;
+
+
+
 
 
 export default SkyIcon

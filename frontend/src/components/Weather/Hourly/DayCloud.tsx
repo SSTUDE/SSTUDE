@@ -5,12 +5,12 @@ import styled from 'styled-components';
 
 type DayCloudProps = {
   dailySky: WeatherDataCustom;
-  RainAmountDatas: WeatherDataCustom[];
+  RainTypeDatas: WeatherDataCustom[];
   index: number;
 };
 
-const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainAmountDatas, index }) => {
-  const RainData = RainAmountDatas.find(rain => rain.fcstDate === dailySky.fcstDate && rain.fcstTime === dailySky.fcstTime) 
+const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) => {
+  const RainData = RainTypeDatas.find(rain => rain.fcstDate === dailySky.fcstDate && rain.fcstTime === dailySky.fcstTime) 
     || {} as WeatherDataCustom;
 
   // 첫 번째 요소인 경우 "오늘"을 표시

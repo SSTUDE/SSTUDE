@@ -21,6 +21,7 @@
     const [RainAmountDatas, setRainAmountDatas] = useState<WeatherDataCustom[]>([]);
     const [HumidityDatas, setHumidityDatas] = useState<WeatherDataCustom[]>([]);
     const [NowDatas, setNowDatas] = useState<WeatherDataCustom[]>([]);
+    const [RainTypeDatas, setRainTypeDatas] = useState<WeatherDataCustom[]>([]);
 
     // 단기 예보(최고/저 기온, (하늘상태, 강수량), 강수확률) - 오전/오후 데이터 저장
     const [LandShortForDatas, setLandShortForDatas] = useState<MidForecastCombined[]>([]);
@@ -139,12 +140,21 @@
         setHumidityDatas(HumidityDatas);
         // console.log(HumidityDatas);
 
+        // 강수형태 필터링
+        const RainTypeDatas = CustomData
+        .filter((item: WeatherDataCustom) => {
+          return (item.category === "PTY");
+        })
+        setRainTypeDatas(RainTypeDatas);
+        // console.log(HumidityDatas);
+
+
         // 지금 정보(기온, 강수확률, 습도, 풍속=WSD) 필터링
         const TempData = CustomData.find((item : WeatherDataCustom) => item.category === "TMP");
         const HumidityData = CustomData.find((item : WeatherDataCustom) => item.category === "REH");
         const WindSpeedData = CustomData.find((item : WeatherDataCustom) => item.category === "WSD");
         const SkyData = CustomData.find((item : WeatherDataCustom) => item.category === "SKY");
-        const RainData = CustomData.find((item : WeatherDataCustom) => item.category === "PCP");
+        const RainData = CustomData.find((item : WeatherDataCustom) => item.category === "PTY");
         const highestRainRateData = CustomData
         .filter((item : WeatherDataCustom) => item.category === "POP" && item.fcstDate === currentDate)
         .reduce((max: WeatherDataCustom, item: WeatherDataCustom) => max.fcstValue > item.fcstValue ? max : item);
@@ -178,17 +188,21 @@
         // 오전/오후 중에 날씨 상태를 나타내는 함수
         const getWeatherCondition = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
           const periodData = data.filter(item => isAm(item.fcstTime) === isAmPeriod);
-          const rainData = periodData.find(item => item.category === "PCP" && !isNaN(Number(item.fcstValue)) && Number(item.fcstValue) > 0);
+          const rainData = periodData.find(item => item.category === "PTY" && 
+            (item.fcstValue === '1' || item.fcstValue === '2' || item.fcstValue === '4'));
+          const snowData = periodData.find(item => item.category === "PTY" && item.fcstValue === '3');
           const skyData = periodData.find(item => item.category === "SKY");
 
           if (rainData) {
-            // 강수량이 존재하면 '비' 반환
             return '비';
-          } else if (skyData) {
+          } 
+          else if (snowData) {
+          return '눈';
+          }
+          else if (skyData) {
             // 강수량이 없으면 하늘 상태값에 따라 반환
             switch (skyData.fcstValue) {
               case '1':
-              case '2':
                 return '맑음';
               case '3':
                 return '구름많음';
@@ -377,6 +391,7 @@
           RainRateDatas={RainRateDatas} 
           RainAmountDatas={RainAmountDatas}
           HumidityDatas={HumidityDatas}
+          RainTypeDatas={RainTypeDatas}
         />
         {CombinedDatas.length > 2 ? (
           <Week
