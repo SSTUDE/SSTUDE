@@ -21,37 +21,35 @@ const Login = () => {
   const [isLogoClickable, setIsLogoClickable] = useState(true);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("useEffect 재작동")
-    console.log("1 -  로고 페이지 입장")
-    if (loginState.signIn) {
-      console.log("8 -  로그인 시도")
-      //NOTE - 로그인 체크용 + 서버 연결되면 완료 알림 지울거
-      setsignUpAlert('로그인 완료');
-      // handleSignIn();
-    } else if (loginState.signUp) {
-      console.log("4 -  회원가입 시도")
-      //NOTE - 회원가입 체크용 + 서버 연결되면 완료 알림 지울거
-      setsignUpAlert('회원가입 완료');
-      // handleSignUp();
-    }
-    console.log("2 - 로그인, 회원가입 아직 안됨")
-  }, [loginState]);
+  // useEffect(() => {
+  //   console.log("useEffect 재작동")
+  //   console.log("1 -  로고 페이지 입장")
+  //   if (loginState.signIn) {
+  //     console.log("8 -  로그인 시도")
+  //     //NOTE - 로그인 체크용 + 서버 연결되면 완료 알림 지울거
+  //     setsignUpAlert('로그인 완료');
+  //     // handleSignIn();
+  //   } else if (loginState.signUp) {
+  //     console.log("4 -  회원가입 시도")
+  //     //NOTE - 회원가입 체크용 + 서버 연결되면 완료 알림 지울거
+  //     setsignUpAlert('회원가입 완료');
+  //     // handleSignUp();
+  //   }
+  //   // console.log("2 - 로그인, 회원가입 아직 안됨")
+  // }, [loginState]);
 
   const handleLogoClick = () => {
-
+    
     console.log("3 -  로고 클릭해서 회원가입 시도")
-
+    
     if (!isLogoClickable) return;
-
+    
     setIsLogoClickable(false);
     const audio = new Audio(sounds.main.blop);
     audio.play();
-
-    const message = JSON.stringify({ type: "signUp", data: "" });
-    console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
-    sendMessage(message);
-
+    console.log("로그인 시도")
+    loginClick()
+    
     setTimeout(() => {
       setIsLogoClickable(true);
     }, 5000);
@@ -62,7 +60,7 @@ const Login = () => {
     const message = { type: "signUp", data: "" };
     console.log("로고 눌렀고 라즈베리로 { type:signUp, data: } 전송 ")
 
-    sendMessage({ type: "signUp", data: "" })
+    sendMessage(message)
     .then((response: any) => { // 여기서 'any' 대신 더 구체적인 타입을 사용하는 것이 좋습니다.
       // if (loginState.signUp) {
       console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
@@ -71,9 +69,11 @@ const Login = () => {
 
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
+      console.log("회원가입 완료후 로그인 시도")
+      loginClick()
     })
     .catch(error => {
-      console.log(error)
+      console.log(error, "회원가입 시도 실패")
       // 에러 처리
       console.error("메시지 전송에 실패했습니다:", error);
     });    // if (loginState.signUp) {
@@ -86,17 +86,19 @@ const Login = () => {
     console.log("로고 눌렀고 라즈베리로 { type:signIn, data: } 전송 ")
     sendMessage(message)
     .then((response: any) => { // 여기서 'any' 대신 더 구체적인 타입을 사용하는 것이 좋습니다.
-      if (loginState.signIn) {
+      // if (loginState.signIn) {
         console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
         dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
-      }
+      // }
       // 서버로부터의 응답 처리
       console.log("응답 받음:", response);
     })
     .catch(error => {
-      console.log(error)
+      console.log(error, "로그인 시도 실패")
       // 에러 처리
       console.error("메시지 전송에 실패했습니다:", error);
+      console.log("로그인 실패후 이어서 회원가입 시도")
+      SignClick()
     });    // if (loginState.signIn) {
     //   console.log("서버로 전송")
     // }
