@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status
+from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status, Body
 from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis.personal_color import analysis
@@ -94,11 +94,7 @@ async def runColor(
             
            
     print("결과 ", result) 
-    return JSONResponse({'personal_color': result, 'user_img' : s3uri, 
-                         'match_color':match_color, 'hair':hair,
-                         'accessary': accessary, 'expl':expl,
-                         'skin':skin, 'eye':eye,
-                         'personal_color_eng': eng})
+    return JSONResponse({'result' : '진단 완료'})
     
 
 # 이미지 내에 사람이 서있으면, 사진에서 상의를 찾아서 색 추출 및 유사도 검사or점수
@@ -173,7 +169,7 @@ async def read_item(file: UploadFile = File(),
 # 퍼스널 컬러 이전 상세기록 반환
 @app.post("/makeup/detail")
 def getRecordDetail (
-    request: str,
+    date: str =Body(...),
     access_token: Optional[str] = Header(None, convert_underscores=False)):
     try:
         connect, curs = connectMySQL()
@@ -186,7 +182,7 @@ def getRecordDetail (
         else:
             raise HTTPException(status_code=400, detail="잘못된 요청입니다")
         
-        date_obj = datetime.strptime(request, "%Y-%m-%d").date()
+        date_obj = datetime.strptime(date, "%Y-%m-%d").date()
         
         # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
         with connect.cursor() as curs:
