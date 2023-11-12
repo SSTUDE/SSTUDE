@@ -8,6 +8,7 @@ from S3backet import s3
 from service import changeId
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import requests
 import os
 
@@ -167,9 +168,13 @@ async def read_item(file: UploadFile = File(),
 
 ### 2023-11-01 이런형태로 넘겨야 함
 # 퍼스널 컬러 이전 상세기록 반환
+
+class Item(BaseModel):
+    date: str
+
 @app.post("/detail")
 def getRecordDetail (
-    date: str =Body(...),
+    item: Item,
     access_token: Optional[str] = Header(None, convert_underscores=False)):
     try:
         connect, curs = connectMySQL()
@@ -182,7 +187,7 @@ def getRecordDetail (
         else:
             raise HTTPException(status_code=400, detail="잘못된 요청입니다")
         
-        date_obj = datetime.strptime(date, "%Y-%m-%d").date()
+        date_obj = datetime.strptime(item.date, "%Y-%m-%d").date()
         
         # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
         with connect.cursor() as curs:
