@@ -188,6 +188,7 @@ def getRecordDetail (
             raise HTTPException(status_code=400, detail="잘못된 요청입니다")
         
         date_obj = datetime.strptime(item.date, "%Y-%m-%d").date()
+        print(date_obj)
         
         # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
         with connect.cursor() as curs:
@@ -197,11 +198,13 @@ def getRecordDetail (
             row = curs.fetchone()
             result = row[0]
             img_uri = row[1]
+            print(img_uri)
+            
         
         match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
         match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
         match_color= match_color[0:13]
-        
+        print(match_color)
             
     except Exception as e:
             print(e)
