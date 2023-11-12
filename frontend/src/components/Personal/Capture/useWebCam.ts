@@ -1,11 +1,10 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useEffect } from "react";
 
 const useWebcam = () => {
   // HTMLVideoElement 타입을 명시하여 비디오 요소를 참조하기 위한 ref 생성
   const webcamRef = useRef<HTMLVideoElement>(null);
   // HTMLCanvasElement 타입을 명시하여 캔버스 요소를 참조하기 위한 ref 생성
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
   // 웹캠을 시작하는 함수
   const startWebcam = useCallback(async () => {
     try {
@@ -25,14 +24,20 @@ const useWebcam = () => {
   const captureImage = useCallback(() => {
     const canvas = canvasRef.current;
     const video = webcamRef.current;
+    console.log(canvas, 11, video)
+
     // canvas와 video 요소가 모두 존재하는 경우
     if (canvas && video) {
+
       // canvas의 2D 렌더링 컨텍스트를 가져옴
       const context = canvas.getContext("2d");
+
       if (context) {
+
         // 비디오의 현재 프레임을 canvas에 그림
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         // canvas의 내용을 이미지로 변환하여 반환
+
         return canvas.toDataURL("image/png");
       }
     }
@@ -49,35 +54,12 @@ const useWebcam = () => {
     }
   }, []);
 
+  useEffect(() => {
+    startWebcam();
+  }, [startWebcam]);
+
   // 외부에서 사용할 수 있도록 ref와 함수들을 반환
   return { webcamRef, canvasRef, startWebcam, captureImage, stopWebcam };
 };
 
 export default useWebcam;
-
-
-// import React, { useState } from 'react';
-// import useWebcam from './useWebcam';
-
-// const WebcamComponent = () => {
-//   const { webcamRef, canvasRef, startWebcam, captureImage, stopWebcam } = useWebcam();
-//   const [image, setImage] = useState('');
-
-//   const handleCaptureClick = () => {
-//     const capturedImage = captureImage();
-//     setImage(capturedImage);
-//     stopWebcam();
-//   };
-
-//   return (
-//     <div>
-//       <video ref={webcamRef} autoPlay playsInline width="640" height="480" />
-//       <button onClick={startWebcam}>웹캠 시작</button>
-//       <button onClick={handleCaptureClick}>사진 찍기</button>
-//       <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }} />
-//       {image && <img src={image} alt="Captured" />}
-//     </div>
-//   );
-// };
-
-// export default WebcamComponent;

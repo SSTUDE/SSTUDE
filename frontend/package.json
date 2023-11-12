@@ -19,6 +19,7 @@
     "chart.js": "^4.4.0",
     "date-fns": "^2.30.0",
     "jquery": "^3.7.1",
+    "pi-camera": "^1.7.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^4.21.0",

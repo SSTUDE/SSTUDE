@@ -28,17 +28,15 @@ const StyledCaptureAngle = styled.div`
   /* margin-top: 40px; */
   width: 50vh;
   height: 65vh;
-  overflow: hidden;
 `;
 
 const StyledVideo = styled.video`
-  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1; // 비디오를 다른 요소들 뒤에 위치시킴
+  z-index: -1;
 `;
 
 // 앵글 모서리
@@ -150,7 +148,7 @@ const CameraIcon = () => (
 
 const ClothesCapture = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
-  const { webcamRef, captureImage, stopWebcam } = useWebcam();
+  const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
   const navigate = useNavigate();
   const message = { type: "camera", data: "off" };
 
@@ -159,17 +157,22 @@ const ClothesCapture = () => {
   const handleCaptureClick = () => {
     const capturedImage = captureImage();
     console.log("사진 찍음", capturedImage)
-    stopWebcam()
-    console.log("카메라 종료")
-    //NOTE - 라즈베리에서 카메라 꺼서 내쪽에서 조작 가능
-    // navigate("/personalclothesresults");
-    sendMessage(message)
+    if (capturedImage) {
+      stopWebcam()
+      console.log("카메라 종료")
+      //NOTE - 라즈베리에서 카메라 꺼서 내쪽에서 조작 가능
+      // navigate("/personalcolorsresults");
+      sendMessage(message)
       .then((response: any) => {
         console.log("응답옴: ", response)
       })
       .catch(error => {
         console.log("에러 발생", error);
       });
+    }
+    else {
+      console.log("사진이 없는뎁쇼", capturedImage)
+    }
   }
 
   return (
