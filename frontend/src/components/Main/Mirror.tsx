@@ -11,6 +11,7 @@ import { RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import WeatherInfo from '../Weather/WeatherInfo';
 
 const Mirror = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const Mirror = () => {
       case 'bus':
         return <Bus onClick={handleBusClick} />;
       case 'weather':
-        return <Weather />;
+        return <WeatherInfo />;
       case 'busDetail':
         return <BusDetail onClick={handleBusDetailClick} />;
       case 'WeahterDetail':
@@ -73,7 +74,7 @@ const Mirror = () => {
               <Right>
                 <PageHeader>
                   <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
-                  <PageButton onClick={() => setActivePage('weatherDetail')}>날씨 정보</PageButton>
+                  <PageButton onClick={() => setActivePage('weather')}>날씨 정보</PageButton>
                 </PageHeader>
                 <PageBody key={activePage}>
                   {renderCenterContent()}

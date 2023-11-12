@@ -71,8 +71,6 @@
     const currentDate = formattedDate; // 'YYYYMMDD' 형식
     const currentTime = `${hour.toString().padStart(2, '0')}${minutes.toString().padStart(2, '0')}`;
 
-
-
     const fetchShortData = async () => {
       try {
         const response = await getWeatherData({
@@ -84,9 +82,9 @@
           nx: 86,
           ny: 95
         });
+        const items = response;
 
         // 필요한 데이터만 포매팅
-        const items = response;
         const FormatData = items.map((item: WeatherDataResponse) => ({
           category: item.category,
           fcstDate: item.fcstDate,
