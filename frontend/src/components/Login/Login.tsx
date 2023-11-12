@@ -49,7 +49,6 @@ const Login = () => {
     audio.play();
     console.log("로그인 시도")
     loginClick()
-    
     setTimeout(() => {
       setIsLogoClickable(true);
     }, 5000);
@@ -73,12 +72,10 @@ const Login = () => {
       loginClick()
     })
     .catch(error => {
-      console.log(error, "회원가입 시도 실패")
+      console.log(error)
       // 에러 처리
       console.error("메시지 전송에 실패했습니다:", error);
-    });    // if (loginState.signUp) {
-    //   console.log("서버로 전송")
-    // }
+    });  
   }
 
   const loginClick = () => {
@@ -94,14 +91,10 @@ const Login = () => {
       console.log("응답 받음:", response);
     })
     .catch(error => {
-      console.log(error, "로그인 시도 실패")
+      console.log(error)
       // 에러 처리
       console.error("메시지 전송에 실패했습니다:", error);
-      console.log("로그인 실패후 이어서 회원가입 시도")
-      SignClick()
-    });    // if (loginState.signIn) {
-    //   console.log("서버로 전송")
-    // }
+    });   
   }
 
   return (
