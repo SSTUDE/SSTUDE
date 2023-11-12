@@ -7,6 +7,7 @@ import { useWebSocket } from "../../../hooks/useWebSocket";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import { RootState } from "../../../store/store";
 import { useSelector } from "react-redux";
+import useWebcam from "./useWebCam";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -141,18 +142,34 @@ const CameraIcon = () => (
 const PersonalColorCapture = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const messages = useSelector((state: RootState) => state.capture.messages);
-
+  const { webcamRef, canvasRef, startWebcam, captureImage, stopWebcam } = useWebcam();
   const navigate = useNavigate();
 
   //NOTE - 카메라 종료시 data:off 로 바꿔서 보내면 됨 - 돌아오는 값은 raspberryPiCameraOff
   const message = JSON.stringify({ type: "camera", data: "on" });
-  console.log("카메라 눌렀고 라즈베리로 { type:camera, data: on } 전송 ")
-
+  
   const handleCaptureClick = () => {
-    sendMessage(message);
-    if (messages.type === "raspberryPiCameraOn") { //NOTE - 라즈베리에서 카메라 꺼서 내쪽에서 조작 가능
-      navigate("/personalcolorsresults");
-    }
+    console.log("카메라 눌렀고 라즈베리로 { type:camera, data: on } 전송 ")
+    sendMessage(message)
+      .then((response: any) => {
+        console.log("응답옴: ", response)
+        if (messages.type === "raspberryPiCameraOn") {
+          console.log("카메라 권한 획득")
+          startWebcam()
+          console.log("카메라 실행")
+          
+          const capturedImage = captureImage();
+          console.log("사진 찍음", capturedImage)
+
+          stopWebcam()
+          console.log("카메라 종료")
+          //NOTE - 라즈베리에서 카메라 꺼서 내쪽에서 조작 가능
+          // navigate("/personalcolorsresults");
+        }
+      })
+      .catch(error => {
+        console.log("에러 발생", error);
+      });
   };
 
   return (
