@@ -15,7 +15,7 @@ const store = configureStore({
     health: HealthReducer,
     capture: CaptureReducer,
     weather: WeatherReducer,
-    air: AirQuality,
+    airQuality: AirQuality,
   },
 });
 

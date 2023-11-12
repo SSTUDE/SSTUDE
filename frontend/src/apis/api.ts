@@ -45,7 +45,7 @@ export const getMidLandForecast = async (params: {
         ...params
       }
     });
-    console.log(response.data.response.body.items.item);
+    // console.log(response.data.response.body.items.item);
     return response.data.response.body.items.item;
     
   } catch (error) {
@@ -87,11 +87,11 @@ export const getAirQualityData = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty`, {
       params: {
-        serviceKey: SERVICE_KEY,
+        serviceKey: SERVICE_KEY_MINE,
         ...params
       }
     });
-    return response.data.response.body.items.item;
+    return response.data.response.body.items;
   } catch (error) {
     console.error("대기 정보 API 요청 중 오류가 발생했습니다:", error);
     throw error;

@@ -5,19 +5,13 @@ import { AirQualityResponse, AirQualityCustom } from '../components/Weather/type
 // 함수 호출
 export const fetchAirQualityData = createAsyncThunk(
   'airQuality/fetchData',
-  async (params: { 
-    returnType: string; 
-    numOfRows: number; 
-    pageNo: number; 
-    sidoName: string; 
-    ver: string 
-    }, thunkAPI) => {
+  async (params: { sidoName: string; }, thunkAPI) => {
     try {
       const response = await getAirQualityData({
         returnType: "JSON",
         numOfRows: 1000,
         pageNo: 1,
-        sidoName: '경북',
+        sidoName: params.sidoName,
         ver: '1.3'
       });
 
@@ -40,13 +34,12 @@ export const fetchAirQualityData = createAsyncThunk(
   }
 );
 
-
+// 초기 상태 정의
 const initialState = {
   data: [] as AirQualityCustom[],
   loading: false,
   error: null as string | null,
 };
-
 
 const AirQuality = createSlice({
   name: 'airQuality',
