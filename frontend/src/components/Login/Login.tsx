@@ -44,6 +44,7 @@ const Login = () => {
       dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
 
       console.log("응답 받음:", response);
+      console.log(" !!!!! 회원가입 성공 !!!!!")
       console.log("회원가입 완료후 로그인 시도")
       loginClick()
     })
@@ -61,6 +62,7 @@ const Login = () => {
         console.log("웹소켓 응답 받았고 서버로 회원가입 전송");
         dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
       console.log("응답 받음:", response);
+      console.log(" !!!!! 로그인 성공 !!!!!")
     })
     .catch(error => {
       console.log(error)
