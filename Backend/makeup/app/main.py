@@ -27,7 +27,7 @@ app.add_middleware(
 )
 
 # 퍼스널컬러 요청 후 결과값을 db에 저장한 후 반환한다 
-@app.post("/makeup/color")
+@app.post("/color")
 async def runColor(
     file: UploadFile = File(), 
     access_token: Optional[str] = Header(None, convert_underscores=False)
@@ -98,7 +98,7 @@ async def runColor(
     
 
 # 이미지 내에 사람이 서있으면, 사진에서 상의를 찾아서 색 추출 및 유사도 검사or점수
-@app.post("/makeup/clothes")
+@app.post("/clothes")
 async def read_item(file: UploadFile = File(), 
             access_token: Optional[str] = Header(None, convert_underscores=False)):
     collection = connectPymongo()
@@ -167,7 +167,7 @@ async def read_item(file: UploadFile = File(),
 
 ### 2023-11-01 이런형태로 넘겨야 함
 # 퍼스널 컬러 이전 상세기록 반환
-@app.post("/makeup/detail")
+@app.post("/detail")
 def getRecordDetail (
     date: str =Body(...),
     access_token: Optional[str] = Header(None, convert_underscores=False)):
