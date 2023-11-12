@@ -35,7 +35,6 @@ const WeatherInfo = () => {
     formattedDate = `${yYear}${yMonth}${yDate}`;
   }
 
-  //
   const currentDate = formattedDate; // 'YYYYMMDD' 형식
 
   useEffect(() => {
@@ -65,34 +64,98 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
   });
   // console.log(CustomData);
 
+  const findTemperatureExtremes = (data: WeatherDataCustom[]) => {
+    const periodData = data.filter(item => item.fcstDate === currentDate && item.category === "TMP");
+  
+    if (periodData.length === 0) {
+      return { maxTemperature: undefined, minTemperature: undefined };
+    }
+  
+    let maxTemperature = periodData[0];
+    let minTemperature = periodData[0];
+  
+    periodData.forEach(item => {
+      const itemValue = parseInt(item.fcstValue);
+      if (itemValue > parseInt(maxTemperature.fcstValue)) {
+        maxTemperature = item;
+      }
+      if (itemValue < parseInt(minTemperature.fcstValue)) {
+        minTemperature = item;
+      }
+    });
+  
+    return { maxTemperature, minTemperature };
+  };
+  
+
+  // 해당하는 데이터 저장
   const TempData = CustomData.find((item : WeatherDataCustom) => item.category === "TMP");
   const SkyData = CustomData.find((item : WeatherDataCustom) => item.category === "SKY");
   const RainData = CustomData.find((item : WeatherDataCustom) => item.category === "PTY");
+  const { maxTemperature, minTemperature } = findTemperatureExtremes(weatherData);
   
-  let highestRainRateData: WeatherDataCustom | undefined = undefined;
 
-  CustomData.forEach((item: WeatherDataCustom) => {
-    if (item.category === "POP" && item.fcstDate === currentDate) {
-      if (!highestRainRateData || item.fcstValue > highestRainRateData.fcstValue) {
-        highestRainRateData = item;
-      }
-    }
-  });
+
+  // 강수 확률(오늘) 가장 높은 확률
+  // let highestRainRateData: WeatherDataCustom | undefined = undefined;
+  // CustomData.forEach((item: WeatherDataCustom) => {
+  //   if (item.category === "POP" && item.fcstDate === currentDate) {
+  //     if (!highestRainRateData || item.fcstValue > highestRainRateData.fcstValue) {
+  //       highestRainRateData = item;
+  //     }
+  //   }
+  // });
+
+  // 날씨 상태 표시
+  const SkyStatus = SkyData?.fcstValue
+  const RainTypeStatus = RainData?.fcstValue
+  let SkyContidion = ''
+
+  if (RainTypeStatus === '1' || RainTypeStatus === '2') {
+    SkyContidion = '비'
+  } 
+  else if (RainTypeStatus === '4') {
+    SkyContidion = '소나기'
+  }
+  else if (RainTypeStatus === '3') {
+    SkyContidion = '눈'
+  }
+  // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
+  else if(SkyStatus === '1') {
+    SkyContidion = '맑음'
+  } else if (SkyStatus === '3') {
+    SkyContidion = '구름 많음'
+  } else if (SkyStatus === '4') {
+    SkyContidion = '흐림'
+  }
+
     
   return (
     <Container>
       <WeatherCon>
-        {/* find로 인한 undefined 방지 */}
-        {SkyData && RainData && (
-          <SkyIcon 
-            dailySky={SkyData}
-            RainData={RainData}
-            size={200}
-          />
+        <SkyInfoCon>
+          {/* find로 인한 undefined 방지 */}
+          {SkyData && RainData && (
+            <SkyIcon 
+              dailySky={SkyData}
+              RainData={RainData}
+              size={180}
+            />
+          )}
+          {/* <BsCloudFill size={200}/> */}
+          {TempData && (
+          <WeatherTXTCon>
+            <div>{SkyContidion}</div>
+            <div>{TempData.fcstValue}°C</div>
+          </WeatherTXTCon>
         )}
-        {/* <BsCloudFill size={200}/> */}
-        
-        <div>최고기온 : 최저 기온 : </div>
+        </SkyInfoCon>
+          {maxTemperature && minTemperature && (
+            <div className='temp'>
+              <div className='maxTemp'>최고 기온 : {`${maxTemperature.fcstValue}°C`}</div>
+              <div className='minTemp'>최저 기온 : {`${minTemperature.fcstValue}°C`}</div>
+            </div>
+          )}
       </WeatherCon>
       <DustCon>
 
@@ -103,36 +166,55 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
 
 const Container = styled.div`
   width: 25vw;
-  height: 635px;
+  height: 600px;
   display: flex;
   flex-direction: column;
+  padding: 50px;
+  /* background-color: lightblue; */
 `
 
 const WeatherCon = styled.div`
   width: 100%;
   height: 50%;
   /* background-color: lightcoral; */
+  display: flex;
+  flex-direction: column;
+  
+  .temp {
+    font-size: 25px;
+    margin-top: 20px;
+  }
+
+  .maxTemp {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 30px;
+  }
+
+  .minTemp {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 30px;
+  }
 `
+
+const SkyInfoCon = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`
+
+const WeatherTXTCon = styled.div`
+  font-size: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
+
 
 const DustCon = styled.div`
   width: 100%;
   height: 50%;
   background-color: lightgoldenrodyellow;
 `
-
-const StyledSunFill = styled(BsSunFill)`
-  color: #ff9500;
-  margin-top: 5px;
-`;
-
-const StyledMoonFill = styled(BsMoonStarsFill)`
-  color: #6392C7;
-  margin-top: 5px;
-`
-
-const StyledCloudSunFill = styled(BsCloudSunFill)`
-  color: #c5c5c5;
-  margin-top: 5px;
-`;
 
 export default WeatherInfo
