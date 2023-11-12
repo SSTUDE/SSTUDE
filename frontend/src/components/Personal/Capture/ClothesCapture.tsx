@@ -4,6 +4,8 @@ import { styled } from "styled-components";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
 import useWebcam from "./useWebCam";
+import { useWebSocket } from "../../../hooks/useWebSocket";
+import { RASPBERRY_URL } from "../../../apis/constants";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -147,8 +149,10 @@ const CameraIcon = () => (
 );
 
 const ClothesCapture = () => {
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const { webcamRef, captureImage, stopWebcam } = useWebcam();
   const navigate = useNavigate();
+  const message = { type: "camera", data: "off" };
 
   //NOTE - 카메라 종료시 data:off 로 바꿔서 보내면 됨 - 돌아오는 값은 raspberryPiCameraOff
 
@@ -159,6 +163,13 @@ const ClothesCapture = () => {
     console.log("카메라 종료")
     //NOTE - 라즈베리에서 카메라 꺼서 내쪽에서 조작 가능
     // navigate("/personalclothesresults");
+    sendMessage(message)
+      .then((response: any) => {
+        console.log("응답옴: ", response)
+      })
+      .catch(error => {
+        console.log("에러 발생", error);
+      });
   }
 
   return (
@@ -166,7 +177,7 @@ const ClothesCapture = () => {
       <MainButton />
       <StyledTitle>퍼스널 컬러 진단</StyledTitle>
       <StyledCaptureAngle>
-      <StyledVideo ref={webcamRef} autoPlay playsInline />
+        <StyledVideo ref={webcamRef} autoPlay playsInline />
         <TopLeft />
         <TopRight />
         <BottomLeft />

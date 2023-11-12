@@ -96,7 +96,7 @@ const SelectContents = () => {
     sendMessage(message)
       .then((response: any) => {
         console.log("응답옴: ", response)
-        if (response.data === "raspberryPiCameraOn") {
+        if (response.data === "raspberryPiCameraOff") {
           console.log("카메라 권한 획득")
           startWebcam()
           console.log("카메라 실행, 페이지 이동")
@@ -115,7 +115,7 @@ const SelectContents = () => {
       sendMessage(message)
         .then((response: any) => {
           console.log("응답옴: ", response)
-          if (response.data === "raspberryPiCameraOn") {
+          if (response.data === "raspberryPiCameraOff") {
             console.log("카메라 권한 획득")
             startWebcam()
             console.log("카메라 실행, 페이지 이동")
