@@ -56,9 +56,9 @@ function MenuBtn({ type }: MenuBtnProps) {
 
   const handleHealthTodayData = useCallback(async () => {
     try {
-      console.log("try 뜨나요");
+      console.log("오늘 헬스 데이터 try 뜨나요");
       const res = await dispatch(healthTodayData()).unwrap();
-      console.log("결과는요?", res);
+      console.log("오늘 헬스 데이터 결과는요?", res);
       if (res) {
         // dispatch(setMemberId(res.memberId));
         return res;

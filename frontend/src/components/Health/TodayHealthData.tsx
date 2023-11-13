@@ -29,6 +29,9 @@ const CircleChartContainer = styled.section`
   position: relative;
   max-width: 180px;
   width: 100%;
+
+  display: flex;
+  justify-content: center;
 `;
 
 const CircleChart = styled.svg`
@@ -42,7 +45,7 @@ const CircleConsumedKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  left: -70%;
+  left: -80%;
   top: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -53,7 +56,7 @@ const CircleBruntKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  right: -70%;
+  right: -80%;
   top: 50%;
   transform: translate(50%, -50%);
 `;
@@ -217,43 +220,6 @@ const TodayHealthData = () => {
     .replace(/: /g, ":")
     .split(" (")[0];
 
-  // useEffect(() => {
-  //   axios.get('API endpoint') // API endpoint를 실제 API endpoint로 교체
-  //     .then(response => {
-  //       const data = response.data;
-  //       setCardsData([
-  //         {
-  //           icon: images.health.steps,
-  //           title: "Steps",
-  //           text: `${data.steps} steps`,
-  //         },
-  //         {
-  //           icon: images.health.burntKcal,
-  //           title: "Burnt Kcal",
-  //           text: `${data.burntKcal} Kcal`,
-  //         },
-  // {
-  // icon: `${images.health.steps}`,
-  // title: "Steps",
-  // text: "3396 steps",
-  //  },
-  //         {
-  //           icon: images.health.sleepTime,
-  //           title: "Sleep Time",
-  //           text: data.sleepTime,
-  //         },
-  //         {
-  //           icon: images.health.consumedKcal,
-  //           title: "Consumed Kcal",
-  //           text: `${data.consumedKcal} Kcal`,
-  //         },
-  //       ]);
-  //     })
-  //     .catch(error => {
-  //       console.error('Failed to fetch health data:', error);
-  //     });
-  // }, []);
-
   const [cardsData, setCardsData] = useState([
     {
       icon: `${images.health.steps}`,
@@ -293,22 +259,6 @@ const TodayHealthData = () => {
     },
   ]);
 
-  // const rotateRight = () => {
-  //   const newPositions = cardPositions.map((position, index) => {
-  //     return cardPositions[(index + 1) % cardPositions.length];
-  //   });
-  //   setCardPositions(newPositions);
-  // };
-
-  // const rotateLeft = () => {
-  //   const newPositions = cardPositions.map((position, index) => {
-  //     return cardPositions[
-  //       (index - 1 + cardPositions.length) % cardPositions.length
-  //     ];
-  //   });
-  //   setCardPositions(newPositions);
-  // };
-
   const moveToCenter = (index: number) => {
     const newPositions = [...options];
     const turns = (index + 3) % options.length;
@@ -334,7 +284,7 @@ const TodayHealthData = () => {
                 strokeLinecap="round"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${burntKcalPercentage} 100`}
               />
               <Circle
@@ -344,7 +294,7 @@ const TodayHealthData = () => {
                 strokeLinecap="butt"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${consumedKcalPercentage} 100`}
                 strokeDashoffset={-burntKcalPercentage}
               />
