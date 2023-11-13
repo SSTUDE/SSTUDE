@@ -176,7 +176,7 @@ public class HealthService {
         log.info("시간들어옴!!!!");
         // 한국 시간대의 어제 날짜와 현재 날짜를 가져옴
         LocalDateTime start = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1);
-        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusSeconds(1);  // 1 초전
 
         // MongoDB에서 해당 기간의 데이터를 가져옴
         healthDataRepository.findByCreatedAtBetween(start, end)
@@ -197,6 +197,7 @@ public class HealthService {
                 })
                 .subscribe();  // 리액티브 스트림 구독
     }
+
 
 
 

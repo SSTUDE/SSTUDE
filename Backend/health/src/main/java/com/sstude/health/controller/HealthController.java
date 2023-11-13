@@ -19,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-@Tag(name = "Health 테스팅!", description = "삼성 헬스 데이터 관련")
+@Tag(name = "Health", description = "삼성 헬스 데이터 관련")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
