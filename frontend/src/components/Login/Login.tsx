@@ -41,7 +41,7 @@ const Login = () => {
     .then((response: any) => { 
       console.log("회원가입 - 웹소켓 응답 받았고 서버로 전송");
       dispatch(signUpUser({deviceNum : response.data.userInfo+response.data.serialNum}));
-      // dispatch(signUpUser({deviceNum : "string"}));
+      dispatch(signUpUser({deviceNum : "string"}));
 
       console.log("회원가입 - 응답 받음:", response);
       console.log(" !!!!! 회원가입 성공 !!!!!")
@@ -76,7 +76,7 @@ const Login = () => {
       <StyledImage
         src={images.main.logo}
         alt="로고"
-        // onClick={handleLogoClick}
+        onClick={handleLogoClick}
       />
       <Btn onClick={() => SignClick()}>회원가입</Btn>
       <Btn onClick={() => loginClick()}>로그인</Btn>

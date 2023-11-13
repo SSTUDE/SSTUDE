@@ -1,6 +1,6 @@
 // '퍼스널 컬러 진단 하기' 누른 경우 보이는 Page
-import React from "react";
-import { styled } from "styled-components";
+import React, { useState } from "react";
+import { keyframes, styled } from "styled-components";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
 import useWebcam from "./useWebCam";
@@ -113,7 +113,7 @@ const StyledCaptureInfo = styled.p`
 // 카메라 버튼
 const StyledCameraButton = styled.button`
   position: absolute;
-  bottom: 10px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
 
@@ -149,14 +149,28 @@ const CameraIcon = () => (
   </svg>
 );
 
+const blink = keyframes`
+  50% {
+    opacity: 0;
+  }
+`;
+
+const BlinkingCaptureInfo = styled(StyledCaptureInfo)`
+  animation: ${blink} 1s linear infinite;
+`;
+
+const BlinkingCameraIcon = styled(CameraIcon)`
+  animation: ${blink} 1s linear infinite;
+`;
+
 const PersonalColorCapture = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
   const navigate = useNavigate();
   const message = { type: "camera", data: "off" };
+  const [isBlinking, setIsBlinking] = useState(false);
 
-  //NOTE - 카메라 종료시 data:off 로 바꿔서 보내면 됨 - 돌아오는 값은 raspberryPiCameraOff
   const handleCaptureClick = async () => {
     captureImage(async (blob) => {
       if (blob) {
@@ -165,26 +179,30 @@ const PersonalColorCapture = () => {
           console.log("서버로 요청 전송 중...");
           const data = await dispatch(personalPictureToServer(blob));
           console.log("서버로부터 응답 받음: ", data);
+          if (data.meta.requestStatus === "fulfilled") {
+            stopWebcam();
+            console.log("카메라 종료");
+            sendMessage(message)
+              .then((response) => {
+                console.log("응답옴: ", response);
+              })
+              .catch(error => {
+                console.log("에러 발생", error);
+              });
+            console.log("페이지 이동 준비 완료");
+            navigate("/personalclothesresults");
+          } else {
+            setIsBlinking(true);
+            setTimeout(() => setIsBlinking(false), 3000); 
+          }
         } catch (error) {
           console.error("서버 전송 중 에러 발생: ", error);
+          setIsBlinking(true);
+          setTimeout(() => setIsBlinking(false), 3000);
         }
-        stopWebcam();
-        console.log("카메라 종료");
-        sendMessage(message)
-          .then((response) => {
-            console.log("응답옴: ", response);
-          })
-          .catch(error => {
-            console.log("에러 발생", error);
-          });
-        console.log("페이지 이동 준비 완료");
-        navigate("/personalclothesresults");
-      } else {
-        console.log("캡처된 사진이 없음");
       }
-    });
-  };
-
+    })
+  }
 
   return (
     <StyledContainer>
@@ -198,11 +216,24 @@ const PersonalColorCapture = () => {
         <BottomLeft />
         <BottomRight />
         <StyledCameraButton onClick={handleCaptureClick}>
-          <CameraIcon />
+          {isBlinking ? (
+            <BlinkingCameraIcon />
+          ) : (
+            <CameraIcon />
+          )}
         </StyledCameraButton>
       </StyledCaptureAngle>
-      <StyledCaptureInfo>앵글 안에 들어와아앙</StyledCaptureInfo>
-      <StyledCaptureInfo>정면을 봐 이자시가</StyledCaptureInfo>
+      {isBlinking ? (
+        <>
+          <BlinkingCaptureInfo>앵글 안에 들어와아앙</BlinkingCaptureInfo>
+          <BlinkingCaptureInfo>카메라를 봐 이자시가</BlinkingCaptureInfo>
+        </>
+      ) : (
+        <>
+          <StyledCaptureInfo>앵글 안에 들어와아앙</StyledCaptureInfo>
+          <StyledCaptureInfo>카메라를 봐 이자시가</StyledCaptureInfo>
+        </>
+      )}
     </StyledContainer>
   );
 };
