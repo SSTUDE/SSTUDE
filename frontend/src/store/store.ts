@@ -6,6 +6,7 @@ import HealthReducer from "../components/Health/HealthSlice";
 import CaptureReducer from "../components/Personal/Capture/CaptureSlice";
 import WeatherReducer from './WeatherSlice'
 import AirQuality from "./AirQualitySlice";
+import Position from './PositionSlice'
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     capture: CaptureReducer,
     weather: WeatherReducer,
     airQuality: AirQuality,
+    position: Position,
   },
 });
 
