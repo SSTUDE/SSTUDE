@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { setGps, busRealTimeForServer } from './BusSlice';
+import { busRealTimeForServer } from './BusSlice';
 import { AppDispatch, RootState } from '../../store/store';
-import { BusRealTimeData, TimeCircleProps } from './types';
+import { BusRealTimeData } from './types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 interface BusProps {
@@ -19,20 +19,11 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
     shallowEqual
   );
 
-  const { gps } = useSelector(
-    (state: RootState) => state.login,
-  )
-  if (gps) {
-    dispatch(setGps(gps));
-  }
-
   useEffect(() => {
     //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
-    // dispatch(tadaBusRealTime())
     dispatch(busRealTimeForServer())
 
     // const id = setInterval(() => {
-    // // dispatch(tadaBusRealTime());
     // dispatch(busRealTimeForServer())
     // }, 30000);
 

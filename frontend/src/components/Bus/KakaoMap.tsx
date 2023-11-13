@@ -5,7 +5,7 @@ import { images } from '../../constants/images';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import React, { useEffect, useRef, useState } from 'react';
-import { busStopToServer, gpsToServer, setBusStop, tadaBusList, tadaBusStop } from './BusSlice';
+import { busStopToServer, gpsToServer, setBusStop } from './BusSlice';
 
 const KakaoMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -15,8 +15,6 @@ const KakaoMap = () => {
   const busStops = useSelector((state: RootState) => state.bus.busStops);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  console.log(busStops)
 
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
@@ -74,14 +72,11 @@ const KakaoMap = () => {
     if (selectedStation) {
       dispatch(setBusStop(selectedStation));
       dispatch(busStopToServer(selectedStation));
-      // dispatch(tadaBusList(selectedStation));
       navigate('/buslist');
     }
   };
   const reResponse = () => {
     dispatch(gpsToServer());
-    //NOTE - 아래껀 서버에서 api 받아오는거 실패시 직접 버스 정거장 데이터 끌고오는 용도
-    // dispatch(tadaBusStop());
   };
 
   return (
