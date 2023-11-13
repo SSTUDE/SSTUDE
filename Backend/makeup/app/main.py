@@ -38,7 +38,10 @@ async def runColor(
     access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
     print(file.filename)
-    print(file)
+    print(file.content_type)
+    print(file.file)
+    print(file.headers)
+    print(file.read)
     print(access_token)
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
