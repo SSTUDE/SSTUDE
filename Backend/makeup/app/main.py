@@ -28,16 +28,17 @@ app.add_middleware(
 )
 
 
-class Color(BaseModel):
-    file: UploadFile
+# class Color(BaseModel):
+#     file: UploadFile
 
 # 퍼스널컬러 요청 후 결과값을 db에 저장한 후 반환한다 
 @app.post("/color")
 async def runColor(
-    color: Color, 
+    file: UploadFile = File(...),
     access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
-    print(color.file)
+    print(file.filename)
+    print(file)
     print(access_token)
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
@@ -58,7 +59,6 @@ async def runColor(
     #     count=0
     #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
     
-    print(color)
     
     count =0
     if count >=1:
@@ -66,7 +66,7 @@ async def runColor(
     
     else:
         try:
-            contents = await color.file.read()
+            contents = await file.read()
             print(contents)
             
             #로컬에 파일 저장
@@ -76,7 +76,7 @@ async def runColor(
             uri = os.path.abspath('./savedfile.jpg')
             
             # S3저장 후 uri받아옴
-            s3uri = s3(color.file, userid, contents, count, current_date)
+            s3uri = s3(file, userid, contents, count, current_date)
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
             match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
