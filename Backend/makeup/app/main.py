@@ -37,6 +37,8 @@ async def runColor(
     color: Color, 
     access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
+    print(color.file)
+    print(access_token)
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
     response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
@@ -69,12 +71,12 @@ async def runColor(
             
             #로컬에 파일 저장
             file_name = 'savedfile.jpg'   
-            with open(file_name, "wb") as local_file:
+            with open(file_name, "wb", encoding='latin-1') as local_file:
                 local_file.write(contents)
             uri = os.path.abspath('./savedfile.jpg')
             
             # S3저장 후 uri받아옴
-            s3uri = s3(file, userid, contents, count, current_date)
+            s3uri = s3(color.file, userid, contents, count, current_date)
             
             # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
             match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
