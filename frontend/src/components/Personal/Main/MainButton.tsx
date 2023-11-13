@@ -76,7 +76,7 @@ const MainButton = () => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate("/");
+    navigate("/mirror");
   };
 
   // const handlePrevClick = () => {

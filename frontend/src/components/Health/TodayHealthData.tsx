@@ -217,43 +217,6 @@ const TodayHealthData = () => {
     .replace(/: /g, ":")
     .split(" (")[0];
 
-  // useEffect(() => {
-  //   axios.get('API endpoint') // API endpoint를 실제 API endpoint로 교체
-  //     .then(response => {
-  //       const data = response.data;
-  //       setCardsData([
-  //         {
-  //           icon: images.health.steps,
-  //           title: "Steps",
-  //           text: `${data.steps} steps`,
-  //         },
-  //         {
-  //           icon: images.health.burntKcal,
-  //           title: "Burnt Kcal",
-  //           text: `${data.burntKcal} Kcal`,
-  //         },
-  // {
-  // icon: `${images.health.steps}`,
-  // title: "Steps",
-  // text: "3396 steps",
-  //  },
-  //         {
-  //           icon: images.health.sleepTime,
-  //           title: "Sleep Time",
-  //           text: data.sleepTime,
-  //         },
-  //         {
-  //           icon: images.health.consumedKcal,
-  //           title: "Consumed Kcal",
-  //           text: `${data.consumedKcal} Kcal`,
-  //         },
-  //       ]);
-  //     })
-  //     .catch(error => {
-  //       console.error('Failed to fetch health data:', error);
-  //     });
-  // }, []);
-
   const [cardsData, setCardsData] = useState([
     {
       icon: `${images.health.steps}`,
@@ -292,22 +255,6 @@ const TodayHealthData = () => {
         : "데이터가 없습니다.",
     },
   ]);
-
-  // const rotateRight = () => {
-  //   const newPositions = cardPositions.map((position, index) => {
-  //     return cardPositions[(index + 1) % cardPositions.length];
-  //   });
-  //   setCardPositions(newPositions);
-  // };
-
-  // const rotateLeft = () => {
-  //   const newPositions = cardPositions.map((position, index) => {
-  //     return cardPositions[
-  //       (index - 1 + cardPositions.length) % cardPositions.length
-  //     ];
-  //   });
-  //   setCardPositions(newPositions);
-  // };
 
   const moveToCenter = (index: number) => {
     const newPositions = [...options];
