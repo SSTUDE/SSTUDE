@@ -12,12 +12,16 @@
     MidTempForecastResponse, 
     MidTempForecastCustom, 
     MidForecastCombined } from './types';
+import LoadingSpinner from './LoadingSpinner';
 
     interface WeatherProps {
       onClick: React.MouseEventHandler<HTMLDivElement>;
     }
 
   const Weather: React.FC<WeatherProps> = ({ onClick }) => {
+    // 로딩 여부 페이지
+    const [isLoading, setIsLoading] = useState(true);
+    
     // 단기 예보 데이터 표에서 사용하는 데이터 저장
     const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
     const [TempDatas, setTempDatas] = useState<WeatherDataCustom[]>([]);
@@ -389,9 +393,11 @@
           setLandShortForDatas(shortData);
           setLandForDatas(midLandData);
           setLandTempForDatas(midTempData);
+          setIsLoading(false);
         })
         .catch(error => {
           console.error("데이터를 가져오는 데 실패했습니다:", error);
+          setIsLoading(false);
         });
     }, []);
     
@@ -406,26 +412,32 @@
     
     return (
       <Container onClick={onClick}>
-        {NowDatas.length > 0 ? (
-          <Today NowDatas={NowDatas} />
-        ) : (
-          <></>
-        )}
-        <Hourly 
-          dailySky={dailySky} 
-          TempDatas={TempDatas} 
-          RainRateDatas={RainRateDatas} 
-          RainAmountDatas={RainAmountDatas}
-          HumidityDatas={HumidityDatas}
-          RainTypeDatas={RainTypeDatas}
-        />
-        {CombinedDatas.length > 2 ? (
-          <Week
-            CombinedDatas={CombinedDatas}
-          />
-        ) : (
-          <></>
-        )}
+        {isLoading ? (
+          <LoadingSpinner /> // 로딩 컴포넌트
+            ) : (
+              <>
+                {NowDatas.length > 0 ? (
+                  <Today NowDatas={NowDatas} />
+                ) : (
+                  <></>
+                )}
+                <Hourly 
+                  dailySky={dailySky} 
+                  TempDatas={TempDatas} 
+                  RainRateDatas={RainRateDatas} 
+                  RainAmountDatas={RainAmountDatas}
+                  HumidityDatas={HumidityDatas}
+                  RainTypeDatas={RainTypeDatas}
+                />
+                {CombinedDatas.length > 2 ? (
+                  <Week
+                    CombinedDatas={CombinedDatas}
+                  />
+                ) : (
+                  <></>
+                )}
+            </>
+            )}
     </Container>
     )
   }

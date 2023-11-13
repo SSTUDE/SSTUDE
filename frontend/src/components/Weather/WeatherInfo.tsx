@@ -7,6 +7,13 @@ import { RootState, AppDispatch } from '../../store/store';
 import { WeatherDataCustom, AirQualityCustom } from './types';
 import SkyIcon from './Hourly/SkyIcon';
 import { BsMoonStarsFill } from 'react-icons/bs'
+import {
+  FaRegFaceGrinSquint,
+  FaRegFaceSmile,
+  FaRegFaceFrown, 
+  FaRegFaceDizzy } from 'react-icons/fa6'
+import AirIcon from './AirIcon';
+import LoadingSpinner from './LoadingSpinner';
 
 interface WeatherInfoProps {
   onClick: React.MouseEventHandler<HTMLDivElement>;
@@ -60,7 +67,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   }, [dispatch]);
 
   if (isLoading || isAirQualityLoading) {
-    return <span>데이터를 불러오는 중...</span>;
+    return <LoadingSpinner/>
   }
   if (error || airQualityError) {
     return <span>에러 발생 {error}</span>;
@@ -84,7 +91,7 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
   // 공기 내 지역 데이터 필터링
   const airQualityCustomData = airQualityData.filter((item: AirQualityCustom) => {
     return item.stationName === '진미동';
-  });
+  })[0];
 
   const findTemperatureExtremes = (data: WeatherDataCustom[]) => {
     const periodData = data.filter(item => item.fcstDate === currentDate && item.category === "TMP");
@@ -166,7 +173,12 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
           )}
       </WeatherCon>
       <DustCon>
-
+        {airQualityCustomData && (
+            <AirIcon 
+              pm10Grade={airQualityCustomData.pm10Grade1h}
+              pm25Grade={airQualityCustomData.pm25Grade1h}
+            />
+          )}
       </DustCon>
     </Container>
   )
@@ -223,12 +235,7 @@ const WeatherTXTCon = styled.div`
 const DustCon = styled.div`
   width: 100%;
   height: 50%;
-  background-color: lightgoldenrodyellow;
-`
-
-const StyledMoonFill = styled(BsMoonStarsFill)`
-  color: #6392C7;
-  margin-top: 5px;
+  /* background-color: lightgoldenrodyellow; */
 `
 
 export default WeatherInfo
