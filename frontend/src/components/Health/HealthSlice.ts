@@ -16,7 +16,6 @@ export const HealthCalender = createAsyncThunk(
         year: 2023,
         month: 11,
       });
-
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {

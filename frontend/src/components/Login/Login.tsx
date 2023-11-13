@@ -39,7 +39,7 @@ const Login = () => {
 
   const handleSignIn = useCallback(async () => {
     const data = {
-      deviceNum: "test",
+      deviceNum: "string",
       // deviceNum: loginState.serialNum + loginState.userInfo
     };
     console.log("9 - 로그인 deviceNum", data);

@@ -26,6 +26,7 @@ import TodayHealth from "../components/Health/TodayHealth";
 import HealthCalender from "../components/Health/HealthCalender";
 import PrevHealth from "../components/Health/PrevHealth";
 import TodayHealthData from "../components/Health/TodayHealthData";
+import Carousel from "../components/Personal/Previous/Carousel";
 
 const routes = [
   {
@@ -138,7 +139,7 @@ const routes = [
   // 버스정보
   {
     path: "/bus",
-    Component: Bus,
+    Component: Carousel,
   },
   {
     path: "/busdetail",

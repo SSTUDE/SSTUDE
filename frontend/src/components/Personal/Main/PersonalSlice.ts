@@ -70,26 +70,6 @@ export const PersonalBeautyModal = createAsyncThunk(
   }
 );
 
-// 의상 모달
-export const PersonalClothesyModal = createAsyncThunk(
-  "/detail/clothes",
-  async (
-    data: { year: number; month: number; day: number },
-    { rejectWithValue }
-  ) => {
-    try {
-      console.log("의상 상세보기를 호출해보자");
-      const response = await axiosToken.post("/detail/clothes", data);
-      console.log("res", response);
-      return response.data;
-    } catch (err: unknown) {
-      return rejectWithValue(
-        err instanceof AxiosError ? err.message : "An unexpected error occurred"
-      );
-    }
-  }
-);
-
 // 퍼스널 컬러 진단 결과
 export const PersonalBeautyResults = createAsyncThunk(
   "/detail",
@@ -132,7 +112,6 @@ const handleAsyncReducer = <T>(
 
 const initialState: PersonalState = {
   beauty: null,
-  clothes: null,
   beautyResults: null,
   loading: false,
   error: null,
@@ -147,11 +126,6 @@ export const PersonalSlice = createSlice({
     handleAsyncReducer<any>(builder, PersonalBeautyModal, (state, action) => {
       console.log("컬러 저장된 데이터 들어오나요?", action.payload);
       state.beauty = action.payload;
-    });
-    // 의상 모달
-    handleAsyncReducer<any>(builder, PersonalClothesyModal, (state, action) => {
-      console.log("의상 저장된 데이터 들어오나요?", action.payload);
-      state.clothes = action.payload[0];
     });
     // 퍼스널 커러 진단 결과
     handleAsyncReducer<any>(builder, PersonalBeautyResults, (state, action) => {

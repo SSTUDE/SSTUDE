@@ -4,6 +4,7 @@ import BusReducer from "../components/Bus/BusSlice";
 import MirrorReducer from "../components/Main/MirrorSlice";
 import HealthReducer from "../components/Health/HealthSlice";
 import PersonalReducer from "../components/Personal/Main/PersonalSlice";
+import PreviousReducer from "../components/Personal/Previous/PreviousSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     mirror: MirrorReducer,
     health: HealthReducer,
     personal: PersonalReducer,
+    previous: PreviousReducer,
   },
 });
 
