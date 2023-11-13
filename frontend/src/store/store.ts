@@ -5,6 +5,7 @@ import MirrorReducer from "../components/Main/MirrorSlice";
 import HealthReducer from "../components/Health/HealthSlice";
 import CaptureReducer from "../components/Personal/Capture/CaptureSlice";
 import WeatherReducer from './WeatherSlice'
+import AirQuality from "./AirQualitySlice";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     mirror: MirrorReducer,
     health: HealthReducer,
     capture: CaptureReducer,
-    weather: WeatherReducer
+    weather: WeatherReducer,
+    airQuality: AirQuality,
   },
 });
 

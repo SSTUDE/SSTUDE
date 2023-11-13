@@ -68,9 +68,6 @@ const Container = styled.div`
   width: 100%;
   height: 30%;
 
-  >h2{
-    margin: 10px 10px;
-  }
 `
 
 const StyledList = styled.ul`

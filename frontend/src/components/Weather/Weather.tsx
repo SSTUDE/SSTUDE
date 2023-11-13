@@ -12,12 +12,16 @@
     MidTempForecastResponse, 
     MidTempForecastCustom, 
     MidForecastCombined } from './types';
+import LoadingSpinner from './LoadingSpinner';
 
     interface WeatherProps {
       onClick: React.MouseEventHandler<HTMLDivElement>;
     }
 
   const Weather: React.FC<WeatherProps> = ({ onClick }) => {
+    // 로딩 여부 페이지
+    const [isLoading, setIsLoading] = useState(true);
+    
     // 단기 예보 데이터 표에서 사용하는 데이터 저장
     const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
     const [TempDatas, setTempDatas] = useState<WeatherDataCustom[]>([]);
@@ -34,53 +38,69 @@
     const [LandForDatas, setLandForDatas] = useState<MidLandForecastCustom[]>([]);
     const [LandTempForDatas, setLandTempForDatas] = useState<MidTempForecastCustom[]>([]);
     const [CombinedDatas, setCombinedDatas] = useState<MidForecastCombined[]>([]);
-
-    const day = new Date();
-    const hour = day.getHours(); 
-    const minutes = day.getMinutes();
+   
+    // 단기 데이터(요청 시간)
+    const sDay = new Date();
+    const sHour = sDay.getHours(); 
+    const sMinutes = sDay.getMinutes();
 
     // 시간이 05:00를 지나지 않았다면 전날
-    if (hour < 5) {
-      day.setDate(day.getDate() - 1);
+    if (sHour < 5) {
+      sDay.setDate(sDay.getDate() - 1);
     }
 
-    const year = day.getFullYear(); 
-    const month = (day.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
-    const date = day.getDate().toString().padStart(2, '0'); 
-    const tomorrow  = (day.getDate()+1).toString().padStart(2, '0'); 
+    const sYear = sDay.getFullYear(); 
+    const sMonth = (sDay.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
+    const sDate = sDay.getDate().toString().padStart(2, '0'); 
+    const formattedSDate =`${sYear}${sMonth}${sDate}`
 
-    const formattedDate = `${year}${month}${date}`;
+    // 중기 데이터 요청시간
+    const mDay = new Date();
+    let mHour = mDay.getHours(); 
+    let formattedMDate = ''; 
+    let mYear, mMonth, mDate 
+    let formattedMHour : string;
+
+    // 오늘 18시가 지나지 않았다면 전날 18시 데이터 사용
+    if (mHour < 18) {
+      mDay.setDate(mDay.getDate() - 1);
+      formattedMHour = '1800'
+    } else {
+      formattedMHour = '0600'
+    }
+
+    mYear = mDay.getFullYear().toString();
+    mMonth = (mDay.getMonth() + 1).toString().padStart(2, '0');
+    mDate = mDay.getDate().toString().padStart(2, '0');
+
+    formattedMDate = `${mYear}${mMonth}${mDate}`;
+
+
+    // 오늘 데이터
+    const day = new Date();
+    const year = day.getFullYear(); 
+    const month = (day.getMonth() + 1).toString().padStart(2, '0'); 
+    const date = day.getDate().toString().padStart(2, '0'); 
+    const formattedDate = `${year}${month}${date}`
+
+    // 내일 데이터
+    const tomorrow  = (sDay.getDate()+1).toString().padStart(2, '0'); 
     const formattedDateTommor = `${year}${month}${tomorrow}`;
     
-    // 중기 데이터 호출 시 필요
-    let tmFcDate = `${year}${month}${date}`;
-    let tmFcTime = hour < 18 ? "1800" : "0600";
-  
-    // 오늘 18시가 지나지 않았다면 전날 18시 데이터 사용
-    if (hour < 18) {
-      day.setDate(day.getDate() - 1);
-  
-      const yYear = day.getFullYear();
-      const yMonth = (day.getMonth() + 1).toString().padStart(2, '0');
-      const yDate = day.getDate().toString().padStart(2, '0');
-  
-      tmFcDate = `${yYear}${yMonth}${yDate}`;
-    }
-
+    // 오전 / 오후 확인
     const isAm = (fcstTime: string) => parseInt(fcstTime) < 1200;
 
     // 현재 시간을 기점으로 이후 데이터만 사용하기 위해
-    // 밤 12시 이후 다음날 5시 이전에 대한 날짜에 오류 수정 필요
-    const currentDate = formattedDate; // 'YYYYMMDD' 형식
-    const currentTime = `${hour.toString().padStart(2, '0')}${minutes.toString().padStart(2, '0')}`;
+    const currentDate = formattedDate; 
 
+    // 단기 데이터 호출
     const fetchShortData = async () => {
       try {
         const response = await getWeatherData({
           numOfRows: 1000,
           pageNo: 1,
           dataType: "JSON",
-          base_date: formattedDate,
+          base_date: formattedSDate,
           base_time: "0500",
           nx: 86,
           ny: 95
@@ -96,10 +116,18 @@
         }))
         
         // 현재 시간 이후의 데이터 필터링
-        const CustomData = FormatData
-        .filter((item: WeatherDataCustom) => {
-          return (item.fcstDate === currentDate && item.fcstTime >= currentTime) || (item.fcstDate > currentDate);
-        });
+        const CustomData = FormatData.filter((item: WeatherDataCustom) => {
+          const itemTime = parseInt(item.fcstTime); 
+          const nextHour = sHour < 23 ? (sHour + 1) * 100 : 0; // 다음 시간 계산 (23시 이후는 0시로 처리)
+
+          // 현재 시간이 30분 미만인 경우
+          if (sMinutes < 30) {
+            return (item.fcstDate === currentDate && itemTime >= sHour * 100) || (item.fcstDate > currentDate);
+          } else {
+            // 현재 시간이 30분 이상인 경우
+            return (item.fcstDate === currentDate && itemTime >= nextHour) || (item.fcstDate > currentDate);
+          }
+          });
         // console.log(CustomData);
 
         // 하늘 정보만 필터링.
@@ -273,7 +301,7 @@
           numOfRows: 1000,
           dataType: "JSON",
           regId: "11H10000",
-          tmFc: `${tmFcDate}${tmFcTime}`,
+          tmFc: `${formattedMDate}${formattedMHour}`,
         });
 
         const items : MidLandForecastResponse[] = response;
@@ -307,7 +335,7 @@
           numOfRows: 1000,
           dataType: "JSON",
           regId: "11H10602",
-          tmFc: `${tmFcDate}${tmFcTime}`,
+          tmFc: `${formattedMDate}${formattedMHour}`,
         });
 
         const items : MidTempForecastResponse[] = response;
@@ -365,9 +393,11 @@
           setLandShortForDatas(shortData);
           setLandForDatas(midLandData);
           setLandTempForDatas(midTempData);
+          setIsLoading(false);
         })
         .catch(error => {
           console.error("데이터를 가져오는 데 실패했습니다:", error);
+          setIsLoading(false);
         });
     }, []);
     
@@ -382,26 +412,32 @@
     
     return (
       <Container onClick={onClick}>
-        {NowDatas.length > 0 ? (
-          <Today NowDatas={NowDatas} />
-        ) : (
-          <></>
-        )}
-        <Hourly 
-          dailySky={dailySky} 
-          TempDatas={TempDatas} 
-          RainRateDatas={RainRateDatas} 
-          RainAmountDatas={RainAmountDatas}
-          HumidityDatas={HumidityDatas}
-          RainTypeDatas={RainTypeDatas}
-        />
-        {CombinedDatas.length > 2 ? (
-          <Week
-            CombinedDatas={CombinedDatas}
-          />
-        ) : (
-          <></>
-        )}
+        {isLoading ? (
+          <LoadingSpinner /> // 로딩 컴포넌트
+            ) : (
+              <>
+                {NowDatas.length > 0 ? (
+                  <Today NowDatas={NowDatas} />
+                ) : (
+                  <></>
+                )}
+                <Hourly 
+                  dailySky={dailySky} 
+                  TempDatas={TempDatas} 
+                  RainRateDatas={RainRateDatas} 
+                  RainAmountDatas={RainAmountDatas}
+                  HumidityDatas={HumidityDatas}
+                  RainTypeDatas={RainTypeDatas}
+                />
+                {CombinedDatas.length > 2 ? (
+                  <Week
+                    CombinedDatas={CombinedDatas}
+                  />
+                ) : (
+                  <></>
+                )}
+            </>
+            )}
     </Container>
     )
   }
@@ -411,6 +447,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     /* background-color: gray;s */
   `
 

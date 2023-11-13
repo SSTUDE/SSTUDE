@@ -204,3 +204,46 @@ export type MidForecastCombined = {
   taMin: number;
   taMax: number;
 };
+
+// 미세먼지 데이터 반환
+export type AirQualityCustom = {
+  dataTime: string;
+  mangName: string;
+  sidoName: string;
+  stationName: string;
+  pm25Grade1h: string;
+  pm10Grade1h: string;
+  pm25Value24: string;
+  pm10Value24: string;
+};
+
+export type AirQualityResponse = {
+  pm25Grade1h: string;
+  pm10Value24: string;
+  so2Value: string;
+  pm10Grade1h: string;
+  pm10Value: string;
+  o3Grade: string;
+  pm25Flag: null | string;
+  khaiGrade: string;
+  pm25Value: string;
+  no2Flag: null | string;
+  mangName: string;
+  stationName: string;
+  no2Value: string;
+  so2Grade: string;
+  coFlag: null | string;
+  khaiValue: string;
+  coValue: string;
+  pm10Flag: null | string;
+  sidoName: string;
+  pm25Value24: string;
+  no2Grade: string;
+  o3Flag: null | string;
+  pm25Grade: string;
+  so2Flag: null | string;
+  coGrade: string;
+  dataTime: string;
+  pm10Grade: string;
+  o3Value: string;
+};

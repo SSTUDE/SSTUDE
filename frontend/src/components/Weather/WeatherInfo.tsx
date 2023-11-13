@@ -2,9 +2,18 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchShortData } from '../../store/WeatherSlice';
+import { fetchAirQualityData } from '../../store/AirQualitySlice'
 import { RootState, AppDispatch } from '../../store/store';
-import { WeatherDataCustom, } from './types';
+import { WeatherDataCustom, AirQualityCustom } from './types';
 import SkyIcon from './Hourly/SkyIcon';
+import { BsMoonStarsFill } from 'react-icons/bs'
+import {
+  FaRegFaceGrinSquint,
+  FaRegFaceSmile,
+  FaRegFaceFrown, 
+  FaRegFaceDizzy } from 'react-icons/fa6'
+import AirIcon from './AirIcon';
+import LoadingSpinner from './LoadingSpinner';
 
 interface WeatherInfoProps {
   onClick: React.MouseEventHandler<HTMLDivElement>;
@@ -12,59 +21,77 @@ interface WeatherInfoProps {
 
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const weatherData = useSelector((state: RootState) => state.weather.data); // 타입 지정
+
+  // 단기예보 관련 데이터
+  const weatherData = useSelector((state: RootState) => state.weather.data); 
   const isLoading = useSelector((state: RootState) => state.weather.loading);
   const error = useSelector((state: RootState) => state.weather.error);
 
-  // 날짜, 시간과 관련된 변수
-  const day = new Date();
-  const hour = day.getHours(); 
-  const minutes = day.getMinutes();
-  const year = day.getFullYear(); 
-  const month = (day.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
-  const date = day.getDate().toString().padStart(2, '0'); 
-
-  let formattedDate = `${year}${month}${date}`;
+  // 대기질 데이터와 관련된 상태
+  const airQualityData = useSelector((state: RootState) => state.airQuality.data);
+  // console.log(airQualityData);
+  const isAirQualityLoading = useSelector((state: RootState) => state.airQuality.loading);
+  const airQualityError = useSelector((state: RootState) => state.airQuality.error);
   
+
+  // 단기 데이터(요청 시간)
+  const sDay = new Date();
+  const sHour = sDay.getHours(); 
+  const sMinutes = sDay.getMinutes();
+
   // 시간이 05:00를 지나지 않았다면 전날
-  if (hour < 5) {
-    day.setDate(day.getDate() - 1);
-
-    const yYear = day.getFullYear();
-    const yMonth = (day.getMonth() + 1).toString().padStart(2, '0');
-    const yDate = day.getDate().toString().padStart(2, '0');
-
-    formattedDate = `${yYear}${yMonth}${yDate}`;
+  if (sHour < 5) {
+    sDay.setDate(sDay.getDate() - 1);
   }
 
-  const currentDate = formattedDate; // 'YYYYMMDD' 형식
+  const sYear = sDay.getFullYear(); 
+  const sMonth = (sDay.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
+  const sDate = sDay.getDate().toString().padStart(2, '0'); 
+  const formattedSDate =`${sYear}${sMonth}${sDate}`
+
+  const currentDate = formattedSDate; // 'YYYYMMDD' 형식
 
   useEffect(() => {
+    // 단기 예보 데이터 요청
     dispatch(fetchShortData({
-      base_date: formattedDate,
+      base_date: formattedSDate,
       base_time: '0500',
       nx: 86,
       ny: 95
     }));
+
+    // 대기질 데이터 요청
+    dispatch(fetchAirQualityData({
+      sidoName: '경북',
+    }));
   }, [dispatch]);
 
-  if (isLoading) return <span>데이터를 불러오는 중...</span>;
-  if (error) return <span>에러 발생: {error}</span>;
+  if (isLoading || isAirQualityLoading) {
+    return <LoadingSpinner/>
+  }
+  if (error || airQualityError) {
+    return <span>에러 발생 {error}</span>;
+  }
   
 // 현재 시간 이후의 데이터 필터링
 const CustomData = weatherData.filter((item: WeatherDataCustom) => {
   const itemTime = parseInt(item.fcstTime); 
-  const nextHour = hour < 23 ? (hour + 1) * 100 : 0; // 다음 시간 계산 (23시 이후는 0시로 처리)
+  const nextHour = sHour < 23 ? (sHour + 1) * 100 : 0; // 다음 시간 계산 (23시 이후는 0시로 처리)
 
   // 현재 시간이 30분 미만인 경우
-  if (minutes < 30) {
-    return (item.fcstDate === currentDate && itemTime >= hour * 100) || (item.fcstDate > currentDate);
+  if (sMinutes < 30) {
+    return (item.fcstDate === currentDate && itemTime >= sHour * 100) || (item.fcstDate > currentDate);
   } else {
     // 현재 시간이 30분 이상인 경우
     return (item.fcstDate === currentDate && itemTime >= nextHour) || (item.fcstDate > currentDate);
   }
   });
   // console.log(CustomData);
+
+  // 공기 내 지역 데이터 필터링
+  const airQualityCustomData = airQualityData.filter((item: AirQualityCustom) => {
+    return item.stationName === '진미동';
+  })[0];
 
   const findTemperatureExtremes = (data: WeatherDataCustom[]) => {
     const periodData = data.filter(item => item.fcstDate === currentDate && item.category === "TMP");
@@ -89,7 +116,6 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
     return { maxTemperature, minTemperature };
   };
   
-
   // 해당하는 데이터 저장
   const TempData = CustomData.find((item : WeatherDataCustom) => item.category === "TMP");
   const SkyData = CustomData.find((item : WeatherDataCustom) => item.category === "SKY");
@@ -131,7 +157,7 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
               size={180}
             />
           )}
-          {/* <BsCloudFill size={200}/> */}
+          {/* <StyledMoonFill size={180}/> */}
           {TempData && (
           <WeatherTXTCon>
             <div>{SkyContidion}</div>
@@ -147,7 +173,12 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
           )}
       </WeatherCon>
       <DustCon>
-
+        {airQualityCustomData && (
+            <AirIcon 
+              pm10Grade={airQualityCustomData.pm10Grade1h}
+              pm25Grade={airQualityCustomData.pm25Grade1h}
+            />
+          )}
       </DustCon>
     </Container>
   )
@@ -155,7 +186,7 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
 
 const Container = styled.div`
   width: 100%;
-  height: 593px;
+  height: 685px;
   margin: 20px;
   display: flex;
   flex-direction: column;
@@ -168,6 +199,7 @@ const WeatherCon = styled.div`
   /* background-color: lightcoral; */
   display: flex;
   flex-direction: column;
+  justify-content: center;
   
   .temp {
     font-size: 25px;
@@ -203,7 +235,7 @@ const WeatherTXTCon = styled.div`
 const DustCon = styled.div`
   width: 100%;
   height: 50%;
-  background-color: lightgoldenrodyellow;
+  /* background-color: lightgoldenrodyellow; */
 `
 
 export default WeatherInfo

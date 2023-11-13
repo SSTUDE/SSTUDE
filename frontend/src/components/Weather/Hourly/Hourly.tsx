@@ -95,7 +95,7 @@ const GridContainer = styled.div<{ $columns: number }>`
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 15px 20px 0 20px;
+  margin: 0 20px 0 20px;
 `;
 
 const TemperatureLabel = styled.div`
