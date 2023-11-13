@@ -38,17 +38,17 @@ const AirIcon : React.FC<AirIconProps> = ({ pm10Grade, pm25Grade  }) => {
     <AirCon>
       <AirInfoCoc>
         {pm10Data.icon}
-        <PmText>
+        <div className='pm pm10'>
           <div>미세먼지</div>
           <div>{pm10Data.description}</div>
-        </PmText>
+        </div>
       </AirInfoCoc>
       <AirInfoCoc>
         {pm25Data.icon}
-        <PmText>
+        <div className='pm'>
           <div>초미세먼지</div>
           <div>{pm25Data.description}</div>
-        </PmText>
+        </div>
       </AirInfoCoc>
     </AirCon>
   )
@@ -64,23 +64,31 @@ const AirCon = styled.div`
 
 const AirInfoCoc = styled.div`
   display: flex;
+  align-items: center; // 세로 중앙 정렬
   margin-left: 40px;
+
+  .pm {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    margin-left: 50px;
+
+    .pm10 {
+      margin-left: 20px; 
+    }  
+
+    :first-child {
+      font-size: 25px;
+    }
+
+    :nth-child(2) {
+      font-size: 50px;
+    }
+  }
 `
 
-const PmText = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  margin-left: 50px;
 
-:first-child {
-  font-size: 25px;
-}
 
-:nth-child(2) {
-  font-size: 50px;
-}
-`
 
 export default AirIcon

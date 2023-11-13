@@ -6,12 +6,6 @@ import { fetchAirQualityData } from '../../store/AirQualitySlice'
 import { RootState, AppDispatch } from '../../store/store';
 import { WeatherDataCustom, AirQualityCustom } from './types';
 import SkyIcon from './Hourly/SkyIcon';
-import { BsMoonStarsFill } from 'react-icons/bs'
-import {
-  FaRegFaceGrinSquint,
-  FaRegFaceSmile,
-  FaRegFaceFrown, 
-  FaRegFaceDizzy } from 'react-icons/fa6'
 import AirIcon from './AirIcon';
 import LoadingSpinner from './LoadingSpinner';
 
@@ -160,8 +154,8 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
           {/* <StyledMoonFill size={180}/> */}
           {TempData && (
           <WeatherTXTCon>
-            <div>{SkyContidion}</div>
-            <div>{TempData.fcstValue}°C</div>
+            <div className='condition'>{SkyContidion}</div>
+            <div className='temp'>{TempData.fcstValue}°C</div>
           </WeatherTXTCon>
         )}
         </SkyInfoCon>
@@ -230,6 +224,10 @@ const WeatherTXTCon = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  .temp {
+    font-size: 40px;
+  }
 `
 
 const DustCon = styled.div`

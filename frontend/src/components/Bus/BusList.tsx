@@ -116,7 +116,8 @@ const BusButton = styled.div<BusButtonProps>`
   transition: all 0.3s ease-in-out;
   display: flex;
   justify-content: center;
-  background-color: ${({ selected }) => (selected ? '#2ecc71' : 'transparent')};
+  background-color: ${({ selected }) => (selected ? '#94c9e4' : 'transparent')};
+  color: ${({ selected }) => (selected ? 'black' : 'white')};
 `;
 
 const BusInfo = styled.div`
@@ -142,13 +143,13 @@ const NavigationButton = styled.button`
   font-size: 2em;
   border: none;
   color: white;
-  background-color: #3498db;
+  background-color: #1988d2;
   border-radius: 5px;
   cursor: pointer;
 `;
 
 const SelectAllButton = styled(NavigationButton)`
-    background-color: #2ecc71;
+    background-color: #94c9e4;
 `;
 
 const ResetButton = styled(NavigationButton)`

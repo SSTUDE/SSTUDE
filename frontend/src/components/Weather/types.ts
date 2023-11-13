@@ -207,8 +207,8 @@ export type MidForecastCombined = {
 
 // 미세먼지 데이터 반환
 export type AirQualityCustom = {
-  dataTime: string;
   mangName: string;
+  dataTime: string;
   sidoName: string;
   stationName: string;
   pm25Grade1h: string;

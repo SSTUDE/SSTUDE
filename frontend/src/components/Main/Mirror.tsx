@@ -1,13 +1,15 @@
 import Bus from '../Bus/Bus';
 import MenuBar from './MenuBar';
 import MenuBtn from '../Common/MenuBtn';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Weather from '../Weather/Weather';
 import BusDetail from '../Bus/BusDetail';
 import DateTime from '../Common/DateTime';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch  } from 'react-redux';
+import { findNearestSFGridItem  } from '../Weather/Grid'
+import { AppDispatch, RootState } from '../../store/store'
+import { updatePosition  } from '../../store/PositionSlice'
 import HelloWorld from '../Common/HelloWorld';
-import { RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
@@ -15,8 +17,45 @@ import WeatherInfo from '../Weather/WeatherInfo';
 
 const Mirror = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+ 
   const [activePage, setActivePage] = useState('bus');
   const { isMenuOpen } = useSelector((state: RootState) => state.mirror);
+  
+  // 위,경도 데이터를 가져온다.
+  const { latitude, longitude } = useSelector((state: RootState) => ({
+    latitude: state.position.latitude,
+    longitude: state.position.longitude
+  }));
+
+  useEffect(() => {
+    // latitude와 longitude가 숫자인지 문자열인지 확인하여 처리
+    const lat = typeof latitude === 'string' ? parseFloat(latitude) : latitude;
+    const lng = typeof longitude === 'string' ? parseFloat(longitude) : longitude;
+  
+    if (lat && lng) {
+      const nearestItem = findNearestSFGridItem(lat, lng);
+  
+      // nearestItem이 undefined가 아닐 때만 처리
+      if (nearestItem) {
+        // nearestItem을 PositionState 타입으로 변환
+        const positionStateItem = {
+          arePt1: nearestItem.arePt1 || '',
+          arePt2: nearestItem.arePt2 || '',
+          arePt3: nearestItem.arePt3 || '',
+          areaCode: nearestItem.areaCode || '',
+          latitude: nearestItem.latitude || '',
+          longitude: nearestItem.longitude || '',
+          nX: nearestItem.nX || '',
+          nY: nearestItem.nY || ''
+        };
+  
+        // 변환된 객체를 dispatch 함수를 통해 updatePosition 액션에 전달
+        dispatch(updatePosition(positionStateItem));
+        console.log(positionStateItem);
+      }
+    }
+  }, [dispatch]);
 
   const handleBusClick = () => {
     setActivePage('busDetail');
@@ -154,7 +193,7 @@ const PageHeader = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 4px solid #ddddddd2;	
 `;
 
 const PageButton = styled.button`
@@ -166,6 +205,7 @@ const PageButton = styled.button`
   color: ${TEXT_COLOR};
   cursor: pointer;
   transition: all 0.3s ease; 
+  font-family: "Giants-Bold";
 
   &:focus {
     outline: none;
