@@ -13,9 +13,10 @@ type HourlyProps = {
   RainRateDatas: WeatherDataCustom[];
   RainAmountDatas: WeatherDataCustom[];
   HumidityDatas: WeatherDataCustom[];
+  RainTypeDatas: WeatherDataCustom[];
 };
 
-const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, RainAmountDatas, HumidityDatas }) => {
+const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, RainAmountDatas, HumidityDatas, RainTypeDatas }) => {
   const dailySkyWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...dailySky];
   const RainRateWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...RainRateDatas];
   const RainAmountWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...RainAmountDatas];
@@ -27,9 +28,10 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
         <DayCloud 
           key={index} 
           dailySky={item} 
-          RainAmountDatas={RainAmountDatas}
+          RainTypeDatas={RainTypeDatas}
           index={index} />
       ))}
+      <TemperatureLabel>기온(°C)</TemperatureLabel>
       {TempDatas.map((item, index) => (
         <TempLabel
           key={index}
@@ -93,6 +95,16 @@ const GridContainer = styled.div<{ $columns: number }>`
   &::-webkit-scrollbar {
     display: none;
   }
+  margin: 0 20px 0 20px;
+`;
+
+const TemperatureLabel = styled.div`
+  grid-column-start: 1; // 첫 번째 열에 위치
+  grid-column-end: 2; // 두 번째 열 전까지
+  text-align: center;
+  align-self: start;
+  margin-top: 30px;
+  /* font-weight: bold;  */
 `;
 
 export default Hourly;

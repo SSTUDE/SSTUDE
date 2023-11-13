@@ -86,20 +86,29 @@ const TempChart: React.FC<TempChartProps> = ({ TempDatas }) => {
   };
 
   return (
-    <Container>
-      <Chart 
-        type="line"
-        data={chartData} 
-        options={chartOptions}
-        style={chartStyle} />
-    </Container>
+    <>
+    {/* <ChartLabel>
+      <span>기온(°C)</span>
+    </ChartLabel> */}
+      <Container>
+        <Chart 
+          type="line"
+          data={chartData} 
+          options={chartOptions}
+          style={chartStyle} />
+      </Container>
+    </>
   );
 };
 
 const Container = styled.div`
   position: relative;
   width: 100%;
-  height: 50px; // 높이를 조정하여 차트가 올바르게 표시되도록 합니다.
+  height: 50px; 
 `;
+
+// const ChartLabel = styled.div`
+//   position: relative;
+// `;
 
 export default TempChart;

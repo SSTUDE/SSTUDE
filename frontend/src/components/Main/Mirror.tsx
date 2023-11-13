@@ -11,6 +11,7 @@ import { RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import WeatherInfo from '../Weather/WeatherInfo';
 
 const Mirror = () => {
   const navigate = useNavigate();
@@ -25,12 +26,20 @@ const Mirror = () => {
     setActivePage('bus');
   };
 
+  const handleWeatherClick = () => {
+    setActivePage('weatherDetail');
+  };
+
+  const handleWeatherDetailClick = () => {
+    setActivePage('weather');
+  };
+
   const renderCenterContent = () => {
     switch (activePage) {
       case 'bus':
         return <Bus onClick={handleBusClick} />;
       case 'weather':
-        return <Weather />;
+        return <WeatherInfo onClick={handleWeatherClick}/>;
       case 'busDetail':
         return <BusDetail onClick={handleBusDetailClick} />;
       default:
@@ -58,6 +67,8 @@ const Mirror = () => {
         </Left>
         {activePage === 'busDetail' ? (
           <BusDetail onClick={handleBusDetailClick} />
+        ) : activePage === 'weatherDetail' ? (
+          <Weather onClick={handleWeatherDetailClick}/>
         ) : (
           <>
             <Center>
@@ -69,7 +80,7 @@ const Mirror = () => {
               <Right>
                 <PageHeader>
                   <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
-                  <PageButton onClick={() => setActivePage('bus1')}>버스 정보</PageButton>
+                  <PageButton onClick={() => setActivePage('weather')}>날씨 정보</PageButton>
                 </PageHeader>
                 <PageBody key={activePage}>
                   {renderCenterContent()}
@@ -90,11 +101,13 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex; 
   height: 22%;
+  /* background-color: lightblue; */
 `;
 
 const Body = styled.div`
   display: flex;
   height: 78%;
+  /* background-color: lightcoral; */
 `;
 
 const Left = styled.div`
@@ -103,6 +116,7 @@ const Left = styled.div`
   justify-content: end;
   align-items: center;
   gap: 20px;
+  /* background-color: lightgray; */
 `;
 
 const Center = styled.div`
@@ -111,11 +125,13 @@ const Center = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* background-color: lightgreen; */
 `;
 
 const Right = styled.div`
   flex: 25%;
   justify-content: center;
+  /* background-color: lightpink; */
 `;
 
 const RightHeader = styled.div`

@@ -3,8 +3,9 @@ import loginReducer from "../components/Login/LoginSlice";
 import BusReducer from "../components/Bus/BusSlice";
 import MirrorReducer from "../components/Main/MirrorSlice";
 import HealthReducer from "../components/Health/HealthSlice";
-import PersonalReducer from "../components/Personal/Main/PersonalSlice";
-import PreviousReducer from "../components/Personal/Previous/PreviousSlice";
+import CaptureReducer from "../components/Personal/Capture/CaptureSlice";
+import WeatherReducer from './WeatherSlice'
+import AirQuality from "./AirQualitySlice";
 
 const store = configureStore({
   reducer: {
@@ -12,8 +13,9 @@ const store = configureStore({
     bus: BusReducer,
     mirror: MirrorReducer,
     health: HealthReducer,
-    personal: PersonalReducer,
-    previous: PreviousReducer,
+    capture: CaptureReducer,
+    weather: WeatherReducer,
+    airQuality: AirQuality,
   },
 });
 

@@ -31,7 +31,13 @@ axiosToken.interceptors.response.use(
       originalRequest._retry = true;
       const response = await axiosToken.post(REFRESH_TOKEN_URL);
       const { accessToken } = response.data;
-      const { sendMessage } = useWebSocketContext();
+      // const { sendMessage } = useWebSocketContext();
+      
+      //NOTE - 더미 데이터
+      const sendMessage = (message: string) => {
+        console.log("더미 메시지 전송:", message);
+      };
+      
       storageData(accessToken, sendMessage ?? (() => {}));
       originalRequest.headers.Authorization = `Bearer ${accessToken}`;
       return axiosToken(originalRequest);

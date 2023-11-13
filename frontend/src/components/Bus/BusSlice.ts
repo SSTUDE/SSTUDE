@@ -46,7 +46,7 @@ export const gpsToServer = createAsyncThunk(
   }
 );
 
-//NOTE - TADA API 버스 정거장 리스트 호출
+//NOTE - TADA API 버스 정거장 리스트 호출 
 export const tadaBusStop = createAsyncThunk(
   "bus/tadaBusStop",
   async (_, { getState, rejectWithValue }) => {
@@ -91,9 +91,9 @@ export const busStopToServer = createAsyncThunk(
       const response = await axiosToken.post("/bus-station/bus-inform", {
         cityCode: selectedStation.cityCode,
         nodeId: selectedStation.nodeId,
-        numOfRows: 50,
+        numOfRows: 50
       });
-      console.log(response);
+      console.log(response)
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -213,18 +213,15 @@ export const busRealTimeForServer = createAsyncThunk(
     const { busStop } = state.bus;
 
     try {
-      const response = await axiosToken.post(
-        "/bus-station/bus-arrival-inform",
-        {
-          cityCode: busStop.cityCode,
-          nodeId: busStop.nodeId,
-          numOfRows: 50,
-        }
-      );
-      console.log("버스 실시간 데이터", response);
+      const response = await axiosToken.post("/bus-station/bus-arrival-inform", {
+        cityCode: busStop.cityCode,
+        nodeId: busStop.nodeId,
+        numOfRows: 50,
+      });
+      console.log("버스 실시간 데이터", response)
       return response.data;
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
+      if (error instanceof AxiosError) {  
         return rejectWithValue(error.response?.data);
       } else {
         return rejectWithValue("예상치 못한 오류가 발생했습니다.");
@@ -232,6 +229,7 @@ export const busRealTimeForServer = createAsyncThunk(
     }
   }
 );
+
 
 const initialState: BusState = {
   // gps: null,
@@ -377,14 +375,15 @@ const busSlice = createSlice({
         ? busStopsData
         : [busStopsData];
       const uniqueNodeNos = new Set();
-
-      state.busStops = validBusStops.filter((station) => {
-        if (!uniqueNodeNos.has(station.nodeNo)) {
-          uniqueNodeNos.add(station.nodeNo);
-          return true;
-        }
-        return false;
-      });
+    
+      state.busStops = validBusStops
+        .filter(station => { 
+          if (!uniqueNodeNos.has(station.nodeNo)) {
+            uniqueNodeNos.add(station.nodeNo);
+            return true;
+          }
+          return false;
+        });
     });
 
     handleAsyncReducer<any>(builder, tadaBusStop, (state, action) => {
