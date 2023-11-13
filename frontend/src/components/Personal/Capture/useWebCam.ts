@@ -20,7 +20,6 @@ const useWebcam = () => {
     }
   }, []);
 
-  // 이미지를 캡처하는 함수
   //NOTE - 이미지 첨부터 블롭으로 나오게 수정중
   // 이미지를 캡처하는 함수
   const captureImage = useCallback((callback: (blob: Blob) => void) => {
@@ -52,9 +51,6 @@ const useWebcam = () => {
       console.log("캔버스 또는 비디오 요소가 없음");
     }
   }, [canvasRef, webcamRef]);
-  
-
-
 
   // 웹캠을 정지하는 함수
   const stopWebcam = useCallback(() => {

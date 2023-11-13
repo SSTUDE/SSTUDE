@@ -170,15 +170,15 @@ const PersonalColorCapture = () => {
         }
         stopWebcam();
         console.log("카메라 종료");
-        // sendMessage(message)
-        //   .then((response) => {
-        //     console.log("응답옴: ", response);
-        //   })
-        //   .catch(error => {
-        //     console.log("에러 발생", error);
-        //   });
+        sendMessage(message)
+          .then((response) => {
+            console.log("응답옴: ", response);
+          })
+          .catch(error => {
+            console.log("에러 발생", error);
+          });
         console.log("페이지 이동 준비 완료");
-        // navigate("/personalclothesresults");
+        navigate("/personalclothesresults");
       } else {
         console.log("캡처된 사진이 없음");
       }

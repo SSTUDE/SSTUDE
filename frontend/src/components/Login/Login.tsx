@@ -76,7 +76,7 @@ const Login = () => {
       <StyledImage
         src={images.main.logo}
         alt="로고"
-        onClick={handleLogoClick}
+        // onClick={handleLogoClick}
       />
       <Btn onClick={() => SignClick()}>회원가입</Btn>
       <Btn onClick={() => loginClick()}>로그인</Btn>
