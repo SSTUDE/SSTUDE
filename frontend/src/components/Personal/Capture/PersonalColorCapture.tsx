@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import useWebcam from "./useWebCam";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 import { RASPBERRY_URL } from "../../../apis/constants";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../store/store";
+import { personalPictureToServer } from "./CaptureSlice";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -148,32 +151,40 @@ const CameraIcon = () => (
 
 const PersonalColorCapture = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const dispatch = useDispatch<AppDispatch>();
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
   const navigate = useNavigate();
   const message = { type: "camera", data: "off" };
 
   //NOTE - 카메라 종료시 data:off 로 바꿔서 보내면 됨 - 돌아오는 값은 raspberryPiCameraOff
+  const handleCaptureClick = async () => {
+    captureImage(async (blob) => {
+      if (blob) {
+        console.log("서버로 찍은 사진 전송 시작", blob);
+        try {
+          console.log("서버로 요청 전송 중...");
+          const data = await dispatch(personalPictureToServer(blob));
+          console.log("서버로부터 응답 받음: ", data);
+        } catch (error) {
+          console.error("서버 전송 중 에러 발생: ", error);
+        }
+        stopWebcam();
+        console.log("카메라 종료");
+        // sendMessage(message)
+        //   .then((response) => {
+        //     console.log("응답옴: ", response);
+        //   })
+        //   .catch(error => {
+        //     console.log("에러 발생", error);
+        //   });
+        console.log("페이지 이동 준비 완료");
+        // navigate("/personalclothesresults");
+      } else {
+        console.log("캡처된 사진이 없음");
+      }
+    });
+  };
 
-  const handleCaptureClick = () => {
-    const capturedImage = captureImage();
-    console.log("사진 찍음", capturedImage)
-    if (capturedImage) {
-      stopWebcam()
-      console.log("카메라 종료")
-      //NOTE - 라즈베리에서 카메라 꺼서 내쪽에서 조작 가능
-      // navigate("/personalcolorsresults");
-      sendMessage(message)
-      .then((response: any) => {
-        console.log("응답옴: ", response)
-      })
-      .catch(error => {
-        console.log("에러 발생", error);
-      });
-    }
-    else {
-      console.log("사진이 없는뎁쇼", capturedImage)
-    }
-  }
 
   return (
     <StyledContainer>

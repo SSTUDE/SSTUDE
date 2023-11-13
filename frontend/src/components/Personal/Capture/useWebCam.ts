@@ -21,27 +21,40 @@ const useWebcam = () => {
   }, []);
 
   // 이미지를 캡처하는 함수
-  const captureImage = useCallback(() => {
+  //NOTE - 이미지 첨부터 블롭으로 나오게 수정중
+  // 이미지를 캡처하는 함수
+  const captureImage = useCallback((callback: (blob: Blob) => void) => {
     const canvas = canvasRef.current;
     const video = webcamRef.current;
-    console.log(canvas, 11, video)
-
-    // canvas와 video 요소가 모두 존재하는 경우
+  
+    console.log("캡처 시작");
+  
     if (canvas && video) {
-
-      // canvas의 2D 렌더링 컨텍스트를 가져옴
       const context = canvas.getContext("2d");
-
+  
       if (context) {
-
-        // 비디오의 현재 프레임을 canvas에 그림
+        console.log("비디오 프레임을 캔버스에 그리는 중...");
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        // canvas의 내용을 이미지로 변환하여 반환
-
-        return canvas.toDataURL("image/png");
+  
+        console.log("캔버스 내용을 Blob으로 변환 중...");
+        canvas.toBlob((blob) => {
+          if (blob) {
+            console.log("Blob 생성 완료", blob);
+            callback(blob);
+          } else {
+            console.log("Blob 생성 실패");
+          }
+        }, 'image/png');
+      } else {
+        console.log("캔버스의 2D 컨텍스트를 가져오는 데 실패함");
       }
+    } else {
+      console.log("캔버스 또는 비디오 요소가 없음");
     }
-  }, []);
+  }, [canvasRef, webcamRef]);
+  
+
+
 
   // 웹캠을 정지하는 함수
   const stopWebcam = useCallback(() => {
