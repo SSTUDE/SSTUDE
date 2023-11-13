@@ -43,6 +43,86 @@ async def runColor(
     print(file.headers)
     print(file.read)
     print(access_token)
+    # contents = await file.read()
+    # print(contents)
+    connect, curs = connectMySQL()
+    # ##############토큰으로 spring에서 유저찾아오기######################
+    response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
+    if response.status_code == 200:
+        response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
+        userid = response_json["memberId"]  # 본문에서 특정 값을 추출
+        print(userid)
+    else:
+        raise HTTPException(status_code=400, detail="잘못된 요청입니다")
+    
+    #################캐싱적용##########################
+    # data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
+    # if data:
+    #     count=int(data)+1
+    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    # else:
+    #     count=0
+    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    
+    
+    count =0
+    if count >=1:
+        raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
+    
+    else:
+        try:
+            contents = await file.read()
+            print(contents)
+            
+            #로컬에 파일 저장
+            file_name = 'savedfile.jpg'   
+            with open(file_name, "wb") as local_file:
+                local_file.write(contents)
+            uri = os.path.abspath('./savedfile.jpg')
+            
+            # S3저장 후 uri받아옴
+            s3uri = s3(file, userid, contents, count, current_date)
+            
+            # 사진은 personalcolor을 판단하고, DB에 결과값을 저장한다 
+            match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
+            result = analysis(uri)
+            
+            result = result.split('톤')[0]
+            
+            match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
+            
+            with connect.cursor() as curs:
+                query = """INSERT INTO makeups (member_id, img_uri, result, eng, calender) VALUES (%s, %s, %s, %s, %s)"""
+                curs.execute(query, (userid, s3uri, result, eng, current_date_time))
+            connect.commit()
+            
+            
+            match_color= match_color[0:13]
+            
+            os.remove(file_name)
+        except Exception as e:
+            print(e)
+            result = False
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
+
+        finally:
+            connect.close()
+            
+           
+    # print("결과 ", result) 
+    return JSONResponse({'result' : '진단 완료'})
+    
+@app.post("/color")
+async def runColor(
+    file: UploadFile = File(...),
+    access_token: Optional[str] = Header(None, convert_underscores=False)
+):
+    print(file.filename)
+    print(file.content_type)
+    print(file.file)
+    print(file.headers)
+    print(file.read)
+    print(access_token)
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
     response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
@@ -109,7 +189,6 @@ async def runColor(
            
     print("결과 ", result) 
     return JSONResponse({'result' : '진단 완료'})
-    
 
 # 이미지 내에 사람이 서있으면, 사진에서 상의를 찾아서 색 추출 및 유사도 검사or점수
 @app.post("/clothes")
