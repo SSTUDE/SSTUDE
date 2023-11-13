@@ -4,7 +4,6 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import { storageData } from "../../../apis/JWT-common";
 import axiosToken, { pythonAxiosToken } from "../../../apis/http-common";
 import { AxiosError } from "axios";
 import { PersonalState } from "./types";

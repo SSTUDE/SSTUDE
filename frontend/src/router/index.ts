@@ -1,16 +1,9 @@
 import MirrorMap from "../components/Main/MirrorMap";
 import Mirror from "../components/Main/Mirror";
-import Test from "../components/Test/Test";
-import TestWidth from "../components/Test/TestWidth";
-import TestHeight from "../components/Test/TestHeight";
 import TestMain from "../components/Test/TestMain";
 import TestColor from "../components/Test/TestColor";
-import WebSocket from "../components/Test/WebSocket";
 import Login from "../components/Login/Login";
-import MenuBtn from "../components/Common/MenuBtn";
-import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
-import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
-import Calender from "../components/Personal/Main/PersonalCalender";
+import MenuBtn from "../components/Common/MenuBtn";import Calender from "../components/Personal/Main/PersonalCalender";
 import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
 import BusDetail from "../components/Bus/BusDetail";
@@ -26,7 +19,7 @@ import TodayHealth from "../components/Health/TodayHealth";
 import HealthCalender from "../components/Health/HealthCalender";
 import PrevHealth from "../components/Health/PrevHealth";
 import TodayHealthData from "../components/Health/TodayHealthData";
-import Carousel from "../components/Personal/Previous/Carousel";
+
 
 const routes = [
   {
@@ -38,19 +31,6 @@ const routes = [
     path: "/mirror",
     Component: Mirror,
   },
-
-  {
-    path: "/test",
-    Component: Test,
-  },
-  {
-    path: "/testwidth",
-    Component: TestWidth,
-  },
-  {
-    path: "/testheight",
-    Component: TestHeight,
-  },
   {
     path: "/testmain",
     Component: TestMain,
@@ -58,10 +38,6 @@ const routes = [
   {
     path: "/testcolor",
     Component: TestColor,
-  },
-  {
-    path: "/websocket",
-    Component: WebSocket,
   },
 
   {
@@ -139,7 +115,7 @@ const routes = [
   // 버스정보
   {
     path: "/bus",
-    Component: Carousel,
+    Component: Bus,
   },
   {
     path: "/busdetail",

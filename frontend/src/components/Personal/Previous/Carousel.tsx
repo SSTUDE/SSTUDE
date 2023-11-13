@@ -1,9 +1,8 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { images } from "../../../constants/images";
 import { RootState } from "../../../store/store";
-import { PersonalClothesState } from "./types";
 import { setCarouselIndex } from "./PreviousSlice";
 
 const CarouselMain = styled.section`

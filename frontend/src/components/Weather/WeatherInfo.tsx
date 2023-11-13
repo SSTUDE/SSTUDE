@@ -6,12 +6,6 @@ import { fetchAirQualityData } from '../../store/AirQualitySlice'
 import { RootState, AppDispatch } from '../../store/store';
 import { WeatherDataCustom, AirQualityCustom } from './types';
 import SkyIcon from './Hourly/SkyIcon';
-import { BsMoonStarsFill } from 'react-icons/bs'
-import {
-  FaRegFaceGrinSquint,
-  FaRegFaceSmile,
-  FaRegFaceFrown, 
-  FaRegFaceDizzy } from 'react-icons/fa6'
 import AirIcon from './AirIcon';
 import LoadingSpinner from './LoadingSpinner';
 
