@@ -1,46 +1,46 @@
-import Bus from '../Bus/Bus';
-import MenuBar from './MenuBar';
-import MenuBtn from '../Common/MenuBtn';
-import React, { useState } from 'react';
-import Weather from '../Weather/Weather';
-import BusDetail from '../Bus/BusDetail';
-import DateTime from '../Common/DateTime';
-import { useSelector } from 'react-redux';
-import HelloWorld from '../Common/HelloWorld';
-import { RootState } from '../../store/store';
-import { useNavigate } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import { TEXT_COLOR } from '../../constants/defaultSlices';
-import WeatherInfo from '../Weather/WeatherInfo';
+import Bus from "../Bus/Bus";
+import MenuBar from "./MenuBar";
+import MenuBtn from "../Common/MenuBtn";
+import React, { useState } from "react";
+import Weather from "../Weather/Weather";
+import BusDetail from "../Bus/BusDetail";
+import { useSelector } from "react-redux";
+import HelloWorld from "../Common/HelloWorld";
+import { RootState } from "../../store/store";
+import { useNavigate } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import { TEXT_COLOR } from "../../constants/defaultSlices";
+import WeatherInfo from "../Weather/WeatherInfo";
+import DateTime from "../Common/DateTime";
 
 const Mirror = () => {
   const navigate = useNavigate();
-  const [activePage, setActivePage] = useState('bus');
+  const [activePage, setActivePage] = useState("bus");
   const { isMenuOpen } = useSelector((state: RootState) => state.mirror);
 
   const handleBusClick = () => {
-    setActivePage('busDetail');
+    setActivePage("busDetail");
   };
 
   const handleBusDetailClick = () => {
-    setActivePage('bus');
+    setActivePage("bus");
   };
 
   const handleWeatherClick = () => {
-    setActivePage('weatherDetail');
+    setActivePage("weatherDetail");
   };
 
   const handleWeatherDetailClick = () => {
-    setActivePage('weather');
+    setActivePage("weather");
   };
 
   const renderCenterContent = () => {
     switch (activePage) {
-      case 'bus':
+      case "bus":
         return <Bus onClick={handleBusClick} />;
-      case 'weather':
-        return <WeatherInfo onClick={handleWeatherClick}/>;
-      case 'busDetail':
+      case "weather":
+        return <WeatherInfo onClick={handleWeatherClick} />;
+      case "busDetail":
         return <BusDetail onClick={handleBusDetailClick} />;
       default:
         return null;
@@ -63,28 +63,31 @@ const Mirror = () => {
         </RightHeader>
       </Header>
       <Body>
-        <Left>
-        </Left>
-        {activePage === 'busDetail' ? (
+        <Left></Left>
+        {activePage === "busDetail" ? (
           <BusDetail onClick={handleBusDetailClick} />
-        ) : activePage === 'weatherDetail' ? (
-          <Weather onClick={handleWeatherDetailClick}/>
+        ) : activePage === "weatherDetail" ? (
+          <Weather onClick={handleWeatherDetailClick} />
         ) : (
           <>
             <Center>
-              <Btn onClick={() => navigate('/')}>초기 화면</Btn>
-              <Btn onClick={() => navigate('/login')}>로그인</Btn>
-              <Btn onClick={() => navigate('/test')}>테스트</Btn>
+              <Btn onClick={() => navigate("/")}>초기 화면</Btn>
+              <Btn onClick={() => navigate("/login")}>로그인</Btn>
+              <Btn onClick={() => navigate("/test")}>테스트</Btn>
             </Center>
-            {isMenuOpen ? <MenuBar /> : (
+            {isMenuOpen ? (
+              <MenuBar />
+            ) : (
               <Right>
                 <PageHeader>
-                  <PageButton onClick={() => setActivePage('bus')}>버스 정보</PageButton>
-                  <PageButton onClick={() => setActivePage('weather')}>날씨 정보</PageButton>
+                  <PageButton onClick={() => setActivePage("bus")}>
+                    버스 정보
+                  </PageButton>
+                  <PageButton onClick={() => setActivePage("weather")}>
+                    날씨 정보
+                  </PageButton>
                 </PageHeader>
-                <PageBody key={activePage}>
-                  {renderCenterContent()}
-                </PageBody>
+                <PageBody key={activePage}>{renderCenterContent()}</PageBody>
               </Right>
             )}
           </>
@@ -99,7 +102,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-  display: flex; 
+  display: flex;
   height: 22%;
   /* background-color: lightblue; */
 `;
@@ -141,13 +144,13 @@ const RightHeader = styled.div`
 `;
 
 const Btn = styled.p`
-padding: 10px 20px;
-font-size: 3em;
-font-weight: bold;
-text-align:center;
-margin: 5px; 
-color: ${TEXT_COLOR};
-cursor: pointer; 
+  padding: 10px 20px;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px;
+  color: ${TEXT_COLOR};
+  cursor: pointer;
 `;
 
 const PageHeader = styled.div`
@@ -165,17 +168,17 @@ const PageButton = styled.button`
   background-color: transparent;
   color: ${TEXT_COLOR};
   cursor: pointer;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
 
   &:focus {
     outline: none;
     margin: 0 30px;
     color: #2ecc71;
-    transform: translateY(-2px); 
+    transform: translateY(-2px);
   }
 
   &:active {
-    transform: translateY(1px); 
+    transform: translateY(1px);
   }
 `;
 
@@ -191,8 +194,8 @@ const fadeIn = keyframes`
 const PageBody = styled.div`
   display: flex;
   justify-content: center;
-  opacity: 1; 
+  opacity: 1;
   animation: ${fadeIn} 1s ease forwards;
 `;
 
-export default Mirror
+export default Mirror;
