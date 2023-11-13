@@ -1,5 +1,6 @@
 import MirrorMap from "../components/Main/MirrorMap";
 import Mirror from "../components/Main/Mirror";
+import Test from "../components/Test/Test";
 import TestMain from "../components/Test/TestMain";
 import TestColor from "../components/Test/TestColor";
 import Login from "../components/Login/Login";
@@ -30,6 +31,12 @@ const routes = [
   {
     path: "/mirror",
     Component: Mirror,
+  },
+
+
+  {
+    path: "/test",
+    Component: Test,
   },
   {
     path: "/testmain",
