@@ -8,6 +8,7 @@ import { RASPBERRY_URL } from '../../apis/constants';
 import styled, { keyframes } from 'styled-components';
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import { useNavigate } from "react-router";
 
 const Login = () => {
   console.log("0 - 렌더링");
@@ -15,6 +16,8 @@ const Login = () => {
   // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   // const [isLogoClickable, setIsLogoClickable] = useState(true);
+  const navigate = useNavigate()
+
 
   // useEffect(() => {
   //   loginClick()
@@ -64,6 +67,7 @@ const Login = () => {
         dispatch(signInUser({deviceNum : "string"}));
       // console.log("로그인 - 응답 받음:", response);
       // console.log(" !!!!! 로그인 성공 !!!!!")
+      navigate("/mirror")
     // })
     // .catch(error => {
       // console.log(error)
