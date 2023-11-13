@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { PersonalBeautyModal } from "./PersonalSlice";
 import { PersonalClothesyModal } from "../Previous/PreviousSlice";
+import { useCustomAlert } from "../../../hooks/useAlert";
 
 type DiagnosisData = {
   makeup: string[];
@@ -30,6 +31,17 @@ const PersonalCalender: React.FC = () => {
   // 메이크업 및 의상 진단값 있는 경우
   const [makeupDates, setMakeupDates] = useState<string[]>([]);
   const [clothesDates, setClothesDates] = useState<string[]>([]);
+
+  // 알림창
+  const showAlert = useCustomAlert();
+
+  const handleClick = () => {
+    showAlert({
+      icon: 'success',
+      title: '',
+      html: '',
+    });
+  };
 
   useEffect(() => {
     setMakeupDates(diagnosisData.makeup || []);
@@ -94,9 +106,13 @@ const PersonalCalender: React.FC = () => {
             handlePersonalModal();
             handleClothesModal();
           } else {
-            alert("메이크업 또는 의상 날짜가 아닙니다.");
+            showAlert({
+              icon: 'info',
+              title: '메이크업 또는 의상 날짜가 아닙니다.',
+            });
           }
         }}
+
         inline
         locale={enGB}
         calendarStartDay={0}
