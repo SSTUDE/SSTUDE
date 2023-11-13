@@ -72,15 +72,13 @@ const HealthCalender: React.FC = () => {
               return (
                 <>
                   <div>{day}</div>
-                  <div onClick={() => handleDayClick(dateStr)}>
-                    {isDateInList ? (
+                  {isDateInList ? (
+                    <div onClick={() => handleDayClick(dateStr)}>
                       <span className="icon">❤️</span>
-                    ) : (
-                      <div>
-                        <span className="icon">•</span>
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  ) : (
+                    <div>•</div>
+                  )}
                 </>
               );
             }}

@@ -20,16 +20,18 @@ const StyledTitle = styled.p`
   font-family: "Giants-Bold";
 `;
 
+// 캘린더로 이동하기 위한 아이콘
 const StyledCalenderButton = styled.button`
   position: absolute;
-  right: 8%;
-  bottom: 7%;
+  right: 5%;
+  bottom: 12%;
 
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 
-  background-color: transparent;
-  border: none;
+  background-color: #4f4f4f;
+  border: 2px solid white;
+  border-radius: 15%;
 
   cursor: pointer;
 `;

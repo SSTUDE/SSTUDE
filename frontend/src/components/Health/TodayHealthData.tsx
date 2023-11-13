@@ -29,6 +29,9 @@ const CircleChartContainer = styled.section`
   position: relative;
   max-width: 180px;
   width: 100%;
+
+  display: flex;
+  justify-content: center;
 `;
 
 const CircleChart = styled.svg`
@@ -42,7 +45,7 @@ const CircleConsumedKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  left: -70%;
+  left: -80%;
   top: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -53,7 +56,7 @@ const CircleBruntKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  right: -70%;
+  right: -80%;
   top: 50%;
   transform: translate(50%, -50%);
 `;
@@ -281,7 +284,7 @@ const TodayHealthData = () => {
                 strokeLinecap="round"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${burntKcalPercentage} 100`}
               />
               <Circle
@@ -291,7 +294,7 @@ const TodayHealthData = () => {
                 strokeLinecap="butt"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${consumedKcalPercentage} 100`}
                 strokeDashoffset={-burntKcalPercentage}
               />
