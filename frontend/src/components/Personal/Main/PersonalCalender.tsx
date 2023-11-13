@@ -8,7 +8,8 @@ import CameraButton from "./CameraButton";
 import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-import { PersonalBeautyModal, PersonalClothesyModal } from "./PersonalSlice";
+import { PersonalBeautyModal } from "./PersonalSlice";
+import { PersonalClothesyModal } from "../Previous/PreviousSlice";
 
 type DiagnosisData = {
   makeup: string[];

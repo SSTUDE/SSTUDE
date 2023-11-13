@@ -6,14 +6,7 @@ export type PersonalBeautyState = {
   error: string | null;
 };
 
-export type PersonalClothesState = {
-  score: number;
-  imgUri: string;
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
-};
-
-export type PersonalBeautyesultsState = {
+export type PersonalBeautyresultsState = {
   personal_color: string;
   user_img: string;
   match_color: string[];
@@ -29,8 +22,7 @@ export type PersonalBeautyesultsState = {
 
 export type PersonalState = {
   beauty: PersonalBeautyState | null;
-  clothes: PersonalClothesState | null;
-  beautyResults: PersonalBeautyesultsState | null;
+  beautyResults: PersonalBeautyresultsState | null;
   loading: boolean;
   error: string | null;
 };

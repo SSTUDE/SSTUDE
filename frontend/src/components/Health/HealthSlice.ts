@@ -12,8 +12,10 @@ export const HealthCalender = createAsyncThunk(
   "/health/month",
   async (data: { year: number; month: number }, { rejectWithValue }) => {
     try {
-      const response = await axiosToken.post("/health/month", data);
-      console.log("헬스 캘린더입니다", response.data);
+      const response = await axiosToken.post("/health/month", {
+        year: 2023,
+        month: 11,
+      });
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {

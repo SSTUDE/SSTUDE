@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import Weather from '../Weather/Weather';
 import { useNavigate } from 'react-router-dom';
-import DateTime from '../Common/DateTime'
 
 const TestMain = () => {
   const currentDate = new Date();
@@ -40,7 +38,7 @@ const TestMain = () => {
           </div>
         </MainTop>
         <MainBottom>
-          <Weather/>
+          {/* <Weather/> */}
         </MainBottom>
       </MainSide>
     </Wrap>

@@ -9,6 +9,8 @@ import { images } from "../../../constants/images";
 
 // 퍼스널 컬러 진단 컨테이너
 const StyledSection = styled.section`
+  display: flex;
+  flex-direction: column-reverse; 
   width: 100%;
   height: 65vh;
   color: white;
@@ -16,19 +18,11 @@ const StyledSection = styled.section`
 
 // 이미지 컨테이너
 const StyledFigure = styled.figure`
-  position: relative;
 
   display: flex;
   justify-content: center;
-  height: 65%;
-
-  max-width: 100%;
-  max-height: 100%;
-
-  object-fit: cover;
 
   img {
-    box-shadow: 0 0 10px 5px black;
     width: 300px;
     object-fit: cover;
   }
@@ -42,8 +36,7 @@ const InfoArticle = styled.article`
 
   position: relative;
   top: -60px;
-  height: calc(65% - 140px);
-  /* overflow: auto; */
+  z-index: 1;
 
   background-color: #000000c2;
 `;
@@ -57,7 +50,6 @@ const ColorNameEN = styled.div`
   display: flex;
   align-items: flex-end;
 
-  /* padding: 0 !important; */
   margin: 3% 0 0 0;
 `;
 
@@ -72,7 +64,6 @@ const ColorNameKR = styled.div`
 
 // 상세보기 버튼
 const DetailButton = styled.button`
-  /* margin-top: 5%; */
   margin: 4% 0;
 
   background-color: transparent;
@@ -83,11 +74,6 @@ const DetailButton = styled.button`
   color: white;
   font-family: "KBO-Dia-Gothic_bold" !important;
 `;
-
-// type PreviousPersonalColorResultsProps = {
-//   result: string;
-//   imgUri: string;
-// };
 
 const PreviousPersonalColorResults = () => {
   const navigate = useNavigate();
@@ -121,6 +107,11 @@ const PreviousPersonalColorResults = () => {
 
   return (
     <StyledSection>
+    <InfoArticle>
+      <ColorNameEN>{beauty?.eng || "No Results"}</ColorNameEN>
+      <ColorNameKR>{beauty?.result || "진단 값이 없습니다"}</ColorNameKR>
+      <DetailButton onClick={handleButtonClick}>상세 보기</DetailButton>
+    </InfoArticle>
       <StyledFigure>
         <img
           src={beauty?.imgUri || "non-existent-url"}
@@ -132,11 +123,6 @@ const PreviousPersonalColorResults = () => {
           }}
         />
       </StyledFigure>
-      <InfoArticle>
-        <ColorNameEN>{beauty?.eng || "No Results"}</ColorNameEN>
-        <ColorNameKR>{beauty?.result || "진단 값이 없습니다"}</ColorNameKR>
-        <DetailButton onClick={handleButtonClick}>상세 보기</DetailButton>
-      </InfoArticle>
     </StyledSection>
   );
 };
