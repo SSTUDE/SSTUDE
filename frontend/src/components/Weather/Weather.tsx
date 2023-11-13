@@ -447,7 +447,7 @@ import LoadingSpinner from './LoadingSpinner';
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     /* background-color: gray;s */
   `
 
