@@ -127,7 +127,7 @@ const routes = [
     Component: PrevHealth,
   },
   {
-    path: "/healthtest",
+    path: "/healthmain",
     Component: TodayHealthData,
   },
   {

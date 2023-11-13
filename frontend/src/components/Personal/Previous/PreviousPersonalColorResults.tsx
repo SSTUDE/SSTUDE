@@ -20,7 +20,7 @@ const StyledFigure = styled.figure`
 
   display: flex;
   justify-content: center;
-  height: 70%;
+  height: 65%;
 
   max-width: 100%;
   max-height: 100%;
@@ -42,7 +42,7 @@ const InfoArticle = styled.article`
 
   position: relative;
   top: -60px;
-  height: calc(65% - 159px); // Adjust this calculation based on your layout
+  height: calc(65% - 140px);
   /* overflow: auto; */
 
   background-color: #000000c2;

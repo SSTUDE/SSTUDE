@@ -32,7 +32,7 @@ const ModalContainer = styled.div`
   overflow: auto;
 
   width: 32%;
-  max-height: 95%;
+  /* max-height: 95%; */
 
   background: linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb);
   background-size: 200% 200%;

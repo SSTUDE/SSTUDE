@@ -51,27 +51,47 @@ pythonAxiosToken.interceptors.request.use(
   async (config) => {
     const accessToken = await retrieveData();
     if (accessToken) {
+      console.log("요청 인터셉터: 현재 토큰", accessToken);
       config.headers.access_token = `${accessToken}`;
     }
     return config;
   },
   (error) => {
+    console.error("요청 인터셉터 에러:", error);
     return Promise.reject(error);
   }
 );
 
 pythonAxiosToken.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log("응답 인터셉터: 성공 응답", response);
+    return response;
+  },
   async (error) => {
+    console.error("응답 인터셉터: 초기 에러", error);
     const originalRequest = error.config;
-    if (error.response.data.status === 401 && !originalRequest._retry) {
+    if (
+      error.response &&
+      error.response.data.status === 401 &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
-      const response = await pythonAxiosToken.post(REFRESH_TOKEN_URL);
-      const { accessToken } = response.data;
-      const { sendMessage } = useWebSocketContext();
-      storageData(accessToken, sendMessage ?? (() => {}));
-      originalRequest.headers.access_token = `${accessToken}`;
-      return pythonAxiosToken(originalRequest);
+      try {
+        const response = await axiosToken.post(REFRESH_TOKEN_URL);
+        const { accessToken } = response.data;
+        console.log("응답 인터셉터: 새 토큰", accessToken);
+
+        // const { sendMessage } = useWebSocketContext();
+        const sendMessage = (message: any) =>
+          console.log("더미 메시지 전송:", message);
+        storageData(accessToken, sendMessage ?? (() => {}));
+
+        originalRequest.headers.access_token = `${accessToken}`;
+        return pythonAxiosToken(originalRequest);
+      } catch (refreshError) {
+        console.error("응답 인터셉터: 토큰 갱신 에러", refreshError);
+        return Promise.reject(refreshError);
+      }
     }
     return Promise.reject(error);
   }

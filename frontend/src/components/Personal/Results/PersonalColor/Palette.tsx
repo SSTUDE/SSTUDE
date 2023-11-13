@@ -1,4 +1,4 @@
-import React, { useEffect, FC, useRef } from "react";
+import React, { useEffect, FC, useRef, useState } from "react";
 import "./Palette.css";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../store/store";
@@ -15,6 +15,7 @@ const Palette: FC = () => {
     console.log("beautyResults 상태값: ", state.personal);
     return state.personal;
   });
+  const [selectedSwatch, setSelectedSwatch] = useState<number | null>(null);
 
   const hexToRgb = (hex: string): RGB | null => {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -66,30 +67,40 @@ const Palette: FC = () => {
   };
 
   useEffect(() => {
+    if (paletteRef.current !== null) {
+      const swatches =
+        paletteRef.current.querySelectorAll<HTMLElement>(".swatch");
+      swatches.forEach((swatch: HTMLElement, index: number) => {
+        if (selectedSwatch !== null && index === selectedSwatch) {
+          swatch.classList.add("select");
+        } else {
+          swatch.classList.remove("select");
+        }
+      });
+    }
+  }, [selectedSwatch]);
+
+  useEffect(() => {
     const updateSwatchColors = () => {
       if (paletteRef.current) {
         const swatches =
           paletteRef.current.querySelectorAll<HTMLElement>(".swatch");
         swatches.forEach((swatch: HTMLElement, index: number) => {
-          const color = beautyResults?.match_color[index];
+          let color = beautyResults?.match_color[index];
           if (color) {
+            color = "#" + color; // '#' 추가
             swatch.style.backgroundColor = color;
 
             const rgb = hexToRgb(color);
-            const hsl = rgb ? rgb2hsl([rgb.r, rgb.g, rgb.b]) : null;
 
             const rgbElement = swatch.querySelector(".rgb");
-            const hslElement = swatch.querySelector(".hsl");
             const hexElement = swatch.querySelector(".hex");
 
-            if (rgbElement && hslElement && hexElement) {
+            if (rgbElement && hexElement) {
               rgbElement.textContent = rgb
-                ? `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
+                ? `(${rgb.r}, ${rgb.g}, ${rgb.b})`
                 : "";
-              hslElement.textContent = hsl
-                ? `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`
-                : "";
-              hexElement.textContent = color;
+              hexElement.textContent = color; // '#'이 추가된 color
             }
           }
         });
@@ -115,15 +126,23 @@ const Palette: FC = () => {
       <ul className="palette" ref={paletteRef}>
         {beautyResults?.match_color
           ? beautyResults.match_color.map((color, index) => (
-              <li key={index} className="swatch" data-color={color}>
+              <li
+                key={index}
+                className="swatch"
+                data-color={color}
+                onClick={() => {
+                  if (selectedSwatch === index) {
+                    setSelectedSwatch(null); // 이미 선택된 항목을 다시 선택하면 선택 해제
+                  } else {
+                    setSelectedSwatch(index); // 그 외의 경우에는 선택
+                  }
+                }}
+              >
+                <span>{"#" + color}</span>
                 <ol>
                   <li>
                     <b>RGB</b>
                     <p className="rgb"></p>
-                  </li>
-                  <li>
-                    <b>HSL</b>
-                    <p className="hsl"></p>
                   </li>
                   <li>
                     <b>HEX</b>

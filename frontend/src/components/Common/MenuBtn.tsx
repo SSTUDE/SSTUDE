@@ -30,7 +30,7 @@ function MenuBtn({ type }: MenuBtnProps) {
     } else if (type === "health") {
       const response = await handleHealthTodayData();
       console.log("메뉴에서 헬스 눌렀을 때 되나요?", response);
-      navigate("/healthcalender");
+      navigate("/healthmain");
     } else if (type === "question") {
       // navigate('/question');
     }
