@@ -5,7 +5,7 @@ import { AirQualityResponse, AirQualityCustom } from '../components/Weather/type
 // 함수 호출
 export const fetchAirQualityData = createAsyncThunk(
   'airQuality/fetchData',
-  async (params: { sidoName: string; }, thunkAPI) => {
+  async (params: { sidoName: string | null; }, thunkAPI) => {
     try {
       const response = await getAirQualityData({
         returnType: "JSON",

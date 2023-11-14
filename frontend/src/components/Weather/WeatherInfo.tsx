@@ -5,6 +5,7 @@ import { fetchShortData } from '../../store/WeatherSlice';
 import { fetchAirQualityData } from '../../store/AirQualitySlice'
 import { RootState, AppDispatch } from '../../store/store';
 import { WeatherDataCustom, AirQualityCustom } from './types';
+import { findRegion } from './areaCodeType'
 import SkyIcon from './Hourly/SkyIcon';
 import AirIcon from './AirIcon';
 import LoadingSpinner from './LoadingSpinner';
@@ -17,10 +18,15 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
   const position = useSelector((state: RootState) => state.position);
 
-  let { nX, nY } = {
+  let { nX, nY, arePt1, arePt2 } = {
     nX: position.nX,
-    nY: position.nY
+    nY: position.nY,
+    arePt1: position.arePt1,
+    arePt2: position.arePt2,
   };
+
+  const airRegionCode = findRegion(arePt1, arePt2);
+  
 
   // 단기예보 관련 데이터
   const weatherData = useSelector((state: RootState) => state.weather.data); 
@@ -65,7 +71,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
 
     // 대기질 데이터 요청
     dispatch(fetchAirQualityData({
-      sidoName: '경북',
+      sidoName: airRegionCode,
     }));
   }, [dispatch]);
 

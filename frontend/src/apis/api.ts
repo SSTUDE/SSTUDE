@@ -35,7 +35,7 @@ export const getMidLandForecast = async (params: {
   pageNo?: number;
   numOfRows?: number;
   dataType?: string;
-  regId: string | null;
+  regId: string | null; //NOTE - 함수의 return 값이 null 인 경우도 있어서
   tmFc: string;
 }) => {
   try {
@@ -81,7 +81,7 @@ export const getAirQualityData = async (params: {
   returnType: string;
   numOfRows: number;
   pageNo: number;
-  sidoName: string;
+  sidoName: string | null; //NOTE - 함수의 return 값이 null 인 경우도 있어서
   ver: string;
 }) => {
   try {

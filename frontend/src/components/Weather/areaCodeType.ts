@@ -35,6 +35,37 @@ export function getMidLandAreaCode(arePt1: string, arePt2: string | null): MidLa
 }
 
 
+type RegionMap = { [key: string]: string };
+export function findRegion(arePt1: string, arePt2: string | null): string | null {
+  const regions : RegionMap  = {
+    "서울": "서울",
+    "부산": "부산",
+    "대구": "대구",
+    "인천": "인천",
+    "광주": "광주",
+    "대전": "대전",
+    "울산": "울산",
+    "경기": "경기",
+    "강원": "강원",
+    "충청북도": "충북",
+    "충청남도": "충남",
+    "전라북도": "전북",
+    "전라남도": "전남",
+    "경상북도": "경북",
+    "경상남도": "경남",
+    "제주": "제주",
+    "세종": "세종"
+  };
+
+  for (const region in regions) {
+    if (arePt1.includes(region) || (arePt2 !== null && arePt2.includes(region))) {
+      return regions[region];
+    }
+  }
+
+  return null; // 일치하는 지역이 없을 경우
+}
+
 
 
 export const west =["철원군", "화천군" ,"양구군", "인제군", "춘천시", "홍천군", "횡성군","원주시","평창군","영월군", "정선군"];
