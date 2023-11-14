@@ -35,7 +35,7 @@ export const getMidLandForecast = async (params: {
   pageNo?: number;
   numOfRows?: number;
   dataType?: string;
-  regId: string;
+  regId: string | null;
   tmFc: string;
 }) => {
   try {

@@ -52,7 +52,7 @@ const Mirror = () => {
   
         // 변환된 객체를 dispatch 함수를 통해 updatePosition 액션에 전달
         dispatch(updatePosition(positionStateItem));
-        console.log(positionStateItem);
+        // console.log(positionStateItem);
       }
     }
   }, [dispatch]);

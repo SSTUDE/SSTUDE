@@ -15,6 +15,12 @@ interface WeatherInfoProps {
 
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const position = useSelector((state: RootState) => state.position);
+
+  let { nX, nY } = {
+    nX: position.nX,
+    nY: position.nY
+  };
 
   // 단기예보 관련 데이터
   const weatherData = useSelector((state: RootState) => state.weather.data); 
@@ -46,12 +52,15 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const currentDate = formattedSDate; // 'YYYYMMDD' 형식
 
   useEffect(() => {
+    const nxString = typeof nX === 'string' ? parseInt(nX) : nX;
+    const nyString = typeof nY === 'string' ? parseInt(nY) : nY;
+
     // 단기 예보 데이터 요청
     dispatch(fetchShortData({
       base_date: formattedSDate,
       base_time: '0500',
-      nx: 86,
-      ny: 95
+      nx: nxString,
+      ny: nyString
     }));
 
     // 대기질 데이터 요청
