@@ -82,16 +82,20 @@ service_on = False
 update_min = 6
 finish_time = datetime.now()
 cool_down_counter = 10
-cnt = -1
+cnt = 0
 is_cooler_on = False
 while True:
     
     message = ws_service.checkLatestMessage()
     now = datetime.now()
     userRecogn = False
-    
+    if is_cooler_on : cnt += 1
+    if cnt >= cool_down_counter :
+        is_cooler_on = False
+        cnt = 0
+        
     if not cam and message is None: continue
-    
+    print("Hello world")
     ###### connection with web socket data ####### 
     msg = json.loads(message) if message is not None else dict()
     msg_type = msg.get("type")
@@ -108,7 +112,7 @@ while True:
         
         if not ret:
             print("프레임을 읽을 수 없습니다. 종료합니다")
-            break
+            continue
         
         
         # Only process every other frame of video to save time
@@ -156,10 +160,7 @@ while True:
     
     ####### caring about message cuz of threading
     if msg_type and not is_cooler_on: is_cooler_on = True
-    if is_cooler_on : cnt += 1
-    if cnt == cool_down_counter :
-        is_cooler_on = False
-        cnt = -1
+
     ##############################
     ## Sign Up Messageing process
     if cam and not userRecogn and msg_type == "signUp" and cnt == 0:
@@ -178,6 +179,7 @@ while True:
     ## Camera on off mapping process
     if msg_type == "camera" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
+        print("is camera type came?")
         if msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
             release_camera()
             msg["data"] = "raspberryPiCameraOff"
@@ -204,8 +206,6 @@ while True:
             "type" : "signIn",
             "data" : data
         }
-        print(data)
-
     key = cv2.waitKey(1)
        
     if key==27:
