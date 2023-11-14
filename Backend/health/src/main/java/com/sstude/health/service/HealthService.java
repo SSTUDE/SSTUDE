@@ -170,8 +170,8 @@ public class HealthService {
 
 
 
-//    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 50 10 * * *")
+    //    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 27 13 * * *")
     @Transactional
     public void saveLatestHealthData() {
         log.info("시간들어옴!!!!");
@@ -194,10 +194,19 @@ public class HealthService {
                             .steps(latestHealthData.getSteps())
                             .build();
 
-                    return Mono.fromCallable(() -> healthRepository.save(health)).then();  // Health를 저장 후 Mono로 변환
+                    Date recordDate = Date.from(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+
+                    // 오늘 날짜에 해당하는 memberId의 데이터가 이미 저장되어 있다면 무시
+                    if (healthRepository.existsByMemberIdAndRecordDate(health.getMemberId(), recordDate)) {
+                        return Mono.empty();
+                    }
+
+                    // Health를 저장 후 Mono로 변환
+                    return Mono.fromCallable(() -> healthRepository.save(health)).then();
                 })
                 .subscribe();  // 리액티브 스트림 구독
     }
+
 
 ////    @Scheduled(cron = "0 0 0 * * *")
 //    @Scheduled(cron = "0 40 10 * * *")
