@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
@@ -10,21 +10,28 @@ import { images } from "../../../constants/images";
 // 퍼스널 컬러 진단 컨테이너
 const StyledSection = styled.section`
   display: flex;
-  flex-direction: column-reverse; 
-  width: 100%;
+  flex-direction: column-reverse;
+  /* width: 100%; */
   height: 65vh;
   color: white;
 `;
 
 // 이미지 컨테이너
 const StyledFigure = styled.figure`
+  position: relative;
+  top: 20%;
+  transform: translateX(0%);
+  margin: auto;
 
   display: flex;
   justify-content: center;
+  align-items: center;
 
   img {
-    width: 300px;
-    object-fit: cover;
+    width: 40vh;
+    height: 56vh;
+    object-fit: cover; // 이미지 비율 유지하면서 컨테이너에 맞춤
+    box-shadow: 0 0 10px 5px black;
   }
 `;
 
@@ -34,18 +41,19 @@ const InfoArticle = styled.article`
   flex-direction: column;
   align-items: center;
 
-  position: relative;
-  top: -60px;
   z-index: 1;
 
   background-color: #000000c2;
+
+  height: 35%;
 `;
 
 // 진단 영문명
-const ColorNameEN = styled.div`
+const ColorNameEN = styled.div<{ isWarm: boolean; isCool: boolean }>`
   font-family: "LeferiPoint-BlackObliqueA" !important;
   font-size: 3.5rem !important;
-  color: #469be1;
+  color: ${(props) =>
+    props.isWarm ? "#f0776c" : props.isCool ? "#469be1" : "white"};
 
   display: flex;
   align-items: flex-end;
@@ -54,10 +62,11 @@ const ColorNameEN = styled.div`
 `;
 
 // 진단 한글
-const ColorNameKR = styled.div`
+const ColorNameKR = styled.div<{ isWarm: boolean; isCool: boolean }>`
   font-family: "KBO-Dia-Gothic_bold" !important;
   font-size: 2rem;
-  color: #469be1;
+  color: ${(props) =>
+    props.isWarm ? "#f0776c" : props.isCool ? "#469be1" : "white"};
 
   padding: 0 !important;
 `;
@@ -78,6 +87,18 @@ const DetailButton = styled.button`
 const PreviousPersonalColorResults = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { beauty } = useSelector((state: RootState) => state.personal);
+
+  // 이미지 로딩 상태
+  const [isLoading, setIsLoading] = useState(true);
+
+  const containsWarm = (result: string | undefined) => {
+    return result ? result.includes("웜") : false;
+  };
+
+  const containsCool = (result: string | undefined) => {
+    return result ? result.includes("쿨") : false;
+  };
 
   const handleButtonClick = () => {
     handleAsyncReducer();
@@ -85,11 +106,9 @@ const PreviousPersonalColorResults = () => {
     navigate("/personalcolorsresults");
   };
 
-  const { beauty } = useSelector((state: RootState) => state.personal);
-
   const handleAsyncReducer = useCallback(async () => {
     const data = {
-      date: "2023-11-12",
+      date: "2023-11-13",
     };
     console.log("액션 객체 확인:", PersonalBeautyResults(data));
     try {
@@ -107,19 +126,33 @@ const PreviousPersonalColorResults = () => {
 
   return (
     <StyledSection>
-    <InfoArticle>
-      <ColorNameEN>{beauty?.eng || "No Results"}</ColorNameEN>
-      <ColorNameKR>{beauty?.result || "진단 값이 없습니다"}</ColorNameKR>
-      <DetailButton onClick={handleButtonClick}>상세 보기</DetailButton>
-    </InfoArticle>
+      <InfoArticle>
+        <ColorNameEN
+          isWarm={containsWarm(beauty?.result)}
+          isCool={containsCool(beauty?.result)}
+        >
+          {beauty?.eng || "No Results"}
+        </ColorNameEN>
+        <ColorNameKR
+          isWarm={containsWarm(beauty?.result)}
+          isCool={containsCool(beauty?.result)}
+        >
+          {beauty?.result || "진단 값이 없습니다"}
+        </ColorNameKR>
+
+        <DetailButton onClick={handleButtonClick}>상세 보기</DetailButton>
+      </InfoArticle>
       <StyledFigure>
+        {isLoading && <p>로딩 중...</p>}
         <img
           src={beauty?.imgUri || "non-existent-url"}
           alt="사진이 없습니다"
+          onLoad={() => setIsLoading(false)} // 이미지 로딩 완료 시 상태 업데이트
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = images.personal.errorImg;
             console.log("오류 이미지로 변경 완료");
+            setIsLoading(false); // 이미지 로딩 실패 시 상태 업데이트
           }}
         />
       </StyledFigure>

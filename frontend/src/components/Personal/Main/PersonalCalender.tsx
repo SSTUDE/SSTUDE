@@ -11,6 +11,7 @@ import { AppDispatch } from "../../../store/store";
 import { PersonalBeautyModal } from "./PersonalSlice";
 import { PersonalClothesyModal } from "../Previous/PreviousSlice";
 import { useCustomAlert } from "../../../hooks/useAlert";
+import { images } from "../../../constants/images";
 
 type DiagnosisData = {
   makeup: string[];
@@ -37,9 +38,9 @@ const PersonalCalender: React.FC = () => {
 
   const handleClick = () => {
     showAlert({
-      icon: 'success',
-      title: '',
-      html: '',
+      icon: "success",
+      title: "",
+      html: "",
     });
   };
 
@@ -57,7 +58,7 @@ const PersonalCalender: React.FC = () => {
     const data = {
       year: 2023,
       month: 11,
-      day: 12,
+      day: 13,
     };
     try {
       console.log("try 뜨나요");
@@ -107,12 +108,11 @@ const PersonalCalender: React.FC = () => {
             handleClothesModal();
           } else {
             showAlert({
-              icon: 'info',
-              title: '메이크업 또는 의상 날짜가 아닙니다.',
+              icon: "info",
+              title: "메이크업 또는 의상 진단 결과가 없습니다",
             });
           }
         }}
-
         inline
         locale={enGB}
         calendarStartDay={0}
@@ -128,10 +128,22 @@ const PersonalCalender: React.FC = () => {
             <>
               <div>{day}</div>
               <div>
-                {isMakeupDay && <span className="icon">🎨</span>}
-                {isClothesDay && <span className="icon">👗</span>}
+                {isMakeupDay && (
+                  <img
+                    className="icon"
+                    src={images.personal.palette}
+                    alt="사진이 없습니다"
+                  />
+                )}
+                {isClothesDay && (
+                  <img
+                    className="icon"
+                    src={images.personal.dress}
+                    alt="사진이 없습니다"
+                  />
+                )}
                 {!isMakeupDay && !isClothesDay && (
-                  <span className="icon">•</span>
+                  <span className="dotIcon">•</span>
                 )}
               </div>
             </>

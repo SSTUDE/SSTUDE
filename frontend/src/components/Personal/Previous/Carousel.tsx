@@ -6,9 +6,10 @@ import { RootState } from "../../../store/store";
 import { setCarouselIndex } from "./PreviousSlice";
 
 const CarouselMain = styled.section`
-  width: 300px;
+  width: 40vh;
 
   position: relative;
+  top: 21%;
 
   margin: 0 auto;
 `;
@@ -24,19 +25,20 @@ const CarouselWrapperContainer = styled.div`
 // 캐러셀 감싸는 컨테이너
 const CarouselWrapper = styled.div`
   display: flex;
+  transition: all 0.5s ease-out;
 `;
 
 // 캐러셀 슬라이드
 const CarouselSlide = styled.figure`
-  flex: 0 0 300px;
+  flex: 0 0 350px;
   margin: 0;
 `;
 
 // 캐러셀 이미지
 const CarouselImage = styled.img`
-  width: 100%;
-  height: 100%;
-  
+  width: 40vh;
+  height: 56vh;
+
   object-fit: cover;
 `;
 
@@ -49,9 +51,9 @@ const CarouselButtonContainer = styled.div`
 
 // 캐러셀 버튼
 const CarouselButton = styled.button<CarouselButtonProps>`
-  width: 200px;  
-  height: 400px; 
-  border-radius: 100px; 
+  width: 200px;
+  height: 400px;
+  border-radius: 100px;
   color: #fff;
   background: transparent;
   border: none;
@@ -63,17 +65,6 @@ const CarouselButton = styled.button<CarouselButtonProps>`
   &::-moz-focus-inner {
     border: 0;
   }
-`;
-
-
-// 이전 버튼
-const CarouselPrev = styled(CarouselButton)`
-  left: -100px;
-`;
-
-// 다음 버튼
-const CarouselNext = styled(CarouselButton)`
-  right: -100px;
 `;
 
 // 현재 슬라이드 위치
@@ -95,6 +86,7 @@ const CarouselCircle = styled.div`
   cursor: pointer;
   &.active {
     background-color: #333;
+    transition: all 0.7s;
   }
 `;
 
@@ -104,11 +96,18 @@ type CarouselButtonProps = {
 
 const Carousel = () => {
   const dispatch = useDispatch();
-  const currentSlide = useSelector((state: RootState) => state.previous.CarouselIndex);
+  const currentSlide = useSelector(
+    (state: RootState) => state.previous.CarouselIndex
+  );
   const swiperRef = useRef<HTMLDivElement>(null);
 
-  const clothesData = useSelector((state: RootState) => state.previous);
-  const imageList = [images.personal.dummy1, images.personal.errorImg, images.default.menuBtn];
+  // 터치 슬라이드
+  const [touchStart, setTouchStart] = React.useState(0);
+
+  const { clothesData, CarouselIndex } = useSelector(
+    (state: RootState) => state.previous
+  );
+  const imageList = clothesData?.map((data) => data.imgUri) || [];
 
   const showSlide = (slideIndex: number) => {
     if (swiperRef.current) {
@@ -123,12 +122,32 @@ const Carousel = () => {
   };
 
   const handleNextClick = () => {
-    const newSlide = currentSlide < imageList.length - 1 ? currentSlide + 1 : currentSlide;
+    const newSlide =
+      currentSlide < imageList.length - 1 ? currentSlide + 1 : currentSlide;
     showSlide(newSlide);
   };
 
   const handleBulletClick = (index: number) => {
     showSlide(index);
+  };
+
+  // 터치 시작 이벤트 핸들러
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  // 터치 끝 이벤트 핸들러
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchEnd = e.changedTouches[0].clientX;
+
+    // 터치 방향에 따라 슬라이드 이동
+    if (touchStart - touchEnd > 75) {
+      // 오른쪽으로 터치
+      handleNextClick();
+    } else if (touchStart - touchEnd < -75) {
+      // 왼쪽으로 터치
+      handlePrevClick();
+    }
   };
 
   return (
@@ -137,11 +156,13 @@ const Carousel = () => {
         <CarouselWrapper
           ref={swiperRef}
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {imageList.map((image: string, index: number) => (
             <CarouselSlide key={index}>
               <CarouselImage
-                src={image} 
+                src={image}
                 alt="사진이 없습니다"
                 onError={(e) => {
                   e.currentTarget.onerror = null;
@@ -152,12 +173,9 @@ const Carousel = () => {
           ))}
         </CarouselWrapper>
       </CarouselWrapperContainer>
-      <CarouselButtonContainer>
-        <CarouselPrev onClick={handlePrevClick} position="left" />
-        <CarouselNext onClick={handleNextClick} position="right" />
-      </CarouselButtonContainer>
+
       <CarouselPagination>
-        {Array(3)
+        {Array(imageList.length)
           .fill(0)
           .map((_, index) => (
             <CarouselCircle

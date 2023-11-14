@@ -1,5 +1,4 @@
 export type PersonalClothesState = {
-    score: number;
-    url: string;
-  };
-  
+  score: number;
+  imgUri: string;
+};
