@@ -34,12 +34,12 @@ export const PersonalCalender = createAsyncThunk(
   "/static/list",
   async (data: { year: number; month: number }, { rejectWithValue }) => {
     try {
-      console.log("퍼스널컬러 호출해보자"); // 들어옴
+      console.log("퍼스널컬러 달력 호출해보자");
       const response = await axiosToken.post("/static/list", {
         year: 2023,
         month: 11,
       });
-      console.log("res", response);
+      console.log("퍼스널 컬러 달력 res", response);
       return response.data;
     } catch (err: unknown) {
       return rejectWithValue(

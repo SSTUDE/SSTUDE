@@ -121,6 +121,19 @@ const Palette: FC = () => {
     }
   }, [beautyResults?.match_color, paletteRef.current]);
 
+  // 팔레트 애니메이션
+  useEffect(() => {
+    if (paletteRef.current) {
+      const swatches =
+        paletteRef.current.querySelectorAll<HTMLElement>(".swatch");
+      swatches.forEach((swatch: HTMLElement, index: number) => {
+        setTimeout(() => {
+          swatch.classList.add("animate");
+        }, index * 100); // 100ms 간격으로 애니메이션 시작
+      });
+    }
+  }, []);
+
   return (
     <div className="swatchContainer">
       <ul className="palette" ref={paletteRef}>

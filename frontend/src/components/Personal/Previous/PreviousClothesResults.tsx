@@ -15,14 +15,13 @@ const StyledSection = styled.section`
   gap: 10px;
 `;
 
-
 const InfoArticle = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  position: relative;
-  top: -60px; 
+  height: 55%;
+
   gap: 24px;
   z-index: 1;
 
@@ -56,21 +55,42 @@ const StyledHighestScore = styled.p`
   font-size: 3rem;
   font-weight: 600;
   font-family: "LeferiPoint-BlackObliqueA";
-  color: #469be1;
-  text-shadow: 4px 2px 2px #469be175;
+  color: #ffbf00;
+  text-shadow: 4px 2px 2px #bf9b30;
 `;
 
 const PreviousClothesResults = () => {
-  const { clothesData, CarouselIndex } = useSelector((state: RootState) => state.previous);
+  const { clothesData, CarouselIndex } = useSelector(
+    (state: RootState) => state.previous
+  );
+
+  // 진단 값 중 가장 높은 값
+  const highestScore =
+    clothesData && clothesData.length > 0
+      ? Math.max(...clothesData.map((data) => data.score))
+      : 0;
+
+  // 현재 슬라이드의 점수
+  const currentScore = clothesData?.[CarouselIndex]?.score || 0;
+
   return (
     <StyledSection>
-    <InfoArticle>
-      <StyledScoreName>점수</StyledScoreName>
-      <StyledScore>
-        {clothesData?.length ? clothesData[CarouselIndex].score : "진단 결과가 없습니다"}
-      </StyledScore>
-      <StyledHighestScore>High Score</StyledHighestScore>
-    </InfoArticle>
+      <InfoArticle>
+        <StyledScoreName>점수</StyledScoreName>
+        <StyledScore>
+          {clothesData?.[CarouselIndex]?.score || "진단 결과가 없습니다"}
+        </StyledScore>
+        <StyledHighestScore
+          style={{
+            visibility:
+              highestScore > 0 && currentScore === highestScore
+                ? "visible"
+                : "hidden",
+          }}
+        >
+          High Score
+        </StyledHighestScore>
+      </InfoArticle>
       <Carousel />
     </StyledSection>
   );

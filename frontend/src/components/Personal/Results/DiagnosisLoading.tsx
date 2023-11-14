@@ -153,8 +153,8 @@ const Container = styled.div`
   width: ${ringSize};
   height: ${ringSize};
   position: relative;
-  top: 45%;
-  transform: translateY(-45%);
+  top: -100%;
+  transform: translateY(100%);
 `;
 
 const Ring = styled.div`
