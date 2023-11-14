@@ -32,7 +32,7 @@ const ModalContainer = styled.div`
   overflow: auto;
 
   width: 32%;
-  max-height: 95%;
+  /* max-height: 95%; */
 
   background: linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb);
   background-size: 200% 200%;
@@ -142,6 +142,7 @@ const Modal: React.FC<ModalProps> = ({
 
   const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`; // 설정된 값
   console.log(formattedDate);
+
   return (
     <ModalOverlay onClick={handleClose}>
       <ModalContainer onClick={stopPropagation}>

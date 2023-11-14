@@ -22,7 +22,7 @@ const Layout = () => {
         <Routes>
           <Route
             path="/previouspersonalcolor"
-            element={<PreviousPersonalColorResults />}
+            // element={<PreviousPersonalColorResults />}
           />
           <Route path="/previousclothes" element={<PreviousClothesResults />} />
         </Routes>

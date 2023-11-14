@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { images } from "../../constants/images";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 // 차트 전체 컨테이너
 const StyledChartContainer = styled.section`
@@ -27,6 +29,9 @@ const CircleChartContainer = styled.section`
   position: relative;
   max-width: 180px;
   width: 100%;
+
+  display: flex;
+  justify-content: center;
 `;
 
 const CircleChart = styled.svg`
@@ -40,7 +45,7 @@ const CircleConsumedKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  left: -70%;
+  left: -80%;
   top: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -51,7 +56,7 @@ const CircleBruntKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  right: -70%;
+  right: -80%;
   top: 50%;
   transform: translate(50%, -50%);
 `;
@@ -176,16 +181,25 @@ const TodayHealthData = () => {
   const [burntKcalPercentage, setBurntKcalPercentage] = useState(0);
   const [consumedKcalPercentage, setConsumedKcalPercentage] = useState(0);
 
-  // 더미 데이터
-  const totalKcal = 5000;
-  const burntKcal = 2000;
-  const consumedKcal = 3000;
+  const { detailData } = useSelector((state: RootState) => state.health);
+  const [totalKcal, setTotalKcal] = useState(0);
 
   useEffect(() => {
-    // 비율 계산
-    setBurntKcalPercentage((burntKcal / totalKcal) * 100);
-    setConsumedKcalPercentage((consumedKcal / totalKcal) * 100);
-  }, []);
+    // API에서 받아온 데이터의 초기값이 설정되어 있지 않을 수 있으므로,
+    // Optional Chaining을 사용하여 undefined 또는 null을 방지합니다.
+    const fetchedBurntKcal = detailData?.burntKcal || 0;
+    const fetchedConsumedKcal = detailData?.consumedKcal || 0;
+
+    // totalKcal을 계산합니다.
+    const total = fetchedBurntKcal + fetchedConsumedKcal;
+
+    // 계산된 totalKcal을 상태에 저장합니다.
+    setTotalKcal(total);
+
+    // 비율을 계산하고, 상태를 업데이트합니다.
+    setBurntKcalPercentage((fetchedBurntKcal / total) * 100);
+    setConsumedKcalPercentage((fetchedConsumedKcal / total) * 100);
+  }, [detailData]); // detailData가 변경될 때마다 이 useEffect는 실행됩니다.
 
   const currentDate = new Date();
 
@@ -206,53 +220,22 @@ const TodayHealthData = () => {
     .replace(/: /g, ":")
     .split(" (")[0];
 
-  // useEffect(() => {
-  //   axios.get('API endpoint') // API endpoint를 실제 API endpoint로 교체
-  //     .then(response => {
-  //       const data = response.data;
-  //       setCardsData([
-  //         {
-  //           icon: images.health.steps,
-  //           title: "Steps",
-  //           text: `${data.steps} steps`,
-  //         },
-  //         {
-  //           icon: images.health.burntKcal,
-  //           title: "Burnt Kcal",
-  //           text: `${data.burntKcal} Kcal`,
-  //         },
-  // {
-  // icon: `${images.health.steps}`,
-  // title: "Steps",
-  // text: "3396 steps",
-  //  },
-  //         {
-  //           icon: images.health.sleepTime,
-  //           title: "Sleep Time",
-  //           text: data.sleepTime,
-  //         },
-  //         {
-  //           icon: images.health.consumedKcal,
-  //           title: "Consumed Kcal",
-  //           text: `${data.consumedKcal} Kcal`,
-  //         },
-  //       ]);
-  //     })
-  //     .catch(error => {
-  //       console.error('Failed to fetch health data:', error);
-  //     });
-  // }, []);
-
   const [cardsData, setCardsData] = useState([
     {
       icon: `${images.health.steps}`,
       title: "걸음 수",
-      text: "3396 걸음",
+      text: detailData?.steps
+        ? `${detailData.steps} Steps`
+        : "데이터가 없습니다.",
     },
     {
       icon: `${images.health.sleepTime}`,
       title: "수면 시간",
-      text: "4시간 46분",
+      text: detailData?.sleepTime
+        ? `${Math.floor(detailData.sleepTime / 60)}시간 ${
+            detailData.sleepTime % 60
+          }분`
+        : "데이터가 없습니다.",
     },
     {
       icon: `${images.health.clock}`,
@@ -262,31 +245,19 @@ const TodayHealthData = () => {
     {
       icon: `${images.health.burntKcal}`,
       title: "소모 Kcal",
-      text: "654 Kcal",
+      text: detailData?.burntKcal
+        ? `${detailData.burntKcal} Kcal`
+        : "데이터가 없습니다.",
     },
 
     {
       icon: `${images.health.consumedKcal}`,
       title: "섭취 Kcal",
-      text: "47 Kcal",
+      text: detailData?.consumedKcal
+        ? `${detailData.consumedKcal} Kcal`
+        : "데이터가 없습니다.",
     },
   ]);
-
-  // const rotateRight = () => {
-  //   const newPositions = cardPositions.map((position, index) => {
-  //     return cardPositions[(index + 1) % cardPositions.length];
-  //   });
-  //   setCardPositions(newPositions);
-  // };
-
-  // const rotateLeft = () => {
-  //   const newPositions = cardPositions.map((position, index) => {
-  //     return cardPositions[
-  //       (index - 1 + cardPositions.length) % cardPositions.length
-  //     ];
-  //   });
-  //   setCardPositions(newPositions);
-  // };
 
   const moveToCenter = (index: number) => {
     const newPositions = [...options];
@@ -313,7 +284,7 @@ const TodayHealthData = () => {
                 strokeLinecap="round"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${burntKcalPercentage} 100`}
               />
               <Circle
@@ -323,7 +294,7 @@ const TodayHealthData = () => {
                 strokeLinecap="butt"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${consumedKcalPercentage} 100`}
                 strokeDashoffset={-burntKcalPercentage}
               />

@@ -133,6 +133,6 @@
 /* 아이콘 */
 .icon {
   display: inline-block;
-  font-size: 30px;
-  padding: 10px;
+  font-size: 28px !important;
+  padding: 7px;
 }

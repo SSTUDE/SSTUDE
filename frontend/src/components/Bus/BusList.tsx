@@ -9,7 +9,6 @@ import { busRealTimeForServer, setBusSave } from './BusSlice';
 const BusList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const busList = useSelector((state: RootState) => state.bus.busList) || [];
-  console.log(busList)
   const validBusList = Array.isArray(busList)
     ? busList.filter(bus => bus !== undefined)
     : busList ? [busList] : [];

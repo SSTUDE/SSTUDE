@@ -29,7 +29,6 @@ export interface busServer {
 export interface BusState {
   gps: [number, number] | null;
   busStops: busStops[] | null;
-  // station: string | null;
   busStop: any;
   busList: busServer[] | null;
   busSave: any;
@@ -46,10 +45,6 @@ export type BusButtonProps = {
   selected?: boolean;
   onClick?: () => void;
 };
-
-export interface TimeCircleProps {
-  timeLeft: number;
-}
 
 export interface BusRealTimeData {
   arrivalPrevStationCount: number;

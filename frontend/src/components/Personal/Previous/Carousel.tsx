@@ -1,19 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { images } from "../../../constants/images";
+import { RootState } from "../../../store/store";
+import { setCarouselIndex } from "./PreviousSlice";
 
 const CarouselMain = styled.section`
-  width: 350px;
+  width: 300px;
 
   position: relative;
 
   margin: 0 auto;
-  user-select: none;
 `;
 
 // 이미지 보이게 하기 위한 더 큰 컨테이너
 const CarouselWrapperContainer = styled.div`
-  height: 70%;
+  /* height: 70%; */
 
   overflow: hidden;
   box-shadow: 0 0 10px 5px black;
@@ -22,68 +24,56 @@ const CarouselWrapperContainer = styled.div`
 // 캐러셀 감싸는 컨테이너
 const CarouselWrapper = styled.div`
   display: flex;
-  transition: transform 1s;
-  /* width: 0; */
 `;
 
 // 캐러셀 슬라이드
 const CarouselSlide = styled.figure`
-  flex: 0 0 350px;
-  position: relative;
+  flex: 0 0 300px;
   margin: 0;
 `;
 
 // 캐러셀 이미지
 const CarouselImage = styled.img`
-  display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  
   object-fit: cover;
-  /* border-radius: 20px; */
 `;
 
 // 버튼 컨테이너
 const CarouselButtonContainer = styled.div`
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
+  top: 0%;
   width: 100%;
 `;
 
 // 캐러셀 버튼
-const CarouselButton = styled.button`
-  width: 50px;
-  height: 50px;
-  /* color: #fff; */
+const CarouselButton = styled.button<CarouselButtonProps>`
+  width: 200px;  
+  height: 400px; 
+  border-radius: 100px; 
+  color: #fff;
   background: transparent;
   border: none;
   outline: none;
-  cursor: pointer;
+  ${({ position }) => position && `position: absolute; ${position}: -100px;`}
+  &:focus {
+    outline: none;
+  }
+  &::-moz-focus-inner {
+    border: 0;
+  }
 `;
+
 
 // 이전 버튼
 const CarouselPrev = styled(CarouselButton)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  position: absolute;
-  left: -70px;
-
-  padding-top: 5px;
-  padding-bottom: 5px;
+  left: -100px;
 `;
 
 // 다음 버튼
 const CarouselNext = styled(CarouselButton)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  position: absolute;
-  right: -70px;
+  right: -100px;
 `;
 
 // 현재 슬라이드 위치
@@ -108,27 +98,33 @@ const CarouselCircle = styled.div`
   }
 `;
 
+type CarouselButtonProps = {
+  position?: "left" | "right";
+};
+
 const Carousel = () => {
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const dispatch = useDispatch();
+  const currentSlide = useSelector((state: RootState) => state.previous.CarouselIndex);
   const swiperRef = useRef<HTMLDivElement>(null);
+
+  const clothesData = useSelector((state: RootState) => state.previous);
+  const imageList = [images.personal.dummy1, images.personal.errorImg, images.default.menuBtn];
 
   const showSlide = (slideIndex: number) => {
     if (swiperRef.current) {
       swiperRef.current.style.transform = `translateX(-${slideIndex * 100}%)`;
     }
-    setCurrentSlide(slideIndex);
+    dispatch(setCarouselIndex(slideIndex));
   };
 
   const handlePrevClick = () => {
-    if (currentSlide > 0) {
-      showSlide(currentSlide - 1);
-    }
+    const newSlide = currentSlide > 0 ? currentSlide - 1 : currentSlide;
+    showSlide(newSlide);
   };
 
   const handleNextClick = () => {
-    if (currentSlide < 2) {
-      showSlide(currentSlide + 1);
-    }
+    const newSlide = currentSlide < imageList.length - 1 ? currentSlide + 1 : currentSlide;
+    showSlide(newSlide);
   };
 
   const handleBulletClick = (index: number) => {
@@ -136,82 +132,42 @@ const Carousel = () => {
   };
 
   return (
-    <>
-      <CarouselMain>
-        <CarouselWrapperContainer>
-          <CarouselWrapper ref={swiperRef}>
-            <CarouselSlide>
+    <CarouselMain>
+      <CarouselWrapperContainer>
+        <CarouselWrapper
+          ref={swiperRef}
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {imageList.map((image: string, index: number) => (
+            <CarouselSlide key={index}>
               <CarouselImage
-                src={images.personal.dummy1}
+                src={image} 
                 alt="사진이 없습니다"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = images.personal.errorImg;
+                }}
               />
             </CarouselSlide>
-            <CarouselSlide>
-              <CarouselImage
-                src={images.personal.dummy1}
-                alt="사진이 없습니다"
-              />
-            </CarouselSlide>
-            <CarouselSlide>
-              <CarouselImage
-                src={images.personal.dummy1}
-                alt="사진이 없습니다"
-              />
-            </CarouselSlide>
-          </CarouselWrapper>
-        </CarouselWrapperContainer>
-        <CarouselButtonContainer>
-          <CarouselPrev onClick={handlePrevClick}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              fill="currentColor"
-              className="bi bi-chevron-double-left"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-              />
-            </svg>
-          </CarouselPrev>
-          <CarouselNext onClick={handleNextClick}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="50"
-              height="50"
-              fill="currentColor"
-              className="bi bi-chevron-double-right"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
-              />
-            </svg>
-          </CarouselNext>
-        </CarouselButtonContainer>
-
-        <CarouselPagination>
-          {[0, 1, 2].map((_, index) => (
+          ))}
+        </CarouselWrapper>
+      </CarouselWrapperContainer>
+      <CarouselButtonContainer>
+        <CarouselPrev onClick={handlePrevClick} position="left" />
+        <CarouselNext onClick={handleNextClick} position="right" />
+      </CarouselButtonContainer>
+      <CarouselPagination>
+        {Array(3)
+          .fill(0)
+          .map((_, index) => (
             <CarouselCircle
               key={index}
               className={currentSlide === index ? "active" : ""}
               onClick={() => handleBulletClick(index)}
-            ></CarouselCircle>
+            />
           ))}
-        </CarouselPagination>
-      </CarouselMain>
-    </>
+      </CarouselPagination>
+    </CarouselMain>
   );
 };
 export default Carousel;

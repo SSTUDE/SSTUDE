@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { images } from "../../constants/images";
-import PrevHealth from "./PrevHealth";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 // 차트 전체 컨테이너
 const StyledChartContainer = styled.section`
@@ -28,6 +29,8 @@ const CircleChartContainer = styled.section`
   position: relative;
   max-width: 180px;
   width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 const CircleChart = styled.svg`
@@ -41,7 +44,7 @@ const CircleConsumedKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  left: -70%;
+  left: -80%;
   top: 50%;
   transform: translate(-50%, -50%);
 `;
@@ -52,7 +55,7 @@ const CircleBruntKcalChartPercentage = styled.span`
   font-weight: 700;
 
   position: absolute;
-  right: -70%;
+  right: -80%;
   top: 50%;
   transform: translate(50%, -50%);
 `;
@@ -177,16 +180,27 @@ const PrevHealthData = () => {
   const [burntKcalPercentage, setBurntKcalPercentage] = useState(0);
   const [consumedKcalPercentage, setConsumedKcalPercentage] = useState(0);
 
-  // 더미 데이터
-  const totalKcal = 5000;
-  const burntKcal = 2000;
-  const consumedKcal = 3000;
+  const { prevDetailData } = useSelector((state: RootState) => state.health);
+  console.log("이전 헬스 데이터", prevDetailData);
+
+  const [totalKcal, setTotalKcal] = useState(0);
 
   useEffect(() => {
-    // 비율 계산
-    setBurntKcalPercentage((burntKcal / totalKcal) * 100);
-    setConsumedKcalPercentage((consumedKcal / totalKcal) * 100);
-  }, []);
+    // API에서 받아온 데이터의 초기값이 설정되어 있지 않을 수 있으므로,
+    // Optional Chaining을 사용하여 undefined 또는 null을 방지합니다.
+    const fetchedBurntKcal = prevDetailData?.burntKcal || 0;
+    const fetchedConsumedKcal = prevDetailData?.consumedKcal || 0;
+
+    // totalKcal을 계산합니다.
+    const total = fetchedBurntKcal + fetchedConsumedKcal;
+
+    // 계산된 totalKcal을 상태에 저장합니다.
+    setTotalKcal(total);
+
+    // 비율을 계산하고, 상태를 업데이트합니다.
+    setBurntKcalPercentage((fetchedBurntKcal / total) * 100);
+    setConsumedKcalPercentage((fetchedConsumedKcal / total) * 100);
+  }, [prevDetailData]); // detailData가 변경될 때마다 이 useEffect는 실행됩니다.
 
   const currentDate = new Date();
 
@@ -248,12 +262,18 @@ const PrevHealthData = () => {
     {
       icon: `${images.health.steps}`,
       title: "걸음 수",
-      text: "3396 걸음",
+      text: prevDetailData?.steps
+        ? `${prevDetailData.steps} Steps`
+        : "데이터가 없습니다.",
     },
     {
       icon: `${images.health.sleepTime}`,
       title: "수면 시간",
-      text: "4시간 46분",
+      text: prevDetailData?.sleepTime
+        ? `${Math.floor(prevDetailData.sleepTime / 60)}시간 ${
+            prevDetailData.sleepTime % 60
+          }분`
+        : "데이터가 없습니다.",
     },
     {
       icon: `${images.health.clock}`,
@@ -263,13 +283,17 @@ const PrevHealthData = () => {
     {
       icon: `${images.health.burntKcal}`,
       title: "소모 Kcal",
-      text: "654 Kcal",
+      text: prevDetailData?.burntKcal
+        ? `${prevDetailData.burntKcal} Kcal`
+        : "데이터가 없습니다.",
     },
 
     {
       icon: `${images.health.consumedKcal}`,
       title: "섭취 Kcal",
-      text: "47 Kcal",
+      text: prevDetailData?.consumedKcal
+        ? `${prevDetailData.consumedKcal} Kcal`
+        : "데이터가 없습니다.",
     },
   ]);
 
@@ -314,7 +338,7 @@ const PrevHealthData = () => {
                 strokeLinecap="round"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${burntKcalPercentage} 100`}
               />
               <Circle
@@ -324,7 +348,7 @@ const PrevHealthData = () => {
                 strokeLinecap="butt"
                 cx="18"
                 cy="18"
-                r="16"
+                r="15"
                 strokeDasharray={`${consumedKcalPercentage} 100`}
                 strokeDashoffset={-burntKcalPercentage}
               />

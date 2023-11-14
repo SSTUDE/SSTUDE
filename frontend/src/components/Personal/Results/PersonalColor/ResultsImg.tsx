@@ -1,6 +1,8 @@
 import React from "react";
 import { images } from "../../../../constants/images";
 import { styled, keyframes } from "styled-components";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store/store";
 
 const shadowDropCenter = keyframes`
   0% {
@@ -17,10 +19,11 @@ const StyledContainer = styled.section`
   display: inline-block;
   display: flex;
   justify-content: center;
+  width: 50%;
 `;
 
 const StyledImg = styled.img`
-  width: 70%;
+  width: 65%;
   margin: 2%;
 
   border-radius: 20px;
@@ -30,9 +33,19 @@ const StyledImg = styled.img`
 `;
 
 const ResultsImg = () => {
+  const { beautyResults } = useSelector((state: RootState) => state.personal);
+  console.log("유저 이미지 넘어오나요?", beautyResults?.user_img);
   return (
     <StyledContainer>
-      <StyledImg src={images.personal.dummy1} />
+      <StyledImg
+        src={beautyResults?.user_img || "non-existent-url"}
+        alt="사진이 없습니다"
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = images.personal.errorImg;
+          console.log("오류 이미지로 변경 완료");
+        }}
+      />
     </StyledContainer>
   );
 };

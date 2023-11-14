@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import "./font.css";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../store/store";
 
 const StyledContainer = styled.section`
   flex: 1;
@@ -137,6 +139,7 @@ const CarouselCircle = styled.div`
 const ResultsInfo = () => {
   const [carouselIndex, setCarouselIndex] = useState(0); // 캐러셀
   const [touchStart, setTouchStart] = useState(0); // 터치 이벤트
+  const { beautyResults } = useSelector((state: RootState) => state.personal);
 
   // 터치 시작 이벤트 처리
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -161,14 +164,14 @@ const ResultsInfo = () => {
     >
       {carouselIndex === 0 ? (
         <>
-          <StyledColorNameEN>Summer Mute</StyledColorNameEN>
-          <StyledColorNameKR>여름 뮤트</StyledColorNameKR>
+          <StyledColorNameEN>
+            {beautyResults?.eng || "No Results"}
+          </StyledColorNameEN>
+          <StyledColorNameKR>
+            {beautyResults?.personal_color || "No Results"}
+          </StyledColorNameKR>
           <StyledColorInfo>
-            <div>장밋빛의 잿빛 피부를 가지고 있는 뮤트톤!</div>
-            <div>
-              섀도우는 밝은 애쉬그레이나 로즈빛으로 가볍게, 립은 핫핑크나
-              체리레드로 대비를 주어 생동감 있게 메이크업 해주세요!
-            </div>
+            {beautyResults?.expl || "No Results"}
           </StyledColorInfo>
         </>
       ) : (
@@ -183,27 +186,27 @@ const ResultsInfo = () => {
           <div>
             <StyledMyBeautyTipContent>피부색</StyledMyBeautyTipContent>
             <StyledMyBeautyTipInfo>
-              노란 빛이 도는 밝은 색
+              {beautyResults?.skin || "No Results"}
             </StyledMyBeautyTipInfo>
           </div>
           <div>
             <StyledMyBeautyTipContent>머리색</StyledMyBeautyTipContent>
-            <StyledMyBeautyTipInfo>밝은 갈색, 짙은 갈색</StyledMyBeautyTipInfo>
+            <StyledMyBeautyTipInfo>
+              {beautyResults?.hair || "No Results"}
+            </StyledMyBeautyTipInfo>
           </div>
           <div>
             <StyledMyBeautyTipContent>
               눈동자 테두리 색
             </StyledMyBeautyTipContent>
-            <StyledMyBeautyTipInfo>갈색, 황갈색</StyledMyBeautyTipInfo>
+            <StyledMyBeautyTipInfo>
+              {beautyResults?.eye || "No Results"}
+            </StyledMyBeautyTipInfo>
           </div>
           <div>
             <StyledMyBeautyTipContent>액세서리</StyledMyBeautyTipContent>
-            <StyledMyBeautyTipInfo>로즈골드, 도트, 리본</StyledMyBeautyTipInfo>
-          </div>
-          <div>
-            <StyledMyBeautyTipContent>어울리는 색</StyledMyBeautyTipContent>
             <StyledMyBeautyTipInfo>
-              노랑이 섞인 선명하고 부드러운 색
+              {beautyResults?.accessary || "No Results"}
             </StyledMyBeautyTipInfo>
           </div>
         </StyledMyBeautyTipContainer>

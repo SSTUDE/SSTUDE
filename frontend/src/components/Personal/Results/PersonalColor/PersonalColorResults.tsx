@@ -32,7 +32,7 @@ const StyledResultsContainer = styled.section`
   right: -25%;
 
   width: 75%;
-  /* height: 100vh; */
+  height: 65vh;
 `;
 
 // 퍼스널 컬러 결과 컨테이너

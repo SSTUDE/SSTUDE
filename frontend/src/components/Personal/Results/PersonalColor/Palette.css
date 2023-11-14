@@ -9,9 +9,12 @@
   padding: 0;
   position: relative;
   left: 50%;
-  margin-left: -50px;
+  margin-left: -88px;
   top: 80%;
-  width: 100px;
+  width: 90%;
+
+  display: flex;
+  justify-content: space-around;
 }
 
 /* .swatch:last-child:after {
@@ -35,7 +38,7 @@
   transition: 800ms all;
   display: block;
 
-  position: absolute;
+  position: relative;
   left: 0;
   top: 50px;
 
@@ -69,7 +72,7 @@
   list-style: none;
 
   position: absolute;
-  left: 120px;
+  left: 124px;
   top: 0px;
 
   margin: 0;
@@ -77,7 +80,7 @@
   padding: 10px;
 
   width: 210px;
-  /* height: 120px; */
+  height: 80px;
 
   transition: 600ms all;
   transform: rotateZ(90deg) rotateX(320deg);
@@ -140,50 +143,51 @@
 }
 
 .swatch:nth-child(2) {
-  transform: rotate(0deg) translateX(-275px) translateY(-30px);
+  transform: rotate(0deg) translateX(-380px) translateY(-30px);
 }
 
 .swatch:nth-child(3) {
-  transform: rotate(0deg) translateX(-175px) translateY(-30px);
+  transform: rotate(0deg) translateX(-400px) translateY(-30px);
 }
 
 .swatch:nth-child(4) {
-  transform: rotate(0deg) translateX(-75px) translateY(-30px);
+  transform: rotate(0deg) translateX(-420px) translateY(-30px);
 }
 
 .swatch:nth-child(5) {
-  transform: rotate(0deg) translateX(25px) translateY(-30px);
+  transform: rotate(0deg) translateX(-440px) translateY(-30px);
 }
 
 .swatch:nth-child(6) {
-  transform: rotate(0deg) translateX(125px) translateY(-30px);
+  transform: rotate(0deg) translateX(-460px) translateY(-30px);
 }
 
 .swatch:nth-child(7) {
-  transform: rotate(0deg) translateX(225px) translateY(-30px);
+  transform: rotate(0deg) translateX(-480px) translateY(-30px);
 }
 
 .swatch:nth-child(8) {
-  transform: rotate(0deg) translateX(325px) translateY(-30px);
+  transform: rotate(0deg) translateX(-500px) translateY(-30px);
 }
 
 .swatch:nth-child(9) {
-  transform: rotate(0deg) translateX(425px) translateY(-30px);
+  transform: rotate(0deg) translateX(-520px) translateY(-30px);
 }
 
 .swatch:nth-child(10) {
-  transform: rotate(0deg) translateX(525px) translateY(-30px);
+  transform: rotate(0deg) translateX(-540px) translateY(-30px);
 }
 
 .swatch:nth-child(11) {
-  transform: rotate(0deg) translateX(625px) translateY(-30px);
+  transform: rotate(0deg) translateX(-560px) translateY(-30px);
 }
 
 .swatch:nth-child(12) {
-  transform: rotate(0deg) translateX(725px) translateY(-30px);
+  transform: rotate(0deg) translateX(-580px) translateY(-30px);
 }
+
 .swatch:nth-child(13) {
-  transform: rotate(0deg) translateX(820px) translateY(-30px);
+  transform: rotate(0deg) translateX(-600px) translateY(-30px);
 }
 
 .swatch.select {
@@ -192,53 +196,53 @@
 
 /* 색상 카드 선택 */
 .swatch.select:nth-child(1) {
-  transform: rotate(0deg) translateX(-400px) translateY(-100px);
+  transform: rotate(0deg) translateX(-380px) translateY(-100px);
 }
 
 .swatch.select:nth-child(2) {
-  transform: rotate(0deg) translateX(-300px) translateY(-100px);
+  transform: rotate(0deg) translateX(-400px) translateY(-100px);
 }
 
 .swatch.select:nth-child(3) {
-  transform: rotate(0deg) translateX(-200px) translateY(-100px);
+  transform: rotate(0deg) translateX(-420px) translateY(-100px);
 }
 
 .swatch.select:nth-child(4) {
-  transform: rotate(0deg) translateX(-100px) translateY(-100px);
+  transform: rotate(0deg) translateX(-440px) translateY(-100px);
 }
 
 .swatch.select:nth-child(5) {
-  transform: rotate(0deg) translateX(0px) translateY(-100px);
+  transform: rotate(0deg) translateX(-460px) translateY(-100px);
 }
 
 .swatch.select:nth-child(6) {
-  transform: rotate(0deg) translateX(100px) translateY(-100px);
+  transform: rotate(0deg) translateX(-480px) translateY(-100px);
 }
 
 .swatch.select:nth-child(7) {
-  transform: rotate(0deg) translateX(200px) translateY(-100px);
+  transform: rotate(0deg) translateX(-500px) translateY(-100px);
 }
 
 .swatch.select:nth-child(8) {
-  transform: rotate(0deg) translateX(300px) translateY(-100px);
+  transform: rotate(0deg) translateX(-520px) translateY(-100px);
 }
 
 .swatch.select:nth-child(9) {
-  transform: rotate(0deg) translateX(400px) translateY(-100px);
+  transform: rotate(0deg) translateX(-540px) translateY(-100px);
 }
 
 .swatch.select:nth-child(10) {
-  transform: rotate(0deg) translateX(500px) translateY(-100px);
+  transform: rotate(0deg) translateX(-560px) translateY(-100px);
 }
 
 .swatch.select:nth-child(11) {
-  transform: rotate(0deg) translateX(600px) translateY(-100px);
+  transform: rotate(0deg) translateX(-580px) translateY(-100px);
 }
 
 .swatch.select:nth-child(12) {
-  transform: rotate(0deg) translateX(700px) translateY(-100px);
+  transform: rotate(0deg) translateX(-600px) translateY(-100px);
 }
 
 .swatch.select:nth-child(13) {
-  transform: rotate(0deg) translateX(780px) translateY(-100px);
+  transform: rotate(0deg) translateX(-620px) translateY(-100px);
 }

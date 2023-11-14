@@ -1,13 +1,20 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { styled } from "styled-components";
-import { images } from "../../../constants/images";
 import Carousel from "./Carousel";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 const StyledSection = styled.section`
+  display: flex;
+  flex-direction: column-reverse; // 열 방향을 반대로 설정
+  /* justify-content: flex-end; // 컨텐츠를 컨테이너의 아래쪽으로 정렬
+  align-items: center; // 가로축 중앙 정렬 (필요에 따라 조정) */
   width: 100%;
   height: 65vh;
-  position: relative;
+  color: white;
+  gap: 10px;
 `;
+
 
 const InfoArticle = styled.article`
   display: flex;
@@ -15,20 +22,16 @@ const InfoArticle = styled.article`
   align-items: center;
 
   position: relative;
-  top: -44px;
-  height: calc(65% - 159px);
+  top: -60px; 
+  gap: 24px;
+  z-index: 1;
 
   background-color: #000000c2;
   color: white;
-  /* background-color: black; */
 `;
 
 // 점수 글씨
 const StyledScoreName = styled.p`
-  display: flex;
-  justify-content: center;
-
-  position: relative;
   margin: 3% 0 0 0;
 
   font-size: 2rem;
@@ -38,10 +41,6 @@ const StyledScoreName = styled.p`
 
 // 점수
 const StyledScore = styled.p`
-  display: flex;
-  justify-content: center;
-
-  position: relative;
   top: 20px;
 
   font-size: 2rem;
@@ -52,10 +51,6 @@ const StyledScore = styled.p`
 
 // 최고 점수
 const StyledHighestScore = styled.p`
-  display: flex;
-  justify-content: center;
-
-  position: relative;
   top: 50px;
 
   font-size: 3rem;
@@ -66,15 +61,19 @@ const StyledHighestScore = styled.p`
 `;
 
 const PreviousClothesResults = () => {
+  const { clothesData, CarouselIndex } = useSelector((state: RootState) => state.previous);
   return (
     <StyledSection>
+    <InfoArticle>
+      <StyledScoreName>점수</StyledScoreName>
+      <StyledScore>
+        {clothesData?.length ? clothesData[CarouselIndex].score : "진단 결과가 없습니다"}
+      </StyledScore>
+      <StyledHighestScore>High Score</StyledHighestScore>
+    </InfoArticle>
       <Carousel />
-      <InfoArticle>
-        <StyledScoreName>점수</StyledScoreName>
-        <StyledScore>100점</StyledScore>
-        <StyledHighestScore>High Score</StyledHighestScore>
-      </InfoArticle>
     </StyledSection>
   );
 };
+
 export default PreviousClothesResults;

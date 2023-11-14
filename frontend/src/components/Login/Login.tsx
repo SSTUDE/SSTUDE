@@ -8,13 +8,16 @@ import { RASPBERRY_URL } from '../../apis/constants';
 import styled, { keyframes } from 'styled-components';
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import { useNavigate } from "react-router";
 
 const Login = () => {
-  console.log("0 - 렌더링")
+  console.log("0 - 렌더링");
 
   // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   // const [isLogoClickable, setIsLogoClickable] = useState(true);
+  const navigate = useNavigate()
+
 
   // useEffect(() => {
   //   loginClick()
@@ -64,6 +67,7 @@ const Login = () => {
         dispatch(signInUser({deviceNum : "string"}));
       // console.log("로그인 - 응답 받음:", response);
       // console.log(" !!!!! 로그인 성공 !!!!!")
+      navigate("/mirror")
     // })
     // .catch(error => {
       // console.log(error)
@@ -88,7 +92,7 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh;
 `;
 
 const pulse = keyframes`
@@ -116,7 +120,7 @@ const flip = keyframes`
 `;
 
 const StyledImage = styled.img`
-  width: 50%; 
+  width: 50%;
   height: auto;
   animation: ${pulse} 2s infinite ease-in-out;
   &:hover {
@@ -125,12 +129,12 @@ const StyledImage = styled.img`
 `;
 
 const Btn = styled.p`
-padding: 10px 20px;
-font-size: 3em;
-font-weight: bold;
-margin: 5px; 
-color: ${TEXT_COLOR};
-cursor: pointer; 
-`
+  padding: 10px 20px;
+  font-size: 3em;
+  font-weight: bold;
+  margin: 5px;
+  color: ${TEXT_COLOR};
+  cursor: pointer;
+`;
 
 export default Login;
