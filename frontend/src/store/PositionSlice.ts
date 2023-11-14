@@ -9,7 +9,9 @@ const initialState: SFGridItem = {
     arePt3: '',
     areaCode: '',
     latitude: '36.10774883999876',
+    // latitude: '37.49648606',
     longitude: '128.4220535380925',
+    // longitude: '127.02836155',
     nX: '',
     nY: ''
   };

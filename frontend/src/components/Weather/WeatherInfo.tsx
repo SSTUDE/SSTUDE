@@ -18,15 +18,16 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
   const position = useSelector((state: RootState) => state.position);
 
-  let { nX, nY, arePt1, arePt2 } = {
+  let { nX, nY, arePt1, arePt2, arePt3 } = {
     nX: position.nX,
     nY: position.nY,
     arePt1: position.arePt1,
     arePt2: position.arePt2,
+    arePt3: position.arePt3,
   };
-
+  console.log(nX, nY, arePt1, arePt2, arePt3);
   const airRegionCode = findRegion(arePt1, arePt2);
-  
+  console.log(airRegionCode);
 
   // 단기예보 관련 데이터
   const weatherData = useSelector((state: RootState) => state.weather.data); 
@@ -99,7 +100,7 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
 
   // 공기 내 지역 데이터 필터링
   const airQualityCustomData = airQualityData.filter((item: AirQualityCustom) => {
-    return item.stationName === '진미동';
+    return arePt3 && item.stationName.includes(arePt3.substring(0, 2));
   })[0];
 
   const findTemperatureExtremes = (data: WeatherDataCustom[]) => {
@@ -184,8 +185,8 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
       <DustCon>
         {airQualityCustomData && (
             <AirIcon 
-              pm10Grade={airQualityCustomData.pm10Grade1h}
-              pm25Grade={airQualityCustomData.pm25Grade1h}
+              pm10Grade={airQualityCustomData.pm10Grade1h || airQualityCustomData.pm10Grade}
+              pm25Grade={airQualityCustomData.pm25Grade1h || airQualityCustomData.pm25Grade}
             />
           )}
       </DustCon>
