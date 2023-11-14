@@ -65,7 +65,7 @@ const Login = () => {
       Swal.close();
       showAlert({
         icon: 'success',
-        title: '회원가입 완료',
+        title: '회원가입 완료, 로그인이 진행됩니다.',
       });
       
       setTimeout(() => {loginClick();},1000);
@@ -96,6 +96,10 @@ const Login = () => {
           dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
           console.log("로그인 - 응답 받음:", response);
           console.log(" !!!!! 로그인 성공 !!!!!")
+          showAlert({
+            icon: 'success',
+            title: '로그인이 완료.',
+          });
         navigate("/mirror")
         }
       })
