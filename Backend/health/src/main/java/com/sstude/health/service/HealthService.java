@@ -170,35 +170,69 @@ public class HealthService {
 
 
 
-    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 0 0 * * *")
+//    @Transactional
+//    public void saveLatestHealthData() {
+//        log.info("시간들어옴!!!!");
+//        // 한국 시간대의 어제 날짜와 현재 날짜를 가져옴
+//        LocalDateTime start = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1);
+//        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusSeconds(1);  // 1 초전
+//
+//        // MongoDB에서 해당 기간의 데이터를 가져옴
+//        healthDataRepository.findByCreatedAtBetween(start, end)
+//                .filter(healthData -> healthData.getMemberId() != null)  // memberId가 null이 아닌 데이터만 선택
+//                .groupBy(HealthData::getMemberId)  // memberId로 그룹화
+//                .flatMap(group -> group.reduce((a, b) -> a.getCreatedAt().isAfter(b.getCreatedAt()) ? a : b))  // 각 그룹에서 가장 최신 데이터 선택
+//                .flatMap(latestHealthData -> {  // 선택된 데이터를 이용하여 Health 객체 생성 후 저장
+//                    Health health = Health.builder()
+//                            .memberId(latestHealthData.getMemberId())
+//                            .recordDate(Date.from(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1).atZone(ZoneId.systemDefault()).toInstant()))
+//                            .burntKcal(latestHealthData.getBurntKcal())
+//                            .consumedKcal(latestHealthData.getConsumedKcal())
+//                            .sleepTime(latestHealthData.getSleepTime())
+//                            .steps(latestHealthData.getSteps())
+//                            .build();
+//
+//                    return Mono.fromCallable(() -> healthRepository.save(health)).then();  // Health를 저장 후 Mono로 변환
+//                })
+//                .subscribe();  // 리액티브 스트림 구독
+//    }
+
+//    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 20 10 * * *")
     @Transactional
     public void saveLatestHealthData() {
         log.info("시간들어옴!!!!");
-        // 한국 시간대의 어제 날짜와 현재 날짜를 가져옴
         LocalDateTime start = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1);
-        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusSeconds(1);  // 1 초전
+        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusSeconds(1);
 
-        // MongoDB에서 해당 기간의 데이터를 가져옴
         healthDataRepository.findByCreatedAtBetween(start, end)
-                .filter(healthData -> healthData.getMemberId() != null)  // memberId가 null이 아닌 데이터만 선택
-                .groupBy(HealthData::getMemberId)  // memberId로 그룹화
-                .flatMap(group -> group.reduce((a, b) -> a.getCreatedAt().isAfter(b.getCreatedAt()) ? a : b))  // 각 그룹에서 가장 최신 데이터 선택
-                .flatMap(latestHealthData -> {  // 선택된 데이터를 이용하여 Health 객체 생성 후 저장
-                    Health health = Health.builder()
-                            .memberId(latestHealthData.getMemberId())
-                            .recordDate(Date.from(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1).atZone(ZoneId.systemDefault()).toInstant()))
-                            .burntKcal(latestHealthData.getBurntKcal())
-                            .consumedKcal(latestHealthData.getConsumedKcal())
-                            .sleepTime(latestHealthData.getSleepTime())
-                            .steps(latestHealthData.getSteps())
-                            .build();
+                .filter(healthData -> healthData.getMemberId() != null)
+                .groupBy(HealthData::getMemberId)
+                .flatMap(group -> group.reduce((a, b) -> a.getCreatedAt().isAfter(b.getCreatedAt()) ? a : b))
+                .flatMap(latestHealthData -> {
+                    Date recordDate = Date.from(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+                    Optional<Health> existingHealthOpt = healthRepository.findByMemberIdAndRecordDate(latestHealthData.getMemberId(), recordDate);
 
-                    return Mono.fromCallable(() -> healthRepository.save(health)).then();  // Health를 저장 후 Mono로 변환
+                    if (!existingHealthOpt.isPresent()) {
+                        Health health = Health.builder()
+                                .memberId(latestHealthData.getMemberId())
+                                .recordDate(recordDate)
+                                .burntKcal(latestHealthData.getBurntKcal())
+                                .consumedKcal(latestHealthData.getConsumedKcal())
+                                .sleepTime(latestHealthData.getSleepTime())
+                                .steps(latestHealthData.getSteps())
+                                .build();
+
+                        return Mono.fromCallable(() -> healthRepository.save(health)).then();
+                    } else {
+                        return Mono.empty();
+                    }
                 })
-                .subscribe();  // 리액티브 스트림 구독
+                .subscribe();
     }
 
-
+    
 
 
 
