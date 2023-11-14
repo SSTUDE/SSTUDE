@@ -1,7 +1,5 @@
 import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
-import { processMessage } from "../components/Login/LoginSlice";
-import { addCameraMessage } from "../components/Personal/Capture/CaptureSlice";
 
 export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
   const dispatch = useDispatch();
@@ -21,12 +19,6 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
     ws.onmessage = (event) => {
       console.log("수신된 메시지:", event.data);
-
-      if (["signUp", "signIn", "signOut"].includes(event.data.type)) {
-        dispatch(processMessage(event.data));
-      } else if (event.data.type === "on" || event.data.type === "off") {
-        dispatch(addCameraMessage(event.data));
-      }
     };
 
     ws.onerror = (error) => {
@@ -62,33 +54,36 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
     reconnectAttempts.current = 0;
     connect();
   };
+  
+  //NOTE - 카메라 껏다 키면 바로 로그인 작업 들어가나?
+// 메시지 보내기
+const sendMessage = (message: any) => {
+  return new Promise((resolve, reject) => {
+    console.log("sendMessage 함수 시작");
 
-  // 메시지 보내기
-  const sendMessage = (message: any) => {
-    return new Promise((resolve, reject) => {
-      // WebSocket이 열려있는지 확인
-      if (!socket || socket.readyState !== WebSocket.OPEN) {
-        return reject(new Error("웹소켓이 연결되지 않았습니다."));
+    if (!socket || socket.readyState !== WebSocket.OPEN) {
+      console.error("웹소켓 연결 실패"); 
+      return reject(new Error("웹소켓이 연결되지 않았습니다."));
+    }
+
+    const messageListener = (event: any) => {
+      console.log("메시지 수신됨", event);
+      const responseData = JSON.parse(event.data);
+
+      if (responseData && responseData.type === message.type) {
+        console.log("예상 응답 수신", responseData);
+        resolve(responseData);
+        socket.removeEventListener("message", messageListener);
       }
+    };
 
-      // 메시지 수신 리스너 설정
-      const messageListener = (event: any) => {
-        const responseData = JSON.parse(event.data);
+    socket.addEventListener("message", messageListener);
 
-        // 예상 응답이 맞는지 확인 후 처리
-        if (responseData && responseData.type === message.type) {
-          resolve(responseData);
-          socket.removeEventListener("message", messageListener);
-        }
-      };
+    console.log("메시지 전송", message);
+    socket.send(JSON.stringify(message));
+  }); 
+};
 
-      // 메시지 리스너 등록
-      socket.addEventListener("message", messageListener);
-
-      // 메시지 전송
-      socket.send(JSON.stringify(message));
-    }); 
-  };
 
   return { messages, handleReconnect, sendMessage };
 };

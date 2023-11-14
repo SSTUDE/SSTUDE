@@ -20,7 +20,6 @@ const useWebcam = () => {
     }
   }, []);
 
-  //NOTE - 이미지 첨부터 블롭으로 나오게 수정중
   // 이미지를 캡처하는 함수
   const captureImage = useCallback((callback: (blob: Blob) => void) => {
     const canvas = canvasRef.current;

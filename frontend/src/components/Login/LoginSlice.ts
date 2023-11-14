@@ -36,49 +36,13 @@ export const signInUser = createAsyncThunk(
 const initialState: LoginState = {
   userInfo: "",
   serialNum: "",
-  signUp: false,
-  signIn: false,
   memberId: "",
-  gps: null,
 };
 
 export const LoginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {
-    processMessage: (
-      state: LoginState,
-      action: PayloadAction<{
-        type: "signUp" | "signIn" | "signOut";
-        data: {
-          userInfo: string;
-          serialNum: string;
-          gps: [number, number] | null;
-        };
-      }>
-    ) => {
-      const { type, data } = action.payload;
-      if (type === "signUp") {
-        state.userInfo = data.userInfo;
-        state.serialNum = data.serialNum;
-        state.signUp = true;
-      } else if (type === "signIn") {
-        state.userInfo = data.userInfo;
-        state.serialNum = data.serialNum;
-        // state.gps = data.gps;
-        state.signIn = true;
-      } else if (type === "signOut") {
-        state.userInfo = "";
-        state.serialNum = "";
-        state.signUp = false;
-        state.signIn = false;
-        state.memberId = "";
-      }
-    },
-    setMemberId: (state, action: PayloadAction<string>) => {
-      state.memberId = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signUpUser.fulfilled, (state, action) => {
       state.memberId = action.payload;
@@ -89,6 +53,6 @@ export const LoginSlice = createSlice({
   },
 });
 
-export const { processMessage, setMemberId } = LoginSlice.actions;
+export const { } = LoginSlice.actions;
 
 export default LoginSlice.reducer;

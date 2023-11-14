@@ -16,23 +16,6 @@ const WebSocket = () => {
     setInputMessage('');
   };
 
-  //NOTE - 회원가입
-  //NOTE - 리덕스에서 받은 TryLogin 이 true이면 웹소켓으로 SignUp 메시지 전송
-  //NOTE - 이후 웹소켓으로 SerialNumber, folderName 값을 받음
-  //NOTE - Request Body로 Device Num: SerialNumber + folderName 담아서 서버로 전송
-  //NOTE - memberId 받아옴
-
-  //NOTE - 회원가입 -> 로그인
-  //NOTE - 3번 한번 더 함
-  //NOTE - 액세스 토큰 받아옴
-  //NOTE - 해당 토큰 리덕스에 저장해서 재활용
-
-  //NOTE - 로그인
-  //NOTE - 2번 하고 리덕스에서 같은값인지 체크
-  //NOTE - 다를시 3번 하고
-  //NOTE - 액세스 토큰 받아옴
-  //NOTE - 해당 토큰 리덕스에 저장해서 재활용
-
   return (
     <>
       <Header></Header>

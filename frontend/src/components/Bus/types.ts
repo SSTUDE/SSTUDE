@@ -47,10 +47,6 @@ export type BusButtonProps = {
   onClick?: () => void;
 };
 
-export interface TimeCircleProps {
-  timeLeft: number;
-}
-
 export interface BusRealTimeData {
   arrivalPrevStationCount: number;
   arrivalTime: number;
