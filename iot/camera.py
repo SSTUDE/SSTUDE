@@ -176,7 +176,7 @@ while True:
         known_face_encodings, known_face_names = getUserInfo.from_users_folder()
     
     ## Camera on off mapping process
-    if msg_type == "camera" and datetime.now() < finish_time and cnt == 0:
+    if msg_type == "camera" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
         if msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
             release_camera()
