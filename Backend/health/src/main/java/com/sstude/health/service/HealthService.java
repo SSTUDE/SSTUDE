@@ -170,8 +170,8 @@ public class HealthService {
 
 
 
-    //    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 27 13 * * *")
+        @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 27 13 * * *")
     @Transactional
     public void saveLatestHealthData() {
         log.info("시간들어옴!!!!");
