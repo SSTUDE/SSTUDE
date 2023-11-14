@@ -25,9 +25,9 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
     arePt2: position.arePt2,
     arePt3: position.arePt3,
   };
-  console.log(nX, nY, arePt1, arePt2, arePt3);
   const airRegionCode = findRegion(arePt1, arePt2);
-  console.log(airRegionCode);
+  // console.log(nX, nY, arePt1, arePt2, arePt3);
+  // console.log(airRegionCode);
 
   // 단기예보 관련 데이터
   const weatherData = useSelector((state: RootState) => state.weather.data); 
