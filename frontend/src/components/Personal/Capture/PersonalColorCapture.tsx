@@ -204,6 +204,18 @@ const PersonalColorCapture = () => {
     })
   }
 
+  const closeCamera = () => {
+    stopWebcam();
+    console.log("카메라 종료");
+    sendMessage(message)
+      .then((response) => {
+        console.log("응답옴: ", response);
+      })
+      .catch(error => {
+        console.log("에러 발생", error);
+      });
+  }
+
   return (
     <StyledContainer>
       <MainButton />
@@ -225,13 +237,13 @@ const PersonalColorCapture = () => {
       </StyledCaptureAngle>
       {isBlinking ? (
         <>
-          <BlinkingCaptureInfo>앵글 안에 들어와아앙</BlinkingCaptureInfo>
-          <BlinkingCaptureInfo>카메라를 봐 이자시가</BlinkingCaptureInfo>
+          <BlinkingCaptureInfo onClick={closeCamera}>앵글 안에 들어와아앙</BlinkingCaptureInfo>
+          <BlinkingCaptureInfo onClick={closeCamera}>카메라를 봐 이자시가</BlinkingCaptureInfo>
         </>
       ) : (
         <>
-          <StyledCaptureInfo>앵글 안에 들어와아앙</StyledCaptureInfo>
-          <StyledCaptureInfo>카메라를 봐 이자시가</StyledCaptureInfo>
+          <StyledCaptureInfo onClick={closeCamera}>앵글 안에 들어와아앙</StyledCaptureInfo>
+          <StyledCaptureInfo onClick={closeCamera}>카메라를 봐 이자시가</StyledCaptureInfo>
         </>
       )}
     </StyledContainer>
