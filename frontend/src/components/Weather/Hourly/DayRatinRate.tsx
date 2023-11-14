@@ -33,7 +33,7 @@ const Wrap = styled.div<{ $index: number }>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 8px;
+  padding: 3px 8px;
   grid-column-start: ${props => props.$index + 1}; // index 값을 기반으로 열 시작 위치를 지정합니다.
 `;
 

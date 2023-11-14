@@ -5,6 +5,7 @@ import { fetchShortData } from '../../store/WeatherSlice';
 import { fetchAirQualityData } from '../../store/AirQualitySlice'
 import { RootState, AppDispatch } from '../../store/store';
 import { WeatherDataCustom, AirQualityCustom } from './types';
+import { findRegion } from './areaCodeType'
 import SkyIcon from './Hourly/SkyIcon';
 import AirIcon from './AirIcon';
 import LoadingSpinner from './LoadingSpinner';
@@ -15,6 +16,17 @@ interface WeatherInfoProps {
 
 const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const position = useSelector((state: RootState) => state.position);
+
+  let { nX, nY, arePt1, arePt2 } = {
+    nX: position.nX,
+    nY: position.nY,
+    arePt1: position.arePt1,
+    arePt2: position.arePt2,
+  };
+
+  const airRegionCode = findRegion(arePt1, arePt2);
+  
 
   // 단기예보 관련 데이터
   const weatherData = useSelector((state: RootState) => state.weather.data); 
@@ -46,17 +58,20 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   const currentDate = formattedSDate; // 'YYYYMMDD' 형식
 
   useEffect(() => {
+    const nxString = typeof nX === 'string' ? parseInt(nX) : nX;
+    const nyString = typeof nY === 'string' ? parseInt(nY) : nY;
+
     // 단기 예보 데이터 요청
     dispatch(fetchShortData({
       base_date: formattedSDate,
       base_time: '0500',
-      nx: 86,
-      ny: 95
+      nx: nxString,
+      ny: nyString
     }));
 
     // 대기질 데이터 요청
     dispatch(fetchAirQualityData({
-      sidoName: '경북',
+      sidoName: airRegionCode,
     }));
   }, [dispatch]);
 
@@ -154,8 +169,8 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
           {/* <StyledMoonFill size={180}/> */}
           {TempData && (
           <WeatherTXTCon>
-            <div>{SkyContidion}</div>
-            <div>{TempData.fcstValue}°C</div>
+            <div className='condition'>{SkyContidion}</div>
+            <div className='temp'>{TempData.fcstValue}°C</div>
           </WeatherTXTCon>
         )}
         </SkyInfoCon>
@@ -224,6 +239,10 @@ const WeatherTXTCon = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  .temp {
+    font-size: 40px;
+  }
 `
 
 const DustCon = styled.div`

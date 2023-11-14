@@ -6,6 +6,7 @@ import HealthReducer from "../components/Health/HealthSlice";
 import CaptureReducer from "../components/Personal/Capture/CaptureSlice";
 import WeatherReducer from './WeatherSlice'
 import AirQuality from "./AirQualitySlice";
+import Position from './PositionSlice'
 import PersonalReducer from "../components/Personal/Main/PersonalSlice";
 import PreviousReducer from "../components/Personal/Previous/PreviousSlice";
 
@@ -19,6 +20,7 @@ const store = configureStore({
     capture: CaptureReducer,
     weather: WeatherReducer,
     airQuality: AirQuality,
+    position: Position,
     personal: PersonalReducer,
     previous: PreviousReducer,
   },

@@ -12,7 +12,10 @@
     MidTempForecastResponse, 
     MidTempForecastCustom, 
     MidForecastCombined } from './types';
-import LoadingSpinner from './LoadingSpinner';
+  import { useSelector } from 'react-redux';
+  import { RootState } from '../../store/store';
+  import { getMidLandAreaCode } from '../../components/Weather/areaCodeType'
+  import LoadingSpinner from './LoadingSpinner';
 
     interface WeatherProps {
       onClick: React.MouseEventHandler<HTMLDivElement>;
@@ -21,7 +24,19 @@ import LoadingSpinner from './LoadingSpinner';
   const Weather: React.FC<WeatherProps> = ({ onClick }) => {
     // 로딩 여부 페이지
     const [isLoading, setIsLoading] = useState(true);
-    
+
+    const position = useSelector((state: RootState) => state.position);
+
+    let { nX, nY, arePt1, arePt2 } = {
+      nX: position.nX,
+      nY: position.nY,
+      arePt1: position.arePt1,
+      arePt2: position.arePt2,
+    };
+  
+    const regionCode = getMidLandAreaCode(arePt1, arePt2);
+
+  
     // 단기 예보 데이터 표에서 사용하는 데이터 저장
     const [dailySky, setDailySky] = useState<WeatherDataCustom[]>([]);
     const [TempDatas, setTempDatas] = useState<WeatherDataCustom[]>([]);
@@ -95,6 +110,8 @@ import LoadingSpinner from './LoadingSpinner';
 
     // 단기 데이터 호출
     const fetchShortData = async () => {
+      const nxString = typeof nX === 'string' ? parseInt(nX) : nX;
+      const nyString = typeof nY === 'string' ? parseInt(nY) : nY;
       try {
         const response = await getWeatherData({
           numOfRows: 1000,
@@ -102,8 +119,8 @@ import LoadingSpinner from './LoadingSpinner';
           dataType: "JSON",
           base_date: formattedSDate,
           base_time: "0500",
-          nx: 86,
-          ny: 95
+          nx: nxString,
+          ny: nyString
         });
         const items = response;
 
@@ -300,7 +317,7 @@ import LoadingSpinner from './LoadingSpinner';
           pageNo: 1,
           numOfRows: 1000,
           dataType: "JSON",
-          regId: "11H10000",
+          regId: regionCode,
           tmFc: `${formattedMDate}${formattedMHour}`,
         });
 
@@ -447,7 +464,7 @@ import LoadingSpinner from './LoadingSpinner';
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     /* background-color: gray;s */
   `
 

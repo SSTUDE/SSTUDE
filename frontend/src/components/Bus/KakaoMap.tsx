@@ -127,7 +127,9 @@ const StationName = styled.div<{ selected?: boolean }>`
   padding: 10px;
   margin: 5px 0;
   border-bottom: 1px solid #484e5a;
-  background-color: ${(props) => (props.selected ? '#4cd137' : 'transparent')};
+  background-color: ${(props) => (props.selected ? '#94c9e4' : 'transparent')};
+  color: ${(props) => (props.selected ? 'black' : 'white')};
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 `;
@@ -142,7 +144,7 @@ const Pagination = styled.div`
 const PageButton = styled.p<{ isActive?: boolean }>`
   padding: 15px 30px;
   margin: 5px;
-  background-color: ${(props) => (props.isActive ? '#4cd137' : 'white')};
+  background-color: ${(props) => (props.isActive ? '#94c9e4' : 'white')};
   color: ${(props) => (props.isActive ? 'black' : 'black')};
   border-radius: 5px;
   cursor: pointer;
