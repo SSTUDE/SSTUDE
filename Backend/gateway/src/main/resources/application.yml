@@ -127,7 +127,6 @@ spring:
           uri: http://health:8014
           predicates:
             - Path=/health-service/**
-
         - id: businfo
 #          uri: http://localhost:8015
           uri: http://businfo:8015
@@ -140,8 +139,6 @@ spring:
           uri: http://businfo:8015
           predicates:
             - Path=/businfo-service/**
-
-
 
   redis:
     host: k9d204.p.ssafy.io
