@@ -182,13 +182,13 @@ const PersonalColorCapture = () => {
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
             console.log("카메라 종료");
-            sendMessage(message)
+            setTimeout(() => {sendMessage(message)
               .then((response) => {
                 console.log("응답옴: ", response);
               })
               .catch(error => {
                 console.log("에러 발생", error);
-              });
+              })},1000);
             console.log("페이지 이동 준비 완료");
             navigate("/personalclothesresults");
           } else {
@@ -207,13 +207,13 @@ const PersonalColorCapture = () => {
   const closeCamera = () => {
     stopWebcam();
     console.log("카메라 종료");
-    sendMessage(message)
+    setTimeout(() => {sendMessage(message)
       .then((response) => {
         console.log("응답옴: ", response);
       })
       .catch(error => {
         console.log("에러 발생", error);
-      });
+      })},1000);
   }
 
   return (

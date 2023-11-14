@@ -107,7 +107,7 @@ const SelectContents = () => {
       .then((response: any) => {
         console.log("응답옴: ", response)
           console.log("카메라 권한 획득")
-          startWebcam()
+          setTimeout(() =>{startWebcam();}, 1000);
           console.log("카메라 실행, 페이지 이동")
           navigate("/personalselectpersonal");
       })
@@ -124,7 +124,7 @@ const SelectContents = () => {
         .then((response: any) => {
           console.log("응답옴: ", response)
             console.log("카메라 권한 획득")
-            startWebcam()
+            setTimeout(() =>{startWebcam();}, 1000);
             console.log("카메라 실행, 페이지 이동")
             navigate("/personalselectclothes");
         })
