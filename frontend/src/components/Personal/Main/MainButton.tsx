@@ -1,7 +1,9 @@
 // 홈 및 뒤로가기 버튼
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { RootState } from "../../../store/store";
 
 // 전체 컨테이너
 const StyledContainer = styled.div``;
@@ -75,11 +77,17 @@ const HomeIcon = () => (
 
 const MainButton = (onClick :any) => {
   const navigate = useNavigate();
+  const { signOut } = useSelector((state: RootState) => state.login);
 
   const handleHomeClick = () => {
-    navigate("/mirror");
+    if (signOut) {
+      localStorage.setItem("SSTUDE", "")
+      navigate('/login')
+    } else {
+      navigate('/mirror')
+    }
   };
-
+  
   // const handlePrevClick = () => {
   //   navigate(-1);
   // };

@@ -1,14 +1,13 @@
 import styled from 'styled-components';
+import { useDispatch,} from 'react-redux';
 import React, { useCallback } from 'react';
-import { RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
 import { images } from '../../constants/images';
 import { AppDispatch } from '../../store/store';
-import { useDispatch, useSelector } from 'react-redux';
 import { healthTodayData } from "../Health/HealthSlice";
 import { PersonalCalender } from "../Personal/Main/PersonalSlice";
 
-type ButtonType = 'home' | 'beauty' | 'health' | 'question';
+type ButtonType = 'beauty' | 'health' | 'question';
 
 
 interface MenuBtnProps {
@@ -18,17 +17,9 @@ interface MenuBtnProps {
 function MenuBtn({ type }: MenuBtnProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { signOut } = useSelector((state: RootState) => state.login);
 
   const handleClick = async () => {
-    if (type === 'home') {
-      if (signOut) {
-        localStorage.setItem("SSTUDE", "")
-        navigate('/login')
-      } else {
-        navigate('/mirror')
-      }
-    } else if (type === "beauty") {
+    if (type === "beauty") {
       const response = await handlePersonalCalender();
       navigate("/personalmain", { state: { diagnosisData: response } });
     } else if (type === "health") {
@@ -71,7 +62,6 @@ function MenuBtn({ type }: MenuBtnProps) {
 
   const getImageSrc = (type: ButtonType): string => {
     const imageMap: { [key in ButtonType]: string } = {
-      home: images.default.homeBtn,
       beauty: images.default.beautyBtn,
       health: images.default.healthBtn,
       question: images.default.questionBtn,

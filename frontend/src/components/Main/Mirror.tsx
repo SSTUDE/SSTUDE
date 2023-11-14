@@ -8,6 +8,7 @@ import HelloWorld from '../Common/HelloWorld';
 import { useNavigate } from 'react-router-dom';
 import WeatherInfo from '../Weather/WeatherInfo';
 import React, { useState, useEffect } from 'react';
+import MainButton from '../Personal/Main/MainButton';
 import styled, { keyframes } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { findNearestSFGridItem } from '../Weather/Grid';
@@ -89,7 +90,7 @@ const Mirror = () => {
     <Container>
       <Header>
         <Left>
-          <MenuBtn type="home" />
+        <MainButton />
           <MenuBtn type="beauty" />
           <MenuBtn type="health" />
         </Left>

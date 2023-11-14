@@ -1,13 +1,13 @@
+import Position from "./PositionSlice";
+import AirQuality from "./AirQualitySlice";
+import WeatherReducer from "./WeatherSlice";
 import { configureStore } from "@reduxjs/toolkit";
-import loginReducer from "../components/Login/LoginSlice";
 import BusReducer from "../components/Bus/BusSlice";
+import loginReducer from "../components/Login/LoginSlice";
 import MirrorReducer from "../components/Main/MirrorSlice";
 import HealthReducer from "../components/Health/HealthSlice";
-import CaptureReducer from "../components/Personal/Capture/CaptureSlice";
-import WeatherReducer from "./WeatherSlice";
-import AirQuality from "./AirQualitySlice";
-import Position from "./PositionSlice";
 import PersonalReducer from "../components/Personal/Main/PersonalSlice";
+import CaptureReducer from "../components/Personal/Capture/CaptureSlice";
 import PreviousReducer from "../components/Personal/Previous/PreviousSlice";
 
 const store = configureStore({
