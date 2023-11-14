@@ -3,6 +3,7 @@ import React from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PrevHealthData from "./PrevHealthData";
+import MainButton from "../Personal/Main/MainButton";
 
 const StyledContainer = styled.section``;
 
@@ -16,16 +17,18 @@ const StyledTitle = styled.p`
   font-family: "Giants-Bold";
 `;
 
+// 캘린더로 이동하기 위한 아이콘
 const StyledCalenderButton = styled.button`
   position: absolute;
-  right: 8%;
-  bottom: 7%;
+  left: 12.3%;
+  top: 5.9%;
 
-  width: 150px;
-  height: 150px;
+  width: 104px;
+  height: 104px;
 
-  background-color: transparent;
-  border: none;
+  background-color: #4f4f4f;
+  border: 2px solid white;
+  border-radius: 15%;
 
   cursor: pointer;
 `;
@@ -69,6 +72,7 @@ const PrevHealth: React.FC<PrevHealthProps> = ({
 
   return (
     <StyledContainer>
+      <MainButton />
       <StyledCalenderButton onClick={handleCalenderClick}>
         <CalenderIcon />
       </StyledCalenderButton>

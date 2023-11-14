@@ -6,13 +6,11 @@ function DateTime() {
 
   const currentDate = new Date();
 
-  // 현재 시간을 "10:30AM" 형식으로 표시
   const hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
   const ampm = hours >= 12 ? 'PM' : 'AM';
   const formattedHours = `${hours % 12 || 12}:${minutes.toString().padStart(2, '0')}`;
 
-  // 현재 날짜를 "2023.10.20(금)" 형식으로 표시
   const year = currentDate.getFullYear();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
   const day = currentDate.getDate().toString().padStart(2, '0');

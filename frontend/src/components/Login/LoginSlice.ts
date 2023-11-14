@@ -1,5 +1,6 @@
 import { LoginState } from "./types";
 import axiosToken from "../../apis/http-common";
+import { storageData } from "../../apis/JWT-common";
 import { SIGN_UP_URL, SIGN_IN_URL } from "../../apis/constants";
 import {
   createSlice,
@@ -7,7 +8,6 @@ import {
   PayloadAction,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
-import { storageData } from "../../apis/JWT-common";
 import { useWebSocketContext } from "../Common/WebSocketContext";
 
 export const signUpUser = createAsyncThunk(
@@ -89,6 +89,6 @@ export const LoginSlice = createSlice({
   },
 });
 
-export const {setSignOut} = LoginSlice.actions;
+export const { setSignOut } = LoginSlice.actions;
 
 export default LoginSlice.reducer;

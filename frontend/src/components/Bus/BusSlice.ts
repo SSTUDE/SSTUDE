@@ -15,17 +15,15 @@ import {
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 
+//NOTE - TADA 들은 서버 없을때 더미 데이터로 테스트 하기 위한 요청
 const BUS_KEY = process.env.REACT_APP_BUS_KEY_DE;
 
 //NOTE - gps 값 서버로 전달
 export const gpsToServer = createAsyncThunk(
   "bus/gpsToServer",
   async (_, { getState, rejectWithValue }) => {
-    console.log("서버에 GPS값 보내서 근처 정류장들 받아온다");
-
     const { gps } = (getState() as RootState).bus;
     if (!gps) return rejectWithValue("GPS 좌표가 설정되지 않았습니다.");
-    console.log(gps);
 
     try {
       const response = await axiosToken.post("/bus-station/near", {
@@ -33,10 +31,8 @@ export const gpsToServer = createAsyncThunk(
         longitude: gps[1],
         numOfRows: 50,
       });
-      console.log(response);
       return response.data;
     } catch (error: unknown) {
-      console.log(error);
       return rejectWithValue(
         error instanceof AxiosError
           ? error.message
@@ -46,7 +42,7 @@ export const gpsToServer = createAsyncThunk(
   }
 );
 
-//NOTE - TADA API 버스 정거장 리스트 호출 
+//NOTE - TADA API 버스 정거장 리스트 호출
 export const tadaBusStop = createAsyncThunk(
   "bus/tadaBusStop",
   async (_, { getState, rejectWithValue }) => {
@@ -91,9 +87,8 @@ export const busStopToServer = createAsyncThunk(
       const response = await axiosToken.post("/bus-station/bus-inform", {
         cityCode: selectedStation.cityCode,
         nodeId: selectedStation.nodeId,
-        numOfRows: 50
+        numOfRows: 50,
       });
-      console.log(response)
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -109,7 +104,6 @@ export const busStopToServer = createAsyncThunk(
 export const tadaBusList = createAsyncThunk(
   "bus/tadaBusList",
   async (selectedStation: busStops, { rejectWithValue }) => {
-    console.log("버스 리스트 가져올게~");
     if (!selectedStation) {
       return rejectWithValue("선택된 정거장이 없습니다.");
     }
@@ -163,8 +157,6 @@ export const busSaveToServer = createAsyncThunk(
 export const tadaBusRealTime = createAsyncThunk(
   "bus/tadaBusRealTime",
   async (_, { getState, rejectWithValue }) => {
-    console.log("버스 실시간 데이터 가져올게~");
-
     const state = getState() as RootState;
     const { busStop, busSave } = state.bus;
     if (!busStop) return rejectWithValue("버스정거장이 선택되지 않았습니다.");
@@ -213,15 +205,17 @@ export const busRealTimeForServer = createAsyncThunk(
     const { busStop } = state.bus;
 
     try {
-      const response = await axiosToken.post("/bus-station/bus-arrival-inform", {
-        cityCode: busStop.cityCode,
-        nodeId: busStop.nodeId,
-        numOfRows: 50,
-      });
-      console.log("버스 실시간 데이터", response)
+      const response = await axiosToken.post(
+        "/bus-station/bus-arrival-inform",
+        {
+          cityCode: busStop.cityCode,
+          nodeId: busStop.nodeId,
+          numOfRows: 50,
+        }
+      );
       return response.data;
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {  
+      if (error instanceof AxiosError) {
         return rejectWithValue(error.response?.data);
       } else {
         return rejectWithValue("예상치 못한 오류가 발생했습니다.");
@@ -230,94 +224,14 @@ export const busRealTimeForServer = createAsyncThunk(
   }
 );
 
-
 const initialState: BusState = {
-  // gps: null,
-  // gps: [36.107, 128.417],
-  gps: [37.49648606, 127.02836155],
+  gps: [36.107, 128.417],
+  // gps: [37.49648606, 127.02836155],
   busStops: null,
   busStop: null,
-  // busStop: {
-  //   citycode: "37050",
-  //   gpslati: "36.10720185",
-  //   gpslong: "128.418282",
-  //   nodeid: "GMB383",
-  //   nodenm: "삼성전자후문",
-  //   nodeno: "10383",
-  // },
   busList: null,
   busSave: null,
-  // busSave: [
-  //   "GMB18210",
-  //   "GMB18610",
-  //   "GMB380-110",
-  //   "GMB510010",
-  //   "GMB18510",
-  //   "GMB18010",
-  //   "GMB89010",
-  //   "GMB182-110",
-  //   "GMB89110",
-  //   "GMB9011",
-  //   "GMB38010",
-  //   "GMB380-210",
-  //   "GMB18110",
-  //   "GMB18410",
-  //   "GMB891-111",
-  //   "GMB95-111",
-  // ],
   busRealTime: null,
-  // busRealTime: [
-  //   {
-  //     "arrivalPrevStationCount": 5,
-  //     "arrivalTime": 441,
-  //     "nodeId": "GMB383",
-  //     "nodeName": "삼성전자후문",
-  //     "routeId": "GMB18110",
-  //     "routeNo": "181",
-  //     "routeType": "일반버스",
-  //     "vehicleType": "저상버스"
-  //   },
-  //   {
-  //     "arrivalPrevStationCount": 17,
-  //     "arrivalTime": 1181,
-  //     "nodeId": "GMB383",
-  //     "nodeName": "삼성전자후문",
-  //     "routeId": "GMB18410",
-  //     "routeNo": "184",
-  //     "routeType": "좌석버스",
-  //     "vehicleType": "일반차량"
-  //   },
-  //   {
-  //     "arrivalPrevStationCount": 11,
-  //     "arrivalTime": 753,
-  //     "nodeId": "GMB383",
-  //     "nodeName": "삼성전자후문",
-  //     "routeId": "GMB18510",
-  //     "routeNo": "185",
-  //     "routeType": "좌석버스",
-  //     "vehicleType": "일반차량"
-  //   },
-  //   {
-  //     "arrivalPrevStationCount": 15,
-  //     "arrivalTime": 990,
-  //     "nodeId": "GMB383",
-  //     "nodeName": "삼성전자후문",
-  //     "routeId": "GMB38010",
-  //     "routeNo": "380",
-  //     "routeType": "일반버스",
-  //     "vehicleType": "저상버스"
-  //   },
-  //   {
-  //     "arrivalPrevStationCount": 12,
-  //     "arrivalTime": 948,
-  //     "nodeId": "GMB383",
-  //     "nodeName": "삼성전자후문",
-  //     "routeId": "GMB89010",
-  //     "routeNo": "890",
-  //     "routeType": "좌석버스",
-  //     "vehicleType": "일반차량"
-  //   }
-  // ],
   loading: false,
   error: null,
 };
@@ -370,20 +284,18 @@ const busSlice = createSlice({
   extraReducers: (builder) => {
     handleAsyncReducer<any>(builder, gpsToServer, (state, action) => {
       const busStopsData = action.payload;
-      console.log(busStopsData);
       const validBusStops = Array.isArray(busStopsData)
         ? busStopsData
         : [busStopsData];
       const uniqueNodeNos = new Set();
-    
-      state.busStops = validBusStops
-        .filter(station => { 
-          if (!uniqueNodeNos.has(station.nodeNo)) {
-            uniqueNodeNos.add(station.nodeNo);
-            return true;
-          }
-          return false;
-        });
+
+      state.busStops = validBusStops.filter((station) => {
+        if (!uniqueNodeNos.has(station.nodeNo)) {
+          uniqueNodeNos.add(station.nodeNo);
+          return true;
+        }
+        return false;
+      });
     });
 
     handleAsyncReducer<any>(builder, tadaBusStop, (state, action) => {

@@ -1,14 +1,29 @@
 // 달력에 있는 날짜 클릭 시 나오는 모달창
 import { useState } from "react";
-import { styled, keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../Previous/PreviousClothesResults";
 import Button from "./HeaderButton";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
+// 그라데이션 애니메이션
 const GradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+`;
+
+// 팝업 애니메이션
+const popup = keyframes`
+  0% {
+    transform: scale(0.7);  // 시작 시 70% 크기
+    opacity: 0;  // 시작 시 투명
+  }
+  100% {
+    transform: scale(1);  // 끝날 때 100% 크기
+    opacity: 1;  // 끝날 때 불투명
+  }
 `;
 
 // 모달 뒤 배경
@@ -27,36 +42,36 @@ const ModalOverlay = styled.div`
 `;
 
 // 모달 컨테이너
-const ModalContainer = styled.div`
+const ModalContainer = styled.div<ModalContainerProps>`
   position: relative;
   overflow: auto;
 
-  width: 32%;
-  max-height: 95%;
+  width: 35%;
+  /* max-height: 95%; */
 
-  background: linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb);
   background-size: 200% 200%;
-  animation: ${GradientAnimation} 4s linear infinite;
   border-radius: 5px;
 
   color: black;
+  animation: ${GradientAnimation} 3s linear infinite, ${popup} 0.3s;
+  background-image: ${(props) => props.backgroundColor || "white"};
 `;
 
 // 날짜
 const DateContainer = styled.div`
   position: fixed;
-  top: 50px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 60px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   background-color: #ffffff;
+  color: black;
+  z-index: 1;
 
   width: 20%;
-  height: 7vh;
+  height: 8vh;
 
   border-radius: 5px;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
@@ -68,6 +83,8 @@ const DateContainer = styled.div`
 
     margin: 0;
   }
+
+  animation: ${popup} 0.3s;
 `;
 
 // 모달 닫기 버튼
@@ -79,10 +96,34 @@ const ModalCloseButton = styled.button`
   cursor: pointer;
   font-size: 20px;
 
-  padding: 0;
-
   border: none;
   background: none;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  opacity: 0.3;
+  background: transparent;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 14px;
+    height: 22px;
+    width: 4px;
+    background-color: #000000;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
+  &:hover {
+    opacity: 1;
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -108,12 +149,32 @@ type ModalProps = {
   selectedDate: Date;
 };
 
+type ModalContainerProps = {
+  backgroundColor: string;
+};
+
 const Modal: React.FC<ModalProps> = ({
   activeButton,
   onClose,
   selectedDate,
 }) => {
   // const navigate = useNavigate();
+  const { beauty } = useSelector((state: RootState) => state.personal); // Redux에서 beauty 객체를 가져옵니다.
+
+  const containsWarm = (result: string | undefined) => {
+    return result ? result.includes("웜") : false;
+  };
+
+  const containsCool = (result: string | undefined) => {
+    return result ? result.includes("쿨") : false;
+  };
+
+  // beauty.result 값에 따라 배경색을 결정합니다.
+  const backgroundColor = containsWarm(beauty?.result)
+    ? "linear-gradient(270deg, #ebb7a2, #fc9898, #e1665b)"
+    : containsCool(beauty?.result)
+    ? "linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb)"
+    : "white"; // 기본값
 
   const [currentView, setCurrentView] = useState("personalColor");
 
@@ -142,13 +203,16 @@ const Modal: React.FC<ModalProps> = ({
 
   const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`; // 설정된 값
   console.log(formattedDate);
+
   return (
     <ModalOverlay onClick={handleClose}>
-      <ModalContainer onClick={stopPropagation}>
-        <DateContainer>
-          <p>{formattedDate}</p>
-        </DateContainer>
-
+      <DateContainer>
+        <p>{formattedDate}</p>
+      </DateContainer>
+      <ModalContainer
+        onClick={stopPropagation}
+        backgroundColor={backgroundColor}
+      >
         <HeaderContainer>
           <StyledLink>
             <Button
@@ -174,7 +238,7 @@ const Modal: React.FC<ModalProps> = ({
           <PreviousClothesResults />
         )}
 
-        <ModalCloseButton onClick={handleClose}>닫기</ModalCloseButton>
+        <ModalCloseButton onClick={handleClose} />
       </ModalContainer>
     </ModalOverlay>
   );

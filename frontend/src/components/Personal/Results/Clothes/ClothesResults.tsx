@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { styled } from "styled-components";
-import DiagnosisLoading from "../DiagnosisLoading";
-import { images } from "../../../../constants/images";
 import axios from "axios";
+import { styled } from "styled-components";
 import MainButton from "../../Main/MainButton";
+import DiagnosisLoading from "../DiagnosisLoading";
+import React, { useEffect, useState } from "react";
+import { images } from "../../../../constants/images";
 
 // 페이지 전체 컨테이너
 const StyledContainer = styled.div`
@@ -45,6 +45,8 @@ const StyledImgContainer1 = styled.img`
   width: 50vh;
   height: 65vh;
   margin: 0;
+  max-width: 100%;
+  max-height: 100%;
 
   object-fit: cover;
 `;
@@ -72,12 +74,12 @@ const StyledCurScore1 = styled.p<{ score: number | null }>`
     props.score === null
       ? "black"
       : props.score >= 1 && props.score <= 24
-      ? "red"
-      : props.score >= 25 && props.score <= 49
-      ? "orange"
-      : props.score >= 50 && props.score <= 74
-      ? "green"
-      : "blue"};
+        ? "red"
+        : props.score >= 25 && props.score <= 49
+          ? "orange"
+          : props.score >= 50 && props.score <= 74
+            ? "green"
+            : "blue"};
 `;
 
 // 이전 점수 제목

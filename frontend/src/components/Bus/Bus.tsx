@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { BusRealTimeData } from './types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { busRealTimeForServer } from './BusSlice';
 import React, { useEffect, useState } from 'react';
 import { AppDispatch, RootState } from '../../store/store';
@@ -21,11 +21,9 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
 
   useEffect(() => {
     //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
-    // dispatch(tadaBusRealTime())
     dispatch(busRealTimeForServer())
 
     // const id = setInterval(() => {
-    // // dispatch(tadaBusRealTime());
     // dispatch(busRealTimeForServer())
     // }, 30000);
 

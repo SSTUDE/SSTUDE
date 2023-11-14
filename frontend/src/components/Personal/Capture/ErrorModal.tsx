@@ -1,9 +1,9 @@
 // 퍼스널 컬러 진단 결과 없이 의상 진단 버튼 누른 경우 생기는 Error Modal
 import React, { useRef } from "react";
-import { styled } from "styled-components";
-import { images } from "../../../constants/images";
-import { useNavigate } from "react-router-dom";
 import ErrorCircle from "./ErrorCircle";
+import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { images } from "../../../constants/images";
 
 // 모달 컨테이너
 const StyledModalContainer = styled.div`

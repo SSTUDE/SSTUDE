@@ -1,26 +1,26 @@
-import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router";
 import { sounds } from '../../constants/sounds';
 import { images } from '../../constants/images';
 import { AppDispatch } from '../../store/store';
-import React, { useState } from 'react';
 import { RASPBERRY_URL } from '../../apis/constants';
+import { useCustomAlert } from "../../hooks/useAlert";
 import styled, { keyframes } from 'styled-components';
 import { signInUser, signUpUser } from "./LoginSlice";
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
-import { useCustomAlert } from "../../hooks/useAlert";
-import Swal from "sweetalert2";
 
 
 const Login = () => {
-  const navigate = useNavigate();
   console.log("0 - 렌더링")
-
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const [isLogoClickable, setIsLogoClickable] = useState(true);
   const showAlert = useCustomAlert();
+  const navigate = useNavigate()
+
 
   const handleClick = () => {
     showAlert({
@@ -54,22 +54,22 @@ const Login = () => {
       timer: 20000,
     });
     sendMessage(message)
-    .then((response: any) => {
-      console.log("회원가입 - 웹소켓 응답 받았고 서버로 전송");
-      dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
-      
-      console.log("회원가입 - 응답 받음:", response);
-      console.log(" !!!!! 회원가입 성공 !!!!!")
-      console.log("회원가입 완료후 로그인 시도")
+      .then((response: any) => {
+        console.log("회원가입 - 웹소켓 응답 받았고 서버로 전송");
+        dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
 
-      Swal.close();
-      showAlert({
-        icon: 'success',
-        title: '회원가입 완료, 로그인이 진행됩니다.',
-      });
-      
-      setTimeout(() => {loginClick();},1000);
-      
+        console.log("회원가입 - 응답 받음:", response);
+        console.log(" !!!!! 회원가입 성공 !!!!!")
+        console.log("회원가입 완료후 로그인 시도")
+
+        Swal.close();
+        showAlert({
+          icon: 'success',
+          title: '회원가입 완료, 로그인이 진행됩니다.',
+        });
+
+        setTimeout(() => { loginClick(); }, 1000);
+
       })
       .catch(error => {
         console.log(error)
@@ -98,15 +98,15 @@ const Login = () => {
           console.log(" !!!!! 로그인 성공 !!!!!")
           showAlert({
             icon: 'success',
-            title: '로그인이 완료.',
+            title: '로그인 완료',
           });
-        navigate("/mirror")
+          navigate("/mirror")
         }
       })
       .catch(error => {
         console.log(error)
         console.error("로그인 - 메시지 전송에 실패했습니다:", error);
-        loginClick()
+        setTimeout(() => { loginClick(); }, 1000);
       });
   }
 
@@ -127,7 +127,7 @@ const Wrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh;
 `;
 
 const pulse = keyframes`
@@ -155,7 +155,7 @@ const flip = keyframes`
 `;
 
 const StyledImage = styled.img`
-  width: 50%; 
+  width: 50%;
   height: auto;
   animation: ${pulse} 2s infinite ease-in-out;
   &:hover {
@@ -164,12 +164,12 @@ const StyledImage = styled.img`
 `;
 
 const Btn = styled.p`
-padding: 10px 20px;
-font-size: 3em;
-font-weight: bold;
-margin: 5px; 
-color: ${TEXT_COLOR};
-cursor: pointer; 
-`
+  padding: 10px 20px;
+  font-size: 3em;
+  font-weight: bold;
+  margin: 5px;
+  color: ${TEXT_COLOR};
+  cursor: pointer;
+`;
 
 export default Login;

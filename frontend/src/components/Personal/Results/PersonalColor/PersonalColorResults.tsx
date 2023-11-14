@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { styled } from "styled-components";
+import Palette from "./Palette";
 import ResultsImg from "./ResultsImg";
 import ResultsInfo from "./ResultsInfo";
-import Palette from "./Palette";
+import { useDispatch } from "react-redux";
+import { styled } from "styled-components";
+import { useNavigate } from "react-router";
+import MainButton from "../../Main/MainButton";
 import DiagnosisLoading from "../DiagnosisLoading";
+import React, { useEffect, useState } from "react";
+import { AppDispatch } from "../../../../store/store";
+import { PersonalBeautyResults } from "../../Main/PersonalSlice";
 
 const StyledContainer = styled.div`
   /* overflow: hidden; */
@@ -32,14 +37,18 @@ const StyledResultsContainer = styled.section`
   right: -25%;
 
   width: 75%;
-  /* height: 100vh; */
+  height: 65vh;
 `;
 
 // 퍼스널 컬러 결과 컨테이너
 const StyledPersonalColorResults = styled.section``;
 
 const PersonalColorResults = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const data = dispatch(PersonalBeautyResults({ date: "2023-11-14" }));
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -57,12 +66,16 @@ const PersonalColorResults = () => {
   //   };
   // }, []);
 
+  const goPersonal = () => {
+  }
+
   return (
     <StyledContainer>
       {isLoading ? (
         <DiagnosisLoading />
       ) : (
         <>
+          <MainButton onClick={goPersonal} />
           <StyledTitle>진단 결과</StyledTitle>
           <StyledResultsContainer>
             <ResultsImg />

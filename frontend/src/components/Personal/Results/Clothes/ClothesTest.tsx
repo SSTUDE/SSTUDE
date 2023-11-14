@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { styled } from "styled-components";
 import DiagnosisLoading from "../DiagnosisLoading";
+import React, { useEffect, useState } from "react";
 import { images } from "../../../../constants/images";
-import axios from "axios";
 
 // 페이지 전체 컨테이너
 const StyledContainer = styled.div`

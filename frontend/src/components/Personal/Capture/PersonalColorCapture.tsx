@@ -1,15 +1,15 @@
 // '퍼스널 컬러 진단 하기' 누른 경우 보이는 Page
+import useWebcam from "./useWebCam";
 import React, { useState } from "react";
-import { keyframes, styled } from "styled-components";
+import { useDispatch } from "react-redux";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
-import useWebcam from "./useWebCam";
-import { useWebSocket } from "../../../hooks/useWebSocket";
-import { RASPBERRY_URL } from "../../../apis/constants";
-import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-import { personalPictureToServer } from "./CaptureSlice";
+import { keyframes, styled } from "styled-components";
+import { RASPBERRY_URL } from "../../../apis/constants";
 import { useCustomAlert } from "../../../hooks/useAlert";
+import { personalPictureToServer } from "./CaptureSlice";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -195,7 +195,7 @@ const PersonalColorCapture = () => {
             }, 1000);
             console.log("페이지 이동 준비 완료");
             navigate("/personalclothesresults");
-          } else if (data.payload.request.status === 500){
+          } else if (data.payload.request.status === 500) {
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);
           } else if (data.payload.request.status === 429) {

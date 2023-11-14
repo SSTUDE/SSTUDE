@@ -1,15 +1,15 @@
 // '퍼스널 컬러 진단 하기' 누른 경우 보이는 Page
+import useWebcam from "./useWebCam";
 import React, { useState } from "react";
-import { keyframes, styled } from "styled-components";
+import { useDispatch } from "react-redux";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
-import useWebcam from "./useWebCam";
-import { useWebSocket } from "../../../hooks/useWebSocket";
-import { RASPBERRY_URL } from "../../../apis/constants";
-import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
-import { personalClothesToServer, personalPictureToServer } from "./CaptureSlice";
+import { keyframes, styled } from "styled-components";
+import { personalClothesToServer } from "./CaptureSlice";
 import { useCustomAlert } from "../../../hooks/useAlert";
+import { RASPBERRY_URL } from "../../../apis/constants";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -173,8 +173,6 @@ const ClothesCapture = () => {
   const [isBlinking, setIsBlinking] = useState(false);
   const showAlert = useCustomAlert();
 
-  //NOTE - 카메라 종료시 data:off 로 바꿔서 보내면 됨 - 돌아오는 값은 raspberryPiCameraOff
-
   const handleCaptureClick = () => {
     captureImage(async (blob) => {
       if (blob) {
@@ -197,7 +195,7 @@ const ClothesCapture = () => {
             }, 1000);
             console.log("페이지 이동 준비 완료");
             navigate("/personalclothesresults");
-          } else if (data.payload.request.status === 500){
+          } else if (data.payload.request.status === 500) {
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);
           } else if (data.payload.request.status === 429) {

@@ -1,14 +1,10 @@
 import MirrorMap from "../components/Main/MirrorMap";
 import Mirror from "../components/Main/Mirror";
 import Test from "../components/Test/Test";
-import TestWidth from "../components/Test/TestWidth";
-import TestHeight from "../components/Test/TestHeight";
 import TestMain from "../components/Test/TestMain";
 import TestColor from "../components/Test/TestColor";
 import Login from "../components/Login/Login";
 import MenuBtn from "../components/Common/MenuBtn";
-import PreviousPersonalColorResults from "../components/Personal/Previous/PreviousPersonalColorResults";
-import PreviousClothesResults from "../components/Personal/Previous/PreviousClothesResults";
 import Calender from "../components/Personal/Main/PersonalCalender";
 import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
@@ -40,14 +36,6 @@ const routes = [
   {
     path: "/test",
     Component: Test,
-  },
-  {
-    path: "/testwidth",
-    Component: TestWidth,
-  },
-  {
-    path: "/testheight",
-    Component: TestHeight,
   },
   {
     path: "/testmain",
@@ -122,7 +110,7 @@ const routes = [
     Component: PrevHealth,
   },
   {
-    path: "/healthtest",
+    path: "/healthmain",
     Component: TodayHealthData,
   },
   {

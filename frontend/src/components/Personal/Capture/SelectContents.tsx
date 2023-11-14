@@ -1,16 +1,16 @@
 // 진단 종류 고르는 Page
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import useWebcam from "./useWebCam";
+import ErrorModal from "./ErrorModal";
+import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import MainButton from "../Main/MainButton";
-import ErrorModal from "./ErrorModal";
-import { useWebSocket } from "../../../hooks/useWebSocket";
-import { RASPBERRY_URL } from "../../../apis/constants";
-import useWebcam from "./useWebCam";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { RootState } from "../../../store/store";
+import React, { useState, useEffect } from "react";
+import { RASPBERRY_URL } from "../../../apis/constants";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 
-// 진단 컨텐츠 고르는 전체 컨테이너
+// 진단 컨텐츠 고르는 전체 컨테이너s
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -92,7 +92,7 @@ const SelectContents = () => {
   const [hasDiagnosedPersonalColor, setHasDiagnosedPersonalColor] =
     useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const { finishPersonal } = useSelector((state: RootState) => state.capture);
+  const { finishPersonal } = useSelector((state: RootState) => state.personal);
 
   const message = { type: "camera", data: "on" };
 

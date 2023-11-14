@@ -9,14 +9,15 @@ const StyledContainer = styled.div``;
 // 홈 버튼
 const StyledHomeButton = styled.button`
   position: absolute;
-  left: 8%;
-  top: 5%;
+  left: 5.35%;
+  top: 5.9%;
 
-  width: 150px;
-  height: 150px;
+  width: 104px;
+  height: 104px;
 
-  background-color: transparent;
-  border: none;
+  background-color: #4f4f4f;
+  border: 2px solid white;
+  border-radius: 15%;
 
   cursor: pointer;
 `;
@@ -76,7 +77,7 @@ const MainButton = (onClick :any) => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
-    navigate("/");
+    navigate("/mirror");
   };
 
   // const handlePrevClick = () => {

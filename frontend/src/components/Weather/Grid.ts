@@ -31865,7 +31865,7 @@ export const sfGrid :SFGridItem[] =[
   areaCode: "4719067000",
   arePt1: "경상북도",
   arePt2: "구미시",
-  arePt3: "인동동",
+  arePt3: "진미동",
   nX: "86",
   nY: "95",
   longitude: "128.42285555555554",
@@ -37922,3 +37922,39 @@ export const sfGrid :SFGridItem[] =[
   latitude: "0"
  }
 ]
+
+// 두 지점 사이의 거리를 계산하는 함수 (헤버사인 공식 사용)
+export function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+    const R = 6371; // 지구의 반지름 (킬로미터 단위)
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+  
+    const a = 
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // 거리 반환 (킬로미터 단위)
+  }
+  
+  // 가장 가까운 SFGridItem을 찾는 함수
+  export function findNearestSFGridItem(latitude: number, longitude: number): SFGridItem | undefined {
+    let nearestItem: SFGridItem | undefined = undefined;
+    let shortestDistance = Infinity;
+  
+    sfGrid.forEach(item => {
+      // latitude와 longitude가 string 타입이면 parseFloat를 사용, 아니면 직접 사용
+      const itemLat = typeof item.latitude === 'string' ? parseFloat(item.latitude) : item.latitude;
+      const itemLon = typeof item.longitude === 'string' ? parseFloat(item.longitude) : item.longitude;
+  
+      const distance = haversineDistance(latitude, longitude, itemLat, itemLon);
+      if (distance < shortestDistance) {
+        shortestDistance = distance;
+        nearestItem = item;
+      }
+    });
+  
+    return nearestItem;
+  }
+  

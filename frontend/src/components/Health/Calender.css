@@ -108,7 +108,7 @@
 
 /* 선택한 날짜 */
 .react-datepicker__day--selected {
-  background-color: #d2e7ef;
+  background-color: #1aabdf;
   color: #000000;
   border-radius: 5px;
 }
@@ -132,7 +132,18 @@
 
 /* 아이콘 */
 .icon {
+  position: relative;
+  top: 6px;
   display: inline-block;
-  font-size: 30px;
-  padding: 10px;
+  font-size: 28px !important;
+  width: 45px;
+  height: 45px;
+  padding: 7px 5px 5px 5px !important;
+}
+
+/* 점 아이콘 */
+.dot-icon {
+  display: inline-block;
+  font-size: 28px;
+  padding: 7px;
 }

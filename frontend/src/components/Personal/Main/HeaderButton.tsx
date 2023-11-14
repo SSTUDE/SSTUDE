@@ -14,12 +14,19 @@ const ContentButton = styled.button<ButtonProps>`
 
   cursor: pointer;
   font-size: 1.5rem;
+  font-family: "Giants-Bold";
   color: ${(props) => (props.isActive ? "#000000" : "#ffffff")};
 
   background-color: transparent;
   border: none;
 
   transition: all 0.7s;
+  outline: none;
+
+  &:active {
+    background-color: transparent;
+  }
+  -webkit-tap-highlight-color: transparent;
 `;
 
 const HeaderButton: React.FC<ButtonProps> = ({

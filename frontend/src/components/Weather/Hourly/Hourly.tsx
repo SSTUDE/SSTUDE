@@ -13,9 +13,10 @@ type HourlyProps = {
   RainRateDatas: WeatherDataCustom[];
   RainAmountDatas: WeatherDataCustom[];
   HumidityDatas: WeatherDataCustom[];
+  RainTypeDatas: WeatherDataCustom[];
 };
 
-const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, RainAmountDatas, HumidityDatas }) => {
+const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, RainAmountDatas, HumidityDatas, RainTypeDatas }) => {
   const dailySkyWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...dailySky];
   const RainRateWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...RainRateDatas];
   const RainAmountWithToday = [{ fcstDate: '오늘', fcstTime: '', fcstValue: '', category: '' }, ...RainAmountDatas];
@@ -27,7 +28,7 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
         <DayCloud 
           key={index} 
           dailySky={item} 
-          RainAmountDatas={RainAmountDatas}
+          RainTypeDatas={RainTypeDatas}
           index={index} />
       ))}
       <TemperatureLabel>기온(°C)</TemperatureLabel>
@@ -87,14 +88,15 @@ const TempLabel = styled.div<{ $columns: number; $index: number }>`
 // GridContainer 스타일
 const GridContainer = styled.div<{ $columns: number }>`
   display: grid;
-  grid-template-columns: repeat(${props => props.$columns}, minmax(80px, 1fr));
-  gap: 10px;
-  width: 100%;
+  grid-template-columns: 120px repeat(${props => props.$columns - 1}, minmax(80px, 1fr)); // 첫 번째 열을 120px로 설정
+  gap: 15px;
+  width: 94%;
   overflow-x: auto;
   &::-webkit-scrollbar {
     display: none;
   }
-  margin: 15px 20px 0 20px;
+  margin: 0 35px 0 35px;
+  font-size: 20px;
 `;
 
 const TemperatureLabel = styled.div`

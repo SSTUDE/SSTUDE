@@ -29,7 +29,6 @@ export interface busServer {
 export interface BusState {
   gps: [number, number] | null;
   busStops: busStops[] | null;
-  // station: string | null;
   busStop: any;
   busList: busServer[] | null;
   busSave: any;

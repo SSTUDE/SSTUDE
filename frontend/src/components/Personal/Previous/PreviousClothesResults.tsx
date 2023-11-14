@@ -1,12 +1,16 @@
-import React, { useRef, useState } from "react";
-import { styled } from "styled-components";
-import { images } from "../../../constants/images";
+import React from "react";
 import Carousel from "./Carousel";
+import { useSelector } from "react-redux";
+import { styled } from "styled-components";
+import { RootState } from "../../../store/store";
 
 const StyledSection = styled.section`
+  display: flex;
+  flex-direction: column-reverse; 
   width: 100%;
   height: 65vh;
-  position: relative;
+  color: white;
+  gap: 10px;
 `;
 
 const InfoArticle = styled.article`
@@ -14,21 +18,17 @@ const InfoArticle = styled.article`
   flex-direction: column;
   align-items: center;
 
-  position: relative;
-  top: -44px;
-  height: calc(65% - 159px);
+  height: 55%;
+
+  gap: 24px;
+  z-index: 1;
 
   background-color: #000000c2;
   color: white;
-  /* background-color: black; */
 `;
 
 // 점수 글씨
 const StyledScoreName = styled.p`
-  display: flex;
-  justify-content: center;
-
-  position: relative;
   margin: 3% 0 0 0;
 
   font-size: 2rem;
@@ -38,10 +38,6 @@ const StyledScoreName = styled.p`
 
 // 점수
 const StyledScore = styled.p`
-  display: flex;
-  justify-content: center;
-
-  position: relative;
   top: 20px;
 
   font-size: 2rem;
@@ -52,29 +48,50 @@ const StyledScore = styled.p`
 
 // 최고 점수
 const StyledHighestScore = styled.p`
-  display: flex;
-  justify-content: center;
-
-  position: relative;
   top: 50px;
 
   font-size: 3rem;
   font-weight: 600;
   font-family: "LeferiPoint-BlackObliqueA";
-  color: #469be1;
-  text-shadow: 4px 2px 2px #469be175;
+  color: #ffbf00;
+  text-shadow: 4px 2px 2px #bf9b30;
 `;
 
 const PreviousClothesResults = () => {
+  const { clothesData, CarouselIndex } = useSelector(
+    (state: RootState) => state.previous
+  );
+
+  // 진단 값 중 가장 높은 값
+  const highestScore =
+    clothesData && clothesData.length > 0
+      ? Math.max(...clothesData.map((data) => data.score))
+      : 0;
+
+  // 현재 슬라이드의 점수
+  const currentScore = clothesData?.[CarouselIndex]?.score || 0;
+
   return (
     <StyledSection>
-      <Carousel />
       <InfoArticle>
         <StyledScoreName>점수</StyledScoreName>
-        <StyledScore>100점</StyledScore>
-        <StyledHighestScore>High Score</StyledHighestScore>
+        <StyledScore>
+          {clothesData?.[CarouselIndex]?.score || "진단 결과가 없습니다"}
+        </StyledScore>
+        <StyledHighestScore
+          style={{
+            visibility:
+              highestScore > 0 && currentScore === highestScore
+                ? "visible"
+                : "hidden",
+          }}
+        >
+          High Score
+        </StyledHighestScore>
       </InfoArticle>
+      <Carousel />
     </StyledSection>
   );
 };
+
 export default PreviousClothesResults;

@@ -1,6 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useState, useEffect, useRef } from "react";
-import { AppDispatch, RootState } from "../store/store";
 import { setSignOut } from "../components/Login/LoginSlice";
 
 export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
@@ -8,7 +7,6 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectAttempts = useRef(0);
   const [messages, setMessages] = useState<string[]>([]);
-
 
   // 웹소켓 연결 함수
   const connect = () => {
@@ -22,8 +20,8 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
 
     ws.onmessage = (event) => {
       if (event.type === "signOut") {
-        console.log("----- singOut 들어옴 -----")
-        dispatch(setSignOut())
+        console.log("----- singOut 들어옴 -----");
+        dispatch(setSignOut());
       }
       console.log("수신된 메시지:", event.data);
     };
@@ -61,36 +59,34 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
     reconnectAttempts.current = 0;
     connect();
   };
-  
-  //NOTE - 카메라 껏다 키면 바로 로그인 작업 들어가나?
-// 메시지 보내기
-const sendMessage = (message: any) => {
-  return new Promise((resolve, reject) => {
-    console.log("sendMessage 함수 시작");
 
-    if (!socket || socket.readyState !== WebSocket.OPEN) {
-      console.error("웹소켓 연결 실패"); 
-      return reject(new Error("웹소켓이 연결되지 않았습니다."));
-    }
+  // 메시지 보내기
+  const sendMessage = (message: any) => {
+    return new Promise((resolve, reject) => {
+      console.log("sendMessage 함수 시작");
 
-    const messageListener = (event: any) => {
-      console.log("메시지 수신됨", event);
-      const responseData = JSON.parse(event.data);
-
-      if (responseData && responseData.type === message.type) {
-        console.log("예상 응답 수신", responseData);
-        resolve(responseData);
-        socket.removeEventListener("message", messageListener);
+      if (!socket || socket.readyState !== WebSocket.OPEN) {
+        console.error("웹소켓 연결 실패");
+        return reject(new Error("웹소켓이 연결되지 않았습니다."));
       }
-    };
 
-    socket.addEventListener("message", messageListener);
+      const messageListener = (event: any) => {
+        console.log("메시지 수신됨", event);
+        const responseData = JSON.parse(event.data);
 
-    console.log("메시지 전송", message);
-    socket.send(JSON.stringify(message));
-  }); 
-};
+        if (responseData && responseData.type === message.type) {
+          console.log("예상 응답 수신", responseData);
+          resolve(responseData);
+          socket.removeEventListener("message", messageListener);
+        }
+      };
 
+      socket.addEventListener("message", messageListener);
+
+      console.log("메시지 전송", message);
+      socket.send(JSON.stringify(message));
+    });
+  };
 
   return { messages, handleReconnect, sendMessage };
 };

@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store/store';
 import { useNavigate } from 'react-router-dom';
+import MainButton from '../Personal/Main/MainButton';
+import { useDispatch, useSelector } from 'react-redux';
 import { SelectedBuses, BusButtonProps } from './types';
+import { AppDispatch, RootState } from '../../store/store';
 import { busRealTimeForServer, setBusSave } from './BusSlice';
 
 const BusList = () => {
   const dispatch = useDispatch<AppDispatch>();
   const busList = useSelector((state: RootState) => state.bus.busList) || [];
-  console.log(busList)
   const validBusList = Array.isArray(busList)
     ? busList.filter(bus => bus !== undefined)
     : busList ? [busList] : [];
@@ -51,7 +51,8 @@ const BusList = () => {
   };
 
   return (
-    <BusListContainer>
+    <BusListContainer>      
+      <MainButton />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Title>
         {validBusList.length > 0 ? '실시간 조회할 버스를 골라주세요' : '해당 정류장의 버스 정보는 제공되지 않습니다 '}
@@ -116,7 +117,8 @@ const BusButton = styled.div<BusButtonProps>`
   transition: all 0.3s ease-in-out;
   display: flex;
   justify-content: center;
-  background-color: ${({ selected }) => (selected ? '#2ecc71' : 'transparent')};
+  background-color: ${({ selected }) => (selected ? '#94c9e4' : 'transparent')};
+  color: ${({ selected }) => (selected ? 'black' : 'white')};
 `;
 
 const BusInfo = styled.div`
@@ -142,13 +144,13 @@ const NavigationButton = styled.button`
   font-size: 2em;
   border: none;
   color: white;
-  background-color: #3498db;
+  background-color: #1988d2;
   border-radius: 5px;
   cursor: pointer;
 `;
 
 const SelectAllButton = styled(NavigationButton)`
-    background-color: #2ecc71;
+    background-color: #94c9e4;
 `;
 
 const ResetButton = styled(NavigationButton)`

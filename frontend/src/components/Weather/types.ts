@@ -1,64 +1,3 @@
-export const sunny = "맑음"; // sky code =1
-export const cloudy = "구름많음"; // sky code =3
-export const veryCloudy = "흐림"; // sky code =4
-export const spellRain = "한때 비";
-export const rainy = "비"; // pty code =1 or 5
-export const snowRain = "비 또는 눈"; //pty =2 or 6
-export const snow = "눈"; // pty code =3 or 7
-export const shower = "소나기"; //pty code=4
-export const cldRain = "구름많고 비";
-export const cldSnow = "구름많고 눈";
-export const cldRainSnow = "구름많고 비/눈";
-export const cldShower = "구름많고 소나기";
-export const vrCldRain = "흐리고 비";
-export const vrCldSnow = "흐리고 눈";
-export const vrCldRainSnow = "흐리고 비/눈";
-export const vrCldShower = "흐리고 소나기";
-
-export type HourWeather = {
-    date: string;
-    hour: string; //24시간제
-    sky: SkyType;
-    /** 온도
-     */
-    temp: number;
-    /**강수확률(%)*/
-    pop: string;
-    /**강수량(mm)*/
-    pcp: string;
-    /**1시간 신적설량(cm) */
-    sno: string;
-    //습도
-    reh: string;
-  };
-
-export type SkyCodeType = typeof sunny | typeof cloudy | typeof veryCloudy;
-
-export type PtyCodeType =
-  | typeof sunny
-  | typeof rainy
-  | typeof snowRain
-  | typeof snow
-  | typeof shower;
-
-export type SkyType =
-  | SkyCodeType
-  | PtyCodeType
-  | typeof spellRain
-  | typeof cldRain
-  | typeof cldSnow
-  | typeof cldRainSnow
-  | typeof cldShower
-  | typeof vrCldRain
-  | typeof vrCldSnow
-  | typeof vrCldRainSnow
-  | typeof vrCldShower;
-
-export type DailyWeather = {
-  date: string;
-  hourly: HourWeather[];
-};
-
 export type SFGridItem ={
   areaCode: string|number,
   arePt1: string,
@@ -81,6 +20,13 @@ export type WeatherDataResponse = {
   nx: number;
   ny: number;
 };
+
+export type WeatherDataRequest = {
+  base_date: string, 
+  base_time: string, 
+  nx: number, 
+  ny: number
+}
 
 export type WeatherDataCustom = {
   category: string;
@@ -196,4 +142,49 @@ export type MidForecastCombined = {
   wfPm: string;
   taMin: number;
   taMax: number;
+};
+
+// 미세먼지 데이터 반환
+export type AirQualityCustom = {
+  mangName: string;
+  dataTime: string;
+  sidoName: string;
+  stationName: string;
+  pm25Grade1h: string;
+  pm25Grade: string;
+  pm10Grade1h: string;
+  pm10Grade: string;
+  pm25Value24: string;
+  pm10Value24: string;
+};
+
+export type AirQualityResponse = {
+  pm25Grade1h: string;
+  pm10Value24: string;
+  so2Value: string;
+  pm10Grade1h: string;
+  pm10Value: string;
+  o3Grade: string;
+  pm25Flag: null | string;
+  khaiGrade: string;
+  pm25Value: string;
+  no2Flag: null | string;
+  mangName: string;
+  stationName: string;
+  no2Value: string;
+  so2Grade: string;
+  coFlag: null | string;
+  khaiValue: string;
+  coValue: string;
+  pm10Flag: null | string;
+  sidoName: string;
+  pm25Value24: string;
+  no2Grade: string;
+  o3Flag: null | string;
+  pm25Grade: string;
+  so2Flag: null | string;
+  coGrade: string;
+  dataTime: string;
+  pm10Grade: string;
+  o3Value: string;
 };

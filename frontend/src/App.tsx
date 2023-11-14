@@ -3,10 +3,10 @@ import routes from './router';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import ClickEffect from './components/Common/ClickEffect';
 import { BACK_GROUND_COLOR } from './constants/defaultSlices'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { createGlobalStyle } from 'styled-components';
 
 interface RouteConfig {
   path: string;

@@ -2,10 +2,11 @@ import { busStops } from './types';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { images } from '../../constants/images';
+import MainButton from '../Personal/Main/MainButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import React, { useEffect, useRef, useState } from 'react';
-import { busStopToServer, gpsToServer, setBusStop, tadaBusList, tadaBusStop } from './BusSlice';
+import { busStopToServer, gpsToServer, setBusStop } from './BusSlice';
 
 const KakaoMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -15,8 +16,6 @@ const KakaoMap = () => {
   const busStops = useSelector((state: RootState) => state.bus.busStops);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  console.log(busStops)
 
   useEffect(() => {
     if (window.kakao && window.kakao.maps) {
@@ -74,18 +73,16 @@ const KakaoMap = () => {
     if (selectedStation) {
       dispatch(setBusStop(selectedStation));
       dispatch(busStopToServer(selectedStation));
-      // dispatch(tadaBusList(selectedStation));
       navigate('/buslist');
     }
   };
   const reResponse = () => {
     dispatch(gpsToServer());
-    //NOTE - 아래껀 서버에서 api 받아오는거 실패시 직접 버스 정거장 데이터 끌고오는 용도
-    // dispatch(tadaBusStop());
   };
 
   return (
     <Container>
+      <MainButton />
       <Spacer />
       <MapDiv ref={mapRef} />
       <StationList>
@@ -132,7 +129,9 @@ const StationName = styled.div<{ selected?: boolean }>`
   padding: 10px;
   margin: 5px 0;
   border-bottom: 1px solid #484e5a;
-  background-color: ${(props) => (props.selected ? '#4cd137' : 'transparent')};
+  background-color: ${(props) => (props.selected ? '#94c9e4' : 'transparent')};
+  color: ${(props) => (props.selected ? 'black' : 'white')};
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
 `;
@@ -147,7 +146,7 @@ const Pagination = styled.div`
 const PageButton = styled.p<{ isActive?: boolean }>`
   padding: 15px 30px;
   margin: 5px;
-  background-color: ${(props) => (props.isActive ? '#4cd137' : 'white')};
+  background-color: ${(props) => (props.isActive ? '#94c9e4' : 'white')};
   color: ${(props) => (props.isActive ? 'black' : 'black')};
   border-radius: 5px;
   cursor: pointer;

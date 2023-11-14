@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components';
 import {  MidForecastCombined } from '../types'
 import SkyWeek from './SkyWeek'
@@ -68,9 +68,6 @@ const Container = styled.div`
   width: 100%;
   height: 30%;
 
-  >h2{
-    margin: 10px 10px;
-  }
 `
 
 const StyledList = styled.ul`

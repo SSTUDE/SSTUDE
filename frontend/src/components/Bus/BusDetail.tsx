@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { gpsToServer } from './BusSlice';
+import { BusRealTimeData } from './types';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
-import { BusRealTimeData } from './types';
 
 interface BusProps {
   onClick: React.MouseEventHandler<HTMLDivElement>;
@@ -18,12 +18,9 @@ const BusDetail: React.FC<BusProps> = ({ onClick }) => {
   const toSelectBusStop = () => {
     if (gps) {
       dispatch(gpsToServer());
-      //NOTE - 아래껀 서버에서 api 받아오는거 실패시 직접 버스 정거장 데이터 끌고오는 용도
-      // dispatch(tadaBusStop());
       navigate('/kakaomap');
     }
   };
-  console.log(busRealTime)
 
   const formatTime = (seconds: number): number => {
     return Math.floor(seconds / 60);
