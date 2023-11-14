@@ -31865,7 +31865,7 @@ export const sfGrid :SFGridItem[] =[
   areaCode: "4719067000",
   arePt1: "경상북도",
   arePt2: "구미시",
-  arePt3: "인동동",
+  arePt3: "진미동",
   nX: "86",
   nY: "95",
   longitude: "128.42285555555554",

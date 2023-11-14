@@ -18,7 +18,7 @@ export const getWeatherData = async (params: {
   try {
     const response = await axios.get(`${BASE_URL}/1360000/VilageFcstInfoService_2.0/getVilageFcst`, {
       params: {
-        serviceKey: SERVICE_KEY,
+        serviceKey: SERVICE_KEY_MINE,
         ...params
       }
     });   
