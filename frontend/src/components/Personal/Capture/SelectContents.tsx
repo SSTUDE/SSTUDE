@@ -1,11 +1,16 @@
 // 진단 종류 고르는 Page
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import MainButton from "../Main/MainButton";
 import ErrorModal from "./ErrorModal";
+import { useWebSocket } from "../../../hooks/useWebSocket";
+import { RASPBERRY_URL } from "../../../apis/constants";
+import useWebcam from "./useWebcams";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
-// 진단 컨텐츠 고르는 전체 컨테이너
+// 진단 컨텐츠 고르는 전체 컨테이너s
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -81,21 +86,58 @@ const CameraIcon = () => (
 );
 
 const SelectContents = () => {
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { startWebcam } = useWebcam();
   const navigate = useNavigate();
   const [hasDiagnosedPersonalColor, setHasDiagnosedPersonalColor] =
     useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const { finishPersonal } = useSelector((state: RootState) => state.capture);
+
+  const message = { type: "camera", data: "on" };
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     sendMessage({ type: "camera", data: "off" })
+  //       .then((response: any) => {
+  //         console.log("응답옴: ", response)
+  //       })
+  //       .catch(error => {
+  //         console.log("에러 발생", error);
+  //       });
+  //   }, 1000);
+  // }, [])
 
   const handlePersonalCameraClick = () => {
-    navigate("/personalselectpersonal");
+    // sendMessage(message)
+    //   .then((response: any) => {
+    //     console.log("응답옴: ", response)
+        console.log("카메라 권한 획득")
+        setTimeout(() => { startWebcam(); }, 1000);
+        console.log("카메라 실행, 페이지 이동")
+        navigate("/personalselectpersonal");
+      // })
+      // .catch(error => {
+      //   console.log("에러 발생", error);
+      // });
   };
 
   const handleClothesCameraClick = () => {
-    if (!hasDiagnosedPersonalColor) {
-      setIsErrorModalOpen(true);
-    } else {
-      navigate("/personalselectclothes");
-    }
+    // if (!hasDiagnosedPersonalColor) {
+    //   setIsErrorModalOpen(true);
+    // } else {
+    //   sendMessage(message)
+    //     .then((response: any) => {
+    //       console.log("응답옴: ", response)
+          console.log("카메라 권한 획득")
+          setTimeout(() => { startWebcam(); }, 1000);
+          console.log("카메라 실행, 페이지 이동")
+          navigate("/personalselectclothes");
+    //     })
+    //     .catch(error => {
+    //       console.log("에러 발생", error);
+    //     });
+    // }
   };
 
   const handleCloseModal = () => {
@@ -112,11 +154,13 @@ const SelectContents = () => {
           <StyledPTag>퍼스널 컬러</StyledPTag>
           <StyledPTag>진단 하기</StyledPTag>
         </StyledCameraButton>
-        <StyledCameraButton onClick={handleClothesCameraClick}>
-          <CameraIcon />
-          <StyledPTag>의상</StyledPTag>
-          <StyledPTag>진단 하기</StyledPTag>
-        </StyledCameraButton>
+        {finishPersonal &&
+          <StyledCameraButton onClick={handleClothesCameraClick}>
+            <CameraIcon />
+            <StyledPTag>의상</StyledPTag>
+            <StyledPTag>진단 하기</StyledPTag>
+          </StyledCameraButton>
+        }
       </StyledButtonContainer>
       <ErrorModal
         isOpen={isErrorModalOpen}
