@@ -151,7 +151,9 @@ export type AirQualityCustom = {
   sidoName: string;
   stationName: string;
   pm25Grade1h: string;
+  pm25Grade: string;
   pm10Grade1h: string;
+  pm10Grade: string;
   pm25Value24: string;
   pm10Value24: string;
 };

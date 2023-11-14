@@ -22,8 +22,10 @@ export const fetchAirQualityData = createAsyncThunk(
         sidoName: item.sidoName,
         stationName: item.stationName,
         pm25Grade1h: item.pm25Grade1h,
+        pm25Grade: item.pm25Grade,
         pm25Value24: item.pm25Value24,
         pm10Grade1h: item.pm10Grade1h,
+        pm10Grade: item.pm10Grade,
         pm10Value24: item.pm10Value24,
       })) as AirQualityCustom[];
       return FormatData 

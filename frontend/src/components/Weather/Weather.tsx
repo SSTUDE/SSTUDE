@@ -33,7 +33,7 @@
       arePt1: position.arePt1,
       arePt2: position.arePt2,
     };
-  
+
     const regionCode = getMidLandAreaCode(arePt1, arePt2);
 
   
@@ -220,6 +220,7 @@
         // 오늘, 내일 데이터 필터링
         const todayData = FormatData.filter((item: WeatherDataCustom) => item.fcstDate === currentDate);
         const tomorrowData = FormatData.filter((item: WeatherDataCustom) => item.fcstDate === formattedDateTommor);
+        // console.log(todayData);
 
         // 오늘/오후 중에  강수확률을 가장 높은 함수
         const findHighestRainRate = (data: WeatherDataCustom[], isAmPeriod: boolean) => {
