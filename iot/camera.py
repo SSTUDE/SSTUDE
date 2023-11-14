@@ -48,7 +48,7 @@ thread.start()
 # 카메라 등록
 def initialize_camera():
     global cam
-    cam = cv2.VideoCapture(1 for, cv2.CAP_V4L2)
+    cam = cv2.VideoCapture(1, cv2.CAP_V4L2)
     if not cam.isOpened():
         print("카메라를 열 수 없습니다.")
         return False
