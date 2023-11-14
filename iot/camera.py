@@ -146,8 +146,8 @@ while True:
 
                 if 0 < len(face_distances):
                     best_match_index = np.argmin(face_distances)
-                    print("matching distance : ", matches[best_match_index])
-                    if matches[best_match_index] and matches[best_match_index] <= 0.65:
+                    print("matching distance : ", face_distances[best_match_index])
+                    if matches[best_match_index] and face_distances[best_match_index] <= 0.4:
                         name = known_face_names[best_match_index]
                         userRecogn = True
                 else:
