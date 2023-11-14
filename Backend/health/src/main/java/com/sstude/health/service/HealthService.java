@@ -199,7 +199,7 @@ public class HealthService {
 //    }
 
 //    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 20 10 * * *")
+    @Scheduled(cron = "0 40 10 * * *")
     @Transactional
     public void saveLatestHealthData() {
         log.info("시간들어옴!!!!");
