@@ -195,7 +195,7 @@ const PersonalColorCapture = () => {
             //     });
             // }, 1000);
             console.log("페이지 이동 준비 완료");
-            navigate("/personalclothesresults");
+            navigate("/personalcolorsresults");
           } else if (data.payload.request.status === 500){
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);

@@ -23,6 +23,7 @@ export type PersonalBeautyresultsState = {
 export type PersonalState = {
   beauty: PersonalBeautyState | null;
   beautyResults: PersonalBeautyresultsState | null;
+  finishPersonal: boolean, 
   loading: boolean;
   error: string | null;
 };

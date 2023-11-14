@@ -214,8 +214,8 @@ const ClothesCapture = () => {
           setIsBlinking(true);
           setTimeout(() => setIsBlinking(false), 3000);
         }
-      }
-    })
+        }
+      })
   }
 
   const closeCamera = () => {

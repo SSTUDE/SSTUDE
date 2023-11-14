@@ -92,7 +92,7 @@ const SelectContents = () => {
   const [hasDiagnosedPersonalColor, setHasDiagnosedPersonalColor] =
     useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
-  const { finishPersonal } = useSelector((state: RootState) => state.capture);
+  const { finishPersonal } = useSelector((state: RootState) => state.personal);
 
   const message = { type: "camera", data: "on" };
 

@@ -5,5 +5,4 @@ export interface Message {
 
 export interface CaptureState {
   messages: { type: string; data: string };
-  finishPersonal: boolean;
 }

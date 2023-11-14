@@ -47,6 +47,10 @@ export const personalClothesToServer = createAsyncThunk(
       formData.append('file', capturedImage, generateRandomFileName());
 
       console.log("서버로 요청 전송 중...", formData);
+      for (let [key, value] of Array.from(formData.entries())) {
+        console.log(key, value);
+      }
+      
       const response = await pythonFormAxiosToken.post("/clothes", formData);
 
       console.log("서버 응답: ", response);
@@ -57,31 +61,6 @@ export const personalClothesToServer = createAsyncThunk(
         return rejectWithValue(error.response);
       }
       return rejectWithValue(error.message || "Unknown error occurred");
-    }
-  }
-);
-
-//NOTE - detail API
-//NOTE - extraReducers 참고
-export const detailToServer = createAsyncThunk(
-  'capture/detailToServer',
-  async (data: string, { rejectWithValue }) => {
-    console.log("detailToServer 시작");
-    try {
-      
-      console.log("서버로 요청 전송 중...", data);
-      
-      const response = await pythonAxiosToken.post('/detail', data);
-      
-      console.log("서버 응답: ", response);
-      
-      return response.data;
-    } catch (error: any) {
-      console.error("오류 발생: ", error);
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data);
-      }
-      return rejectWithValue(error.message || 'Unknown error occurred');
     }
   }
 );
@@ -112,7 +91,6 @@ export const clothesDetailToServer = createAsyncThunk(
 
 const initialState: CaptureState = {
   messages: { type: "", data: "" },
-  finishPersonal: false, 
 };
 
 export const CaptureSlice = createSlice({
@@ -124,12 +102,6 @@ export const CaptureSlice = createSlice({
     // },
   },
   extraReducers: (builder) => {
-    builder.addCase(detailToServer.fulfilled, (state, action) => {
-      //NOTE - 디테일 함수 반환값 정상이면 변수 true로 변경
-      if (action.payload.data === "응답값") {
-        state.finishPersonal = true
-      }
-    });
   },
 });
 
