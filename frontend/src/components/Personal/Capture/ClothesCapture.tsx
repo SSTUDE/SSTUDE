@@ -184,13 +184,15 @@ const ClothesCapture = () => {
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
             console.log("카메라 종료");
-            sendMessage(message)
-              .then((response) => {
-                console.log("응답옴: ", response);
-              })
-              .catch(error => {
-                console.log("에러 발생", error);
-              });
+            setTimeout(() => {
+              sendMessage(message)
+                .then((response) => {
+                  console.log("응답옴: ", response);
+                })
+                .catch(error => {
+                  console.log("에러 발생", error);
+                });
+            }, 1000);
             console.log("페이지 이동 준비 완료");
             navigate("/personalclothesresults");
           } else {
@@ -209,17 +211,19 @@ const ClothesCapture = () => {
   const closeCamera = () => {
     stopWebcam();
     console.log("카메라 종료");
-    sendMessage(message)
-      .then((response) => {
-        console.log("응답옴: ", response);
-      })
-      .catch(error => {
-        console.log("에러 발생", error);
-      });
+    setTimeout(() => {
+      sendMessage(message)
+        .then((response) => {
+          console.log("응답옴: ", response);
+        })
+        .catch(error => {
+          console.log("에러 발생", error);
+        });
+    }, 1000);
   }
 
   return (
-    <StyledContainer>
+    <StyledContainer onClick={closeCamera}>
       <MainButton />
       <StyledTitle>퍼스널 컬러 진단</StyledTitle>
       <StyledCaptureAngle>
@@ -239,13 +243,13 @@ const ClothesCapture = () => {
       </StyledCaptureAngle>
       {isBlinking ? (
         <>
-          <BlinkingCaptureInfo onClick={closeCamera}>앵글 안에 들어와아앙</BlinkingCaptureInfo>
-          <BlinkingCaptureInfo onClick={closeCamera}>카메라를 봐 이자시가</BlinkingCaptureInfo>
+          <BlinkingCaptureInfo onClick={closeCamera}>앵글 안에 들어와</BlinkingCaptureInfo>
+          <BlinkingCaptureInfo onClick={closeCamera}>정면을 바라보세요</BlinkingCaptureInfo>
         </>
       ) : (
         <>
-          <StyledCaptureInfo onClick={closeCamera}>앵글 안에 들어와아앙</StyledCaptureInfo>
-          <StyledCaptureInfo onClick={closeCamera}>카메라를 봐 이자시가</StyledCaptureInfo>
+          <StyledCaptureInfo onClick={closeCamera}>앵글 안에 들어와</StyledCaptureInfo>
+          <StyledCaptureInfo onClick={closeCamera}>정면을 바라보세요</StyledCaptureInfo>
         </>
       )}
     </StyledContainer>

@@ -93,23 +93,25 @@ const SelectContents = () => {
   const message = { type: "camera", data: "on" };
 
   useEffect(() => {
-    sendMessage({ type: "camera", data: "off" })
-      .then((response: any) => {
-        console.log("응답옴: ", response)
-      })
-      .catch(error => {
-        console.log("에러 발생", error);
-      });
+    setTimeout(() => {
+      sendMessage({ type: "camera", data: "off" })
+        .then((response: any) => {
+          console.log("응답옴: ", response)
+        })
+        .catch(error => {
+          console.log("에러 발생", error);
+        });
+    }, 1000);
   }, [])
-  
+
   const handlePersonalCameraClick = () => {
     sendMessage(message)
       .then((response: any) => {
         console.log("응답옴: ", response)
-          console.log("카메라 권한 획득")
-          setTimeout(() =>{startWebcam();}, 1000);
-          console.log("카메라 실행, 페이지 이동")
-          navigate("/personalselectpersonal");
+        console.log("카메라 권한 획득")
+        setTimeout(() => { startWebcam(); }, 1000);
+        console.log("카메라 실행, 페이지 이동")
+        navigate("/personalselectpersonal");
       })
       .catch(error => {
         console.log("에러 발생", error);
@@ -123,10 +125,10 @@ const SelectContents = () => {
       sendMessage(message)
         .then((response: any) => {
           console.log("응답옴: ", response)
-            console.log("카메라 권한 획득")
-            setTimeout(() =>{startWebcam();}, 1000);
-            console.log("카메라 실행, 페이지 이동")
-            navigate("/personalselectclothes");
+          console.log("카메라 권한 획득")
+          setTimeout(() => { startWebcam(); }, 1000);
+          console.log("카메라 실행, 페이지 이동")
+          navigate("/personalselectclothes");
         })
         .catch(error => {
           console.log("에러 발생", error);
