@@ -59,6 +59,7 @@ const useWebcam = () => {
       // 스트림의 모든 트랙을 가져와 정지
       const tracks = mediaStream.getTracks();
       tracks.forEach((track: MediaStreamTrack) => track.stop());
+      webcamRef.current.srcObject = null;
     }
   }, []);
 
