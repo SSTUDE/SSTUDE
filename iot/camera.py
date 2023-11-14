@@ -79,11 +79,12 @@ process_this_frame = True
 
 # Initialize some service variables
 service_on = False
-update_min = 6
-finish_time = datetime.now()
+update_min = 10
+finish_time = datetime.now() + timedelta(days=1)
 cool_down_counter = 10
 cnt = -1
 is_cooler_on = False
+is_login_service_on = False
 while True:
     
     message = ws_service.checkLatestMessage()
@@ -108,7 +109,7 @@ while True:
         
         if not ret:
             print("프레임을 읽을 수 없습니다. 종료합니다")
-            break
+            continue
         
         
         # Only process every other frame of video to save time
@@ -141,7 +142,8 @@ while True:
 
                 if 0 < len(face_distances):
                     best_match_index = np.argmin(face_distances)
-                    if matches[best_match_index]:
+                    print("matching distance : ", matches[best_match_index])
+                    if matches[best_match_index] and matches[best_match_index] <= 0.65:
                         name = known_face_names[best_match_index]
                         userRecogn = True
                 else:
@@ -175,6 +177,10 @@ while True:
         
         known_face_encodings, known_face_names = getUserInfo.from_users_folder()
     
+    ## Sign In Process 
+    if msg_type == "signIn" and cnt == 0:
+        is_login_service_on = True
+
     ## Camera on off mapping process
     if msg_type == "camera" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
@@ -204,7 +210,7 @@ while True:
             "type" : "signIn",
             "data" : data
         }
-        print(data)
+
 
     key = cv2.waitKey(1)
        
@@ -218,13 +224,24 @@ while True:
         asyncio.run(ws_service.sendInfo(json.dumps(Info)));
 
     # 서비스 실행
-    if userRecogn and not service_on :
+    if is_login_service_on and userRecogn and not service_on :
         update_finish_time(now)
         print("타겟 시간 : ", finish_time)
         service_on = True
         
         ## 
         open_service()
+        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
+        is_login_service_on = False
+    
+    if is_login_service_on and not userRecogn:
+        Info = {
+            "type" : "signIn",
+            "data" : {
+                "userInfo": "unKnown",
+                "serialNum": getSignInInfo.getSerial()
+            }
+        }
         asyncio.run(ws_service.sendInfo(json.dumps(Info)));
 
 
