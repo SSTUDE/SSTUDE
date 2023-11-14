@@ -44,7 +44,7 @@ const Mirror = () => {
     <Container>
       <Header>
         <Left>
-          <MenuBtn type="menu" />
+          <MenuBtn type="home" />
           <MenuBtn type="beauty" />
           <MenuBtn type="health" />
         </Left>

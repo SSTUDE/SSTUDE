@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { images } from '../../constants/images';
 import { AppDispatch } from '../../store/store';
-import { setMenuBtn } from '../Main/MirrorSlice';
 import { RootState } from '../../store/store';
 
-type ButtonType = 'menu' | 'beauty' | 'health' | 'question';
+type ButtonType = 'home' | 'beauty' | 'health' | 'question';
 
 interface MenuBtnProps {
   type: ButtonType;
@@ -16,23 +15,26 @@ interface MenuBtnProps {
 function MenuBtn({ type }: MenuBtnProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const isMenuOpen = useSelector((state: RootState) => state.mirror.isMenuOpen);
+  const { signOut } = useSelector((state: RootState) => state.login);
 
   const handleClick = () => {
-    if (type === 'menu') {
-      dispatch(setMenuBtn());
+    if (type === 'home') {
+      if (signOut) {
+        localStorage.setItem("SSTUDE", "")
+        navigate('/login')
+      } else {
+        navigate('/mirror')
+      }
     } else if (type === 'beauty') {
       navigate('/beauty');
     } else if (type === 'health') {
       navigate('/health');
-    } else if (type === 'question') {
-      // navigate('/question');
-    }
+    } 
   };
 
   const getImageSrc = (type: ButtonType): string => {
     const imageMap: { [key in ButtonType]: string } = {
-      menu: images.default.menuBtn,
+      home: images.default.homeBtn,
       beauty: images.default.beautyBtn,
       health: images.default.healthBtn,
       question: images.default.questionBtn,
@@ -41,7 +43,7 @@ function MenuBtn({ type }: MenuBtnProps) {
   };
 
   return (
-    <Wrap $isMenuOpen={isMenuOpen} type={type} onClick={handleClick}>
+    <Wrap type={type} onClick={handleClick}>
       <Button>
         <img src={getImageSrc(type)} alt={`${type} 버튼`} />
       </Button>
@@ -49,11 +51,11 @@ function MenuBtn({ type }: MenuBtnProps) {
   );
 }
 
-const Wrap = styled.div<{ $isMenuOpen: boolean; type: ButtonType; }>`
+const Wrap = styled.div<{ type: ButtonType; }>`
   width: 100px;
   height: 100px;
   border-radius: 15%;
-  background-color: ${(props) => props.type === 'menu' && props.$isMenuOpen ? '#2ecc71' : '#4F4F4F'};
+  background-color: #4F4F4F;
   border: 2px solid white;
   display: flex;
   align-items: center;

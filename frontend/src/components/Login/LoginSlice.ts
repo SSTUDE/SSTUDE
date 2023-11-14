@@ -1,7 +1,12 @@
 import { LoginState } from "./types";
 import axiosToken from "../../apis/http-common";
 import { SIGN_UP_URL, SIGN_IN_URL } from "../../apis/constants";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
 import { storageData } from "../../apis/JWT-common";
 import { useWebSocketContext } from "../Common/WebSocketContext";
 
@@ -27,7 +32,7 @@ export const signInUser = createAsyncThunk(
       const response = await axiosToken.post(SIGN_IN_URL, data);
       const { sendMessage } = useWebSocketContext();
       const safeSendMessage = sendMessage || (() => {});
-      console.log("토큰 저장", response.data.accessToken)
+      console.log("토큰 저장", response.data.accessToken);
       storageData(response.data.accessToken, safeSendMessage);
       const memberId = response.data.memberId;
       return memberId;
@@ -37,26 +42,53 @@ export const signInUser = createAsyncThunk(
   }
 );
 
+const handleAsyncReducer = <T>(
+  builder: ActionReducerMapBuilder<LoginState>,
+  asyncThunk: any,
+  processData: (state: LoginState, action: PayloadAction<T>) => void
+) => {
+  builder
+    .addCase(asyncThunk.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(asyncThunk.fulfilled, (state, action: PayloadAction<T>) => {
+      processData(state, action);
+      state.loading = false;
+    })
+    .addCase(asyncThunk.rejected, (state, action: PayloadAction<any>) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+};
+
 const initialState: LoginState = {
   userInfo: "",
   serialNum: "",
   memberId: "",
+  signOut: false,
+  loading: false,
+  error: null,
 };
 
 export const LoginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    setSignOut: (state) => {
+      state.signOut = false;
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(signUpUser.fulfilled, (state, action) => {
+    handleAsyncReducer<any>(builder, signUpUser, (state, action) => {
       state.memberId = action.payload;
     });
-    builder.addCase(signInUser.fulfilled, (state, action) => {
+    handleAsyncReducer<any>(builder, signInUser, (state, action) => {
       state.memberId = action.payload;
     });
   },
 });
 
-export const { } = LoginSlice.actions;
+export const {setSignOut} = LoginSlice.actions;
 
 export default LoginSlice.reducer;

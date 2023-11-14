@@ -1,11 +1,14 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect, useRef } from "react";
+import { AppDispatch, RootState } from "../store/store";
+import { setSignOut } from "../components/Login/LoginSlice";
 
 export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
   const dispatch = useDispatch();
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectAttempts = useRef(0);
   const [messages, setMessages] = useState<string[]>([]);
+
 
   // 웹소켓 연결 함수
   const connect = () => {
@@ -18,6 +21,10 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
     };
 
     ws.onmessage = (event) => {
+      if (event.type === "signOut") {
+        console.log("----- singOut 들어옴 -----")
+        dispatch(setSignOut())
+      }
       console.log("수신된 메시지:", event.data);
     };
 

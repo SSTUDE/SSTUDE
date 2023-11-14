@@ -7,6 +7,7 @@ export const images = {
     beautyBtn: "/assets/images/beauty.svg",
     healthBtn: "/assets/images/health.svg",
     questionBtn: "/assets/images/question.svg",
+    homeBtn: "/assets/images/home.svg",
   },
   map: {
     bus: "/assets/images/bus.png",

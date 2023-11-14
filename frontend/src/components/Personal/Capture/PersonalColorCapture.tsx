@@ -9,6 +9,7 @@ import { RASPBERRY_URL } from "../../../apis/constants";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../store/store";
 import { personalPictureToServer } from "./CaptureSlice";
+import { useCustomAlert } from "../../../hooks/useAlert";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -170,6 +171,7 @@ const PersonalColorCapture = () => {
   const navigate = useNavigate();
   const message = { type: "camera", data: "off" };
   const [isBlinking, setIsBlinking] = useState(false);
+  const showAlert = useCustomAlert();
 
   const handleCaptureClick = async () => {
     captureImage(async (blob) => {
@@ -193,7 +195,14 @@ const PersonalColorCapture = () => {
             }, 1000);
             console.log("페이지 이동 준비 완료");
             navigate("/personalclothesresults");
-          } else {
+          } else if (data.payload.request.status === 500){
+            setIsBlinking(true);
+            setTimeout(() => setIsBlinking(false), 3000);
+          } else if (data.payload.request.status === 429) {
+            showAlert({
+              icon: "warning",
+              title: "오늘은 더 이상 시도할 수 없습니다",
+            });
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);
           }
@@ -205,6 +214,7 @@ const PersonalColorCapture = () => {
       }
     })
   }
+
 
   const closeCamera = () => {
     stopWebcam();
