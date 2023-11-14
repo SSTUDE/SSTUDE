@@ -8,7 +8,7 @@ from clothes_analysis.clothes_similarity import *
 
 class clothes_score:
     
-    def __init__(self, url, userid, current_date):
+    def __init__(self, url, color_result):
         # 얼굴에서 일정 높이 아래 좌표 가져옴
         df = DetectFace(url)
         clusters=4
@@ -27,5 +27,5 @@ class clothes_score:
         lab = convert_color(rgb, LabColor, through_rgb_type=sRGBColor)
         print(lab)
         # 사용자의 퍼스널컬러 결과 가져와서 어울리는 색과 비교해서 점수 매기기  
-        self.score = my_color(userid, current_date, lab)
+        self.score = my_color(color_result, lab)
     
