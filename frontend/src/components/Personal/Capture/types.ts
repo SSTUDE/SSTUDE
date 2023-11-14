@@ -4,5 +4,6 @@ export interface Message {
 }
 
 export interface CaptureState {
-  messages: Message;
+  messages: { type: string; data: string };
+  finishPersonal: boolean;
 }

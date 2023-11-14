@@ -7,6 +7,8 @@ import ErrorModal from "./ErrorModal";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import useWebcam from "./useWebCam";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store/store";
 
 // 진단 컨텐츠 고르는 전체 컨테이너
 const StyledContainer = styled.section`
@@ -90,6 +92,8 @@ const SelectContents = () => {
   const [hasDiagnosedPersonalColor, setHasDiagnosedPersonalColor] =
     useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const { finishPersonal } = useSelector((state: RootState) => state.capture);
+
   const message = { type: "camera", data: "on" };
 
   useEffect(() => {
@@ -150,11 +154,13 @@ const SelectContents = () => {
           <StyledPTag>퍼스널 컬러</StyledPTag>
           <StyledPTag>진단 하기</StyledPTag>
         </StyledCameraButton>
-        <StyledCameraButton onClick={handleClothesCameraClick}>
-          <CameraIcon />
-          <StyledPTag>의상</StyledPTag>
-          <StyledPTag>진단 하기</StyledPTag>
-        </StyledCameraButton>
+        {finishPersonal &&
+          <StyledCameraButton onClick={handleClothesCameraClick}>
+            <CameraIcon />
+            <StyledPTag>의상</StyledPTag>
+            <StyledPTag>진단 하기</StyledPTag>
+          </StyledCameraButton>
+        }
       </StyledButtonContainer>
       <ErrorModal
         isOpen={isErrorModalOpen}
