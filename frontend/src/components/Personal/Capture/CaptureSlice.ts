@@ -54,7 +54,7 @@ export const personalClothesToServer = createAsyncThunk(
     } catch (error: any) {
       console.error("오류 발생: ", error);
       if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data);
+        return rejectWithValue(error.response);
       }
       return rejectWithValue(error.message || "Unknown error occurred");
     }
