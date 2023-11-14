@@ -245,7 +245,7 @@ async def read_item(file: UploadFile = File(),
             
     return JSONResponse("의상진단 완료")
 
-
+"test"
 @app.post("/clothes/detail")
 def getclothesDetail (
     access_token: Optional[str] = Header(None, convert_underscores=False)):
