@@ -147,7 +147,7 @@ while True:
 
             if 0 < len(face_distances):
                 best_match_index = np.argmin(face_distances)
-                print("matching distance : ", face_distances[best_match_index])
+                # print("matching distance : ", face_distances[best_match_index])
                 if matches[best_match_index] and face_distances[best_match_index] <= 0.42:
                     name = known_face_names[best_match_index]
                     userRecogn = True
@@ -187,11 +187,11 @@ while True:
     if msg_type == "camera" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
         print("is camera type came?")
-        if msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
+        if cam and msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
             release_camera()
             msg["data"] = "raspberryPiCameraOff"
             asyncio.run(ws_service.sendInfo(json.dumps(msg)));
-        elif msg_data == "off": # 프론트에서 카메라가 사용 종료 되는 상황
+        elif not cam and msg_data == "off": # 프론트에서 카메라가 사용 종료 되는 상황
             initialize_camera()
             msg["data"] = "raspberryPiCameraOn"
             asyncio.run(ws_service.sendInfo(json.dumps(msg)));
