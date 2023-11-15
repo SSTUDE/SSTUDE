@@ -232,7 +232,7 @@ const PersonalColorCapture = () => {
 
   return (
     <StyledContainer>
-      <MainButton onClick={closeCamera} />
+      <MainButton />
       <StyledTitle>퍼스널 컬러 진단</StyledTitle>
       <StyledCaptureAngle>
         <StyledVideo ref={webcamRef} autoPlay playsInline />

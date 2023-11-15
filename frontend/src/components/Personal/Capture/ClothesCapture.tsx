@@ -230,7 +230,7 @@ const ClothesCapture = () => {
   }
 
   return (
-    <StyledContainer onClick={closeCamera}>
+    <StyledContainer>
       <MainButton />
       <StyledTitle>퍼스널 컬러 진단</StyledTitle>
       <StyledCaptureAngle>

@@ -4,6 +4,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { RootState } from "../../../store/store";
+import { useWebSocket } from "../../../hooks/useWebSocket";
+import { RASPBERRY_URL } from "../../../apis/constants";
+import useWebcam from "../Capture/useWebCam";
 
 // 전체 컨테이너
 const StyledContainer = styled.div``;
@@ -78,6 +81,21 @@ const HomeIcon = () => (
 const MainButton = (onClick :any) => {
   const navigate = useNavigate();
   const { signOut } = useSelector((state: RootState) => state.login);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const message = { type: "camera", data: "off" };
+  const { stopWebcam } = useWebcam();
+
+  stopWebcam();
+    console.log("카메라 종료");
+    setTimeout(() => {
+      sendMessage(message)
+        .then((response) => {
+          console.log("응답옴: ", response);
+        })
+        .catch(error => {
+          console.log("에러 발생", error);
+        });
+    }, 1000);
 
   const handleHomeClick = () => {
     if (signOut) {
