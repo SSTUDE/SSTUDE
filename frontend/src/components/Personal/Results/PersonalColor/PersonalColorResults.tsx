@@ -4,6 +4,11 @@ import ResultsImg from "./ResultsImg";
 import ResultsInfo from "./ResultsInfo";
 import Palette from "./Palette";
 import DiagnosisLoading from "../DiagnosisLoading";
+import { AppDispatch } from "../../../../store/store";
+import { useDispatch } from "react-redux";
+import { PersonalBeautyResults } from "../../Main/PersonalSlice";
+import MainButton from "../../Main/MainButton";
+import { useNavigate } from "react-router";
 
 const StyledContainer = styled.div`
   /* overflow: hidden; */
@@ -39,8 +44,12 @@ const StyledResultsContainer = styled.section`
 const StyledPersonalColorResults = styled.section``;
 
 const PersonalColorResults = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate();
+  
+  const data = dispatch(PersonalBeautyResults({ date: "2023-11-14" }));
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -57,12 +66,16 @@ const PersonalColorResults = () => {
   //   };
   // }, []);
 
+  const goPersonal = () => {
+  }
+
   return (
     <StyledContainer>
       {isLoading ? (
         <DiagnosisLoading />
-      ) : (
-        <>
+        ) : (
+          <>
+          <MainButton onClick={goPersonal} />
           <StyledTitle>진단 결과</StyledTitle>
           <StyledResultsContainer>
             <ResultsImg />

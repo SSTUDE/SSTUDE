@@ -112,6 +112,7 @@ const handleAsyncReducer = <T>(
 const initialState: PersonalState = {
   beauty: null,
   beautyResults: null,
+  finishPersonal: false, 
   loading: false,
   error: null,
 };
@@ -133,6 +134,9 @@ export const PersonalSlice = createSlice({
         action.payload
       );
       state.beautyResults = action.payload;
+      if (action.type === '/detail/fulfilled') {
+        state.finishPersonal = true
+      }
     });
   },
 });
