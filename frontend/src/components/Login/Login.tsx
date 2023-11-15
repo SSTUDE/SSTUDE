@@ -70,7 +70,7 @@ const Login = () => {
     // } else {
     //NOTE - 등록된 유저
     // dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
-    dispatch(signUpUser({ deviceNum: "string" }));
+    dispatch(signInUser({ deviceNum: "string" }));
     showAlert({
       icon: 'success',
       title: '로그인 완료',
