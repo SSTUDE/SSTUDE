@@ -9,6 +9,7 @@ import com.sstude.statistics.service.StaticService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/detail")
 public class StatisticsBeautyController {
         private final StaticService staticService;
@@ -31,6 +33,11 @@ public class StatisticsBeautyController {
 //        public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestBody StaticDayRequestDto requestDto) {
 
             Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
+            log.info(memberId.toString());
+            String logs = requestDto.getYear() +" " +  requestDto.getMonth() + " " + requestDto.getDay();
+            log.info(logs);
+
+
 //            Long memberId = 2L;
             ColorDetailResponseDto colorDetail = beautyService.getColorDetail(memberId, requestDto);
             return new ResponseEntity<>(colorDetail, HttpStatus.OK);
@@ -43,7 +50,11 @@ public class StatisticsBeautyController {
                 , @RequestBody StaticDayRequestDto requestDto) {
 //        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestBody StaticDayRequestDto requestDto) {
 //            Long memberId = 2L;
+
             Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
+            log.info(memberId.toString());
+            String logs = requestDto.getYear() +" " +  requestDto.getMonth() + " " + requestDto.getDay();
+            log.info(logs);
             List<ClothesDetailResponseDto> responseDtos = beautyService.getClothesDetail(memberId, requestDto);
             return new ResponseEntity<>(responseDtos, HttpStatus.OK);
         }
