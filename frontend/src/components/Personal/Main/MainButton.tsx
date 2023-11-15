@@ -78,28 +78,29 @@ const HomeIcon = () => (
 //   </svg>
 // );
 
-const MainButton = (onClick :any) => {
+const MainButton = () => {
   const navigate = useNavigate();
   const { signOut } = useSelector((state: RootState) => state.login);
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "off" };
   const { stopWebcam } = useWebcam();
-
-  stopWebcam();
+    
+  const handleHomeClick = () => {
+    
+    stopWebcam();
     console.log("카메라 종료");
     setTimeout(() => {
       sendMessage(message)
-        .then((response) => {
-          console.log("응답옴: ", response);
-        })
-        .catch(error => {
-          console.log("에러 발생", error);
-        });
+      .then((response) => {
+        console.log("응답옴: ", response);
+      })
+      .catch(error => {
+        console.log("에러 발생", error);
+      });
     }, 1000);
 
-  const handleHomeClick = () => {
     if (signOut) {
-      localStorage.setItem("SSTUDE", "")
+      localStorage.removeItem("SSTUDE");
       navigate('/login')
     } else {
       navigate('/mirror')

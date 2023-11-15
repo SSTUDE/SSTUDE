@@ -66,16 +66,13 @@ const PersonalColorResults = () => {
   //   };
   // }, []);
 
-  const goPersonal = () => {
-  }
-
   return (
     <StyledContainer>
       {isLoading ? (
         <DiagnosisLoading />
       ) : (
         <>
-          <MainButton onClick={goPersonal} />
+          <MainButton  />
           <StyledTitle>진단 결과</StyledTitle>
           <StyledResultsContainer>
             <ResultsImg />
