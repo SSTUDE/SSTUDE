@@ -19,6 +19,7 @@ type DiagnosisData = {
 };
 
 const PersonalCalender: React.FC = () => {
+  console.log("렌더링")
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
   const diagnosisData =
@@ -54,18 +55,14 @@ const PersonalCalender: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
-  const days = parseInt(now.getDate().toString().padStart(2, '0'), 10);
-  
-  const handlePersonalModal = useCallback(async () => {
+  const handlePersonalModal = useCallback(async (selectedDate: Date) => {
     const data = {
-      year: year,
-      month: month,
-      day: days,
+      year: selectedDate.getFullYear(),
+      month: selectedDate.getMonth() + 1,
+      day: selectedDate.getDate(),
     };
     try {
+      console.log(data, "1111111111")
       console.log("try 뜨나요");
       const res = await dispatch(PersonalBeautyModal(data)).unwrap();
       console.log("결과는요?", res);
@@ -78,13 +75,13 @@ const PersonalCalender: React.FC = () => {
     }
   }, [dispatch]);
 
-  
-  
-  const handleClothesModal = useCallback(async () => {
+
+
+  const handleClothesModal = useCallback(async (selectedDate: Date) => {
     const data = {
-      year: year,
-      month: month,
-      day: days,
+      year: selectedDate.getFullYear(),
+      month: selectedDate.getMonth() + 1,
+      day: selectedDate.getDate(),
     };
     try {
       console.log("의상 try 뜨나요");
@@ -111,8 +108,8 @@ const PersonalCalender: React.FC = () => {
           const isClothesDay = clothesDates.includes(dateStr);
           if (isMakeupDay || isClothesDay) {
             setIsModalOpen(true);
-            handlePersonalModal();
-            handleClothesModal();
+            handlePersonalModal(date);
+            handleClothesModal(date); 
           } else {
             showAlert({
               icon: "info",
