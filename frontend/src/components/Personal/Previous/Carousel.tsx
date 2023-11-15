@@ -131,18 +131,21 @@ const Carousel = () => {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {imageList.map((image: string, index: number) => (
-            <CarouselSlide key={index}>
-              <CarouselImage
-                src={image}
-                alt="사진이 없습니다"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = images.personal.errorImg;
-                }}
-              />
-            </CarouselSlide>
-          ))}
+          {(imageList.length > 0 ? imageList : [images.personal.errorImg]).map(
+            (image: string, index: number) => (
+              <CarouselSlide key={index}>
+                <CarouselImage
+                  src={image}
+                  alt="사진이 없습니다"
+                  onError={(e) => {
+                    console.log("Image loading error: ", e);
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = images.personal.errorImg;
+                  }}
+                />
+              </CarouselSlide>
+            )
+          )}
         </CarouselWrapper>
       </CarouselWrapperContainer>
 
