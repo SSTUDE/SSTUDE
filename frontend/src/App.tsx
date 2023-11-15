@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import routes from './router';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
@@ -27,12 +27,29 @@ const GlobalStyle = createGlobalStyle`
 `
 
 function App() {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const playSound = () => {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    };
+
+    window.addEventListener('click', playSound);
+
+    return () => {
+      window.removeEventListener('click', playSound);
+    };
+  }, []);
+
   return (
     <>
       <GlobalStyle />
       <Provider store={store}>
         <Main>
           <ClickEffect />
+          <audio src="/assets/sounds/blop.mp3" ref={audioRef}></audio>
           <BrowserRouter>
             <Routes>
               {routes.map((route) => (
