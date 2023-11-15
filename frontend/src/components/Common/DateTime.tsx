@@ -13,7 +13,7 @@ function DateTime() {
 
     // 현재 시간과 다음 분까지 남은 시간을 계산
     const now = new Date();
-    const timeToNextMinute = (59 - now.getSeconds()) * 1000; // 랜더링 되는 과정에서 1초 소요되기 때문에
+    const timeToNextMinute = (60 - now.getSeconds()) * 1000; // 랜더링 되는 과정에서 1초 소요되기 때문에
 
     // 다음 분까지 남은 시간만큼 지연시킨 후, 매 분마다 업데이트
     setTimeout(() => {
