@@ -106,7 +106,10 @@ const Login = () => {
       .catch(error => {
         console.log(error)
         console.error("로그인 - 메시지 전송에 실패했습니다:", error);
-        setTimeout(() => { loginClick(); }, 1000);
+        showAlert({
+          icon: 'error',
+          title: '로그인 실패. 다시 시도해주세요',
+        });
       });
   }
 
