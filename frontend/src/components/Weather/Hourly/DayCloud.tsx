@@ -1,7 +1,7 @@
 import React from 'react';
-import { WeatherDataCustom } from '../types';
 import SkyIcon from './SkyIcon';
 import styled from 'styled-components';
+import { WeatherDataCustom } from '../types';
 
 type DayCloudProps = {
   dailySky: WeatherDataCustom;
@@ -10,7 +10,7 @@ type DayCloudProps = {
 };
 
 const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) => {
-  const RainData = RainTypeDatas.find(rain => rain.fcstDate === dailySky.fcstDate && rain.fcstTime === dailySky.fcstTime) 
+  const RainData = RainTypeDatas.find(rain => rain.fcstDate === dailySky.fcstDate && rain.fcstTime === dailySky.fcstTime)
     || {} as WeatherDataCustom;
 
   const dateLabel = getDateLabel(dailySky.fcstDate);
@@ -41,7 +41,6 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
     return null;
   }
 
-
   // 첫 번째 요소인 경우 "오늘"만 표시
   if (index === 0) {
     return (
@@ -59,7 +58,7 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
       ) : (
         <span className="time">{hour}시</span>
       )}
-      <SkyIcon 
+      <SkyIcon
         dailySky={dailySky}
         RainData={RainData}
         size={30}
@@ -68,7 +67,6 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
   );
 };
 
-// 스타일 컴포넌트
 const TimeSkyWrap = styled.div`
   display: flex;
   flex-direction: column;

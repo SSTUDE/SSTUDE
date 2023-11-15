@@ -14,7 +14,6 @@ const StyledImage = styled.img`
   left: 50%;
   width: 15%;
   transform: translate(-50%, -50%);
-
   opacity: 0.75;
   overflow: hidden;
   animation: ${SpinAnimation} 3s cubic-bezier(0.4, 0.1, 0.1, 0.8) infinite;

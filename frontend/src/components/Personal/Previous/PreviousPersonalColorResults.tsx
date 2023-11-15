@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { images } from "../../../constants/images";
-import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PersonalBeautyResults } from "../Main/PersonalSlice";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -10,7 +10,6 @@ import { AppDispatch, RootState } from "../../../store/store";
 const StyledSection = styled.section`
   display: flex;
   flex-direction: column-reverse;
-  /* width: 100%; */
   height: 65vh;
   color: white;
 `;
@@ -21,7 +20,6 @@ const StyledFigure = styled.figure`
   top: 20%;
   transform: translateX(0%);
   margin: auto;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +29,6 @@ const StyledFigure = styled.figure`
     height: 56vh;
     object-fit: cover;
     object-position: top;
-
     box-shadow: 0 0 10px 5px black;
   }
 
@@ -47,11 +44,8 @@ const InfoArticle = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   z-index: 1;
-
   background-color: #000000c2;
-
   height: 35%;
 `;
 
@@ -64,7 +58,6 @@ const ColorNameEN = styled.div<{ isWarm: boolean; isCool: boolean }>`
 
   display: flex;
   align-items: flex-end;
-
   margin: 3% 0 0 0;
 `;
 
@@ -81,10 +74,8 @@ const ColorNameKR = styled.div<{ isWarm: boolean; isCool: boolean }>`
 // 상세보기 버튼
 const DetailButton = styled.button`
   margin: 4% 0;
-
   background-color: transparent;
   border: none;
-
   cursor: pointer;
   font-size: 1.5rem;
   color: white;
@@ -106,28 +97,16 @@ const PreviousPersonalColorResults = () => {
 
   const handleButtonClick = () => {
     handleAsyncReducer();
-    console.log("상세보기 버튼 누를 때 API 호출 되나요?");
     navigate("/personalcolorsresults");
   };
-
-  const now = new Date();
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, '0');
-const day = String(now.getDate()).padStart(2, '0');
-
-const date = `${year}-${month}-${day}`;
 
   const handleAsyncReducer = useCallback(async () => {
     const data = {
       date: "2023-11-14",
     };
-    console.log("액션 객체 확인:", PersonalBeautyResults(data));
     try {
-      console.log("진단 결과 뜨나요");
       const res = await dispatch(PersonalBeautyResults(data)).unwrap();
-      console.log("진단 결과값은요?", res);
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {

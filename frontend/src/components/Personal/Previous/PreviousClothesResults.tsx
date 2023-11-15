@@ -17,12 +17,9 @@ const InfoArticle = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   height: 55%;
-
   gap: 24px;
   z-index: 1;
-
   background-color: #000000c2;
   color: white;
 `;
@@ -30,7 +27,6 @@ const InfoArticle = styled.article`
 // 점수 글씨
 const StyledScoreName = styled.p`
   margin: 3% 0 0 0;
-
   font-size: 2rem;
   font-family: "KBO-Dia-Gothic_bold";
   text-shadow: 3px 2px 2px grey;
@@ -39,7 +35,6 @@ const StyledScoreName = styled.p`
 // 점수
 const StyledScore = styled.p`
   top: 20px;
-
   font-size: 2rem;
   font-weight: 600;
   font-family: "KBO-Dia-Gothic_bold";
@@ -49,7 +44,6 @@ const StyledScore = styled.p`
 // 최고 점수
 const StyledHighestScore = styled.p`
   top: 50px;
-
   font-size: 3rem;
   font-weight: 600;
   font-family: "LeferiPoint-BlackObliqueA";

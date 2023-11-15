@@ -7,17 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 const CarouselMain = styled.section`
   width: 40vh;
-
   position: relative;
   top: 21%;
-
   margin: 0 auto;
 `;
 
 // 이미지 보이게 하기 위한 더 큰 컨테이너
 const CarouselWrapperContainer = styled.div`
-  /* height: 70%; */
-
   overflow: hidden;
   box-shadow: 0 0 10px 5px black;
 `;
@@ -38,7 +34,6 @@ const CarouselSlide = styled.figure`
 const CarouselImage = styled.img`
   width: 40vh;
   height: 56vh;
-
   object-fit: cover;
   object-position: top;
 `;
@@ -76,7 +71,7 @@ const Carousel = () => {
   // 터치 슬라이드
   const [touchStart, setTouchStart] = React.useState(0);
 
-  const { clothesData, CarouselIndex } = useSelector(
+  const { clothesData } = useSelector(
     (state: RootState) => state.previous
   );
   const imageList = clothesData?.map((data) => data.imgUri) || [];

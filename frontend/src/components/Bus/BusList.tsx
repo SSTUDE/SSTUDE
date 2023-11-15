@@ -9,14 +9,14 @@ import { busRealTimeForServer, setBusSave } from './BusSlice';
 
 const BusList = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const busList = useSelector((state: RootState) => state.bus.busList) || [];
+  const [selectedBuses, setSelectedBuses] = useState<SelectedBuses>({});
+  const [errorMessage, setErrorMessage] = useState('');
   const validBusList = Array.isArray(busList)
     ? busList.filter(bus => bus !== undefined)
     : busList ? [busList] : [];
-  const [selectedBuses, setSelectedBuses] = useState<SelectedBuses>({});
-  const [errorMessage, setErrorMessage] = useState('');
-
-  const navigate = useNavigate();
+  
 
   const toggleBusSelection = (routeId: string) => {
     setSelectedBuses(prevSelected => ({

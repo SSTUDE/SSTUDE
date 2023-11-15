@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
 import { styled } from "styled-components";
-import DiagnosisLoading from "../DiagnosisLoading";
 import MainButton from "../../Main/MainButton";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../store/store";
 import { useNavigate } from "react-router-dom";
-import { PersonalCalender, PersonalClothesResults } from "../../Main/PersonalSlice";
 import { images } from "../../../../constants/images";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useCallback } from "react";
+import { AppDispatch, RootState } from "../../../../store/store";
+import { PersonalCalender, PersonalClothesResults } from "../../Main/PersonalSlice";
 
 // 페이지 전체 컨테이너
 const StyledContainer = styled.div`
-  /* overflow: hidden; */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -21,9 +19,7 @@ const StyledContainer = styled.div`
 const StyledTitle = styled.p`
   display: flex;
   justify-content: center;
-
   margin: 1.5% 0;
-
   font-size: 4rem;
   font-family: "Giants-Bold";
 `;
@@ -33,15 +29,12 @@ const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
   top: 5.9%;
-
   width: 104px;
   height: 104px;
   padding: 0;
-
   background-color: #4f4f4f;
   border: 2px solid white;
   border-radius: 15%;
-
   cursor: pointer;
 `;
 
@@ -77,16 +70,13 @@ const StyledEmptyContainer = styled.article``;
 const StyledImgContainer1 = styled.img<StyledComponentProps>`
   position: relative;
   top: 40px;
-
   width: 48vh;
   height: 64vh;
   margin: 0;
   max-width: 100%;
   max-height: 100%;
-
   object-fit: cover;
   object-position: top;
-
   border-radius: 20px;
   box-shadow: 0 0 60px 30px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.5)};
@@ -98,11 +88,9 @@ const StyledCurScoreContainer1 = styled.article`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 50vh;
   height: 65vh;
   margin: 0;
-
   gap: 30px;
 `;
 // 현재 점수 제목1
@@ -118,12 +106,12 @@ const StyledCurScore1 = styled.p<{ score: number | null }>`
     props.score === null
       ? "black"
       : props.score >= 1 && props.score <= 24
-      ? "red"
-      : props.score >= 25 && props.score <= 49
-      ? "orange"
-      : props.score >= 50 && props.score <= 74
-      ? "green"
-      : "blue"};
+        ? "red"
+        : props.score >= 25 && props.score <= 49
+          ? "orange"
+          : props.score >= 50 && props.score <= 74
+            ? "green"
+            : "blue"};
 `;
 
 // 진단 정보 컨테이너2 ( 이전 점수 + 사진 + 현재 점수 / 사진 두 번 이상 찍은 경우 )
@@ -149,14 +137,11 @@ const StyledAfterScoreTitle2 = styled.h1`
 // 현재 사진2
 const StyledCurImg2 = styled.img<StyledComponentProps>`
   position: relative;
-
   width: 48vh;
   height: 64vh;
   margin: 0;
-
   object-fit: cover;
   object-position: top;
-
   border-radius: 20px;
   box-shadow: 0 0 35px 10px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.6)};
@@ -184,14 +169,11 @@ const StyledBeforeScoreTitle2 = styled.h1`
 // 이전 사진2
 const StyledPrevImg2 = styled.img<StyledComponentProps>`
   position: relative;
-
   width: 48vh;
   height: 64vh;
   margin: 0;
-
   object-fit: cover;
   object-position: top;
-
   border-radius: 20px;
   box-shadow: 0 0 35px 15px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.6)};
@@ -233,18 +215,15 @@ type StyledComponentProps = {
 };
 
 const ClothesResults = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const clothesResults = useSelector((state: RootState) => state.personal.clothesResults);
   const [isLoading, setIsLoading] = useState(true);
   const [isSingleResult, setIsSingleResult] = useState(true);
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const clothesResults = useSelector((state: RootState) => state.personal.clothesResults);
-
-  // useEffect(() => {
 
   useEffect(() => {
     const fetchData = async () => {
       const clothesResults = await dispatch(PersonalClothesResults()).unwrap();
-      console.log('데이터 한번만 나옴')
       if (clothesResults) {
         setIsLoading(false);
         setIsSingleResult(clothesResults.length < 2);
@@ -253,37 +232,21 @@ const ClothesResults = () => {
     fetchData();
   }, []);
 
-  console.log(clothesResults)
-
-
   const handleCalenderClick = async () => {
-    console.log('캘린더 버튼 클릭 처리');
     const response = await handlePersonalCalender();
     navigate('/personalmain', { state: { diagnosisData: response } });
   };
-
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
-
   const handlePersonalCalender = useCallback(async () => {
-    const data = {
-      year: year,
-      month: month,
-    };
     try {
-      const res = await dispatch(PersonalCalender(data)).unwrap();
+      const res = await dispatch(PersonalCalender()).unwrap();
       return res;
     } catch (e) {
     }
   }, [dispatch]);
 
-  console.log("two")
-
   return (
     <StyledContainer>
       {isLoading ? (
-        // <DiagnosisLoading />
         <></>
       ) : (
         <>

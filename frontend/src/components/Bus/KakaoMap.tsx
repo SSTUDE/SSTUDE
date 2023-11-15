@@ -10,12 +10,12 @@ import { busStopToServer, gpsToServer, setBusStop } from './BusSlice';
 
 const KakaoMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [selectedStation, setSelectedStation] = useState<busStops | null>(null);
-  const [markers, setMarkers] = useState<Map<string, kakao.maps.Marker>>(new Map());
-  const gps = useSelector((state: RootState) => state.bus.gps);
-  const busStops = useSelector((state: RootState) => state.bus.busStops);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const gps = useSelector((state: RootState) => state.bus.gps);
+  const busStops = useSelector((state: RootState) => state.bus.busStops);
+  const [selectedStation, setSelectedStation] = useState<busStops | null>(null);
+  const [markers, setMarkers] = useState<Map<string, kakao.maps.Marker>>(new Map());
 
   useEffect(() => {
     console.log("KakaoMap: useEffect 실행");

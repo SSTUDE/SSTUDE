@@ -12,8 +12,8 @@ interface BusProps {
 
 const BusDetail: React.FC<BusProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { gps, busStop, busRealTime, loading } = useSelector((state: RootState) => state.bus);
   const navigate = useNavigate();
+  const { gps, busStop, busRealTime, loading } = useSelector((state: RootState) => state.bus);
 
   const toSelectBusStop = () => {
     if (gps) {

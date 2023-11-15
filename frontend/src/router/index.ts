@@ -1,4 +1,3 @@
-import MirrorMap from "../components/Main/MirrorMap";
 import Mirror from "../components/Main/Mirror";
 import Test from "../components/Test/Test";
 import TestMain from "../components/Test/TestMain";

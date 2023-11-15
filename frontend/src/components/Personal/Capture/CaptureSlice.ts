@@ -14,24 +14,14 @@ const generateRandomFileName = () => {
 export const personalPictureToServer = createAsyncThunk(
   "capture/personalPictureToServer",
   async (capturedImage: Blob, { rejectWithValue }) => {
-    console.log("personalPictureToServer 시작");
     try {
-      console.log("FormData 준비 중...");
       const formData = new FormData();
       formData.append("file", capturedImage, generateRandomFileName());
 
-      console.log("서버로 요청 전송 중...", formData);
-      for (let [key, value] of Array.from(formData.entries())) {
-        console.log(key, value);
-      }
-
       const response = await pythonFormAxiosToken.post("/color", formData);
-
-      console.log("서버 응답: ", response);
 
       return response.data;
     } catch (error: any) {
-      console.error("오류 발생: ", error);
       if (error.response && error.response.data) {
         return rejectWithValue(error.response);
       }
@@ -43,23 +33,14 @@ export const personalPictureToServer = createAsyncThunk(
 export const personalClothesToServer = createAsyncThunk(
   "capture/personalClothesToServer",
   async (capturedImage: Blob, { rejectWithValue }) => {
-    console.log("personalClothesToServer 시작");
     try {
-      console.log("FormData 준비 중...");
       const formData = new FormData();
       formData.append("file", capturedImage, generateRandomFileName());
 
-      console.log("서버로 요청 전송 중...", formData);
-      for (let [key, value] of Array.from(formData.entries())) {
-        console.log(key, value);
-      }
-
       const response = await pythonFormAxiosToken.post("/clothes", formData);
 
-      console.log("서버 응답: ", response);
       return response.data;
     } catch (error: any) {
-      console.error("오류 발생: ", error);
       if (error.response && error.response) {
         return rejectWithValue(error.response.data);
       }
@@ -72,13 +53,8 @@ export const personalClothesToServer = createAsyncThunk(
 export const clothesDetailToServer = createAsyncThunk(
   "capture/clothesDetailToServer",
   async (_, { rejectWithValue }) => {
-    console.log("clothesDetailToServer 시작");
     try {
-      console.log("서버로 요청 전송 중...");
-
       const response = await pythonAxiosToken.post("clothes/detail");
-
-      console.log("서버 응답: ", response);
 
       return response.data;
     } catch (error: any) {
@@ -98,8 +74,7 @@ const initialState: CaptureState = {
 export const CaptureSlice = createSlice({
   name: "capture",
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {},
 });
 
