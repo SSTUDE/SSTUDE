@@ -1,6 +1,5 @@
 import baseAxios from "axios";
 import { storageData, retrieveData } from "./JWT-common";
-import { useWebSocketContext } from "../components/Common/WebSocketContext";
 import { SERVER_URL, REFRESH_TOKEN_URL, PYTHON_SERVER_URL } from "./constants";
 
 const axiosToken = baseAxios.create({
@@ -46,9 +45,7 @@ axiosToken.interceptors.response.use(
 
         console.log("응답 인터셉터: 새 토큰 받음", accessToken);
 
-        // const { sendMessage } = useWebSocketContext();
-        const sendMessage = (message: any) => console.log("더미 메시지 전송:", message);
-        storageData(accessToken, sendMessage ?? (() => {}));
+        storageData(accessToken);
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return axiosToken(originalRequest);
@@ -104,9 +101,7 @@ pythonAxiosToken.interceptors.response.use(
         const { accessToken } = response.data;
         console.log("응답 인터셉터: 새 토큰", accessToken);
 
-        // const { sendMessage } = useWebSocketContext();
-        const sendMessage = (message: any) => console.log("더미 메시지 전송:", message);
-        storageData(accessToken, sendMessage ?? (() => {}));
+        storageData(accessToken);
 
         originalRequest.headers.access_token = `${accessToken}`;
         return pythonAxiosToken(originalRequest);
@@ -155,9 +150,7 @@ pythonFormAxiosToken.interceptors.response.use(
         const { accessToken } = response.data;
         console.log("응답 인터셉터: 새 토큰", accessToken);
 
-        // const { sendMessage } = useWebSocketContext();
-        const sendMessage = (message: any) => console.log("더미 메시지 전송:", message);
-        storageData(accessToken, sendMessage ?? (() => {}));
+        storageData(accessToken);
 
         originalRequest.headers.access_token = `${accessToken}`;
         return pythonFormAxiosToken(originalRequest);

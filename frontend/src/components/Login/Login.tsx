@@ -12,7 +12,6 @@ import { signInUser, signUpUser } from "./LoginSlice";
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
 
-
 const Login = () => {
   console.log("0 - 렌더링")
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
@@ -94,7 +93,6 @@ const Login = () => {
           //NOTE - 등록된 유저
           console.log("로그인 - 웹소켓 응답 받았고 서버로 전송");
           dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
-          dispatch(signInUser({ deviceNum: "string" }));
           console.log("로그인 - 응답 받음:", response);
           console.log(" !!!!! 로그인 성공 !!!!!")
           showAlert({

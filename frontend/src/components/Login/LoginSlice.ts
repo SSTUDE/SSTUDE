@@ -8,7 +8,6 @@ import {
   PayloadAction,
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
-import { useWebSocketContext } from "../Common/WebSocketContext";
 
 export const signUpUser = createAsyncThunk(
   "login/signUpUser",
@@ -35,7 +34,7 @@ export const signInUser = createAsyncThunk(
       // const { sendMessage } = useWebSocketContext();
       const sendMessage = (message: any) => console.log("더미 메시지 전송:", message);
       console.log("signInUser: 토큰 저장", response.data.accessToken);
-      storageData(response.data.accessToken, sendMessage);
+      storageData(response.data.accessToken);
 
       const memberId = response.data.memberId;
       console.log("signInUser: 회원 ID 반환", memberId);
