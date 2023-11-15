@@ -99,12 +99,12 @@ const MainButton = () => {
       });
     }, 1000);
 
-    if (signOut) {
-      localStorage.removeItem("SSTUDE");
-      navigate('/login')
-    } else {
+    // if (signOut) {
+    //   localStorage.removeItem("SSTUDE");
+    //   navigate('/login')
+    // } else {
       navigate('/mirror')
-    }
+    // }
   };
   
   // const handlePrevClick = () => {

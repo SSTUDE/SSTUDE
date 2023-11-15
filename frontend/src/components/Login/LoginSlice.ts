@@ -75,9 +75,9 @@ export const LoginSlice = createSlice({
   name: "login",
   initialState,
   reducers: {
-    setSignOut: (state) => {
-      state.signOut = false;
-    },
+    // setSignOut: (state) => {
+    //   state.signOut = false;
+    // },
   },
   extraReducers: (builder) => {
     handleAsyncReducer<any>(builder, signUpUser, (state, action) => {
@@ -89,6 +89,6 @@ export const LoginSlice = createSlice({
   },
 });
 
-export const { setSignOut } = LoginSlice.actions;
+export const { } = LoginSlice.actions;
 
 export default LoginSlice.reducer;
