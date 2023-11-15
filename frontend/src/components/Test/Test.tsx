@@ -15,6 +15,9 @@ const Test = () => {
       <Btn onClick={() => navigate("/bus")}>버스</Btn>
       <Btn onClick={() => navigate("/personalmain")}>퍼스널 컬러 메인</Btn>
       <Btn onClick={() => navigate("/healthmain")}>헬스 메인</Btn>
+      <Btn onClick={() => navigate("/personalclothesResults")}>
+        의상 진단 결과창
+      </Btn>
       <Btn onClick={() => navigate("/")}>초기 화면</Btn>
     </Body>
   );

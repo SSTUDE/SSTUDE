@@ -29,8 +29,16 @@ const StyledFigure = styled.figure`
   img {
     width: 40vh;
     height: 56vh;
-    object-fit: cover; // 이미지 비율 유지하면서 컨테이너에 맞춤
+    object-fit: cover;
+    object-position: top;
+
     box-shadow: 0 0 10px 5px black;
+  }
+
+  p {
+    position: absolute;
+    font-size: 2rem;
+    color: white;
   }
 `;
 
@@ -88,9 +96,6 @@ const PreviousPersonalColorResults = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { beauty } = useSelector((state: RootState) => state.personal);
 
-  // 이미지 로딩 상태
-  const [isLoading, setIsLoading] = useState(true);
-
   const containsWarm = (result: string | undefined) => {
     return result ? result.includes("웜") : false;
   };
@@ -107,7 +112,7 @@ const PreviousPersonalColorResults = () => {
 
   const handleAsyncReducer = useCallback(async () => {
     const data = {
-      date: "2023-11-13",
+      date: "2023-11-14",
     };
     console.log("액션 객체 확인:", PersonalBeautyResults(data));
     try {
@@ -141,17 +146,15 @@ const PreviousPersonalColorResults = () => {
 
         <DetailButton onClick={handleButtonClick}>상세 보기</DetailButton>
       </InfoArticle>
+
       <StyledFigure>
-        {isLoading && <p>로딩 중...</p>}
         <img
           src={beauty?.imgUri || "non-existent-url"}
           alt="사진이 없습니다"
-          onLoad={() => setIsLoading(false)} // 이미지 로딩 완료 시 상태 업데이트
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = images.personal.errorImg;
             console.log("오류 이미지로 변경 완료");
-            setIsLoading(false); // 이미지 로딩 실패 시 상태 업데이트
           }}
         />
       </StyledFigure>

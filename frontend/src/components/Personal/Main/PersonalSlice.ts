@@ -7,28 +7,6 @@ import {
 import axiosToken, { pythonAxiosToken } from "../../../apis/http-common";
 import { AxiosError } from "axios";
 import { PersonalState } from "./types";
-
-// export const handleAuthentication = async (
-//   url: string,
-//   data: { year: number; month: number },
-//   sendMessage: (message: string) => void
-// ) => {
-//   const response = await axiosToken.post(url, data);
-//   console.log(response);
-//   storageData(response.data.accessToken, sendMessage);
-//   return response.data;
-// };
-
-// export const handleGetAuthentication = async (
-//   url: string,
-//   sendMessage: (message: string) => void
-// ) => {
-//   const response = await axiosToken.get(url);
-//   console.log(response);
-//   storageData(response.data.accessToken, sendMessage);
-//   return response.data;
-// };
-
 // 퍼스널 컬러 달력
 export const PersonalCalender = createAsyncThunk(
   "/static/list",
@@ -76,12 +54,34 @@ export const PersonalBeautyResults = createAsyncThunk(
     try {
       console.log("퍼스널 컬러 진단 결과 나오나요?");
       console.log("보내는 데이터 확인:", data);
-      console.log("axios 인스턴스 설정 확인:", pythonAxiosToken.defaults); // 여기에 추가
+      console.log("axios 인스턴스 설정 확인:", pythonAxiosToken.defaults);
       const response = await pythonAxiosToken.post("/detail", data);
-      console.log("받은 응답 확인:", response); // 여기에 추가
+      console.log("받은 응답 확인:", response);
       return response.data;
     } catch (err: unknown) {
       console.error("에러 뜨나요", err);
+      return rejectWithValue(
+        err instanceof AxiosError ? err.message : "An unexpected error occurred"
+      );
+    }
+  }
+);
+
+// 의상 진단 결과
+export const ClothesResults = createAsyncThunk(
+  "/clothes/detail",
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log("의상 진단 결과 호출 되나요?");
+      console.log(
+        "의상 진단 axios 인스턴스 설정 확인:",
+        pythonAxiosToken.defaults
+      );
+      const response = await pythonAxiosToken.post("/clothes/detail");
+      console.log("의상 진단 받은 응답 확인:", response);
+      return response.data;
+    } catch (err: unknown) {
+      console.error("의상 진단 에러 뜨나요", err);
       return rejectWithValue(
         err instanceof AxiosError ? err.message : "An unexpected error occurred"
       );
@@ -112,6 +112,7 @@ const handleAsyncReducer = <T>(
 const initialState: PersonalState = {
   beauty: null,
   beautyResults: null,
+  clothesResults: null,
   finishPersonal: false, 
   loading: false,
   error: null,
@@ -127,7 +128,7 @@ export const PersonalSlice = createSlice({
       console.log("컬러 저장된 데이터 들어오나요?", action.payload);
       state.beauty = action.payload;
     });
-    // 퍼스널 커러 진단 결과
+    // 퍼스널 컬러 진단 결과
     handleAsyncReducer<any>(builder, PersonalBeautyResults, (state, action) => {
       console.log(
         "퍼스널 컬러 진단 결과 저장된 데이터 들어오나요?",
@@ -137,6 +138,11 @@ export const PersonalSlice = createSlice({
       if (action.type === '/detail/fulfilled') {
         state.finishPersonal = true
       }
+    });
+    // 의상 진단 결과
+    handleAsyncReducer<any>(builder, ClothesResults, (state, action) => {
+      console.log("의상 진단 결과 저장된 데이터 들어오나요?", action.payload);
+      state.clothesResults = action.payload;
     });
   },
 });

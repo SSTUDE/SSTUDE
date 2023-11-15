@@ -23,11 +23,12 @@ const StyledTitle = styled.p`
 // 캘린더로 이동하기 위한 아이콘
 const StyledCalenderButton = styled.button`
   position: absolute;
-  right: 5%;
-  bottom: 12%;
+  left: 12.3%;
+  top: 5.9%;
 
-  width: 100px;
-  height: 100px;
+  width: 104px;
+  height: 104px;
+  padding: 0;
 
   background-color: #4f4f4f;
   border: 2px solid white;

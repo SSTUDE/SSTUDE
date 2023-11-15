@@ -93,7 +93,11 @@ const routes = [
     path: "/personalloading",
     Component: DiagnosisLoading,
   },
-  // 날씨 정보
+  // 의상 진단 결과창
+  {
+    path: "/personalclothesResults",
+    Component: ClothesResults,
+  },
   // 삼성 헬스
   {
     path: "/healthmain",
@@ -109,6 +113,7 @@ const routes = [
     path: "/prevhealth",
     Component: PrevHealth,
   },
+  // 헬스 메인 페이지 (오늘 헬스 데이터)
   {
     path: "/healthmain",
     Component: TodayHealthData,

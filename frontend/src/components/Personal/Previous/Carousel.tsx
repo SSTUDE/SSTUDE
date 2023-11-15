@@ -40,31 +40,7 @@ const CarouselImage = styled.img`
   height: 56vh;
 
   object-fit: cover;
-`;
-
-// 버튼 컨테이너
-const CarouselButtonContainer = styled.div`
-  position: absolute;
-  top: 0%;
-  width: 100%;
-`;
-
-// 캐러셀 버튼
-const CarouselButton = styled.button<CarouselButtonProps>`
-  width: 200px;
-  height: 400px;
-  border-radius: 100px;
-  color: #fff;
-  background: transparent;
-  border: none;
-  outline: none;
-  ${({ position }) => position && `position: absolute; ${position}: -100px;`}
-  &:focus {
-    outline: none;
-  }
-  &::-moz-focus-inner {
-    border: 0;
-  }
+  object-position: top;
 `;
 
 // 현재 슬라이드 위치
@@ -89,10 +65,6 @@ const CarouselCircle = styled.div`
     transition: all 0.7s;
   }
 `;
-
-type CarouselButtonProps = {
-  position?: "left" | "right";
-};
 
 const Carousel = () => {
   const dispatch = useDispatch();

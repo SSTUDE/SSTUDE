@@ -10,6 +10,7 @@ import { healthPrevData } from "./HealthSlice";
 import { images } from "../../constants/images";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useCustomAlert } from "../../hooks/useAlert";
 
 // 오늘 헬스 데이터로 이동하기 위한 아이콘
 const StyledTodayHealthDataButton = styled.button`
@@ -63,11 +64,14 @@ const HealthCalender: React.FC = () => {
     navigate("/healthmain");
   };
 
+  // 알림창
+  const showAlert = useCustomAlert();
+
   const handlePrevDetailData = useCallback(async () => {
     const data = {
       year: 2023,
       month: 11,
-      day: 12,
+      day: 13,
     };
     console.log("이전 헬스 데이터 날짜 불러지나요?", data);
     const actionResult = await dispatch(healthPrevData(data));
@@ -107,6 +111,17 @@ const HealthCalender: React.FC = () => {
             selected={startDate}
             onChange={(date: Date) => {
               setStartDate(date);
+              const dateStr = `${date.getFullYear()}-${(
+                "0" +
+                (date.getMonth() + 1)
+              ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
+              const isDateInList = calendarData?.dates.includes(dateStr);
+              if (!isDateInList) {
+                showAlert({
+                  icon: "info",
+                  title: "일일 운동 데이터가 없습니다.",
+                });
+              }
             }}
             inline
             locale={enGB}
@@ -120,6 +135,7 @@ const HealthCalender: React.FC = () => {
                 (date.getMonth() + 1)
               ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
               const isDateInList = calendarData?.dates.includes(dateStr);
+              
               return (
                 <>
                   <div>{day}</div>
