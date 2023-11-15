@@ -84,20 +84,25 @@ const MainButton = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "off" };
   const { stopWebcam } = useWebcam();
-    
+
   const handleHomeClick = () => {
     
+
+
+  if (onclick){
     stopWebcam();
-    console.log("카메라 종료");
-    setTimeout(() => {
-      sendMessage(message)
-      .then((response) => {
-        console.log("응답옴: ", response);
-      })
-      .catch(error => {
-        console.log("에러 발생", error);
-      });
-    }, 1000);
+      console.log("카메라 종료");
+      setTimeout(() => {
+        sendMessage(message)
+          .then((response) => {
+            console.log("응답옴: ", response);
+          })
+          .catch(error => {
+            console.log("에러 발생", error);
+          });
+      }, 1000);
+    }
+
 
     if (signOut) {
       localStorage.removeItem("SSTUDE");
