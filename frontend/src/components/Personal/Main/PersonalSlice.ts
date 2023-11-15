@@ -68,7 +68,7 @@ export const PersonalBeautyResults = createAsyncThunk(
 );
 
 // 의상 진단 결과
-export const ClothesResults = createAsyncThunk(
+export const PersonalClothesResults = createAsyncThunk(
   "/clothes/detail",
   async (_, { rejectWithValue }) => {
     try {
@@ -113,7 +113,7 @@ const initialState: PersonalState = {
   beauty: null,
   beautyResults: null,
   clothesResults: null,
-  finishPersonal: false, 
+  finishPersonal: true, 
   loading: false,
   error: null,
 };
@@ -140,7 +140,7 @@ export const PersonalSlice = createSlice({
       }
     });
     // 의상 진단 결과
-    handleAsyncReducer<any>(builder, ClothesResults, (state, action) => {
+    handleAsyncReducer<any>(builder, PersonalClothesResults, (state, action) => {
       console.log("의상 진단 결과 저장된 데이터 들어오나요?", action.payload);
       state.clothesResults = action.payload;
     });

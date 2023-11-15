@@ -89,11 +89,7 @@ const SelectContents = () => {
   // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const { startWebcam } = useWebcam();
   const navigate = useNavigate();
-  const [hasDiagnosedPersonalColor, setHasDiagnosedPersonalColor] =
-    useState(false);
-  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const { finishPersonal } = useSelector((state: RootState) => state.personal);
-
   const message = { type: "camera", data: "on" };
 
   useEffect(() => {
@@ -105,7 +101,7 @@ const SelectContents = () => {
     //     .catch(error => {
     //       console.log("에러 발생", error);
     //     });
-    // }, 1000);
+  // }, 1000);
   }, [])
 
   const handlePersonalCameraClick = () => {
@@ -123,9 +119,6 @@ const SelectContents = () => {
   };
 
   const handleClothesCameraClick = () => {
-    if (!hasDiagnosedPersonalColor) {
-      setIsErrorModalOpen(true);
-    } else {
       // sendMessage(message)
       //   .then((response: any) => {
           // console.log("응답옴: ", response)
@@ -138,11 +131,6 @@ const SelectContents = () => {
         //   console.log("에러 발생", error);
         // });
     }
-  };
-
-  const handleCloseModal = () => {
-    setIsErrorModalOpen(false);
-  };
 
   return (
     <StyledContainer>
@@ -162,11 +150,6 @@ const SelectContents = () => {
           </StyledCameraButton>
         }
       </StyledButtonContainer>
-      <ErrorModal
-        isOpen={isErrorModalOpen}
-        onClose={handleCloseModal}
-        errorMessage={`퍼스널 컬러 진단 결과가 엄쨔! \n퍼스널 컬러 진단 결과를 토대로 의상 점수를 진단해주꺼야 \n퍼스널 컬러를 먼저 진단하구 와!! 아게찌?`}
-      />
     </StyledContainer>
   );
 };

@@ -7,7 +7,7 @@ import { AppDispatch } from "../../store/store";
 import { setMenuBtn } from "../Main/MirrorSlice";
 import { RootState } from "../../store/store";
 import {
-  ClothesResults,
+  PersonalClothesResults,
   PersonalCalender,
 } from "../Personal/Main/PersonalSlice";
 import { healthTodayData } from "../Health/HealthSlice";
@@ -21,7 +21,6 @@ interface MenuBtnProps {
 function MenuBtn({ type }: MenuBtnProps) {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-
   const handleClick = async () => {
     if (type === "beauty") {
       const response = await handlePersonalCalender();
@@ -76,7 +75,7 @@ function MenuBtn({ type }: MenuBtnProps) {
   const handleClothesResults = useCallback(async () => {
     try {
       console.log("메뉴 버튼: 의상 진단 데이터 try 뜨나요");
-      const res = await dispatch(ClothesResults()).unwrap();
+      const res = await dispatch(PersonalClothesResults()).unwrap();
       console.log("오늘 헬스 데이터 결과는요?", res);
       if (res) {
         // dispatch(setMemberId(res.memberId));

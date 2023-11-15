@@ -6,7 +6,7 @@ import MainButton from "../../Main/MainButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../store/store";
 import { useNavigate } from "react-router-dom";
-import { PersonalCalender } from "../../Main/PersonalSlice";
+import { PersonalCalender, PersonalClothesResults } from "../../Main/PersonalSlice";
 import { images } from "../../../../constants/images";
 
 // 페이지 전체 컨테이너
@@ -240,19 +240,24 @@ const ClothesResults = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { clothesResults } = useSelector((state: RootState) => state.personal);
-  clothesResults?.forEach((result) => {
-    console.log("의상 유저 이미지 넘어오나요?", result.imguri);
-  });
+  // clothesResults?.forEach((result) => {
+  //   console.log("의상 유저 이미지 넘어오나요?", result.imguri);
+  // });
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      if (clothesResults && clothesResults.length >= 2) {
-        setIsSingleResult(false);
-      }
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //     if (clothesResults && clothesResults.length >= 2) {
+  //       setIsSingleResult(false);
+  //     }
+  //   }, 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
+
+  // const data = dispatch(PersonalClothesResults());
+  // console.log(11111)
+
+
 
   const handleCalenderClick = async () => {
     const response = await handlePersonalCalender();
