@@ -12,34 +12,55 @@ const axiosToken = baseAxios.create({
 
 axiosToken.interceptors.request.use(
   async (config) => {
+    console.log("axiosToken 요청 인터셉터: 요청 시작", config.url);
     const accessToken = await retrieveData();
+    console.log("axiosToken 요청 인터셉터: 토큰 취득", accessToken);
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
+    console.log("axiosToken 요청 인터셉터: 요청 완료", config);
     return config;
   },
   (error) => {
+    console.error("axiosToken 요청 인터셉터 에러:", error);
     return Promise.reject(error);
   }
 );
 
 axiosToken.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log("응답 인터셉터: 성공 응답", response);
+    return response;
+  },
   async (error) => {
+    console.error("응답 인터셉터: 초기 에러", error);
+
     const originalRequest = error.config;
-    if (error.response.data.status === 401 && !originalRequest._retry) {
+    if (error.response && error.response.data.status === 401 && !originalRequest._retry) {
+      console.log("응답 인터셉터: 401 오류 감지, 토큰 갱신 시도");
+
       originalRequest._retry = true;
-      const response = await axiosToken.post(REFRESH_TOKEN_URL);
-      const { accessToken } = response.data;
-      const { sendMessage } = useWebSocketContext();
-      // const sendMessage = (message: any) => console.log("더미 메시지 전송:", message);
-      storageData(accessToken, sendMessage ?? (() => {}));
-      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-      return axiosToken(originalRequest);
+      try {
+        const response = await axiosToken.post(REFRESH_TOKEN_URL);
+        const { accessToken } = response.data;
+
+        console.log("응답 인터셉터: 새 토큰 받음", accessToken);
+
+        const { sendMessage } = useWebSocketContext();
+        storageData(accessToken, sendMessage ?? (() => {}));
+
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return axiosToken(originalRequest);
+      } catch (refreshError) {
+        console.error("응답 인터셉터: 토큰 갱신 실패", refreshError);
+        return Promise.reject(refreshError);
+      }
     }
+
     return Promise.reject(error);
   }
 );
+
 
 const pythonAxiosToken = baseAxios.create({
   baseURL: PYTHON_SERVER_URL,

@@ -28,19 +28,25 @@ export const signInUser = createAsyncThunk(
   "login/signInUser",
   async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
-      console.log("로그인 처리 시작");
+      console.log("signInUser: 로그인 처리 시작", data);
       const response = await axiosToken.post(SIGN_IN_URL, data);
+      console.log("signInUser: 서버 응답 받음", response.data);
+
       const { sendMessage } = useWebSocketContext();
       const safeSendMessage = sendMessage || (() => {});
-      console.log("토큰 저장", response.data.accessToken);
+      console.log("signInUser: 토큰 저장", response.data.accessToken);
       storageData(response.data.accessToken, safeSendMessage);
+
       const memberId = response.data.memberId;
+      console.log("signInUser: 회원 ID 반환", memberId);
       return memberId;
     } catch (err: any) {
+      console.error("signInUser: 로그인 처리 실패", err.response?.data);
       return rejectWithValue(err.response?.data);
     }
   }
 );
+
 
 const handleAsyncReducer = <T>(
   builder: ActionReducerMapBuilder<LoginState>,
