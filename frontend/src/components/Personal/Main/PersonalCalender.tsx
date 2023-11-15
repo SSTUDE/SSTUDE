@@ -73,11 +73,14 @@ const PersonalCalender: React.FC = () => {
     }
   }, [dispatch]);
 
+  
+  
   const handleClothesModal = useCallback(async () => {
+    const now = new Date();
     const data = {
       year: 2023,
       month: 11,
-      day: 13,
+      day: 14,
     };
     try {
       console.log("의상 try 뜨나요");

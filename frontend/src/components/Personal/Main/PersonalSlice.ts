@@ -7,28 +7,6 @@ import {
 import axiosToken, { pythonAxiosToken } from "../../../apis/http-common";
 import { AxiosError } from "axios";
 import { PersonalState } from "./types";
-
-// export const handleAuthentication = async (
-//   url: string,
-//   data: { year: number; month: number },
-//   sendMessage: (message: string) => void
-// ) => {
-//   const response = await axiosToken.post(url, data);
-//   console.log(response);
-//   storageData(response.data.accessToken, sendMessage);
-//   return response.data;
-// };
-
-// export const handleGetAuthentication = async (
-//   url: string,
-//   sendMessage: (message: string) => void
-// ) => {
-//   const response = await axiosToken.get(url);
-//   console.log(response);
-//   storageData(response.data.accessToken, sendMessage);
-//   return response.data;
-// };
-
 // 퍼스널 컬러 달력
 export const PersonalCalender = createAsyncThunk(
   "/static/list",
@@ -135,6 +113,7 @@ const initialState: PersonalState = {
   beauty: null,
   beautyResults: null,
   clothesResults: null,
+  finishPersonal: false, 
   loading: false,
   error: null,
 };
@@ -156,6 +135,9 @@ export const PersonalSlice = createSlice({
         action.payload
       );
       state.beautyResults = action.payload;
+      if (action.type === '/detail/fulfilled') {
+        state.finishPersonal = true
+      }
     });
     // 의상 진단 결과
     handleAsyncReducer<any>(builder, ClothesResults, (state, action) => {

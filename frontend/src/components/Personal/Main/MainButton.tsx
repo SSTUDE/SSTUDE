@@ -73,7 +73,7 @@ const HomeIcon = () => (
 //   </svg>
 // );
 
-const MainButton = () => {
+const MainButton = (onClick :any) => {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {

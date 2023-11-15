@@ -4,11 +4,12 @@ import ResultsImg from "./ResultsImg";
 import ResultsInfo from "./ResultsInfo";
 import Palette from "./Palette";
 import DiagnosisLoading from "../DiagnosisLoading";
-import MainButton from "../../Main/MainButton";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../store/store";
 import { PersonalCalender } from "../../Main/PersonalSlice";
+import { PersonalBeautyResults } from "../../Main/PersonalSlice";
+import MainButton from "../../Main/MainButton";
+import { useNavigate } from "react-router";
 
 const StyledContainer = styled.div`
   /* overflow: hidden; */
@@ -79,10 +80,12 @@ const CalenderIcon = () => (
 const StyledPersonalColorResults = styled.section``;
 
 const PersonalColorResults = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(true);
-
+  const navigate = useNavigate();
+  
+  const data = dispatch(PersonalBeautyResults({ date: "2023-11-14" }));
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -120,12 +123,16 @@ const PersonalColorResults = () => {
     }
   }, [dispatch]);
 
+  const goPersonal = () => {
+  }
+
   return (
     <StyledContainer>
       {isLoading ? (
         <DiagnosisLoading />
-      ) : (
-        <>
+        ) : (
+          <>
+          <MainButton onClick={goPersonal} />
           <StyledTitle>진단 결과</StyledTitle>
           <MainButton />
           <StyledCalenderButton onClick={handleCalenderClick}>
