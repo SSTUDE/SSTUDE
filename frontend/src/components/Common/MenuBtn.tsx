@@ -6,10 +6,13 @@ import { images } from "../../constants/images";
 import { AppDispatch } from "../../store/store";
 import { setMenuBtn } from "../Main/MirrorSlice";
 import { RootState } from "../../store/store";
-import { PersonalCalender } from "../Personal/Main/PersonalSlice";
+import {
+  ClothesResults,
+  PersonalCalender,
+} from "../Personal/Main/PersonalSlice";
 import { healthTodayData } from "../Health/HealthSlice";
 
-type ButtonType = "menu" | "beauty" | "health" | "question";
+type ButtonType = "menu" | "beauty" | "health" | "clothes" | "question";
 
 interface MenuBtnProps {
   type: ButtonType;
@@ -31,11 +34,16 @@ function MenuBtn({ type }: MenuBtnProps) {
       const response = await handleHealthTodayData();
       console.log("메뉴에서 헬스 눌렀을 때 되나요?", response);
       navigate("/healthmain");
+    } else if (type === "clothes") {
+      const response = await handleClothesResults();
+      console.log("메뉴에서 의상 눌렀을 때 되나요?", response);
+      navigate("/personalclothesResults");
     } else if (type === "question") {
       // navigate('/question');
     }
   };
 
+  // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
     const data = {
       year: 2023,
@@ -54,10 +62,26 @@ function MenuBtn({ type }: MenuBtnProps) {
     }
   }, [dispatch]);
 
+  // 오늘 헬스 데이터(헬스 메인) 호출
   const handleHealthTodayData = useCallback(async () => {
     try {
       console.log("오늘 헬스 데이터 try 뜨나요");
       const res = await dispatch(healthTodayData()).unwrap();
+      console.log("오늘 헬스 데이터 결과는요?", res);
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
+
+  // 의상 진단 호출
+  const handleClothesResults = useCallback(async () => {
+    try {
+      console.log("메뉴 버튼: 의상 진단 데이터 try 뜨나요");
+      const res = await dispatch(ClothesResults()).unwrap();
       console.log("오늘 헬스 데이터 결과는요?", res);
       if (res) {
         // dispatch(setMemberId(res.memberId));
@@ -73,6 +97,7 @@ function MenuBtn({ type }: MenuBtnProps) {
       menu: images.default.menuBtn,
       beauty: images.default.beautyBtn,
       health: images.default.healthBtn,
+      clothes: images.default.healthBtn,
       question: images.default.questionBtn,
     };
     return imageMap[type];

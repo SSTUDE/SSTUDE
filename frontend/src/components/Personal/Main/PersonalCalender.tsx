@@ -58,7 +58,7 @@ const PersonalCalender: React.FC = () => {
     const data = {
       year: 2023,
       month: 11,
-      day: 13,
+      day: 14,
     };
     try {
       console.log("try 뜨나요");

@@ -76,12 +76,34 @@ export const PersonalBeautyResults = createAsyncThunk(
     try {
       console.log("퍼스널 컬러 진단 결과 나오나요?");
       console.log("보내는 데이터 확인:", data);
-      console.log("axios 인스턴스 설정 확인:", pythonAxiosToken.defaults); // 여기에 추가
+      console.log("axios 인스턴스 설정 확인:", pythonAxiosToken.defaults);
       const response = await pythonAxiosToken.post("/detail", data);
-      console.log("받은 응답 확인:", response); // 여기에 추가
+      console.log("받은 응답 확인:", response);
       return response.data;
     } catch (err: unknown) {
       console.error("에러 뜨나요", err);
+      return rejectWithValue(
+        err instanceof AxiosError ? err.message : "An unexpected error occurred"
+      );
+    }
+  }
+);
+
+// 의상 진단 결과
+export const ClothesResults = createAsyncThunk(
+  "/clothes/detail",
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log("의상 진단 결과 호출 되나요?");
+      console.log(
+        "의상 진단 axios 인스턴스 설정 확인:",
+        pythonAxiosToken.defaults
+      );
+      const response = await pythonAxiosToken.post("/clothes/detail");
+      console.log("의상 진단 받은 응답 확인:", response);
+      return response.data;
+    } catch (err: unknown) {
+      console.error("의상 진단 에러 뜨나요", err);
       return rejectWithValue(
         err instanceof AxiosError ? err.message : "An unexpected error occurred"
       );
@@ -112,6 +134,7 @@ const handleAsyncReducer = <T>(
 const initialState: PersonalState = {
   beauty: null,
   beautyResults: null,
+  clothesResults: null,
   loading: false,
   error: null,
 };
@@ -126,13 +149,18 @@ export const PersonalSlice = createSlice({
       console.log("컬러 저장된 데이터 들어오나요?", action.payload);
       state.beauty = action.payload;
     });
-    // 퍼스널 커러 진단 결과
+    // 퍼스널 컬러 진단 결과
     handleAsyncReducer<any>(builder, PersonalBeautyResults, (state, action) => {
       console.log(
         "퍼스널 컬러 진단 결과 저장된 데이터 들어오나요?",
         action.payload
       );
       state.beautyResults = action.payload;
+    });
+    // 의상 진단 결과
+    handleAsyncReducer<any>(builder, ClothesResults, (state, action) => {
+      console.log("의상 진단 결과 저장된 데이터 들어오나요?", action.payload);
+      state.clothesResults = action.payload;
     });
   },
 });

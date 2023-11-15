@@ -4,7 +4,8 @@ import Test from "../components/Test/Test";
 import TestMain from "../components/Test/TestMain";
 import TestColor from "../components/Test/TestColor";
 import Login from "../components/Login/Login";
-import MenuBtn from "../components/Common/MenuBtn";import Calender from "../components/Personal/Main/PersonalCalender";
+import MenuBtn from "../components/Common/MenuBtn";
+import Calender from "../components/Personal/Main/PersonalCalender";
 import Weather from "../components/Weather/Weather";
 import Bus from "../components/Bus/Bus";
 import BusDetail from "../components/Bus/BusDetail";
@@ -21,7 +22,6 @@ import HealthCalender from "../components/Health/HealthCalender";
 import PrevHealth from "../components/Health/PrevHealth";
 import TodayHealthData from "../components/Health/TodayHealthData";
 
-
 const routes = [
   {
     path: "/",
@@ -32,7 +32,6 @@ const routes = [
     path: "/mirror",
     Component: Mirror,
   },
-
 
   {
     path: "/test",
@@ -94,7 +93,11 @@ const routes = [
     path: "/personalloading",
     Component: DiagnosisLoading,
   },
-  // 날씨 정보
+  // 의상 진단 결과창
+  {
+    path: "/personalclothesResults",
+    Component: ClothesResults,
+  },
   // 삼성 헬스
   {
     path: "/healthmain",
@@ -110,6 +113,7 @@ const routes = [
     path: "/prevhealth",
     Component: PrevHealth,
   },
+  // 헬스 메인 페이지 (오늘 헬스 데이터)
   {
     path: "/healthmain",
     Component: TodayHealthData,
