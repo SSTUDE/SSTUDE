@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 import { RootState } from "../../../store/store";
-import { useWebSocket } from "../../../hooks/useWebSocket";
+// import { useWebSocket } from "../../../hooks/useWebSocket";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import useWebcam from "../../../hooks/useWebCam";
 
@@ -80,22 +80,22 @@ const HomeIcon = () => (
 
 const MainButton = () => {
   const navigate = useNavigate();
-  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "off" };
   const { stopWebcam } = useWebcam();
 
   const handleHomeClick = () => {
     stopWebcam();
       console.log("카메라 종료");
-      setTimeout(() => {
-        sendMessage(message)
-          .then((response) => {
-            console.log("응답옴: ", response);
-          })
-          .catch(error => {
-            console.log("에러 발생", error);
-          });
-      }, 1000);
+      // setTimeout(() => {
+      //   sendMessage(message)
+      //     .then((response) => {
+      //       console.log("응답옴: ", response);
+      //     })
+      //     .catch(error => {
+      //       console.log("에러 발생", error);
+      //     });
+      // }, 1000);
 
       navigate('/mirror')
   };

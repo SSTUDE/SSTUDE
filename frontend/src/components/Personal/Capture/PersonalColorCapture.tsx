@@ -9,7 +9,7 @@ import { keyframes, styled } from "styled-components";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import { useCustomAlert } from "../../../hooks/useAlert";
 import { personalPictureToServer } from "./CaptureSlice";
-import { useWebSocket } from "../../../hooks/useWebSocket";
+// import { useWebSocket } from "../../../hooks/useWebSocket";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -165,7 +165,7 @@ const BlinkingCameraIcon = styled(CameraIcon)`
 `;
 
 const PersonalColorCapture = () => {
-  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
   const navigate = useNavigate();
@@ -177,15 +177,15 @@ const PersonalColorCapture = () => {
     const handlePopState = () => {
       stopWebcam();
       console.log("카메라 종료");
-      setTimeout(() => {
-        sendMessage(message)
-          .then((response) => {
-            console.log("응답옴: ", response);
-          })
-          .catch(error => {
-            console.log("에러 발생", error);
-          });
-      }, 1000);
+      // setTimeout(() => {
+      //   sendMessage(message)
+      //     .then((response) => {
+      //       console.log("응답옴: ", response);
+      //     })
+      //     .catch(error => {
+      //       console.log("에러 발생", error);
+      //     });
+      // }, 1000);
       console.log('뒤로 가기 실행됨');
     };
 
@@ -207,15 +207,15 @@ const PersonalColorCapture = () => {
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
             console.log("카메라 종료");
-            setTimeout(() => {
-              sendMessage(message)
-                .then((response) => {
-                  console.log("응답옴: ", response);
-                })
-                .catch(error => {
-                  console.log("에러 발생", error);
-                });
-            }, 1000);
+            // setTimeout(() => {
+            //   sendMessage(message)
+            //     .then((response) => {
+            //       console.log("응답옴: ", response);
+            //     })
+            //     .catch(error => {
+            //       console.log("에러 발생", error);
+            //     });
+            // }, 1000);
             console.log("페이지 이동 준비 완료");
             navigate("/personalclothesresults");
           } else if (data.payload.request.status === 500) {
@@ -242,15 +242,15 @@ const PersonalColorCapture = () => {
   const closeCamera = () => {
     stopWebcam();
     console.log("카메라 종료");
-    setTimeout(() => {
-      sendMessage(message)
-        .then((response) => {
-          console.log("응답옴: ", response);
-        })
-        .catch(error => {
-          console.log("에러 발생", error);
-        });
-    }, 1000);
+    // setTimeout(() => {
+    //   sendMessage(message)
+    //     .then((response) => {
+    //       console.log("응답옴: ", response);
+    //     })
+    //     .catch(error => {
+    //       console.log("에러 발생", error);
+    //     });
+    // }, 1000);
   }
 
   return (
