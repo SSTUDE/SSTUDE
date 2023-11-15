@@ -80,16 +80,11 @@ const HomeIcon = () => (
 
 const MainButton = () => {
   const navigate = useNavigate();
-  const { signOut } = useSelector((state: RootState) => state.login);
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "off" };
   const { stopWebcam } = useWebcam();
 
   const handleHomeClick = () => {
-    
-
-
-  if (onclick){
     stopWebcam();
       console.log("카메라 종료");
       setTimeout(() => {
@@ -101,15 +96,8 @@ const MainButton = () => {
             console.log("에러 발생", error);
           });
       }, 1000);
-    }
 
-
-    // if (signOut) {
-    //   localStorage.removeItem("SSTUDE");
-    //   navigate('/login')
-    // } else {
       navigate('/mirror')
-    // }
   };
   
   // const handlePrevClick = () => {
@@ -117,13 +105,10 @@ const MainButton = () => {
   // };
 
   return (
-    <StyledContainer>
-      <StyledHomeButton onClick={handleHomeClick}>
+    <StyledContainer onClick={handleHomeClick}>
+      <StyledHomeButton>
         <HomeIcon />
       </StyledHomeButton>
-      {/* <StyledPrevButton onClick={handlePrevClick}>
-        <BackIcon />
-      </StyledPrevButton> */}
     </StyledContainer>
   );
 };

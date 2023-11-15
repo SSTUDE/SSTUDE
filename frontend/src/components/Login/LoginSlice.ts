@@ -32,10 +32,10 @@ export const signInUser = createAsyncThunk(
       const response = await axiosToken.post(SIGN_IN_URL, data);
       console.log("signInUser: 서버 응답 받음", response.data);
 
-      const { sendMessage } = useWebSocketContext();
-      const safeSendMessage = sendMessage || (() => {});
+      // const { sendMessage } = useWebSocketContext();
+      const sendMessage = (message: any) => console.log("더미 메시지 전송:", message);
       console.log("signInUser: 토큰 저장", response.data.accessToken);
-      storageData(response.data.accessToken, safeSendMessage);
+      storageData(response.data.accessToken, sendMessage);
 
       const memberId = response.data.memberId;
       console.log("signInUser: 회원 ID 반환", memberId);
