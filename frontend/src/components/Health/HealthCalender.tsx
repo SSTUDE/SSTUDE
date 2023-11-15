@@ -6,7 +6,7 @@ import MainButton from "../Personal/Main/MainButton";
 import PrevHealth from "./PrevHealth";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { healthPrevData } from "./HealthSlice";
+import { healthPrevData, healthTodayData } from "./HealthSlice";
 import { images } from "../../constants/images";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -61,6 +61,7 @@ const HealthCalender: React.FC = () => {
   const navigate = useNavigate();
 
   const handlTodayHealthDataClick = () => {
+    handleHealthTodayData();
     navigate("/healthmain");
   };
 
@@ -105,6 +106,21 @@ const HealthCalender: React.FC = () => {
       handlePrevDetailData();
     }
   }, [currentComponent, day, handlePrevDetailData]);
+
+  // 오늘 헬스 데이터(헬스 메인) 호출
+  const handleHealthTodayData = useCallback(async () => {
+    try {
+      console.log("오늘 헬스 데이터 try 뜨나요");
+      const res = await dispatch(healthTodayData()).unwrap();
+      console.log("오늘 헬스 데이터 결과는요?", res);
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
 
   return (
     <>
