@@ -1,5 +1,5 @@
 // 진단 종류 고르는 Page
-import useWebcam from "./useWebCam";
+import useWebcam from "../../../hooks/useWebCam";
 import ErrorModal from "./ErrorModal";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
@@ -109,17 +109,17 @@ const SelectContents = () => {
   }, [])
 
   const handlePersonalCameraClick = () => {
-    sendMessage(message)
-      .then((response: any) => {
-        console.log("응답옴: ", response)
+    // sendMessage(message)
+    //   .then((response: any) => {
+    //     console.log("응답옴: ", response)
         console.log("카메라 권한 획득")
         setTimeout(() => { startWebcam(); }, 1000);
         console.log("카메라 실행, 페이지 이동")
         navigate("/personalselectpersonal");
-      })
-      .catch(error => {
-        console.log("에러 발생", error);
-      });
+      // })
+      // .catch(error => {
+      //   console.log("에러 발생", error);
+      // });
   };
 
   const handleClothesCameraClick = () => {

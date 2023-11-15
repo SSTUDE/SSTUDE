@@ -1,9 +1,9 @@
 // '퍼스널 컬러 진단 하기' 누른 경우 보이는 Page
-import useWebcam from "./useWebCam";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
+import useWebcam from "../../../hooks/useWebCam";
 import { AppDispatch } from "../../../store/store";
 import { keyframes, styled } from "styled-components";
 import { RASPBERRY_URL } from "../../../apis/constants";
@@ -172,6 +172,21 @@ const PersonalColorCapture = () => {
   const message = { type: "camera", data: "off" };
   const [isBlinking, setIsBlinking] = useState(false);
   const showAlert = useCustomAlert();
+
+  window.addEventListener('popstate', (event) => {
+    stopWebcam();
+    console.log("카메라 종료");
+    setTimeout(() => {
+      sendMessage(message)
+        .then((response) => {
+          console.log("응답옴: ", response);
+        })
+        .catch(error => {
+          console.log("에러 발생", error);
+        });
+    }, 1000);
+    console.log('뒤로 가기 실행됨');
+  });
 
   const handleCaptureClick = async () => {
     captureImage(async (blob) => {

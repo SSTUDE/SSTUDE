@@ -6,7 +6,7 @@ import { styled } from "styled-components";
 import { RootState } from "../../../store/store";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 import { RASPBERRY_URL } from "../../../apis/constants";
-import useWebcam from "../Capture/useWebCam";
+import useWebcam from "../../../hooks/useWebCam";
 
 // 전체 컨테이너
 const StyledContainer = styled.div``;

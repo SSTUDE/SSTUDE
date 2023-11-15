@@ -60,8 +60,8 @@ export const personalClothesToServer = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       console.error("오류 발생: ", error);
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response);
+      if (error.response && error.response) {
+        return rejectWithValue(error.response.data);
       }
       return rejectWithValue(error.message || "Unknown error occurred");
     }
@@ -83,7 +83,7 @@ export const clothesDetailToServer = createAsyncThunk(
       return response.data;
     } catch (error: any) {
       console.error("오류 발생: ", error);
-      if (error.response && error.response.data) {
+      if (error.response && error.response) {
         return rejectWithValue(error.response.data);
       }
       return rejectWithValue(error.message || "Unknown error occurred");
