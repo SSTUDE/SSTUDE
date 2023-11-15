@@ -246,6 +246,7 @@ while True:
             }
         }
         asyncio.run(ws_service.sendInfo(json.dumps(Info)));
+        is_login_service_on = False
 
 
     # 서비스 종료
