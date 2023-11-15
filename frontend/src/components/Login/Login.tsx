@@ -79,39 +79,39 @@ const Login = () => {
 
   //NOTE - 로그인
   const loginClick = () => {
-    // const message = { type: "signIn", data: "" };
-    // console.log("로그인 - 라즈베리로 { type:signIn, data: } 전송 ")
-    // sendMessage(message)
-    //   .then((response: any) => {
-    //     //NOTE - 등록되지 않은 유저
-    //     if (response.data.userInfo === "unKnown") {
-    //       showAlert({
-    //         icon: 'info',
-    //         title: '등록된 유저가 아닙니다. \n 회원가입이 진행됩니다',
-    //       });
-    //       SignClick()
-    //     } else {
-    //       //NOTE - 등록된 유저
-    //       console.log("로그인 - 웹소켓 응답 받았고 서버로 전송");
-          // dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+    const message = { type: "signIn", data: "" };
+    console.log("로그인 - 라즈베리로 { type:signIn, data: } 전송 ")
+    sendMessage(message)
+      .then((response: any) => {
+        //NOTE - 등록되지 않은 유저
+        if (response.data.userInfo === "unKnown") {
+          showAlert({
+            icon: 'info',
+            title: '등록된 유저가 아닙니다. \n 회원가입이 진행됩니다',
+          });
+          SignClick()
+        } else {
+          //NOTE - 등록된 유저
+          console.log("로그인 - 웹소켓 응답 받았고 서버로 전송");
+          dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
           dispatch(signInUser({ deviceNum: "string" }));
-  //         console.log("로그인 - 응답 받음:", response);
-  //         console.log(" !!!!! 로그인 성공 !!!!!")
-  //         showAlert({
-  //           icon: 'success',
-  //           title: '로그인 완료',
-  //         });
-  //         navigate("/mirror")
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //       console.error("로그인 - 메시지 전송에 실패했습니다:", error);
-  //       showAlert({
-  //         icon: 'error',
-  //         title: '로그인 실패. 다시 시도해주세요',
-  //       });
-  //     });
+          console.log("로그인 - 응답 받음:", response);
+          console.log(" !!!!! 로그인 성공 !!!!!")
+          showAlert({
+            icon: 'success',
+            title: '로그인 완료',
+          });
+          navigate("/mirror")
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        console.error("로그인 - 메시지 전송에 실패했습니다:", error);
+        showAlert({
+          icon: 'error',
+          title: '로그인 실패. 다시 시도해주세요',
+        });
+      });
   }
 
   return (
