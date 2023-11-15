@@ -59,10 +59,12 @@ type PrevHealthProps = {
     consumedKcal: number | null;
     sleepTime: number | null;
   };
+  selectedDate: string;
 };
 const PrevHealth: React.FC<PrevHealthProps> = ({
   setCurrentComponent,
   healthData,
+  selectedDate,
 }) => {
   const navigate = useNavigate();
 
@@ -77,7 +79,7 @@ const PrevHealth: React.FC<PrevHealthProps> = ({
         <CalenderIcon />
       </StyledCalenderButton>
       <StyledTitle>이전 일일 활동</StyledTitle>
-      <PrevHealthData />
+      <PrevHealthData selectedDate={selectedDate} />
     </StyledContainer>
   );
 };

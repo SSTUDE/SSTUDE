@@ -175,7 +175,11 @@ const CarouselText = styled.p`
   margin: 0 0 2rem 0;
 `;
 
-const PrevHealthData = () => {
+type PrevHealthDataProps = {
+  selectedDate: string;
+};
+
+const PrevHealthData: React.FC<PrevHealthDataProps> = ({ selectedDate }) => {
   const [cardPositions, setCardPositions] = useState(options);
   const [burntKcalPercentage, setBurntKcalPercentage] = useState(0);
   const [consumedKcalPercentage, setConsumedKcalPercentage] = useState(0);
@@ -211,7 +215,7 @@ const PrevHealthData = () => {
     weekday: "short" as const,
   };
 
-  const formattedDate = currentDate
+  const formattedDate = new Date(selectedDate)
     .toLocaleDateString("ko-KR", optionsDate)
     .replace(/\. /g, ".")
     .replace(/, /g, " (")
@@ -220,43 +224,6 @@ const PrevHealthData = () => {
     .replace(/ AM/g, ")")
     .replace(/: /g, ":")
     .split(" (")[0];
-
-  // useEffect(() => {
-  //   axios.get('API endpoint') // API endpoint를 실제 API endpoint로 교체
-  //     .then(response => {
-  //       const data = response.data;
-  //       setCardsData([
-  //         {
-  //           icon: images.health.steps,
-  //           title: "Steps",
-  //           text: `${data.steps} steps`,
-  //         },
-  //         {
-  //           icon: images.health.burntKcal,
-  //           title: "Burnt Kcal",
-  //           text: `${data.burntKcal} Kcal`,
-  //         },
-  // {
-  // icon: `${images.health.steps}`,
-  // title: "Steps",
-  // text: "3396 steps",
-  //  },
-  //         {
-  //           icon: images.health.sleepTime,
-  //           title: "Sleep Time",
-  //           text: data.sleepTime,
-  //         },
-  //         {
-  //           icon: images.health.consumedKcal,
-  //           title: "Consumed Kcal",
-  //           text: `${data.consumedKcal} Kcal`,
-  //         },
-  //       ]);
-  //     })
-  //     .catch(error => {
-  //       console.error('Failed to fetch health data:', error);
-  //     });
-  // }, []);
 
   const [cardsData, setCardsData] = useState([
     {
@@ -376,7 +343,7 @@ const PrevHealthData = () => {
             {index === 2 ? (
               <>
                 <CarouselIcon src={cardsData[index].icon} alt="" />
-                <CarouselTitle>오늘 날짜</CarouselTitle>
+                <CarouselTitle>활동 날짜</CarouselTitle>
                 <CarouselText>{formattedDate}</CarouselText>
               </>
             ) : (

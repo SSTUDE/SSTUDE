@@ -67,28 +67,17 @@ const HealthCalender: React.FC = () => {
   // 알림창
   const showAlert = useCustomAlert();
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
-  const days = parseInt(now.getDate().toString().padStart(2, '0'), 10);
-
-  const handlePrevDetailData = useCallback(async () => {
-    const data = {
-      year: year,
-      month: month,
-      day: days,
-    };
-    console.log("이전 헬스 데이터 날짜 불러지나요?", data);
-    const actionResult = await dispatch(healthPrevData(data));
-    const res = actionResult.payload;
-    if (res) {
-      setHealthData(res);
-    }
-  }, [dispatch]);
-
   const handleDayClick = async (dateStr: string) => {
     if (calendarData?.dates.includes(dateStr)) {
       setDay(dateStr);
+      const dateParts = dateStr.split("-");
+      setStartDate(
+        new Date(
+          parseInt(dateParts[0]),
+          parseInt(dateParts[1]) - 1,
+          parseInt(dateParts[2])
+        )
+      );
       await handlePrevDetailData();
       setCurrentComponent("PrevHealth");
     } else {
@@ -96,6 +85,20 @@ const HealthCalender: React.FC = () => {
     }
     console.log(currentComponent);
   };
+
+  const handlePrevDetailData = useCallback(async () => {
+    const data = {
+      year: startDate.getFullYear(),
+      month: startDate.getMonth() + 1,
+      day: startDate.getDate(),
+    };
+    console.log("이전 헬스 데이터 날짜 불러지나요?", data);
+    const actionResult = await dispatch(healthPrevData(data));
+    const res = actionResult.payload;
+    if (res) {
+      setHealthData(res);
+    }
+  }, [dispatch, startDate]);
 
   useEffect(() => {
     if (currentComponent === "PrevHealth" && day) {
@@ -204,6 +207,7 @@ const HealthCalender: React.FC = () => {
         <PrevHealth
           healthData={healthData}
           setCurrentComponent={setCurrentComponent}
+          selectedDate={startDate.toISOString()}
         />
       )}
     </>
