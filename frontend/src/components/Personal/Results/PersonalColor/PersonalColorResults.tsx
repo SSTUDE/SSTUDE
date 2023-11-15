@@ -1,12 +1,14 @@
-import Palette from "./Palette";
+
+import React, { useEffect, useState, useCallback } from "react";
+import { styled } from "styled-components";
 import ResultsImg from "./ResultsImg";
 import ResultsInfo from "./ResultsInfo";
-import { useDispatch } from "react-redux";
-import { styled } from "styled-components";
+import Palette from "./Palette";
+import { useDispatch, useSelector } from "react-redux";
+import { PersonalCalender } from "../../Main/PersonalSlice";
 import { useNavigate } from "react-router";
 import MainButton from "../../Main/MainButton";
 import DiagnosisLoading from "../DiagnosisLoading";
-import React, { useEffect, useState } from "react";
 import { AppDispatch } from "../../../../store/store";
 import { PersonalBeautyResults } from "../../Main/PersonalSlice";
 
@@ -40,6 +42,41 @@ const StyledResultsContainer = styled.section`
   height: 65vh;
 `;
 
+// 캘린더로 이동하기 위한 아이콘
+const StyledCalenderButton = styled.button`
+  position: absolute;
+  left: 12.3%;
+  top: 5.9%;
+
+  width: 104px;
+  height: 104px;
+  padding: 0;
+
+  background-color: #4f4f4f;
+  border: 2px solid white;
+  border-radius: 15%;
+
+  cursor: pointer;
+`;
+
+const CalenderIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    color="white"
+  >
+    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+    <line x1="16" y1="2" x2="16" y2="6"></line>
+    <line x1="8" y1="2" x2="8" y2="6"></line>
+    <line x1="3" y1="10" x2="21" y2="10"></line>
+  </svg>
+);
+
 // 퍼스널 컬러 결과 컨테이너
 const StyledPersonalColorResults = styled.section``;
 
@@ -58,13 +95,34 @@ const PersonalColorResults = () => {
     return () => clearTimeout(timer); // 컴포넌트 unmount시 타이머 해제
   }, []);
 
-  // useEffect(() => {
-  //   const image = new Image();
-  //   image.src = "이미지 URL";
-  //   image.onload = () => {
-  //     setIsLoading(false);
-  //   };
-  // }, []);
+  const handleCalenderClick = async () => {
+    const response = await handlePersonalCalender();
+    navigate("/personalmain", { state: { diagnosisData: response } });
+  };
+
+  // 퍼스널 캘린더(뷰티 메인) 호출
+  const handlePersonalCalender = useCallback(async () => {
+    // const currentDate = new Date();
+    // const year = currentDate.getFullYear();
+    // const month = currentDate.getMonth() + 1;
+    const data = {
+      // year: year,
+      // month: month,
+      year: 2023,
+      month: 11,
+    };
+    try {
+      console.log("try 뜨나요");
+      const res = await dispatch(PersonalCalender(data)).unwrap();
+      console.log("결과는요?", res);
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
 
   return (
     <StyledContainer>
@@ -74,6 +132,10 @@ const PersonalColorResults = () => {
         <>
           <MainButton  />
           <StyledTitle>진단 결과</StyledTitle>
+          <MainButton />
+          <StyledCalenderButton onClick={handleCalenderClick}>
+            <CalenderIcon />
+          </StyledCalenderButton>
           <StyledResultsContainer>
             <ResultsImg />
             <ResultsInfo />

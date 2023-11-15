@@ -20,9 +20,17 @@ export type PersonalBeautyresultsState = {
   error: string | null;
 };
 
+export type ClothesResultsState = {
+  imguri: string;
+  score: number;
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+};
+
 export type PersonalState = {
   beauty: PersonalBeautyState | null;
   beautyResults: PersonalBeautyresultsState | null;
+  clothesResults: ClothesResultsState[] | null;
   finishPersonal: boolean, 
   loading: boolean;
   error: string | null;

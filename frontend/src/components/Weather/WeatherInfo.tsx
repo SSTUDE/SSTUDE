@@ -177,7 +177,7 @@ const CustomData = weatherData.filter((item: WeatherDataCustom) => {
         </SkyInfoCon>
           {maxTemperature && minTemperature && (
             <div className='temp'>
-              <div className='maxTemp'>최고 기온 : {`${maxTemperature.fcstValue}°C`}</div>
+              <div className='maxTemp'>최고 기온 : <span>{`${maxTemperature.fcstValue}°C`}</span></div>
               <div className='minTemp'>최저 기온 : {`${minTemperature.fcstValue}°C`}</div>
             </div>
           )}
@@ -214,6 +214,7 @@ const WeatherCon = styled.div`
   .temp {
     font-size: 25px;
     margin-top: 20px;
+    text-align: center;
   }
 
   .maxTemp {

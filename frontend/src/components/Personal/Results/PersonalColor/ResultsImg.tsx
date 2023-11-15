@@ -33,7 +33,9 @@ const StyledImg = styled.img`
 
   width: 48vh;
   height: 64vh;
+
   object-fit: cover;
+  object-position: top;
 `;
 
 const ResultsImg = () => {

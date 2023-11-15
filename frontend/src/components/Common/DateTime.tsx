@@ -1,10 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { TEXT_COLOR } from '../../constants/defaultSlices'
 
 function DateTime() {
 
-  const currentDate = new Date();
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const updateCurrentTime = () => {
+      setCurrentDate(new Date());
+    };
+
+    // 현재 시간과 다음 분까지 남은 시간을 계산
+    const now = new Date();
+    const timeToNextMinute = (60 - now.getSeconds()) * 1000; // 랜더링 되는 과정에서 1초 소요되기 때문에
+
+    // 다음 분까지 남은 시간만큼 지연시킨 후, 매 분마다 업데이트
+    setTimeout(() => {
+      updateCurrentTime();
+      const intervalId = setInterval(updateCurrentTime, 60000); // 1분마다 업데이트
+      return () => {
+        clearInterval(intervalId);
+      };
+    }, timeToNextMinute);
+  }, []);
 
   const hours = currentDate.getHours();
   const minutes = currentDate.getMinutes();
