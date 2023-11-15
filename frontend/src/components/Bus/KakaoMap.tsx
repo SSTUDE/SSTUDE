@@ -18,7 +18,6 @@ const KakaoMap = () => {
   const [markers, setMarkers] = useState<Map<string, kakao.maps.Marker>>(new Map());
 
   useEffect(() => {
-    console.log("KakaoMap: useEffect 실행");
     if (window.kakao && window.kakao.maps) {
       kakao.maps.load(() => {
         if (mapRef.current && gps) {
@@ -71,7 +70,6 @@ const KakaoMap = () => {
   }, [gps, busStops, selectedStation]);
 
   const filterBus = () => {
-    console.log("KakaoMap: filterBus 실행", selectedStation);
     if (selectedStation) {
       dispatch(setBusStop(selectedStation));
       dispatch(busStopToServer(selectedStation));
@@ -79,7 +77,6 @@ const KakaoMap = () => {
     }
   };
   const reResponse = () => {
-    console.log("카카오맵에서 서버로 요청 함수 호출")
     dispatch(gpsToServer());
   };
 

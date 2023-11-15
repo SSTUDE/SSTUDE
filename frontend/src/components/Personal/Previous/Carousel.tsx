@@ -133,7 +133,6 @@ const Carousel = () => {
                   src={image}
                   alt="사진이 없습니다"
                   onError={(e) => {
-                    console.log("Image loading error: ", e);
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = images.personal.errorImg;
                   }}

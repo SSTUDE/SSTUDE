@@ -9,7 +9,7 @@ import { keyframes, styled } from "styled-components";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import { useCustomAlert } from "../../../hooks/useAlert";
 import { personalPictureToServer } from "./CaptureSlice";
-// import { useWebSocket } from "../../../hooks/useWebSocket";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -160,7 +160,7 @@ const BlinkingCameraIcon = styled(CameraIcon)`
 
 const PersonalColorCapture = () => {
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "off" };
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -170,9 +170,9 @@ const PersonalColorCapture = () => {
   useEffect(() => {
     const handlePopState = () => {
       stopWebcam();
-      // setTimeout(() => {
-      //   sendMessage(message)
-      // }, 1000);
+      setTimeout(() => {
+        sendMessage(message)
+      }, 1000);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -189,9 +189,9 @@ const PersonalColorCapture = () => {
           const data = await dispatch(personalPictureToServer(blob));
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
-            // setTimeout(() => {
-            //   sendMessage(message)
-            // }, 1000);
+            setTimeout(() => {
+              sendMessage(message)
+            }, 1000);
             navigate("/personalcolorsresults");
 
           } else if (data.payload.request.status === 500) {
@@ -216,10 +216,9 @@ const PersonalColorCapture = () => {
 
   const closeCamera = () => {
     stopWebcam();
-    console.log("카메라 종료");
-    // setTimeout(() => {
-    //   sendMessage(message)
-    // }, 1000);
+    setTimeout(() => {
+      sendMessage(message)
+    }, 1000);
   }
 
   return (

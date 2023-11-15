@@ -140,7 +140,6 @@ const PreviousPersonalColorResults = () => {
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = images.personal.errorImg;
-            console.log("오류 이미지로 변경 완료");
           }}
         />
       </StyledFigure>

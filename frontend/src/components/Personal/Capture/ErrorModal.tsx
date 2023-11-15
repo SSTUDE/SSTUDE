@@ -79,7 +79,6 @@ const ErrorModal: React.FC<IErrorModalProps> = ({
   const navigate = useNavigate();
 
   const handleCloseOnOverlay = (e: React.MouseEvent) => {
-    console.log(e);
     if (
       modalContentRef.current &&
       !modalContentRef.current.contains(e.target as Node)

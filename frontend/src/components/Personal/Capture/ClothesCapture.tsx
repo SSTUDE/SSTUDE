@@ -8,7 +8,7 @@ import { keyframes, styled } from "styled-components";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import { useCustomAlert } from "../../../hooks/useAlert";
 import { personalClothesToServer } from "./CaptureSlice";
-// import { useWebSocket } from "../../../hooks/useWebSocket";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 import { PersonalClothesResults } from "../Main/PersonalSlice";
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -160,7 +160,7 @@ const BlinkingCameraIcon = styled(CameraIcon)`
 `;
 
 const ClothesCapture = () => {
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
@@ -171,9 +171,9 @@ const ClothesCapture = () => {
   useEffect(() => {
     const handlePopState = () => {
       stopWebcam();
-      // setTimeout(() => {
-      //   sendMessage(message)
-      // }, 1000);
+      setTimeout(() => {
+        sendMessage(message)
+      }, 1000);
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -190,9 +190,9 @@ const ClothesCapture = () => {
           const data = await dispatch(personalClothesToServer(blob));
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
-            // setTimeout(() => {
-            //   sendMessage(message)
-            // }, 1000);
+            setTimeout(() => {
+              sendMessage(message)
+            }, 1000);
             handleClothesResults();
             navigate("/personalclothesresults");
           } else if (data.payload.request.status === 500) {
@@ -216,10 +216,9 @@ const ClothesCapture = () => {
 
   const closeCamera = () => {
     stopWebcam();
-    console.log("카메라 종료");
-    //   setTimeout(() => {
-    //     sendMessage(message)
-    //   }, 1000);
+      setTimeout(() => {
+        sendMessage(message)
+      }, 1000);
   };
 
   // 의상 진단 호출

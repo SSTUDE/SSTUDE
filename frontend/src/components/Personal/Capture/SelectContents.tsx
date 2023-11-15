@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import useWebcam from "../../../hooks/useWebCam";
 import { RootState } from "../../../store/store";
 import { RASPBERRY_URL } from "../../../apis/constants";
-// import { useWebSocket } from "../../../hooks/useWebSocket";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 
 // 진단 컨텐츠 고르는 전체 컨테이너s
 const StyledContainer = styled.section`
@@ -75,38 +75,38 @@ const CameraIcon = () => (
 );
 
 const SelectContents = () => {
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "on" };
   const navigate = useNavigate();
   const { startWebcam } = useWebcam();
   const { finishPersonal } = useSelector((state: RootState) => state.personal);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   sendMessage({ type: "camera", data: "off" })
-    // }, 1000);
+    setTimeout(() => {
+      sendMessage({ type: "camera", data: "off" })
+    }, 1000);
   }, [])
 
   const handlePersonalCameraClick = () => {
-    // sendMessage(message)
-    //   .then((response: any) => {
+    sendMessage(message)
+      .then((response: any) => {
     setTimeout(() => { startWebcam(); }, 1000);
     navigate("/personalselectpersonal");
-    // })
-    // .catch(error => {
-    //   console.log("에러 발생", error);
-    // });
+    })
+    .catch((error: Error) => {
+      console.log("에러 발생", error);
+    });
   };
 
   const handleClothesCameraClick = () => {
-    // sendMessage(message)
-    //   .then((response: any) => {
+    sendMessage(message)
+      .then((response: any) => {
     setTimeout(() => { startWebcam(); }, 1000);
     navigate("/personalselectclothes");
-    // })
-    // .catch(error => {
-    //   console.log("에러 발생", error);
-    // });
+    })
+    .catch((error: Error) => {
+      console.log("에러 발생", error);
+    });
   }
 
   return (
