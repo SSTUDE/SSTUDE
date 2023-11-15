@@ -126,11 +126,15 @@ const TodayHealth = () => {
     handleMonth();
     navigate("/healthcalender");
   };
+  
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10); 
 
   const handleMonth = useCallback(async () => {
     const data = {
-      year: 2023,
-      month: 11,
+      year: year,
+      month: month,
     };
     console.log("헬스 데이터 들어오나요?", data);
     const actionResult = await dispatch(HealthCalender(data));

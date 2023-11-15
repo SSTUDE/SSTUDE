@@ -7,6 +7,12 @@ import {
 import axiosToken, { pythonAxiosToken } from "../../../apis/http-common";
 import { AxiosError } from "axios";
 import { PersonalState } from "./types";
+
+const now = new Date();
+const year = now.getFullYear();
+const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
+const days = parseInt(now.getDate().toString().padStart(2, '0'), 10);
+
 // 퍼스널 컬러 달력
 export const PersonalCalender = createAsyncThunk(
   "/static/list",
@@ -14,8 +20,8 @@ export const PersonalCalender = createAsyncThunk(
     try {
       console.log("퍼스널컬러 달력 호출해보자");
       const response = await axiosToken.post("/static/list", {
-        year: 2023,
-        month: 11,
+        year: year,
+        month: month,
       });
       console.log("퍼스널 컬러 달력 res", response);
       return response.data;
@@ -113,7 +119,7 @@ const initialState: PersonalState = {
   beauty: null,
   beautyResults: null,
   clothesResults: null,
-  finishPersonal: true, 
+  finishPersonal: false, 
   loading: false,
   error: null,
 };

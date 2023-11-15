@@ -67,11 +67,16 @@ const HealthCalender: React.FC = () => {
   // 알림창
   const showAlert = useCustomAlert();
 
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
+  const days = parseInt(now.getDate().toString().padStart(2, '0'), 10);
+
   const handlePrevDetailData = useCallback(async () => {
     const data = {
-      year: 2023,
-      month: 11,
-      day: 13,
+      year: year,
+      month: month,
+      day: days,
     };
     console.log("이전 헬스 데이터 날짜 불러지나요?", data);
     const actionResult = await dispatch(healthPrevData(data));
@@ -135,7 +140,7 @@ const HealthCalender: React.FC = () => {
                 (date.getMonth() + 1)
               ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
               const isDateInList = calendarData?.dates.includes(dateStr);
-              
+
               return (
                 <>
                   <div>{day}</div>

@@ -84,8 +84,15 @@ const PersonalColorResults = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  
+  const now = new Date();
+const year = now.getFullYear();
+const month = String(now.getMonth() + 1).padStart(2, '0');
+const day = String(now.getDate()).padStart(2, '0');
 
-  const data = dispatch(PersonalBeautyResults({ date: "2023-11-14" }));
+const date = `${year}-${month}-${day}`;
+
+  const data = dispatch(PersonalBeautyResults({ date: date }));
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -102,14 +109,15 @@ const PersonalColorResults = () => {
 
   // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
-    // const currentDate = new Date();
-    // const year = currentDate.getFullYear();
-    // const month = currentDate.getMonth() + 1;
+
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
+    const days = parseInt(now.getDate().toString().padStart(2, '0'), 10);
+    
     const data = {
-      // year: year,
-      // month: month,
-      year: 2023,
-      month: 11,
+      year: year,
+      month: month,
     };
     try {
       console.log("try 뜨나요");

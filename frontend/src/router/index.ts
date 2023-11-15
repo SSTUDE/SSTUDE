@@ -25,7 +25,7 @@ import TodayHealthData from "../components/Health/TodayHealthData";
 const routes = [
   {
     path: "/",
-    Component: MirrorMap,
+    Component: Login,
   },
 
   {

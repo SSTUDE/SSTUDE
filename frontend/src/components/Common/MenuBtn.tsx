@@ -33,11 +33,15 @@ function MenuBtn({ type }: MenuBtnProps) {
     }
   };
 
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10); 
+
   // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
     const data = {
-      year: 2023,
-      month: 11,
+      year: year,
+      month: month,
     };
     try {
       console.log("try 뜨나요");

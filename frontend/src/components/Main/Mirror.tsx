@@ -111,9 +111,9 @@ const Mirror = () => {
         ) : (
           <>
             <Center>
-              <Btn onClick={() => navigate("/")}>초기 화면</Btn>
+              {/* <Btn onClick={() => navigate("/")}>초기 화면</Btn>
               <Btn onClick={() => navigate("/login")}>로그인</Btn>
-              <Btn onClick={() => navigate("/test")}>테스트</Btn>
+              <Btn onClick={() => navigate("/test")}>테스트</Btn> */}
             </Center>
             {isMenuOpen ? (
               <MenuBar />

@@ -7,14 +7,19 @@ import {
 import axiosToken from "../../apis/http-common";
 import { AxiosError } from "axios";
 
+
+const now = new Date();
+const year = now.getFullYear();
+const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
+
 // 헬스 캘린더
 export const HealthCalender = createAsyncThunk(
   "/health/month",
   async (data: { year: number; month: number }, { rejectWithValue }) => {
     try {
       const response = await axiosToken.post("/health/month", {
-        year: 2023,
-        month: 11,
+        year: year,
+        month: month,
       });
       return response.data;
     } catch (error: unknown) {
