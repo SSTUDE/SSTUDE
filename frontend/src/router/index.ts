@@ -93,11 +93,6 @@ const routes = [
     path: "/personalloading",
     Component: DiagnosisLoading,
   },
-  // 의상 진단 결과창
-  {
-    path: "/personalclothesResults",
-    Component: ClothesResults,
-  },
   // 삼성 헬스
   {
     path: "/healthmain",

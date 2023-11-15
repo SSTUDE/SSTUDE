@@ -12,7 +12,7 @@ import {
 } from "../Personal/Main/PersonalSlice";
 import { healthTodayData } from "../Health/HealthSlice";
 
-type ButtonType = 'beauty' | 'health' | "clothes" | 'question';
+type ButtonType = "beauty" | "health" | "question";
 
 interface MenuBtnProps {
   type: ButtonType;
@@ -28,10 +28,6 @@ function MenuBtn({ type }: MenuBtnProps) {
     } else if (type === "health") {
       const response = await handleHealthTodayData();
       navigate("/healthmain");
-    } else if (type === "clothes") {
-      const response = await handleClothesResults();
-      console.log("메뉴에서 의상 눌렀을 때 되나요?", response);
-      navigate("/personalclothesResults");
     } else if (type === "question") {
       // navigate('/question');
     }
@@ -71,26 +67,10 @@ function MenuBtn({ type }: MenuBtnProps) {
     }
   }, [dispatch]);
 
-  // 의상 진단 호출
-  const handleClothesResults = useCallback(async () => {
-    try {
-      console.log("메뉴 버튼: 의상 진단 데이터 try 뜨나요");
-      const res = await dispatch(PersonalClothesResults()).unwrap();
-      console.log("오늘 헬스 데이터 결과는요?", res);
-      if (res) {
-        // dispatch(setMemberId(res.memberId));
-        return res;
-      }
-    } catch (e) {
-      console.error("Failed to fetch calendar data:", e);
-    }
-  }, [dispatch]);
-
   const getImageSrc = (type: ButtonType): string => {
     const imageMap: { [key in ButtonType]: string } = {
       beauty: images.default.beautyBtn,
       health: images.default.healthBtn,
-      clothes: images.default.healthBtn,
       question: images.default.questionBtn,
     };
     return imageMap[type];
@@ -105,11 +85,11 @@ function MenuBtn({ type }: MenuBtnProps) {
   );
 }
 
-const Wrap = styled.div<{ type: ButtonType; }>`
+const Wrap = styled.div<{ type: ButtonType }>`
   width: 100px;
   height: 100px;
   border-radius: 15%;
-  background-color: #4F4F4F;
+  background-color: #4f4f4f;
   border: 2px solid white;
   display: flex;
   align-items: center;

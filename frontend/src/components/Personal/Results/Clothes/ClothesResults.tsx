@@ -1,12 +1,11 @@
-import axios from "axios";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { styled } from "styled-components";
 import DiagnosisLoading from "../DiagnosisLoading";
 import MainButton from "../../Main/MainButton";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../../store/store";
 import { useNavigate } from "react-router-dom";
-import { PersonalCalender, PersonalClothesResults } from "../../Main/PersonalSlice";
+import { PersonalCalender } from "../../Main/PersonalSlice";
 import { images } from "../../../../constants/images";
 
 // 페이지 전체 컨테이너
@@ -119,12 +118,12 @@ const StyledCurScore1 = styled.p<{ score: number | null }>`
     props.score === null
       ? "black"
       : props.score >= 1 && props.score <= 24
-        ? "red"
-        : props.score >= 25 && props.score <= 49
-          ? "orange"
-          : props.score >= 50 && props.score <= 74
-            ? "green"
-            : "blue"};
+      ? "red"
+      : props.score >= 25 && props.score <= 49
+      ? "orange"
+      : props.score >= 50 && props.score <= 74
+      ? "green"
+      : "blue"};
 `;
 
 // 진단 정보 컨테이너2 ( 이전 점수 + 사진 + 현재 점수 / 사진 두 번 이상 찍은 경우 )
@@ -257,8 +256,6 @@ const ClothesResults = () => {
   // const data = dispatch(PersonalClothesResults());
   // console.log(11111)
 
-
-
   const handleCalenderClick = async () => {
     const response = await handlePersonalCalender();
     navigate("/personalmain", { state: { diagnosisData: response } });
@@ -291,7 +288,8 @@ const ClothesResults = () => {
   return (
     <StyledContainer>
       {isLoading ? (
-        <DiagnosisLoading />
+        // <DiagnosisLoading />
+        <></>
       ) : (
         <>
           <MainButton />
