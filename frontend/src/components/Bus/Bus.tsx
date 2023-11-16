@@ -55,21 +55,25 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
               return (
         <BusInfoList>
           {firstFourBusTimes.map((bus: BusRealTimeData, index: number) => (
-            <BusInfoItem key={index}>
-              <TimeIndicator>
-                <TimeCircle >{formatTime(bus.arrivalTime)}</TimeCircle>
-              </TimeIndicator>
-              <BusDetails>
-                <BusId>
-                {bus.routeNo} 
-                <BusIdBun>번</BusIdBun>
-                </BusId>
-                <BusStopCount>
-                  {bus.arrivalPrevStationCount} 정거장
-                </BusStopCount>
-              </BusDetails>
-            </BusInfoItem>
-          ))}
+  <BusInfoItem key={index}>
+    <TimeIndicator>
+      <TimeCircle>{formatTime(bus.arrivalTime)}</TimeCircle>
+    </TimeIndicator>
+    <BusDetails>
+      <BusId routeType={bus.routeType}>
+        <BusNum>
+
+        {bus.routeNo} 
+        </BusNum>
+        <BusIdBun>번</BusIdBun>
+      </BusId>
+      <BusStopCount>
+        {bus.arrivalPrevStationCount} 정거장
+      </BusStopCount>
+    </BusDetails>
+  </BusInfoItem>
+))}
+
         </BusInfoList>
       );
     } else {
@@ -143,13 +147,26 @@ const BusDetails = styled.div`
   color: white;
 `;
 
-const BusId = styled.div`
+const BusNum = styled.div`
+white-space: nowrap;
+width: auto; 
+`
+
+interface BusIdProps {
+  routeType: string;
+}
+
+const BusId = styled.div<BusIdProps>`
   font-size: 4rem;
   font-weight: bold;
   display: flex;
   align-items: end;
   gap: 10px;
+  color: ${props => props.routeType === '일반버스' ? '#33CC99' : 
+          props.routeType === '좌석버스' ? '#0068b7' : 
+          props.routeType === '광역버스' ? '#e60012' : 'white'};
 `;
+
 
 const BusIdBun = styled.div`
   font-size: 2rem;
