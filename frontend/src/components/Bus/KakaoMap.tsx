@@ -6,19 +6,18 @@ import MainButton from '../Personal/Main/MainButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import React, { useEffect, useRef, useState } from 'react';
-import { busStopToServer, gpsToServer, setBusStop } from './BusSlice';
+import { busStopSaveToServer, busStopToServer, gpsToServer, setBusStop } from './BusSlice';
 
 const KakaoMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
-  const [selectedStation, setSelectedStation] = useState<busStops | null>(null);
-  const [markers, setMarkers] = useState<Map<string, kakao.maps.Marker>>(new Map());
-  const gps = useSelector((state: RootState) => state.bus.gps);
-  const busStops = useSelector((state: RootState) => state.bus.busStops);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const gps = useSelector((state: RootState) => state.bus.gps);
+  const busStops = useSelector((state: RootState) => state.bus.busStops);
+  const [selectedStation, setSelectedStation] = useState<busStops | null>(null);
+  const [markers, setMarkers] = useState<Map<string, kakao.maps.Marker>>(new Map());
 
   useEffect(() => {
-    console.log("KakaoMap: useEffect 실행");
     if (window.kakao && window.kakao.maps) {
       kakao.maps.load(() => {
         if (mapRef.current && gps) {
@@ -71,15 +70,14 @@ const KakaoMap = () => {
   }, [gps, busStops, selectedStation]);
 
   const filterBus = () => {
-    console.log("KakaoMap: filterBus 실행", selectedStation);
     if (selectedStation) {
       dispatch(setBusStop(selectedStation));
       dispatch(busStopToServer(selectedStation));
+      dispatch(busStopSaveToServer(selectedStation));
       navigate('/buslist');
     }
   };
   const reResponse = () => {
-    console.log("카카오맵에서 서버로 요청 함수 호출")
     dispatch(gpsToServer());
   };
 
@@ -90,7 +88,7 @@ const KakaoMap = () => {
       <MapDiv ref={mapRef} />
       <StationList>
         <Pagination>
-          <PageButton onClick={filterBus} isActive={!!selectedStation}>
+          <PageButton onClick={filterBus} $isActive={!!selectedStation}>
             버스 목록</PageButton>
         </Pagination>
         <Pagination>
@@ -146,11 +144,11 @@ const Pagination = styled.div`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 `;
 
-const PageButton = styled.p<{ isActive?: boolean }>`
+const PageButton = styled.p<{ $isActive?: boolean }>`
   padding: 15px 30px;
   margin: 5px;
-  background-color: ${(props) => (props.isActive ? '#94c9e4' : 'white')};
-  color: ${(props) => (props.isActive ? 'black' : 'black')};
+  background-color: ${(props) => (props.$isActive ? '#94c9e4' : 'white')};
+  color: ${(props) => (props.$isActive ? 'black' : 'black')};
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;

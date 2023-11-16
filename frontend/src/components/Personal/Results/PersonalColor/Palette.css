@@ -1,7 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Pathway+Gothic+One);
-/* body {
-  overflow: hidden;
-} */
 
 .palette {
   list-style: none;
@@ -12,36 +9,19 @@
   margin-left: -88px;
   top: 80%;
   width: 90%;
-
   display: flex;
   justify-content: space-around;
 }
-
-/* .swatch:last-child:after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background: white;
-  position: absolute;
-  bottom: 25px;
-  left: 50%;
-  margin-left: -5px;
-  z-index: 100;
-  border-radius: 50%;
-} */
 
 /* 색상 카드 */
 .swatch {
   height: 300px;
   width: 150px;
-
   transition: 800ms all;
   display: block;
-
   position: relative;
   left: 0;
   top: 50px;
-
   border-radius: 6px;
   transform-origin: 50% 1000px;
   transform-style: preserve-3d;
@@ -70,28 +50,20 @@
 .swatch ol {
   border-radius: 0 0 6px 6px;
   list-style: none;
-
   position: absolute;
   left: 124px;
   top: 0px;
-
   margin: 0;
-  /* margin-top: 10%; */
   padding: 10px;
-
   width: 210px;
   height: 80px;
-
   transition: 600ms all;
   transform: rotateZ(90deg) rotateX(320deg);
   transform-origin: 0 0;
   transition-delay: 0ms;
   transform-style: preserve-3d;
-
   font-size: 1.5rem;
-
   color: #ffffff;
-
   background: inherit;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3),
     0 0 0 100px rgba(0, 0, 0, 0.2) inset;
@@ -111,28 +83,27 @@
   border-radius: inherit;
   box-shadow: 0 0 0 100px rgba(0, 0, 0, 0.2) inset;
 }
+
 .swatch ol li {
   overflow: hidden;
 }
+
 .swatch ol b {
   display: block;
   width: 25%;
   float: left;
   font-weight: normal;
 }
+
 .swatch ol p {
   font-size: 21px;
   padding: 1px 0;
 }
+
 .swatch ol i {
   font-style: normal;
   text-transform: uppercase;
 }
-
-/* 색상 카드 선택 */
-/* .swatch.select {
-  transform: translateY(-180px) !important;
-} */
 
 /* 색상 카드 선택시 나오는 색상 상세 정보 카드 */
 .swatch.select ol {

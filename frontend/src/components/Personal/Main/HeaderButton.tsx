@@ -11,15 +11,12 @@ const ContentButton = styled.button<ButtonProps>`
   width: 100%;
   height: 7vh;
   padding: 0;
-
   cursor: pointer;
   font-size: 1.5rem;
   font-family: "Giants-Bold";
-  color: ${(props) => (props.isActive ? "#000000" : "#ffffff")};
-
+  color: ${(props) => (props.isActive ? "#000000" : "#7f7c7c")};
   background-color: transparent;
   border: none;
-
   transition: all 0.7s;
   outline: none;
 

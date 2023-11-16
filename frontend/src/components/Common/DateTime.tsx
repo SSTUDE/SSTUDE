@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
+import React, { useEffect, useState } from 'react'
 import { TEXT_COLOR } from '../../constants/defaultSlices'
 
 function DateTime() {

@@ -31,7 +31,7 @@ export type PersonalState = {
   beauty: PersonalBeautyState | null;
   beautyResults: PersonalBeautyresultsState | null;
   clothesResults: ClothesResultsState[] | null;
-  finishPersonal: boolean, 
+  finishPersonal: boolean;
   loading: boolean;
   error: string | null;
 };

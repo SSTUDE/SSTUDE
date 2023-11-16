@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import React, { useState, useEffect } from 'react';
 
 function HelloWorld() {
   const [message, setMessage] = useState('');
@@ -117,7 +117,7 @@ function HelloWorld() {
 
   return (
     <Wrap>
-      <Hello textColor={textColor}>{message}</Hello>
+      <Hello $textColor={textColor}>{message}</Hello>
     </Wrap>
   );
 }
@@ -127,13 +127,13 @@ const Wrap = styled.div`
 `;
 
 interface HelloProps {
-  textColor: string;
+  $textColor: string;
 }
 
 const Hello = styled.p<HelloProps>`
   font-size: 50px;
   margin: 0;
-  color: ${(props) => props.textColor};
+  color: ${(props) => props.$textColor};
 `;
 
 export default HelloWorld;
