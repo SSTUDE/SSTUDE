@@ -170,7 +170,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
     ? "linear-gradient(270deg, #ebb7a2, #fc9898, #e1665b)"
     : containsCool(beauty?.result)
     ? "linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb)"
-    : "white"; // 기본값
+    : "linear-gradient(270deg, #ffffff, #ffffff, #ffffff)";
 
   const [currentView, setCurrentView] = useState("personalColor");
 
