@@ -20,13 +20,16 @@ const MirrorMap = () => {
 
 const Header = styled.div`
   width: 100vw;
+  /* background-color: red; */
 `
 
 const Body = styled.div`
   text-align: center;
+  /* background-color: lightblue; */
 `
 
 const Bottom = styled.div`
+  /* background-color: yellow; */
 `
 
 const Btn = styled.p`
