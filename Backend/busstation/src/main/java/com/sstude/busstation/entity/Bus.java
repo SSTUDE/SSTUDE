@@ -41,9 +41,11 @@ public class Bus {
     private String startNodeNum;
     private String endNodeNum;
 
+    private Boolean status;
+
     @Builder
     public Bus(Long id, Long memberId, String routeId, String routeNo, String routeType,
-               String startNodeNum, String endNodeNum ) {
+               String startNodeNum, String endNodeNum) {
         this.id = id;
         this.memberId = memberId;
         this.routeId = routeId;
