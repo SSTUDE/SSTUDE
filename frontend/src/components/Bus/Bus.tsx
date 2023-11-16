@@ -14,25 +14,24 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
   const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
 
-  const { busStop, busRealTime, loading } = useSelector(
+  const { busStop, busSave, busRealTime, loading } = useSelector(
     (state: RootState) => state.bus,
     shallowEqual
   );
 
   useEffect(() => {
-    //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
     dispatch(busRealTimeForServer())
 
-    // const id = setInterval(() => {
-    // dispatch(busRealTimeForServer())
-    // }, 30000);
+    const id = setInterval(() => {
+    dispatch(busRealTimeForServer())
+    }, 30000);
 
-    // setIntervalId(id);
+    setIntervalId(id);
 
-    // return () => {
-    //   if (intervalId) clearInterval(intervalId);
-    // };
-  }, [dispatch]);
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [dispatch,busStop,busSave]);
 
   const formatTime = (seconds: number): number => {
     return Math.floor(seconds / 60);
@@ -48,7 +47,10 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
     } else if (busStop && !busRealTime) {
       return <Message>현재 도착 정보가 없습니다.</Message>;
     } else if (sortedBusRealTime && sortedBusRealTime.length > 0) {
-      const firstFourBusTimes = sortedBusRealTime.slice(0, 4);
+      const filteredBusRealTime = sortedBusRealTime.filter(bus => 
+        busSave.includes(bus.routeId)
+      );
+      const firstFourBusTimes = filteredBusRealTime.slice(0, 4);
       return (
         <BusInfoList>
           {firstFourBusTimes.map((bus: BusRealTimeData, index: number) => (

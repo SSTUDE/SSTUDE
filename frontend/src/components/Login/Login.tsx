@@ -11,23 +11,14 @@ import styled, { keyframes } from 'styled-components';
 import { signInUser, signUpUser } from "./LoginSlice";
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import { saveBusListForServer, saveBusStopForServer } from "../Bus/BusSlice";
 
 const Login = () => {
-  console.log("0 - 렌더링")
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
-  const [isLogoClickable, setIsLogoClickable] = useState(true);
-  const showAlert = useCustomAlert();
   const navigate = useNavigate()
-
-
-  const handleClick = () => {
-    showAlert({
-      icon: 'success',
-      title: '',
-      html: '',
-    });
-  };
+  const showAlert = useCustomAlert();
+  const [isLogoClickable, setIsLogoClickable] = useState(true);
 
   //NOTE - 로고 클릭
   const handleLogoClick = () => {
@@ -35,7 +26,6 @@ const Login = () => {
     setIsLogoClickable(false);
     const audio = new Audio(sounds.main.blop);
     audio.play();
-    console.log("회원가입 시도")
     loginClick()
     setTimeout(() => {
       setIsLogoClickable(true);
@@ -45,8 +35,6 @@ const Login = () => {
   // NOTE - 회원가입
   const SignClick = () => {
     const message = { type: "signUp", data: "" };
-    console.log("회원가입 - 라즈베리로 { type:signUp, data: } 전송 ")
-
     showAlert({
       icon: 'info',
       title: '회원가입 중입니다... \n 얼굴을 중앙에 위치해 주세요.',
@@ -54,62 +42,49 @@ const Login = () => {
     });
     sendMessage(message)
       .then((response: any) => {
-        console.log("회원가입 - 웹소켓 응답 받았고 서버로 전송");
-        dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+    dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
 
-        console.log("회원가입 - 응답 받음:", response);
-        console.log(" !!!!! 회원가입 성공 !!!!!")
-        console.log("회원가입 완료후 로그인 시도")
-
-        Swal.close();
-        showAlert({
-          icon: 'success',
-          title: '회원가입 완료, 로그인이 진행됩니다.',
-        });
-
-        setTimeout(() => { loginClick(); }, 1000);
-
-      })
-      .catch(error => {
-        console.log(error)
-        console.error("회원가입 - 메시지 전송에 실패했습니다:", error);
-      });
+    Swal.close();
+    showAlert({
+      icon: 'success',
+      title: '회원가입 완료, 로고를 눌러주세요.',
+    });
+    setTimeout(() => { loginClick(); }, 1000);
+    })
+    .catch((error: Error) => {
+      console.log(error)
+    });
   }
 
   //NOTE - 로그인
   const loginClick = () => {
     const message = { type: "signIn", data: "" };
-    console.log("로그인 - 라즈베리로 { type:signIn, data: } 전송 ")
     sendMessage(message)
-      .then((response: any) => {
-        //NOTE - 등록되지 않은 유저
-        if (response.data.userInfo === "unKnown") {
-          showAlert({
-            icon: 'info',
-            title: '등록된 유저가 아닙니다. \n 회원가입이 진행됩니다',
-          });
-          SignClick()
-        } else {
-          //NOTE - 등록된 유저
-          console.log("로그인 - 웹소켓 응답 받았고 서버로 전송");
-          dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
-          console.log("로그인 - 응답 받음:", response);
-          console.log(" !!!!! 로그인 성공 !!!!!")
-          showAlert({
-            icon: 'success',
-            title: '로그인 완료',
-          });
-          navigate("/mirror")
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        console.error("로그인 - 메시지 전송에 실패했습니다:", error);
-        showAlert({
-          icon: 'error',
-          title: '로그인 실패. 다시 시도해주세요',
-        });
-      });
+    .then((response: any) => {
+    if (response.data.userInfo === "unKnown") {
+    showAlert({
+      icon: 'info',
+      title: '등록된 유저가 아닙니다. 회원가입해 주세요',
+    });
+    SignClick()
+    } else {
+    dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+    showAlert({
+      icon: 'success',
+      title: '로그인 완료',
+    });
+    dispatch(saveBusStopForServer())
+    dispatch(saveBusListForServer())
+    navigate("/mirror")
+  }
+  })
+  .catch((error: Error) => {
+    console.log(error)
+    showAlert({
+      icon: 'error',
+      title: '로그인 실패. 다시 시도해주세요',
+    });
+  });
   }
 
   return (
@@ -120,7 +95,6 @@ const Login = () => {
         onClick={handleLogoClick}
       />
       <Btn onClick={() => SignClick()}>회원가입</Btn>
-      <Btn onClick={() => loginClick()}>로그인</Btn>
     </Wrap>
   );
 };
@@ -166,6 +140,9 @@ const StyledImage = styled.img`
 `;
 
 const Btn = styled.p`
+  position: absolute;
+  bottom: 20%;
+  right: 10%;
   padding: 10px 20px;
   font-size: 3em;
   font-weight: bold;

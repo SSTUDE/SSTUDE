@@ -1,4 +1,3 @@
-import MirrorMap from "../components/Main/MirrorMap";
 import Mirror from "../components/Main/Mirror";
 import Test from "../components/Test/Test";
 import TestMain from "../components/Test/TestMain";
@@ -25,7 +24,7 @@ import TodayHealthData from "../components/Health/TodayHealthData";
 const routes = [
   {
     path: "/",
-    Component: MirrorMap,
+    Component: Login,
   },
 
   {
@@ -92,11 +91,6 @@ const routes = [
     // 진단 중 로딩창
     path: "/personalloading",
     Component: DiagnosisLoading,
-  },
-  // 의상 진단 결과창
-  {
-    path: "/personalclothesResults",
-    Component: ClothesResults,
   },
   // 삼성 헬스
   {

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.sstude.account.jasypt.JasyptTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-11-07T00:49:55" hostname="DESKTOP-1JVI7QI" time="0.096">
-  <properties/>
-  <testcase name="jasyptTest()" classname="com.sstude.account.jasypt.JasyptTest" time="0.096"/>
-  <system-out><![CDATA[Enc : SwKfL2NcG9o7brplw9slLw==, Dec: 712412
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

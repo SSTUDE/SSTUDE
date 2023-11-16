@@ -3,32 +3,25 @@ import React, { useRef } from "react";
 import ErrorCircle from "./ErrorCircle";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { images } from "../../../constants/images";
 
 // 모달 컨테이너
 const StyledModalContainer = styled.div`
   overflow: auto;
   z-index: 1;
-
   position: fixed;
   left: 0;
   top: 0;
-
   width: 100%;
-  /* height: 100%; */
-
   background-color: rgba(0, 0, 0, 0.4);
 `;
 
 // 모달 컨텐츠 Div
 const StyledModalContent = styled.div`
   background-color: #fefefe;
-
   margin: 20% auto;
   padding: 20px;
   width: 55%;
   height: 40vh;
-
   border: none;
 `;
 
@@ -37,7 +30,6 @@ const StyledCloseButton = styled.span`
   position: relative;
   top: -30px;
   float: right;
-
   color: #aaa;
   font-size: 5rem;
   font-weight: bold;
@@ -54,9 +46,7 @@ const StyledCloseButton = styled.span`
 const ErrorMessage = styled.div`
   position: relative;
   top: 110px;
-
   margin: 4%;
-
   font-family: "Giants-Bold";
   color: black;
   font-size: 2rem;
@@ -67,12 +57,9 @@ const ErrorMessage = styled.div`
 const StyledPersonalColorCaptureButton = styled.button`
   position: relative;
   top: 100px;
-
   width: 100%;
-
   border: none;
   background-color: transparent;
-
   font-size: 1.5rem;
   font-family: "Giants-Bold";
 `;
@@ -92,13 +79,10 @@ const ErrorModal: React.FC<IErrorModalProps> = ({
   const navigate = useNavigate();
 
   const handleCloseOnOverlay = (e: React.MouseEvent) => {
-    console.log(e);
     if (
       modalContentRef.current &&
       !modalContentRef.current.contains(e.target as Node)
-      // contains 메서드는 HTMLElement의 메서드
-      // e.target이 실제로 DOM 요소임을 전달
-      // as Node를 사용 -> e.target을 명시적으로 Node 타입으로 캐스팅
+
     ) {
       onClose();
     }
@@ -106,8 +90,7 @@ const ErrorModal: React.FC<IErrorModalProps> = ({
 
   // 퍼스널 컬러 진단으로 보내는 이벤트
   const handlePersonalColorCapture = () => {
-    // navigate("/personalselectpersonal"); 이걸로 교체하기
-    navigate("/personalselectclothes");
+    navigate("/personalselectpersonal");
   };
 
   if (!isOpen) return null;

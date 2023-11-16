@@ -1,17 +1,14 @@
-import axios from "axios";
-import React, { useEffect, useState, useCallback } from "react";
 import { styled } from "styled-components";
-import DiagnosisLoading from "../DiagnosisLoading";
 import MainButton from "../../Main/MainButton";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../store/store";
 import { useNavigate } from "react-router-dom";
-import { PersonalCalender } from "../../Main/PersonalSlice";
 import { images } from "../../../../constants/images";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useCallback } from "react";
+import { AppDispatch, RootState } from "../../../../store/store";
+import { PersonalCalender, PersonalClothesResults } from "../../Main/PersonalSlice";
 
 // 페이지 전체 컨테이너
 const StyledContainer = styled.div`
-  /* overflow: hidden; */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -22,9 +19,7 @@ const StyledContainer = styled.div`
 const StyledTitle = styled.p`
   display: flex;
   justify-content: center;
-
   margin: 1.5% 0;
-
   font-size: 4rem;
   font-family: "Giants-Bold";
 `;
@@ -34,15 +29,12 @@ const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
   top: 5.9%;
-
   width: 104px;
   height: 104px;
   padding: 0;
-
   background-color: #4f4f4f;
   border: 2px solid white;
   border-radius: 15%;
-
   cursor: pointer;
 `;
 
@@ -78,16 +70,13 @@ const StyledEmptyContainer = styled.article``;
 const StyledImgContainer1 = styled.img<StyledComponentProps>`
   position: relative;
   top: 40px;
-
   width: 48vh;
   height: 64vh;
   margin: 0;
   max-width: 100%;
   max-height: 100%;
-
   object-fit: cover;
   object-position: top;
-
   border-radius: 20px;
   box-shadow: 0 0 60px 30px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.5)};
@@ -99,11 +88,9 @@ const StyledCurScoreContainer1 = styled.article`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 50vh;
   height: 65vh;
   margin: 0;
-
   gap: 30px;
 `;
 // 현재 점수 제목1
@@ -150,14 +137,11 @@ const StyledAfterScoreTitle2 = styled.h1`
 // 현재 사진2
 const StyledCurImg2 = styled.img<StyledComponentProps>`
   position: relative;
-
   width: 48vh;
   height: 64vh;
   margin: 0;
-
   object-fit: cover;
   object-position: top;
-
   border-radius: 20px;
   box-shadow: 0 0 35px 10px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.6)};
@@ -185,14 +169,11 @@ const StyledBeforeScoreTitle2 = styled.h1`
 // 이전 사진2
 const StyledPrevImg2 = styled.img<StyledComponentProps>`
   position: relative;
-
   width: 48vh;
   height: 64vh;
   margin: 0;
-
   object-fit: cover;
   object-position: top;
-
   border-radius: 20px;
   box-shadow: 0 0 35px 15px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.6)};
@@ -234,59 +215,39 @@ type StyledComponentProps = {
 };
 
 const ClothesResults = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const clothesResults = useSelector((state: RootState) => state.personal.clothesResults);
   const [isLoading, setIsLoading] = useState(true);
   const [isSingleResult, setIsSingleResult] = useState(true);
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const { clothesResults } = useSelector((state: RootState) => state.personal);
-  clothesResults?.forEach((result) => {
-    console.log("의상 유저 이미지 넘어오나요?", result.imguri);
-  });
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      if (clothesResults && clothesResults.length >= 2) {
-        setIsSingleResult(false);
+    const fetchData = async () => {
+      const clothesResults = await dispatch(PersonalClothesResults()).unwrap();
+      if (clothesResults) {
+        setIsLoading(false);
+        setIsSingleResult(clothesResults.length < 2);
       }
-    }, 3000);
-    return () => clearTimeout(timer);
+    };
+    fetchData();
   }, []);
 
   const handleCalenderClick = async () => {
     const response = await handlePersonalCalender();
-    navigate("/personalmain", { state: { diagnosisData: response } });
+    navigate('/personalmain', { state: { diagnosisData: response } });
   };
-
-  // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
-    // const currentDate = new Date();
-    // const year = currentDate.getFullYear();
-    // const month = currentDate.getMonth() + 1;
-    const data = {
-      // year: year,
-      // month: month,
-      year: 2023,
-      month: 11,
-    };
     try {
-      console.log("try 뜨나요");
-      const res = await dispatch(PersonalCalender(data)).unwrap();
-      console.log("결과는요?", res);
-      if (res) {
-        // dispatch(setMemberId(res.memberId));
-        return res;
-      }
+      const res = await dispatch(PersonalCalender()).unwrap();
+      return res;
     } catch (e) {
-      console.error("Failed to fetch calendar data:", e);
     }
   }, [dispatch]);
 
   return (
     <StyledContainer>
       {isLoading ? (
-        <DiagnosisLoading />
+        <></>
       ) : (
         <>
           <MainButton />
@@ -305,7 +266,7 @@ const ClothesResults = () => {
                 }
                 shadowColor={getScoreColor(
                   clothesResults && clothesResults[0]
-                    ? clothesResults[0].score
+                    ? Math.floor(clothesResults[0].score)
                     : null
                 )}
               />
@@ -320,7 +281,7 @@ const ClothesResults = () => {
                 >
                   {clothesResults && clothesResults[0] ? (
                     <>
-                      <span>{clothesResults[0].score}</span>
+                      <span>{Math.floor(clothesResults[0].score)}</span>
                       <span style={{ color: "white", fontSize: "3.5rem" }}>
                         점
                       </span>
@@ -360,7 +321,7 @@ const ClothesResults = () => {
                   {clothesResults && clothesResults[0] ? (
                     <>
                       <span style={{ fontSize: "3rem" }}>
-                        {clothesResults[0].score}
+                        {Math.floor(clothesResults[0].score)}
                       </span>
                       <span style={{ color: "white", fontSize: "2.5rem" }}>
                         {" "}
@@ -398,7 +359,7 @@ const ClothesResults = () => {
                   {clothesResults && clothesResults[1] ? (
                     <>
                       <span style={{ fontSize: "3rem" }}>
-                        {clothesResults[1].score}
+                        {Math.floor(clothesResults[1].score)}
                       </span>
                       <span style={{ color: "white", fontSize: "2.5rem" }}>
                         {" "}

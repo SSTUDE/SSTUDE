@@ -1,21 +1,22 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getAirQualityData } from '../apis/api'; 
-import { AirQualityResponse, AirQualityCustom } from '../components/Weather/types'
+import { getAirQualityData } from "../apis/api";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  AirQualityResponse,
+  AirQualityCustom,
+} from "../components/Weather/types";
 
-// 함수 호출
 export const fetchAirQualityData = createAsyncThunk(
-  'airQuality/fetchData',
-  async (params: { sidoName: string | null; }, thunkAPI) => {
+  "airQuality/fetchData",
+  async (params: { sidoName: string | null }, thunkAPI) => {
     try {
       const response = await getAirQualityData({
         returnType: "JSON",
         numOfRows: 1000,
         pageNo: 1,
         sidoName: params.sidoName,
-        ver: '1.3'
+        ver: "1.3",
       });
 
-      // 필요한 데이터만 포매팅
       const FormatData = response.map((item: AirQualityResponse) => ({
         dataTime: item.dataTime,
         mangName: item.mangName,
@@ -28,15 +29,15 @@ export const fetchAirQualityData = createAsyncThunk(
         pm10Grade: item.pm10Grade,
         pm10Value24: item.pm10Value24,
       })) as AirQualityCustom[];
-      return FormatData 
-
+      return FormatData;
     } catch (error) {
-      return thunkAPI.rejectWithValue('단기 예보 데이터를 가져오는 데 실패했습니다.');
+      return thunkAPI.rejectWithValue(
+        "단기 예보 데이터를 가져오는 데 실패했습니다."
+      );
     }
   }
 );
 
-// 초기 상태 정의
 const initialState = {
   data: [] as AirQualityCustom[],
   loading: false,
@@ -44,7 +45,7 @@ const initialState = {
 };
 
 const AirQuality = createSlice({
-  name: 'airQuality',
+  name: "airQuality",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -58,7 +59,9 @@ const AirQuality = createSlice({
       })
       .addCase(fetchAirQualityData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || '미세 먼지 데이터를 불러오는 데 실패했습니다.';
+        state.error =
+          action.error.message ||
+          "미세 먼지 데이터를 불러오는 데 실패했습니다.";
       });
   },
 });

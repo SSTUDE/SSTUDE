@@ -1,19 +1,18 @@
 
-import React, { useEffect, useState, useCallback } from "react";
-import { styled } from "styled-components";
+import Palette from "./Palette";
 import ResultsImg from "./ResultsImg";
 import ResultsInfo from "./ResultsInfo";
-import Palette from "./Palette";
-import { useDispatch, useSelector } from "react-redux";
-import { PersonalCalender } from "../../Main/PersonalSlice";
+import { useDispatch } from "react-redux";
+import { styled } from "styled-components";
 import { useNavigate } from "react-router";
 import MainButton from "../../Main/MainButton";
 import DiagnosisLoading from "../DiagnosisLoading";
 import { AppDispatch } from "../../../../store/store";
+import { PersonalCalender } from "../../Main/PersonalSlice";
+import React, { useEffect, useState, useCallback } from "react";
 import { PersonalBeautyResults } from "../../Main/PersonalSlice";
 
 const StyledContainer = styled.div`
-  /* overflow: hidden; */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -24,9 +23,7 @@ const StyledContainer = styled.div`
 const StyledTitle = styled.p`
   display: flex;
   justify-content: center;
-
   margin: 1.5% 0;
-
   font-size: 4rem;
   font-family: "Giants-Bold";
 `;
@@ -34,10 +31,8 @@ const StyledTitle = styled.p`
 // 사진 + 설명 결과 컨테이너
 const StyledResultsContainer = styled.section`
   display: flex;
-
   position: relative;
   right: -25%;
-
   width: 75%;
   height: 65vh;
 `;
@@ -47,15 +42,12 @@ const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
   top: 5.9%;
-
   width: 104px;
   height: 104px;
   padding: 0;
-
   background-color: #4f4f4f;
   border: 2px solid white;
   border-radius: 15%;
-
   cursor: pointer;
 `;
 
@@ -85,14 +77,20 @@ const PersonalColorResults = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  const data = dispatch(PersonalBeautyResults({ date: "2023-11-14" }));
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const date = `${year}-${month}-${day}`;
+
+  dispatch(PersonalBeautyResults({ date: date }));
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 5000);
 
-    return () => clearTimeout(timer); // 컴포넌트 unmount시 타이머 해제
+    return () => clearTimeout(timer); 
   }, []);
 
   const handleCalenderClick = async () => {
@@ -102,21 +100,9 @@ const PersonalColorResults = () => {
 
   // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
-    // const currentDate = new Date();
-    // const year = currentDate.getFullYear();
-    // const month = currentDate.getMonth() + 1;
-    const data = {
-      // year: year,
-      // month: month,
-      year: 2023,
-      month: 11,
-    };
     try {
-      console.log("try 뜨나요");
-      const res = await dispatch(PersonalCalender(data)).unwrap();
-      console.log("결과는요?", res);
+      const res = await dispatch(PersonalCalender()).unwrap();
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -130,7 +116,7 @@ const PersonalColorResults = () => {
         <DiagnosisLoading />
       ) : (
         <>
-          <MainButton  />
+          <MainButton />
           <StyledTitle>진단 결과</StyledTitle>
           <MainButton />
           <StyledCalenderButton onClick={handleCalenderClick}>

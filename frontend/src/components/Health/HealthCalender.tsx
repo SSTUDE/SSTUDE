@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useCallback } from "react";
-import DatePicker from "react-datepicker";
 import "./Calender.css";
-import { enGB } from "date-fns/esm/locale";
-import MainButton from "../Personal/Main/MainButton";
 import PrevHealth from "./PrevHealth";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { healthPrevData } from "./HealthSlice";
-import { images } from "../../constants/images";
+import DatePicker from "react-datepicker";
+import { enGB } from "date-fns/esm/locale";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { images } from "../../constants/images";
+import MainButton from "../Personal/Main/MainButton";
 import { useCustomAlert } from "../../hooks/useAlert";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import { healthPrevData, healthTodayData } from "./HealthSlice";
+import React, { useEffect, useState, useCallback } from "react";
 
 // 오늘 헬스 데이터로 이동하기 위한 아이콘
 const StyledTodayHealthDataButton = styled.button`
@@ -52,51 +52,71 @@ const TodayIcon = () => (
 );
 
 const HealthCalender: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [currentComponent, setCurrentComponent] = useState("HealthCalendar");
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { calendarData } = useSelector((state: RootState) => state.health);
-  const [healthData, setHealthData] = useState<any>(null);
   const [day, setDay] = useState("");
-  const navigate = useNavigate();
+  const [healthData, setHealthData] = useState<any>(null);
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [currentComponent, setCurrentComponent] = useState("HealthCalendar");
 
   const handlTodayHealthDataClick = () => {
+    handleHealthTodayData();
     navigate("/healthmain");
   };
 
   // 알림창
   const showAlert = useCustomAlert();
 
-  const handlePrevDetailData = useCallback(async () => {
-    const data = {
-      year: 2023,
-      month: 11,
-      day: 13,
-    };
-    console.log("이전 헬스 데이터 날짜 불러지나요?", data);
-    const actionResult = await dispatch(healthPrevData(data));
-    const res = actionResult.payload;
-    if (res) {
-      setHealthData(res);
-    }
-  }, [dispatch]);
-
   const handleDayClick = async (dateStr: string) => {
     if (calendarData?.dates.includes(dateStr)) {
       setDay(dateStr);
+      const dateParts = dateStr.split("-");
+      setStartDate(
+        new Date(
+          parseInt(dateParts[0]),
+          parseInt(dateParts[1]) - 1,
+          parseInt(dateParts[2])
+        )
+      );
       await handlePrevDetailData();
       setCurrentComponent("PrevHealth");
     } else {
       setCurrentComponent("HealthCalendar");
     }
-    console.log(currentComponent);
   };
+
+  const handlePrevDetailData = useCallback(async () => {
+    const data = {
+      year: startDate.getFullYear(),
+      month: startDate.getMonth() + 1,
+      day: startDate.getDate(),
+    };
+    const actionResult = await dispatch(healthPrevData(data));
+    const res = actionResult.payload;
+    if (res) {
+      setHealthData(res);
+    }
+  }, [dispatch, startDate]);
 
   useEffect(() => {
     if (currentComponent === "PrevHealth" && day) {
       handlePrevDetailData();
     }
   }, [currentComponent, day, handlePrevDetailData]);
+
+  // 오늘 헬스 데이터(헬스 메인) 호출
+  const handleHealthTodayData = useCallback(async () => {
+    try {
+      const res = await dispatch(healthTodayData()).unwrap();
+      if (res) {
+        // dispatch(setMemberId(res.memberId));
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
 
   return (
     <>
@@ -135,7 +155,7 @@ const HealthCalender: React.FC = () => {
                 (date.getMonth() + 1)
               ).slice(-2)}-${("0" + date.getDate()).slice(-2)}`;
               const isDateInList = calendarData?.dates.includes(dateStr);
-              
+
               return (
                 <>
                   <div>{day}</div>
@@ -199,6 +219,7 @@ const HealthCalender: React.FC = () => {
         <PrevHealth
           healthData={healthData}
           setCurrentComponent={setCurrentComponent}
+          selectedDate={startDate.toISOString()}
         />
       )}
     </>
