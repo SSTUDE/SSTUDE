@@ -15,8 +15,7 @@ const ContentButton = styled.button<ButtonProps>`
   cursor: pointer;
   font-size: 1.5rem;
   font-family: "Giants-Bold";
-  color: ${(props) => (props.isActive ? "#000000" : "#ffffff")};
-
+  color: ${(props) => (props.isActive ? "#000000" : "#7f7c7c")};
   background-color: transparent;
   border: none;
 

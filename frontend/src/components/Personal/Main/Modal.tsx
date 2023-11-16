@@ -153,11 +153,7 @@ type ModalContainerProps = {
   backgroundColor: string;
 };
 
-const Modal: React.FC<ModalProps> = ({
-  activeButton,
-  onClose,
-  selectedDate,
-}) => {
+const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
   // const navigate = useNavigate();
   const { beauty } = useSelector((state: RootState) => state.personal); // Redux에서 beauty 객체를 가져옵니다.
 
@@ -174,8 +170,8 @@ const Modal: React.FC<ModalProps> = ({
     ? "linear-gradient(270deg, #ebb7a2, #fc9898, #e1665b)"
     : containsCool(beauty?.result)
     ? "linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb)"
-    : "white"; // 기본값
-
+    : "linear-gradient(270deg, #ffffff, #ffffff, #ffffff)";
+    
   const [currentView, setCurrentView] = useState("personalColor");
 
   const handleClickPersonalColor = () => {
