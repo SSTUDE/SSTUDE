@@ -6,7 +6,7 @@ import MainButton from '../Personal/Main/MainButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store/store';
 import React, { useEffect, useRef, useState } from 'react';
-import { busStopToServer, gpsToServer, setBusStop } from './BusSlice';
+import { busStopSaveToServer, busStopToServer, gpsToServer, setBusStop } from './BusSlice';
 
 const KakaoMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -73,6 +73,7 @@ const KakaoMap = () => {
     if (selectedStation) {
       dispatch(setBusStop(selectedStation));
       dispatch(busStopToServer(selectedStation));
+      dispatch(busStopSaveToServer(selectedStation));
       navigate('/buslist');
     }
   };
@@ -87,7 +88,7 @@ const KakaoMap = () => {
       <MapDiv ref={mapRef} />
       <StationList>
         <Pagination>
-          <PageButton onClick={filterBus} isActive={!!selectedStation}>
+          <PageButton onClick={filterBus} $isActive={!!selectedStation}>
             버스 목록</PageButton>
         </Pagination>
         <Pagination>
@@ -143,11 +144,11 @@ const Pagination = styled.div`
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 `;
 
-const PageButton = styled.p<{ isActive?: boolean }>`
+const PageButton = styled.p<{ $isActive?: boolean }>`
   padding: 15px 30px;
   margin: 5px;
-  background-color: ${(props) => (props.isActive ? '#94c9e4' : 'white')};
-  color: ${(props) => (props.isActive ? 'black' : 'black')};
+  background-color: ${(props) => (props.$isActive ? '#94c9e4' : 'white')};
+  color: ${(props) => (props.$isActive ? 'black' : 'black')};
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;

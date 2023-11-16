@@ -11,6 +11,7 @@ import styled, { keyframes } from 'styled-components';
 import { signInUser, signUpUser } from "./LoginSlice";
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import { saveBusListForServer, saveBusStopForServer } from "../Bus/BusSlice";
 
 const Login = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
@@ -72,6 +73,8 @@ const Login = () => {
       icon: 'success',
       title: '로그인 완료',
     });
+    dispatch(saveBusStopForServer())
+    dispatch(saveBusListForServer())
     navigate("/mirror")
   }
   })

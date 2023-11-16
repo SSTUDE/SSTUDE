@@ -84,7 +84,6 @@ const HealthCalender: React.FC = () => {
     } else {
       setCurrentComponent("HealthCalendar");
     }
-    console.log(currentComponent);
   };
 
   const handlePrevDetailData = useCallback(async () => {
