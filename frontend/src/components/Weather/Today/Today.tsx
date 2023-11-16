@@ -1,10 +1,10 @@
 import React from 'react'
-import SkyToday from './SkyToday';
 import styled from 'styled-components';
-import { WeatherDataCustom } from '../types';
-import { ReactComponent as Wind } from '../../../assets/images/Wind.svg';
 import { ReactComponent as Humidity } from '../../../assets/images/humidity.svg';
 import { ReactComponent as Umbrella } from '../../../assets/images/umbrella.svg';
+import { ReactComponent as Wind } from '../../../assets/images/Wind.svg';
+import { WeatherDataCustom } from '../types';
+import SkyToday from './SkyToday';
 
 type TodayProps = {
   NowDatas: WeatherDataCustom[];
@@ -13,31 +13,31 @@ type TodayProps = {
 const Today: React.FC<TodayProps> = ({ NowDatas }) => {
   return (
     <Container>
-      <LeftTop>
-        <SvgContainer>
-          <SkyToday NowDatas={NowDatas} />
-        </SvgContainer>
-        <SvgContainer>
-          <UmbSvg />
-          <div>
-            <span>{NowDatas[5].fcstValue}%</span>
-            <span>{NowDatas[5].fcstTime.slice(0, 2)}시</span>
-          </div>
-        </SvgContainer>
-        <SvgContainer>
-          <HumSvg />
-          <div>
-            <span>{NowDatas[1].fcstValue}%</span>
-          </div>
-        </SvgContainer>
-        <SvgContainer>
-          <WindSvg />
-          <div>
-            <span>{NowDatas[2].fcstValue}</span>
-            <span>m/s</span>
-          </div>
-        </SvgContainer>
-      </LeftTop>
+        <LeftTop>
+          <SvgContainer>
+            <SkyToday NowDatas={NowDatas}/>
+          </SvgContainer>
+          <SvgContainer>
+            <UmbSvg/>
+            <div>
+                <span>{NowDatas[5].fcstValue}%</span>
+                <span>{NowDatas[5].fcstTime.slice(0, 2)}시</span>
+            </div>
+          </SvgContainer>
+          <SvgContainer>
+            <HumSvg/>
+            <div>
+                <span>{NowDatas[1].fcstValue}%</span>
+            </div>
+          </SvgContainer>
+          <SvgContainer>
+            <WindSvg/>
+            <div>
+                <span>{NowDatas[2].fcstValue}</span>
+                <span>m/s</span>
+            </div>
+          </SvgContainer>
+        </LeftTop>
     </Container>
   )
 }
@@ -97,5 +97,6 @@ const UmbSvg = styled(Umbrella)`
   width: 130px;
   height: 130px;
 `
+
 
 export default Today

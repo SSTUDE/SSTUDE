@@ -1,13 +1,14 @@
 // 진단 종류 고르는 Page
-import React, { useEffect } from "react";
+import useWebcam from "../../../hooks/useWebCam";
+import ErrorModal from "./ErrorModal";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
-import useWebcam from "../../../hooks/useWebCam";
 import { RootState } from "../../../store/store";
+import React, { useState, useEffect } from "react";
 import { RASPBERRY_URL } from "../../../apis/constants";
-// import { useWebSocket } from "../../../hooks/useWebSocket";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 
 // 진단 컨텐츠 고르는 전체 컨테이너s
 const StyledContainer = styled.section`
@@ -20,6 +21,7 @@ const StyledContainer = styled.section`
 const StyledTitle = styled.h1`
   font-family: "Giants-Bold";
   font-size: 4rem;
+
   margin: 1.5% 0;
 `;
 
@@ -28,17 +30,25 @@ const StyledButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+
   margin-top: 15vw;
+
   width: 100%;
+  /* height: 100vh; */
 `;
 
 // 카메라 버튼
 const StyledCameraButton = styled.button`
   position: relative;
+  /* right: 20%; */
+  /* top: 30%; */
+
   width: 200px;
   height: 200px;
+
   background-color: transparent;
   border: none;
+
   cursor: pointer;
 `;
 
@@ -48,6 +58,7 @@ const StyledPTag = styled.p`
   color: white;
   font-size: 2rem;
   text-align: center;
+
   width: 100%;
 `;
 
@@ -75,39 +86,51 @@ const CameraIcon = () => (
 );
 
 const SelectContents = () => {
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
-  const message = { type: "camera", data: "on" };
-  const navigate = useNavigate();
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const { startWebcam } = useWebcam();
+  const navigate = useNavigate();
   const { finishPersonal } = useSelector((state: RootState) => state.personal);
+  const message = { type: "camera", data: "on" };
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   sendMessage({ type: "camera", data: "off" })
-    // }, 1000);
-  }, [])
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     sendMessage({ type: "camera", data: "off" })
+  //       .then((response: any) => {
+  //         console.log("응답옴: ", response)
+  //       })
+  //       .catch(error => {
+  //         console.log("에러 발생", error);
+  //       });
+  // }, 1000);
+  // }, [])
 
   const handlePersonalCameraClick = () => {
     // sendMessage(message)
     //   .then((response: any) => {
-    setTimeout(() => { startWebcam(); }, 1000);
-    navigate("/personalselectpersonal");
-    // })
-    // .catch(error => {
-    //   console.log("에러 발생", error);
-    // });
+        // console.log("응답옴: ", response)
+        // console.log("카메라 권한 획득")
+        setTimeout(() => { startWebcam(); }, 1000);
+        console.log("카메라 실행, 페이지 이동")
+        navigate("/personalselectpersonal");
+      // })
+      // .catch(error => {
+      //   console.log("에러 발생", error);
+      // });
   };
 
   const handleClothesCameraClick = () => {
-    // sendMessage(message)
-    //   .then((response: any) => {
-    setTimeout(() => { startWebcam(); }, 1000);
-    navigate("/personalselectclothes");
-    // })
-    // .catch(error => {
-    //   console.log("에러 발생", error);
-    // });
-  }
+      // sendMessage(message)
+      //   .then((response: any) => {
+      //     console.log("응답옴: ", response)
+      //     console.log("카메라 권한 획득")
+          setTimeout(() => { startWebcam(); }, 1000);
+          console.log("카메라 실행, 페이지 이동")
+          navigate("/personalselectclothes");
+        // })
+        // .catch(error => {
+        //   console.log("에러 발생", error);
+        // });
+    }
 
   return (
     <StyledContainer>

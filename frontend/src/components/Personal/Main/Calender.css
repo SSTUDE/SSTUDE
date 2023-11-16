@@ -1,17 +1,23 @@
 .test {
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #000000;
+  /* font-family: "TheJamsil5Bold"; */
   font-family: "IAMAPLAYER";
 }
 
 /* 달력 전체 컨테이너 */
 .react-datepicker {
+  /* width: 60%; */
   height: 90vh;
   margin: auto;
   background-color: #000000;
   color: white;
+
+  /* border: 1px white solid;  */
+  /* border: solid 0.1rem; */
   border-radius: 10px;
 }
 
@@ -22,8 +28,8 @@
   background-color: #000000;
   color: white;
   font-size: 2.5rem;
+  /* border: 1px white solid; */
 }
-
 .button {
   margin: 0 50px;
   border: none;
@@ -32,8 +38,9 @@
   font-size: 2.5rem;
   cursor: pointer;
 }
-
-.react-datepicker__header>div {
+.react-datepicker__header > div {
+  /* margin: 20px 0 !important; */
+  /* border-bottom: solid 1px; */
   padding: 20px 0;
   margin: 0 !important;
   border-top: 1px white solid;
@@ -45,7 +52,10 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+
   height: 3vh;
+
+  /* border-bottom: solid 1px; */
 }
 
 /* 요일 */
@@ -56,6 +66,7 @@
 
 /* 주를 전부 담고 있는 컨테이너 */
 .react-datepicker__month {
+  /* width: 60vw; */
   height: 70vh;
   display: flex;
   flex-direction: column;
@@ -63,6 +74,7 @@
   margin: 0;
   margin-top: 100px;
   font-size: 2rem;
+  /* padding: 20px 0; */
 }
 
 /* 한 주 날짜 */
@@ -70,6 +82,7 @@
   display: flex;
   justify-content: space-around;
   color: white;
+  /* border-bottom: solid 1px; */
 }
 
 /* 일자 */

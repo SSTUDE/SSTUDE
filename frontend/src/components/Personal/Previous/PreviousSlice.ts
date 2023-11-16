@@ -10,10 +10,14 @@ export const PersonalClothesyModal = createAsyncThunk(
     data: { year: number; month: number; day: number },
     { rejectWithValue }
   ) => {
+    console.log("요청 데이터: ", data);
     try {
+      console.log("의상 상세보기를 호출해보자");
       const response = await axiosToken.post("/detail/clothes", data);
+      console.log("서버 응답: ", response);
       return response.data;
     } catch (err: unknown) {
+      console.error("에러 발생: ", err);
       return rejectWithValue(
         err instanceof AxiosError ? err.message : "An unexpected error occurred"
       );
@@ -36,7 +40,9 @@ const previousSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(PersonalClothesyModal.pending, (state) => {})
+      .addCase(PersonalClothesyModal.pending, (state) => {
+        // 로딩 상태 처리
+      })
       .addCase(
         PersonalClothesyModal.fulfilled,
         (state, action: PayloadAction<PersonalClothesState[]>) => {
@@ -45,7 +51,9 @@ const previousSlice = createSlice({
       )
       .addCase(
         PersonalClothesyModal.rejected,
-        (state, action: PayloadAction<any>) => {}
+        (state, action: PayloadAction<any>) => {
+          // 에러 처리
+        }
       );
   },
 });

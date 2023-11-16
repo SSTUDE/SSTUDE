@@ -1,13 +1,10 @@
-import { getWeatherData } from "../apis/api";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  WeatherDataCustom,
-  WeatherDataRequest,
-  WeatherDataResponse,
-} from "../components/Weather/types";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getWeatherData } from '../apis/api';
+import { WeatherDataCustom, WeatherDataRequest, WeatherDataResponse } from '../components/Weather/types';
 
+// 비동기 함수 정의
 export const fetchShortData = createAsyncThunk(
-  "weather/fetchShortData",
+  'weather/fetchShortData',
   async (params: WeatherDataRequest, thunkAPI) => {
     try {
       const response = await getWeatherData({
@@ -17,32 +14,34 @@ export const fetchShortData = createAsyncThunk(
         base_date: params.base_date,
         base_time: params.base_time,
         nx: params.nx,
-        ny: params.ny,
+        ny: params.ny
       });
 
+      // 필요한 데이터만 포매팅
       const FormatData = response.map((item: WeatherDataResponse) => ({
         category: item.category,
         fcstDate: item.fcstDate,
         fcstTime: item.fcstTime,
-        fcstValue: item.fcstValue,
+        fcstValue: item.fcstValue
       })) as WeatherDataCustom[];
-      return FormatData;
+      return FormatData 
+
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        "단기 예보 데이터를 가져오는 데 실패했습니다."
-      );
+      return thunkAPI.rejectWithValue('단기 예보 데이터를 가져오는 데 실패했습니다.');
     }
   }
 );
 
+// 초기 상태 정의
 const initialState = {
   data: [] as WeatherDataCustom[],
   loading: false,
   error: null as string | null,
 };
 
+// Slice 정의
 const weatherSlice = createSlice({
-  name: "weather",
+  name: 'weather',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -55,9 +54,7 @@ const weatherSlice = createSlice({
     });
     builder.addCase(fetchShortData.rejected, (state, action) => {
       state.loading = false;
-      state.error =
-        action.error.message ||
-        "단기 날시 예보 데이터를 불러오는 데 실패했습니다.";
+      state.error = action.error.message || '단기 날시 예보 데이터를 불러오는 데 실패했습니다.';
     });
   },
 });

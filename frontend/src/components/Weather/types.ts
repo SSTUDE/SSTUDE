@@ -1,12 +1,12 @@
-export type SFGridItem = {
-  areaCode: string | number;
-  arePt1: string;
-  arePt2: string | null;
-  arePt3: string | null;
-  nX: string | number;
-  nY: string | number;
-  longitude: string | number;
-  latitude: string | number;
+export type SFGridItem ={
+  areaCode: string|number,
+  arePt1: string,
+  arePt2: string |null,
+  arePt3: string |null,
+  nX: string|number,
+  nY: string|number,
+  longitude: string|number,
+  latitude: string|number
 };
 
 // 단기 예보 API 응답 데이터 타입
@@ -22,23 +22,23 @@ export type WeatherDataResponse = {
 };
 
 export type WeatherDataRequest = {
-  base_date: string;
-  base_time: string;
-  nx: number;
-  ny: number;
-};
+  base_date: string, 
+  base_time: string, 
+  nx: number, 
+  ny: number
+}
 
 export type WeatherDataCustom = {
   category: string;
   fcstDate: string;
   fcstTime: string;
   fcstValue: string;
-};
+}
 
 // 중기 육상(강수, 하늘상태) 예보 API 응답 데이터 타입
 export type MidLandForecastResponse = {
   regId: string;
-  [key: string]: number | string;
+  [key: string]: number | string; // 인덱스 시그니처 추가
   rnSt3Am: number;
   rnSt3Pm: number;
   rnSt4Am: number;
@@ -78,7 +78,7 @@ export type MidLandForecastCustom = {
 // 중기 기온 예보 API 응답 데이터 타입(taMin3, taMax3)
 export type MidTempForecastResponse = {
   regId: string;
-  [key: string]: number | string;
+  [key: string]: number | string; // 인덱스 시그니처 추가
   taMin3: number;
   taMin3Low: number;
   taMin3High: number;
@@ -132,7 +132,7 @@ export type MidTempForecastResponse = {
 export type MidTempForecastCustom = {
   taMin: number;
   taMax: number;
-};
+}
 
 // 중기 육상 예보와 중기 기온 예보를 합친 커스텀 타입
 export type MidForecastCombined = {

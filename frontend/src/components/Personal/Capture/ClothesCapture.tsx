@@ -4,13 +4,13 @@ import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
 import useWebcam from "../../../hooks/useWebCam";
 import { AppDispatch } from "../../../store/store";
-import { keyframes, styled } from "styled-components";
-import { RASPBERRY_URL } from "../../../apis/constants";
-import { useCustomAlert } from "../../../hooks/useAlert";
-import { personalClothesToServer } from "./CaptureSlice";
-// import { useWebSocket } from "../../../hooks/useWebSocket";
-import { PersonalClothesResults } from "../Main/PersonalSlice";
 import React, { useCallback, useEffect, useState } from "react";
+import { keyframes, styled } from "styled-components";
+import { personalClothesToServer } from "./CaptureSlice";
+import { useCustomAlert } from "../../../hooks/useAlert";
+import { RASPBERRY_URL } from "../../../apis/constants";
+import { PersonalClothesResults } from "../Main/PersonalSlice";
+import { useWebSocket } from "../../../hooks/useWebSocket";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -23,12 +23,14 @@ const StyledContainer = styled.section`
 const StyledTitle = styled.h1`
   font-family: "Giants-Bold";
   font-size: 4rem;
+
   margin: 1.5% 0;
 `;
 
 // 캡쳐 앵글
 const StyledCaptureAngle = styled.div`
   position: relative;
+  /* margin-top: 40px; */
   width: 50vh;
   height: 65vh;
 `;
@@ -104,6 +106,7 @@ const BottomRight = styled(Corner)`
 // 안내 정보
 const StyledCaptureInfo = styled.p`
   margin-top: 1.5%;
+
   font-family: "Giants-Bold";
   font-size: 2rem;
   color: salmon;
@@ -115,10 +118,13 @@ const StyledCameraButton = styled.button`
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
+
   width: 150px;
   height: 150px;
+
   background-color: transparent;
   border: none;
+
   cursor: pointer;
 `;
 
@@ -160,20 +166,28 @@ const BlinkingCameraIcon = styled(CameraIcon)`
 `;
 
 const ClothesCapture = () => {
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
-  const showAlert = useCustomAlert();
+  const navigate = useNavigate();
   const message = { type: "camera", data: "off" };
   const [isBlinking, setIsBlinking] = useState(false);
+  const showAlert = useCustomAlert();
 
   useEffect(() => {
     const handlePopState = () => {
       stopWebcam();
+      console.log("카메라 종료");
       // setTimeout(() => {
-      //   sendMessage(message)
+        // sendMessage(message)
+      //     .then((response) => {
+      //       console.log("응답옴: ", response);
+      //     })
+      //     .catch(error => {
+      //       console.log("에러 발생", error);
+      //     });
       // }, 1000);
+      console.log("뒤로 가기 실행됨");
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -186,15 +200,27 @@ const ClothesCapture = () => {
   const handleCaptureClick = () => {
     captureImage(async (blob) => {
       if (blob) {
+        console.log("서버로 찍은 사진 전송", blob);
         try {
+          console.log("서버로 요청 전송 중...");
           const data = await dispatch(personalClothesToServer(blob));
+          console.log("서버로부터 응답 받음: ", data);
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
+            console.log("카메라 종료");
             // setTimeout(() => {
             //   sendMessage(message)
+            //     .then((response) => {
+            //       console.log("응답옴: ", response);
+            //     })
+            //     .catch(error => {
+            //       console.log("에러 발생", error);
+            //     });
             // }, 1000);
+            console.log("페이지 이동 준비 완료");
             handleClothesResults();
             navigate("/personalclothesresults");
+            console.info("네비게이트 활동하나요");
           } else if (data.payload.request.status === 500) {
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);
@@ -207,6 +233,7 @@ const ClothesCapture = () => {
             setTimeout(() => setIsBlinking(false), 3000);
           }
         } catch (error) {
+          console.error("서버 전송 중 에러 발생: ", error);
           setIsBlinking(true);
           setTimeout(() => setIsBlinking(false), 3000);
         }
@@ -216,16 +243,26 @@ const ClothesCapture = () => {
 
   const closeCamera = () => {
     stopWebcam();
-    //   setTimeout(() => {
-    //     sendMessage(message)
-    //   }, 1000);
+    console.log("카메라 종료");
+      // setTimeout(() => {
+      //   sendMessage(message)
+      //     .then((response) => {
+      //       console.log("응답옴: ", response);
+      //     })
+      //     .catch(error => {
+      //       console.log("에러 발생", error);
+      //     });
+      // }, 1000);
   };
 
   // 의상 진단 호출
   const handleClothesResults = useCallback(async () => {
     try {
+      console.log("의상 진단 캡쳐 try 뜨나요");
       const res = await dispatch(PersonalClothesResults()).unwrap();
+      console.log("의상 진단 결과는요?", res);
       if (res) {
+        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {

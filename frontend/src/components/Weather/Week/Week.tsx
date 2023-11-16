@@ -1,19 +1,19 @@
 import React from 'react'
-import SkyWeek from './SkyWeek'
 import styled from 'styled-components';
-import { MidForecastCombined } from '../types'
+import {  MidForecastCombined } from '../types'
+import SkyWeek from './SkyWeek'
 
 type WeekProps = {
-  CombinedDatas: MidForecastCombined[];
+  CombinedDatas : MidForecastCombined[];
 }
 
-const Week: React.FC<WeekProps> = ({ CombinedDatas }) => {
-  // 날짜와 요일을 계산하는 함수
-  const getFormattedDate = (addDays: number) => {
+const Week: React.FC<WeekProps> = ({  CombinedDatas }) => {
+   // 날짜와 요일을 계산하는 함수
+   const getFormattedDate = (addDays: number) => {
     const today = new Date();
     const targetDate = new Date(today.setDate(today.getDate() + addDays));
     const day = targetDate.getDate().toString().padStart(2, '0');
-    const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
+    const month = (targetDate.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
 
     // 요일을 계산합니다.
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
@@ -24,6 +24,8 @@ const Week: React.FC<WeekProps> = ({ CombinedDatas }) => {
       weekday,
     };
   };
+
+  // console.log(CombinedDatas);
 
   return (
     <Container>
@@ -41,11 +43,11 @@ const Week: React.FC<WeekProps> = ({ CombinedDatas }) => {
                 </div>
                 <DayContainer>
                   <div>
-                    <SkyWeek skyData={skyAmData} />
+                    <SkyWeek skyData={skyAmData}/>
                     <p>{item.rnStAm}%</p>
                   </div>
                   <div>
-                    <SkyWeek skyData={skyPmData} />
+                    <SkyWeek skyData={skyPmData}/>
                     <p>{item.rnStPm}%</p>
                   </div>
                 </DayContainer>
@@ -69,7 +71,7 @@ const Container = styled.div`
 `
 
 const StyledList = styled.ul`
-  list-style-type: none;
+  list-style-type: none; /* 불릿 제거 */
   display: flex; 
   justify-content: space-around;
   padding: 0;
@@ -92,11 +94,14 @@ const WeatherContainer = styled.div`
     margin: 5px 0px;
   }
   }
+  
+  
 `
 
 const DayContainer = styled.div`
   display: flex;
   justify-content: space-around;
 `
+
 
 export default Week

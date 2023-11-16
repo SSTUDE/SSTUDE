@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+
+import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../Previous/PreviousClothesResults";
 import Header from "./Header";
 
 const Layout = () => {
-  const location = useLocation();
   const [activeButton, setActiveButton] = useState("previouspersonalcolor");
+  const location = useLocation();
 
   useEffect(() => {
     if (location.pathname === "/previouspersonalcolor") {
@@ -20,6 +22,7 @@ const Layout = () => {
         <Routes>
           <Route
             path="/previouspersonalcolor"
+            // element={<PreviousPersonalColorResults />}
           />
           <Route path="/previousclothes" element={<PreviousClothesResults />} />
         </Routes>
