@@ -271,7 +271,7 @@ def getclothesDetail (
                                 "calender": {"$gte": datetime(current_date_time.year, current_date_time.month, current_date_time.day), 
                                             "$lt": datetime(current_date_time.year, current_date_time.month, current_date_time.day, 23, 59, 59, 999999)}}
                                 ,{"_id":0, "score":1, "imguri":1}
-                                ).sort("calender").limit(2)
+                                ).sort("calender",-1).limit(2)
         lst = []
         for r in result:
             lst.append(r)
