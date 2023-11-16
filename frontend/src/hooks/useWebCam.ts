@@ -10,6 +10,7 @@ const useWebcam = () => {
         webcamRef.current.srcObject = stream;
       }
     } catch (err) {
+      console.error("웹캠을 시작하는 데 실패했습니다: ", err);
     }
   }, []);
 
@@ -18,6 +19,8 @@ const useWebcam = () => {
       const canvas = canvasRef.current;
       const video = webcamRef.current;
 
+      console.log("캡처 시작");
+
       if (canvas && video) {
         const context = canvas.getContext("2d");
 
@@ -25,19 +28,25 @@ const useWebcam = () => {
           context.translate(canvas.width, 0);
           context.scale(-1, 1);
 
+          console.log("비디오 프레임을 캔버스에 그리는 중...");
           context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
           context.setTransform(1, 0, 0, 1, 0, 0);
 
+          console.log("캔버스 내용을 Blob으로 변환 중...");
           canvas.toBlob((blob) => {
             if (blob) {
+              console.log("Blob 생성 완료", blob);
               callback(blob);
             } else {
+              console.log("Blob 생성 실패");
             }
           }, "image/png");
         } else {
+          console.log("캔버스의 2D 컨텍스트를 가져오는 데 실패함");
         }
       } else {
+        console.log("캔버스 또는 비디오 요소가 없음");
       }
     },
     [canvasRef, webcamRef]
