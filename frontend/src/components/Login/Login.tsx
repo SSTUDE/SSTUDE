@@ -35,7 +35,7 @@ const Login = () => {
     setIsLogoClickable(false);
     const audio = new Audio(sounds.main.blop);
     audio.play();
-    console.log("회원가입 시도")
+    console.log("로그인 시도")
     loginClick()
     setTimeout(() => {
       setIsLogoClickable(true);
