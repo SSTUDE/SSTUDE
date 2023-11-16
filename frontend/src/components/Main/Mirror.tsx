@@ -19,10 +19,8 @@ const Mirror = () => {
   const [activePage, setActivePage] = useState("bus");
 
   // 위,경도 데이터를 가져온다.
-  const { latitude, longitude } = useSelector((state: RootState) => ({
-    latitude: state.position.latitude,
-    longitude: state.position.longitude,
-  }));
+  const position = useSelector((state: RootState) => state.position);
+  const { latitude, longitude } = position;
 
   useEffect(() => {
     // latitude와 longitude가 숫자인지 문자열인지 확인하여 처리
@@ -108,10 +106,10 @@ const Mirror = () => {
             </Center>
             <Right>
               <PageHeader>
-                <PageButton onClick={() => setActivePage("bus")}>
+                <PageButton onClick={() => setActivePage("bus")} $textColor={TEXT_COLOR}>
                   버스 정보
                 </PageButton>
-                <PageButton onClick={() => setActivePage("weather")}>
+                <PageButton onClick={() => setActivePage("weather")} $textColor={TEXT_COLOR}>
                   날씨 정보
                 </PageButton>
               </PageHeader>
@@ -172,13 +170,17 @@ const PageHeader = styled.div`
   border-bottom: 4px solid #ddddddd2;
 `;
 
-const PageButton = styled.button`
+interface PageButtonProps {
+  $textColor: string;
+}
+
+const PageButton = styled.button<PageButtonProps>`
   padding: 5px 10px;
   margin: 0 5px;
   border: none;
   font-size: 22px;
   background-color: transparent;
-  color: ${TEXT_COLOR};
+  color: ${props => props.$textColor || 'inherit'};
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: "Giants-Bold";

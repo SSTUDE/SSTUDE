@@ -5,7 +5,7 @@ import MainButton from '../Personal/Main/MainButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectedBuses, BusButtonProps } from './types';
 import { AppDispatch, RootState } from '../../store/store';
-import { busRealTimeForServer, setBusSave } from './BusSlice';
+import { busRealTimeForServer, busSaveToServer, setBusSave } from './BusSlice';
 
 const BusList = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +16,7 @@ const BusList = () => {
   const validBusList = Array.isArray(busList)
     ? busList.filter(bus => bus !== undefined)
     : busList ? [busList] : [];
-  
+
 
   const toggleBusSelection = (routeId: string) => {
     setSelectedBuses(prevSelected => ({
@@ -40,18 +40,20 @@ const BusList = () => {
   };
 
   const saveSelection = () => {
-    const selectedRouteIds = Object.keys(selectedBuses).filter(routeid => selectedBuses[routeid]);
-    if (selectedRouteIds.length === 0) {
+    const selectedBusInfo = validBusList.filter(bus => selectedBuses[bus.routeId]);
+    if (selectedBusInfo.length === 0) {
       setErrorMessage("버스를 선택해야 합니다.");
       return;
     }
+    const selectedRouteIds = selectedBusInfo.map(bus => bus.routeId);
     dispatch(setBusSave(selectedRouteIds));
+    dispatch(busSaveToServer(selectedBusInfo));
     dispatch(busRealTimeForServer());
     navigate('/mirror');
   };
 
   return (
-    <BusListContainer>      
+    <BusListContainer>
       <MainButton />
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <Title>
@@ -66,7 +68,7 @@ const BusList = () => {
               onClick={() => toggleBusSelection(bus.routeId)}
             >
               <BusInfo>
-                <BusType>{bus.routeType.replace('버스', '')}</BusType>
+                <BusType>{bus.routeType ? bus.routeType.replace('버스', '') : '미정'}</BusType>
                 <BusNumber>{bus.routeNo}</BusNumber>
               </BusInfo>
             </BusButton>
