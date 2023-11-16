@@ -49,8 +49,11 @@ const BusDetail: React.FC<BusProps> = ({ onClick }) => {
                 <TimeCircle >{formatTime(bus.arrivalTime)}</TimeCircle>
               </TimeIndicator>
               <BusDetails>
-                <BusId>
+              <BusId routeType={bus.routeType}>
+                  <BusNum>
+                  
                 {bus.routeNo} 
+                  </BusNum>
                 <BusIdBun>번</BusIdBun>
                 </BusId>
                 <BusStopCount>
@@ -146,12 +149,24 @@ const BusDetails = styled.div`
   color: white;
 `;
 
-const BusId = styled.div`
+const BusNum = styled.div`
+white-space: nowrap;
+width: auto; 
+`
+
+interface BusIdProps {
+  routeType: string;
+}
+
+const BusId = styled.div<BusIdProps>`
   font-size: 4rem;
   font-weight: bold;
   display: flex;
   align-items: end;
   gap: 10px;
+  color: ${props => props.routeType === '일반버스' ? '#33CC99' : 
+          props.routeType === '좌석버스' ? '#0068b7' : 
+          props.routeType === '광역버스' ? '#e60012' : 'white'};
 `;
 
 const BusIdBun = styled.div`
