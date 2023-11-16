@@ -7,17 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 const CarouselMain = styled.section`
   width: 40vh;
-
   position: relative;
   top: 21%;
-
   margin: 0 auto;
 `;
 
 // 이미지 보이게 하기 위한 더 큰 컨테이너
 const CarouselWrapperContainer = styled.div`
-  /* height: 70%; */
-
   overflow: hidden;
   box-shadow: 0 0 10px 5px black;
 `;
@@ -38,33 +34,8 @@ const CarouselSlide = styled.figure`
 const CarouselImage = styled.img`
   width: 40vh;
   height: 56vh;
-
   object-fit: cover;
-`;
-
-// 버튼 컨테이너
-const CarouselButtonContainer = styled.div`
-  position: absolute;
-  top: 0%;
-  width: 100%;
-`;
-
-// 캐러셀 버튼
-const CarouselButton = styled.button<CarouselButtonProps>`
-  width: 200px;
-  height: 400px;
-  border-radius: 100px;
-  color: #fff;
-  background: transparent;
-  border: none;
-  outline: none;
-  ${({ position }) => position && `position: absolute; ${position}: -100px;`}
-  &:focus {
-    outline: none;
-  }
-  &::-moz-focus-inner {
-    border: 0;
-  }
+  object-position: top;
 `;
 
 // 현재 슬라이드 위치
@@ -90,10 +61,6 @@ const CarouselCircle = styled.div`
   }
 `;
 
-type CarouselButtonProps = {
-  position?: "left" | "right";
-};
-
 const Carousel = () => {
   const dispatch = useDispatch();
   const currentSlide = useSelector(
@@ -104,7 +71,7 @@ const Carousel = () => {
   // 터치 슬라이드
   const [touchStart, setTouchStart] = React.useState(0);
 
-  const { clothesData, CarouselIndex } = useSelector(
+  const { clothesData } = useSelector(
     (state: RootState) => state.previous
   );
   const imageList = clothesData?.map((data) => data.imgUri) || [];
@@ -159,18 +126,20 @@ const Carousel = () => {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {imageList.map((image: string, index: number) => (
-            <CarouselSlide key={index}>
-              <CarouselImage
-                src={image}
-                alt="사진이 없습니다"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = images.personal.errorImg;
-                }}
-              />
-            </CarouselSlide>
-          ))}
+          {(imageList.length > 0 ? imageList : [images.personal.errorImg]).map(
+            (image: string, index: number) => (
+              <CarouselSlide key={index}>
+                <CarouselImage
+                  src={image}
+                  alt="사진이 없습니다"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = images.personal.errorImg;
+                  }}
+                />
+              </CarouselSlide>
+            )
+          )}
         </CarouselWrapper>
       </CarouselWrapperContainer>
 

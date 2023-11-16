@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useCallback } from "react";
-import DatePicker from "react-datepicker";
 import "./Calender.css";
-import { enGB } from "date-fns/esm/locale";
 import Modal from "./Modal";
 import MainButton from "./MainButton";
+import DatePicker from "react-datepicker";
 import CameraButton from "./CameraButton";
-import { useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { enGB } from "date-fns/esm/locale";
+import { useLocation } from "react-router-dom";
+import { images } from "../../../constants/images";
 import { AppDispatch } from "../../../store/store";
 import { PersonalBeautyModal } from "./PersonalSlice";
-import { PersonalClothesyModal } from "../Previous/PreviousSlice";
 import { useCustomAlert } from "../../../hooks/useAlert";
-import { images } from "../../../constants/images";
+import React, { useState, useEffect, useCallback } from "react";
+import { PersonalClothesyModal } from "../Previous/PreviousSlice";
 
 type DiagnosisData = {
   makeup: string[];
@@ -36,36 +36,20 @@ const PersonalCalender: React.FC = () => {
   // 알림창
   const showAlert = useCustomAlert();
 
-  const handleClick = () => {
-    showAlert({
-      icon: "success",
-      title: "",
-      html: "",
-    });
-  };
-
   useEffect(() => {
     setMakeupDates(diagnosisData.makeup || []);
     setClothesDates(diagnosisData.clothes || []);
   }, [diagnosisData]);
 
-  const handleClickClothes = () => {
-    setActiveButton("previousclothes");
-    setIsModalOpen(true);
-  };
-
-  const handlePersonalModal = useCallback(async () => {
+  const handlePersonalModal = useCallback(async (selectedDate: Date) => {
     const data = {
-      year: 2023,
-      month: 11,
-      day: 13,
+      year: selectedDate.getFullYear(),
+      month: selectedDate.getMonth() + 1,
+      day: selectedDate.getDate(),
     };
     try {
-      console.log("try 뜨나요");
       const res = await dispatch(PersonalBeautyModal(data)).unwrap();
-      console.log("결과는요?", res);
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -73,18 +57,15 @@ const PersonalCalender: React.FC = () => {
     }
   }, [dispatch]);
 
-  const handleClothesModal = useCallback(async () => {
+  const handleClothesModal = useCallback(async (selectedDate: Date) => {
     const data = {
-      year: 2023,
-      month: 11,
-      day: 13,
+      year: selectedDate.getFullYear(),
+      month: selectedDate.getMonth() + 1,
+      day: selectedDate.getDate(),
     };
     try {
-      console.log("의상 try 뜨나요");
       const res = await dispatch(PersonalClothesyModal(data)).unwrap();
-      console.log("의상 결과는요?", res);
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -104,8 +85,8 @@ const PersonalCalender: React.FC = () => {
           const isClothesDay = clothesDates.includes(dateStr);
           if (isMakeupDay || isClothesDay) {
             setIsModalOpen(true);
-            handlePersonalModal();
-            handleClothesModal();
+            handlePersonalModal(date);
+            handleClothesModal(date);
           } else {
             showAlert({
               icon: "info",

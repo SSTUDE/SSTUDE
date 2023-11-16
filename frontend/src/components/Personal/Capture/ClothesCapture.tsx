@@ -4,12 +4,13 @@ import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
 import useWebcam from "../../../hooks/useWebCam";
 import { AppDispatch } from "../../../store/store";
-import React, { useEffect, useState } from "react";
 import { keyframes, styled } from "styled-components";
-import { personalClothesToServer } from "./CaptureSlice";
-import { useCustomAlert } from "../../../hooks/useAlert";
 import { RASPBERRY_URL } from "../../../apis/constants";
+import { useCustomAlert } from "../../../hooks/useAlert";
+import { personalClothesToServer } from "./CaptureSlice";
 import { useWebSocket } from "../../../hooks/useWebSocket";
+import { PersonalClothesResults } from "../Main/PersonalSlice";
+import React, { useCallback, useEffect, useState } from "react";
 
 // 전체 컨테이너
 const StyledContainer = styled.section`
@@ -22,14 +23,12 @@ const StyledContainer = styled.section`
 const StyledTitle = styled.h1`
   font-family: "Giants-Bold";
   font-size: 4rem;
-
   margin: 1.5% 0;
 `;
 
 // 캡쳐 앵글
 const StyledCaptureAngle = styled.div`
   position: relative;
-  /* margin-top: 40px; */
   width: 50vh;
   height: 65vh;
 `;
@@ -105,7 +104,6 @@ const BottomRight = styled(Corner)`
 // 안내 정보
 const StyledCaptureInfo = styled.p`
   margin-top: 1.5%;
-
   font-family: "Giants-Bold";
   font-size: 2rem;
   color: salmon;
@@ -117,13 +115,10 @@ const StyledCameraButton = styled.button`
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-
   width: 150px;
   height: 150px;
-
   background-color: transparent;
   border: none;
-
   cursor: pointer;
 `;
 
@@ -162,61 +157,43 @@ const BlinkingCaptureInfo = styled(StyledCaptureInfo)`
 
 const BlinkingCameraIcon = styled(CameraIcon)`
   animation: ${blink} 1s linear infinite;
-  ;`
+`;
 
 const ClothesCapture = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
-  const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
   const navigate = useNavigate();
+  const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
+  const showAlert = useCustomAlert();
   const message = { type: "camera", data: "off" };
   const [isBlinking, setIsBlinking] = useState(false);
-  const showAlert = useCustomAlert();
 
   useEffect(() => {
     const handlePopState = () => {
       stopWebcam();
-      console.log("카메라 종료");
       setTimeout(() => {
         sendMessage(message)
-          .then((response) => {
-            console.log("응답옴: ", response);
-          })
-          .catch(error => {
-            console.log("에러 발생", error);
-          });
       }, 1000);
-      console.log('뒤로 가기 실행됨');
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
   const handleCaptureClick = () => {
     captureImage(async (blob) => {
       if (blob) {
-        console.log("서버로 찍은 사진 전송", blob);
         try {
-          console.log("서버로 요청 전송 중...");
           const data = await dispatch(personalClothesToServer(blob));
-          console.log("서버로부터 응답 받음: ", data);
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
-            console.log("카메라 종료");
             setTimeout(() => {
               sendMessage(message)
-                .then((response) => {
-                  console.log("응답옴: ", response);
-                })
-                .catch(error => {
-                  console.log("에러 발생", error);
-                });
             }, 1000);
-            console.log("페이지 이동 준비 완료");
+            handleClothesResults();
             navigate("/personalclothesresults");
           } else if (data.payload.request.status === 500) {
             setIsBlinking(true);
@@ -230,27 +207,31 @@ const ClothesCapture = () => {
             setTimeout(() => setIsBlinking(false), 3000);
           }
         } catch (error) {
-          console.error("서버 전송 중 에러 발생: ", error);
           setIsBlinking(true);
           setTimeout(() => setIsBlinking(false), 3000);
         }
       }
-    })
-  }
+    });
+  };
 
   const closeCamera = () => {
     stopWebcam();
-    console.log("카메라 종료");
-    setTimeout(() => {
-      sendMessage(message)
-        .then((response) => {
-          console.log("응답옴: ", response);
-        })
-        .catch(error => {
-          console.log("에러 발생", error);
-        });
-    }, 1000);
-  }
+      setTimeout(() => {
+        sendMessage(message)
+      }, 1000);
+  };
+
+  // 의상 진단 호출
+  const handleClothesResults = useCallback(async () => {
+    try {
+      const res = await dispatch(PersonalClothesResults()).unwrap();
+      if (res) {
+        return res;
+      }
+    } catch (e) {
+      console.error("Failed to fetch calendar data:", e);
+    }
+  }, [dispatch]);
 
   return (
     <StyledContainer>
@@ -258,28 +239,37 @@ const ClothesCapture = () => {
       <StyledTitle>의상 진단</StyledTitle>
       <StyledCaptureAngle>
         <StyledVideo ref={webcamRef} autoPlay playsInline />
-        <canvas ref={canvasRef} width="640" height="480" style={{ display: 'none' }}></canvas>
+        <canvas
+          ref={canvasRef}
+          width="640"
+          height="480"
+          style={{ display: "none" }}
+        ></canvas>
         <TopLeft />
         <TopRight />
         <BottomLeft />
         <BottomRight />
         <StyledCameraButton onClick={handleCaptureClick}>
-          {isBlinking ? (
-            <BlinkingCameraIcon />
-          ) : (
-            <CameraIcon />
-          )}
+          {isBlinking ? <BlinkingCameraIcon /> : <CameraIcon />}
         </StyledCameraButton>
       </StyledCaptureAngle>
       {isBlinking ? (
         <>
-          <BlinkingCaptureInfo onClick={closeCamera}>앵글 안에 들어와</BlinkingCaptureInfo>
-          <BlinkingCaptureInfo onClick={closeCamera}>정면을 바라보세요</BlinkingCaptureInfo>
+          <BlinkingCaptureInfo onClick={closeCamera}>
+            앵글 안에 들어와
+          </BlinkingCaptureInfo>
+          <BlinkingCaptureInfo onClick={closeCamera}>
+            정면을 바라보세요
+          </BlinkingCaptureInfo>
         </>
       ) : (
         <>
-          <StyledCaptureInfo onClick={closeCamera}>앵글 안에 들어와</StyledCaptureInfo>
-          <StyledCaptureInfo onClick={closeCamera}>정면을 바라보세요</StyledCaptureInfo>
+          <StyledCaptureInfo onClick={closeCamera}>
+            앵글 안에 들어와
+          </StyledCaptureInfo>
+          <StyledCaptureInfo onClick={closeCamera}>
+            정면을 바라보세요
+          </StyledCaptureInfo>
         </>
       )}
     </StyledContainer>

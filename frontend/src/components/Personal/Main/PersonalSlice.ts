@@ -1,45 +1,26 @@
+import { AxiosError } from "axios";
+import { PersonalState } from "./types";
+import axiosToken, { pythonAxiosToken } from "../../../apis/http-common";
 import {
   ActionReducerMapBuilder,
   PayloadAction,
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import axiosToken, { pythonAxiosToken } from "../../../apis/http-common";
-import { AxiosError } from "axios";
-import { PersonalState } from "./types";
 
-// export const handleAuthentication = async (
-//   url: string,
-//   data: { year: number; month: number },
-//   sendMessage: (message: string) => void
-// ) => {
-//   const response = await axiosToken.post(url, data);
-//   console.log(response);
-//   storageData(response.data.accessToken, sendMessage);
-//   return response.data;
-// };
-
-// export const handleGetAuthentication = async (
-//   url: string,
-//   sendMessage: (message: string) => void
-// ) => {
-//   const response = await axiosToken.get(url);
-//   console.log(response);
-//   storageData(response.data.accessToken, sendMessage);
-//   return response.data;
-// };
+const now = new Date();
+const year = now.getFullYear();
+const month = parseInt((now.getMonth() + 1).toString().padStart(2, "0"), 10);
 
 // 퍼스널 컬러 달력
 export const PersonalCalender = createAsyncThunk(
   "/static/list",
-  async (data: { year: number; month: number }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      console.log("퍼스널컬러 달력 호출해보자");
       const response = await axiosToken.post("/static/list", {
-        year: 2023,
-        month: 11,
+        year: year,
+        month: month,
       });
-      console.log("퍼스널 컬러 달력 res", response);
       return response.data;
     } catch (err: unknown) {
       return rejectWithValue(
@@ -57,9 +38,7 @@ export const PersonalBeautyModal = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      console.log("퍼스널 컬러 상세보기를 호출해보자");
       const response = await axiosToken.post("/detail/beauty", data);
-      console.log("res", response);
       return response.data;
     } catch (err: unknown) {
       return rejectWithValue(
@@ -74,14 +53,24 @@ export const PersonalBeautyResults = createAsyncThunk(
   "/detail",
   async (data: { date: string }, { rejectWithValue }) => {
     try {
-      console.log("퍼스널 컬러 진단 결과 나오나요?");
-      console.log("보내는 데이터 확인:", data);
-      console.log("axios 인스턴스 설정 확인:", pythonAxiosToken.defaults); // 여기에 추가
       const response = await pythonAxiosToken.post("/detail", data);
-      console.log("받은 응답 확인:", response); // 여기에 추가
       return response.data;
     } catch (err: unknown) {
-      console.error("에러 뜨나요", err);
+      return rejectWithValue(
+        err instanceof AxiosError ? err.message : "An unexpected error occurred"
+      );
+    }
+  }
+);
+
+// 의상 진단 결과
+export const PersonalClothesResults = createAsyncThunk(
+  "/clothes/detail",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await pythonAxiosToken.post("/clothes/detail");
+      return response.data;
+    } catch (err: unknown) {
       return rejectWithValue(
         err instanceof AxiosError ? err.message : "An unexpected error occurred"
       );
@@ -112,7 +101,8 @@ const handleAsyncReducer = <T>(
 const initialState: PersonalState = {
   beauty: null,
   beautyResults: null,
-  finishPersonal: false, 
+  clothesResults: null,
+  finishPersonal: false,
   loading: false,
   error: null,
 };
@@ -124,20 +114,23 @@ export const PersonalSlice = createSlice({
   extraReducers: (builder) => {
     // 퍼스널 컬러 모달
     handleAsyncReducer<any>(builder, PersonalBeautyModal, (state, action) => {
-      console.log("컬러 저장된 데이터 들어오나요?", action.payload);
       state.beauty = action.payload;
     });
-    // 퍼스널 커러 진단 결과
+    // 퍼스널 컬러 진단 결과
     handleAsyncReducer<any>(builder, PersonalBeautyResults, (state, action) => {
-      console.log(
-        "퍼스널 컬러 진단 결과 저장된 데이터 들어오나요?",
-        action.payload
-      );
       state.beautyResults = action.payload;
-      if (action.type === '/detail/fulfilled') {
-        state.finishPersonal = true
+      if (action.type === "/detail/fulfilled") {
+        state.finishPersonal = true;
       }
     });
+    // 의상 진단 결과
+    handleAsyncReducer<any>(
+      builder,
+      PersonalClothesResults,
+      (state, action) => {
+        state.clothesResults = action.payload;
+      }
+    );
   },
 });
 

@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { images } from "../../../constants/images";
-import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PersonalBeautyResults } from "../Main/PersonalSlice";
 import { AppDispatch, RootState } from "../../../store/store";
@@ -10,7 +10,6 @@ import { AppDispatch, RootState } from "../../../store/store";
 const StyledSection = styled.section`
   display: flex;
   flex-direction: column-reverse;
-  /* width: 100%; */
   height: 65vh;
   color: white;
 `;
@@ -21,7 +20,6 @@ const StyledFigure = styled.figure`
   top: 20%;
   transform: translateX(0%);
   margin: auto;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,8 +27,15 @@ const StyledFigure = styled.figure`
   img {
     width: 40vh;
     height: 56vh;
-    object-fit: cover; // 이미지 비율 유지하면서 컨테이너에 맞춤
+    object-fit: cover;
+    object-position: top;
     box-shadow: 0 0 10px 5px black;
+  }
+
+  p {
+    position: absolute;
+    font-size: 2rem;
+    color: white;
   }
 `;
 
@@ -39,11 +44,8 @@ const InfoArticle = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   z-index: 1;
-
   background-color: #000000c2;
-
   height: 35%;
 `;
 
@@ -56,7 +58,6 @@ const ColorNameEN = styled.div<{ isWarm: boolean; isCool: boolean }>`
 
   display: flex;
   align-items: flex-end;
-
   margin: 3% 0 0 0;
 `;
 
@@ -73,10 +74,8 @@ const ColorNameKR = styled.div<{ isWarm: boolean; isCool: boolean }>`
 // 상세보기 버튼
 const DetailButton = styled.button`
   margin: 4% 0;
-
   background-color: transparent;
   border: none;
-
   cursor: pointer;
   font-size: 1.5rem;
   color: white;
@@ -88,9 +87,6 @@ const PreviousPersonalColorResults = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { beauty } = useSelector((state: RootState) => state.personal);
 
-  // 이미지 로딩 상태
-  const [isLoading, setIsLoading] = useState(true);
-
   const containsWarm = (result: string | undefined) => {
     return result ? result.includes("웜") : false;
   };
@@ -101,21 +97,16 @@ const PreviousPersonalColorResults = () => {
 
   const handleButtonClick = () => {
     handleAsyncReducer();
-    console.log("상세보기 버튼 누를 때 API 호출 되나요?");
     navigate("/personalcolorsresults");
   };
 
   const handleAsyncReducer = useCallback(async () => {
     const data = {
-      date: "2023-11-13",
+      date: "2023-11-14",
     };
-    console.log("액션 객체 확인:", PersonalBeautyResults(data));
     try {
-      console.log("진단 결과 뜨나요");
       const res = await dispatch(PersonalBeautyResults(data)).unwrap();
-      console.log("진단 결과값은요?", res);
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -141,17 +132,14 @@ const PreviousPersonalColorResults = () => {
 
         <DetailButton onClick={handleButtonClick}>상세 보기</DetailButton>
       </InfoArticle>
+
       <StyledFigure>
-        {isLoading && <p>로딩 중...</p>}
         <img
           src={beauty?.imgUri || "non-existent-url"}
           alt="사진이 없습니다"
-          onLoad={() => setIsLoading(false)} // 이미지 로딩 완료 시 상태 업데이트
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = images.personal.errorImg;
-            console.log("오류 이미지로 변경 완료");
-            setIsLoading(false); // 이미지 로딩 실패 시 상태 업데이트
           }}
         />
       </StyledFigure>

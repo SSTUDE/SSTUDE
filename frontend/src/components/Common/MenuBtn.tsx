@@ -1,23 +1,24 @@
-import styled from 'styled-components';
-import { useDispatch,} from 'react-redux';
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { images } from '../../constants/images';
-import { AppDispatch } from '../../store/store';
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { images } from "../../constants/images";
+import { AppDispatch } from "../../store/store";
 import { healthTodayData } from "../Health/HealthSlice";
-import { PersonalCalender } from "../Personal/Main/PersonalSlice";
+import {
+  PersonalCalender,
+} from "../Personal/Main/PersonalSlice";
 
-type ButtonType = 'beauty' | 'health' | 'question';
-
+type ButtonType = "beauty" | "health" | "question";
 
 interface MenuBtnProps {
   type: ButtonType;
 }
 
 function MenuBtn({ type }: MenuBtnProps) {
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-
+  const navigate = useNavigate();
+  
   const handleClick = async () => {
     if (type === "beauty") {
       const response = await handlePersonalCalender();
@@ -27,18 +28,12 @@ function MenuBtn({ type }: MenuBtnProps) {
       navigate("/healthmain");
     }
   };
-
+  
+  // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
-    const data = {
-      year: 2023,
-      month: 11,
-    };
     try {
-      console.log("try 뜨나요");
-      const res = await dispatch(PersonalCalender(data)).unwrap();
-      console.log("결과는요?", res);
+      const res = await dispatch(PersonalCalender()).unwrap();
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -46,13 +41,11 @@ function MenuBtn({ type }: MenuBtnProps) {
     }
   }, [dispatch]);
 
+  // 오늘 헬스 데이터(헬스 메인) 호출
   const handleHealthTodayData = useCallback(async () => {
     try {
-      console.log("오늘 헬스 데이터 try 뜨나요");
       const res = await dispatch(healthTodayData()).unwrap();
-      console.log("오늘 헬스 데이터 결과는요?", res);
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -78,11 +71,11 @@ function MenuBtn({ type }: MenuBtnProps) {
   );
 }
 
-const Wrap = styled.div<{ type: ButtonType; }>`
+const Wrap = styled.div<{ type: ButtonType }>`
   width: 100px;
   height: 100px;
   border-radius: 15%;
-  background-color: #4F4F4F;
+  background-color: #4f4f4f;
   border: 2px solid white;
   display: flex;
   align-items: center;
