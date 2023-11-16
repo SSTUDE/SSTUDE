@@ -34,8 +34,8 @@ public class BeautyService {
     // 전체 의상 반환
     @Transactional(readOnly = true)
     public List<ClothesDetailResponseDto> getClothesDetail(Long memberId, StaticDayRequestDto requestDto) {
-        LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 0, 0);
-        LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 23, 59);
+        LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 9, 0);
+        LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 9, 0);
 
 //        LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 9, 0);
 //        LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 23, 59);
