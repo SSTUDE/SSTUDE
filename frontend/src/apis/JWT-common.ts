@@ -1,7 +1,10 @@
 let refreshTokenInMemory: string | null = null;
 
-export const storageData = async (accessToken: string) => {
+export const storageData = async (
+  accessToken: string,
+) => {
   try {
+    console.log("15 - 토큰 저장중");
     localStorage.setItem("SSTUDE", JSON.stringify({ accessToken }));
   } catch (err) {
     console.error("토큰 저장 실패, JWT-common");

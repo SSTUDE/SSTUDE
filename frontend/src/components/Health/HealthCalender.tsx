@@ -1,16 +1,16 @@
-import "./Calender.css";
-import PrevHealth from "./PrevHealth";
+import React, { useEffect, useState, useCallback } from "react";
 import DatePicker from "react-datepicker";
+import "./Calender.css";
 import { enGB } from "date-fns/esm/locale";
-import { styled } from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { images } from "../../constants/images";
 import MainButton from "../Personal/Main/MainButton";
-import { useCustomAlert } from "../../hooks/useAlert";
+import PrevHealth from "./PrevHealth";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { healthPrevData, healthTodayData } from "./HealthSlice";
-import React, { useEffect, useState, useCallback } from "react";
+import { images } from "../../constants/images";
+import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useCustomAlert } from "../../hooks/useAlert";
 
 // 오늘 헬스 데이터로 이동하기 위한 아이콘
 const StyledTodayHealthDataButton = styled.button`
@@ -52,13 +52,13 @@ const TodayIcon = () => (
 );
 
 const HealthCalender: React.FC = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { calendarData } = useSelector((state: RootState) => state.health);
-  const [day, setDay] = useState("");
-  const [healthData, setHealthData] = useState<any>(null);
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [currentComponent, setCurrentComponent] = useState("HealthCalendar");
+  const dispatch = useDispatch<AppDispatch>();
+  const { calendarData } = useSelector((state: RootState) => state.health);
+  const [healthData, setHealthData] = useState<any>(null);
+  const [day, setDay] = useState("");
+  const navigate = useNavigate();
 
   const handlTodayHealthDataClick = () => {
     handleHealthTodayData();
@@ -84,6 +84,7 @@ const HealthCalender: React.FC = () => {
     } else {
       setCurrentComponent("HealthCalendar");
     }
+    console.log(currentComponent);
   };
 
   const handlePrevDetailData = useCallback(async () => {
@@ -92,6 +93,7 @@ const HealthCalender: React.FC = () => {
       month: startDate.getMonth() + 1,
       day: startDate.getDate(),
     };
+    console.log("이전 헬스 데이터 날짜 불러지나요?", data);
     const actionResult = await dispatch(healthPrevData(data));
     const res = actionResult.payload;
     if (res) {
@@ -108,7 +110,9 @@ const HealthCalender: React.FC = () => {
   // 오늘 헬스 데이터(헬스 메인) 호출
   const handleHealthTodayData = useCallback(async () => {
     try {
+      console.log("오늘 헬스 데이터 try 뜨나요");
       const res = await dispatch(healthTodayData()).unwrap();
+      console.log("오늘 헬스 데이터 결과는요?", res);
       if (res) {
         // dispatch(setMemberId(res.memberId));
         return res;

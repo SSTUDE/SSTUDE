@@ -1,9 +1,11 @@
 import Bus from '../Bus/Bus';
+import MenuBar from './MenuBar';
 import MenuBtn from '../Common/MenuBtn';
 import Weather from '../Weather/Weather';
 import BusDetail from '../Bus/BusDetail';
 import DateTime from '../Common/DateTime';
 import HelloWorld from '../Common/HelloWorld';
+import { useNavigate } from 'react-router-dom';
 import WeatherInfo from '../Weather/WeatherInfo';
 import React, { useState, useEffect } from 'react';
 import MainButton from '../Personal/Main/MainButton';
@@ -15,8 +17,10 @@ import { updatePosition } from '../../store/PositionSlice';
 import { AppDispatch, RootState } from '../../store/store';
 
 const Mirror = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [activePage, setActivePage] = useState("bus");
+  const { isMenuOpen } = useSelector((state: RootState) => state.mirror);
 
   // 위,경도 데이터를 가져온다.
   const position = useSelector((state: RootState) => state.position);
@@ -46,6 +50,7 @@ const Mirror = () => {
 
         // 변환된 객체를 dispatch 함수를 통해 updatePosition 액션에 전달
         dispatch(updatePosition(positionStateItem));
+        // console.log(positionStateItem);
       }
     }
   }, [dispatch]);
@@ -83,9 +88,10 @@ const Mirror = () => {
     <Container>
       <Header>
         <Left>
-          <MainButton />
+        <MainButton />
           <MenuBtn type="beauty" />
           <MenuBtn type="health" />
+          {/* <MenuBtn type="clothes" /> */}
         </Left>
         <Center>
           <HelloWorld />
@@ -103,18 +109,25 @@ const Mirror = () => {
         ) : (
           <>
             <Center>
+              {/* <Btn onClick={() => navigate("/")}>초기 화면</Btn>
+              <Btn onClick={() => navigate("/login")}>로그인</Btn>
+              <Btn onClick={() => navigate("/test")}>테스트</Btn> */}
             </Center>
-            <Right>
-              <PageHeader>
+            {isMenuOpen ? (
+              <MenuBar />
+            ) : (
+              <Right>
+                <PageHeader>
                 <PageButton onClick={() => setActivePage("bus")} $textColor={TEXT_COLOR}>
-                  버스 정보
-                </PageButton>
-                <PageButton onClick={() => setActivePage("weather")} $textColor={TEXT_COLOR}>
-                  날씨 정보
-                </PageButton>
-              </PageHeader>
-              <PageBody key={activePage}>{renderCenterContent()}</PageBody>
-            </Right>
+                                      버스 정보
+                  </PageButton>
+                  <PageButton onClick={() => setActivePage("weather")} $textColor={TEXT_COLOR}>
+                                        날씨 정보
+                  </PageButton>
+                </PageHeader>
+                <PageBody key={activePage}>{renderCenterContent()}</PageBody>
+              </Right>
+            )}
           </>
         )}
       </Body>
@@ -129,11 +142,13 @@ const Container = styled.div`
 const Header = styled.div`
   display: flex;
   height: 22%;
+  /* background-color: lightblue; */
 `;
 
 const Body = styled.div`
   display: flex;
   height: 78%;
+  /* background-color: lightcoral; */
 `;
 
 const Left = styled.div`
@@ -142,6 +157,7 @@ const Left = styled.div`
   justify-content: end;
   align-items: center;
   gap: 20px;
+  /* background-color: lightgray; */
 `;
 
 const Center = styled.div`
@@ -150,17 +166,29 @@ const Center = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* background-color: lightgreen; */
 `;
 
 const Right = styled.div`
   flex: 25%;
   justify-content: center;
+  /* background-color: lightpink; */
 `;
 
 const RightHeader = styled.div`
   display: flex;
   flex: 25%;
   justify-content: center;
+`;
+
+const Btn = styled.p`
+  padding: 10px 20px;
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  margin: 5px;
+  color: ${TEXT_COLOR};
+  cursor: pointer;
 `;
 
 const PageHeader = styled.div`
@@ -172,16 +200,16 @@ const PageHeader = styled.div`
 
 interface PageButtonProps {
   $textColor: string;
-}
-
-const PageButton = styled.button<PageButtonProps>`
+  }
+  
+  const PageButton = styled.button<PageButtonProps>`
   padding: 5px 10px;
   margin: 0 5px;
   border: none;
   font-size: 22px;
   background-color: transparent;
   color: ${props => props.$textColor || 'inherit'};
-  cursor: pointer;
+    cursor: pointer;
   transition: all 0.3s ease;
   font-family: "Giants-Bold";
 

@@ -1,14 +1,14 @@
-import AirIcon from './AirIcon';
+import React, { useEffect } from 'react'
 import styled from 'styled-components';
-import SkyIcon from './Hourly/SkyIcon';
-import React, { useEffect } from 'react';
-import { findRegion } from './areaCodeType'
-import LoadingSpinner from './LoadingSpinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchShortData } from '../../store/WeatherSlice';
+import { fetchAirQualityData } from '../../store/AirQualitySlice'
 import { RootState, AppDispatch } from '../../store/store';
 import { WeatherDataCustom, AirQualityCustom } from './types';
-import { fetchAirQualityData } from '../../store/AirQualitySlice'
+import { findRegion } from './areaCodeType'
+import SkyIcon from './Hourly/SkyIcon';
+import AirIcon from './AirIcon';
+import LoadingSpinner from './LoadingSpinner';
 
 interface WeatherInfoProps {
   onClick: React.MouseEventHandler<HTMLDivElement>;
@@ -26,21 +26,24 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
     arePt3: position.arePt3,
   };
   const airRegionCode = findRegion(arePt1, arePt2);
+  // console.log(nX, nY, arePt1, arePt2, arePt3);
+  // console.log(airRegionCode);
 
   // 단기예보 관련 데이터
-  const weatherData = useSelector((state: RootState) => state.weather.data);
+  const weatherData = useSelector((state: RootState) => state.weather.data); 
   const isLoading = useSelector((state: RootState) => state.weather.loading);
   const error = useSelector((state: RootState) => state.weather.error);
 
   // 대기질 데이터와 관련된 상태
   const airQualityData = useSelector((state: RootState) => state.airQuality.data);
+  // console.log(airQualityData);
   const isAirQualityLoading = useSelector((state: RootState) => state.airQuality.loading);
   const airQualityError = useSelector((state: RootState) => state.airQuality.error);
-
+  
 
   // 단기 데이터(요청 시간)
   const sDay = new Date();
-  const sHour = sDay.getHours();
+  const sHour = sDay.getHours(); 
   const sMinutes = sDay.getMinutes();
 
   // 시간이 05:00를 지나지 않았다면 전날
@@ -48,12 +51,12 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
     sDay.setDate(sDay.getDate() - 1);
   }
 
-  const sYear = sDay.getFullYear();
-  const sMonth = (sDay.getMonth() + 1).toString().padStart(2, '0');
-  const sDate = sDay.getDate().toString().padStart(2, '0');
-  const formattedSDate = `${sYear}${sMonth}${sDate}`
+  const sYear = sDay.getFullYear(); 
+  const sMonth = (sDay.getMonth() + 1).toString().padStart(2, '0'); // getMonth()는 0부터 시작하므로 1을 더한다.
+  const sDate = sDay.getDate().toString().padStart(2, '0'); 
+  const formattedSDate =`${sYear}${sMonth}${sDate}`
 
-  const currentDate = formattedSDate;
+  const currentDate = formattedSDate; // 'YYYYMMDD' 형식
 
   useEffect(() => {
     const nxString = typeof nX === 'string' ? parseInt(nX) : nX;
@@ -74,25 +77,26 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   }, [dispatch]);
 
   if (isLoading || isAirQualityLoading) {
-    return <LoadingSpinner />
+    return <LoadingSpinner/>
   }
   if (error || airQualityError) {
     return <span>에러 발생 {error}</span>;
   }
+  
+// 현재 시간 이후의 데이터 필터링
+const CustomData = weatherData.filter((item: WeatherDataCustom) => {
+  const itemTime = parseInt(item.fcstTime); 
+  const nextHour = sHour < 23 ? (sHour + 1) * 100 : 0; // 다음 시간 계산 (23시 이후는 0시로 처리)
 
-  // 현재 시간 이후의 데이터 필터링
-  const CustomData = weatherData.filter((item: WeatherDataCustom) => {
-    const itemTime = parseInt(item.fcstTime);
-    const nextHour = sHour < 23 ? (sHour + 1) * 100 : 0;
-
-    // 현재 시간이 30분 미만인 경우
-    if (sMinutes < 30) {
-      return (item.fcstDate === currentDate && itemTime >= sHour * 100) || (item.fcstDate > currentDate);
-    } else {
-      // 현재 시간이 30분 이상인 경우
-      return (item.fcstDate === currentDate && itemTime >= nextHour) || (item.fcstDate > currentDate);
-    }
+  // 현재 시간이 30분 미만인 경우
+  if (sMinutes < 30) {
+    return (item.fcstDate === currentDate && itemTime >= sHour * 100) || (item.fcstDate > currentDate);
+  } else {
+    // 현재 시간이 30분 이상인 경우
+    return (item.fcstDate === currentDate && itemTime >= nextHour) || (item.fcstDate > currentDate);
+  }
   });
+  // console.log(CustomData);
 
   // 공기 내 지역 데이터 필터링
   const airQualityCustomData = airQualityData.filter((item: AirQualityCustom) => {
@@ -101,14 +105,14 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
 
   const findTemperatureExtremes = (data: WeatherDataCustom[]) => {
     const periodData = data.filter(item => item.fcstDate === currentDate && item.category === "TMP");
-
+  
     if (periodData.length === 0) {
       return { maxTemperature: undefined, minTemperature: undefined };
     }
-
+  
     let maxTemperature = periodData[0];
     let minTemperature = periodData[0];
-
+  
     periodData.forEach(item => {
       const itemValue = parseInt(item.fcstValue);
       if (itemValue > parseInt(maxTemperature.fcstValue)) {
@@ -118,14 +122,14 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
         minTemperature = item;
       }
     });
-
+  
     return { maxTemperature, minTemperature };
   };
-
+  
   // 해당하는 데이터 저장
-  const TempData = CustomData.find((item: WeatherDataCustom) => item.category === "TMP");
-  const SkyData = CustomData.find((item: WeatherDataCustom) => item.category === "SKY");
-  const RainData = CustomData.find((item: WeatherDataCustom) => item.category === "PTY");
+  const TempData = CustomData.find((item : WeatherDataCustom) => item.category === "TMP");
+  const SkyData = CustomData.find((item : WeatherDataCustom) => item.category === "SKY");
+  const RainData = CustomData.find((item : WeatherDataCustom) => item.category === "PTY");
   const { maxTemperature, minTemperature } = findTemperatureExtremes(weatherData);
 
   // 날씨 상태 표시
@@ -135,7 +139,7 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
 
   if (RainTypeStatus === '1' || RainTypeStatus === '2') {
     SkyContidion = '비'
-  }
+  } 
   else if (RainTypeStatus === '4') {
     SkyContidion = '소나기'
   }
@@ -143,46 +147,48 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
     SkyContidion = '눈'
   }
   // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
-  else if (SkyStatus === '1') {
+  else if(SkyStatus === '1') {
     SkyContidion = '맑음'
   } else if (SkyStatus === '3') {
     SkyContidion = '구름 많음'
   } else if (SkyStatus === '4') {
     SkyContidion = '흐림'
   }
-
+    
   return (
     <Container onClick={onClick}>
       <WeatherCon>
         <SkyInfoCon>
+          {/* find로 인한 undefined 방지 */}
           {SkyData && RainData && (
-            <SkyIcon
+            <SkyIcon 
               dailySky={SkyData}
               RainData={RainData}
               size={180}
             />
           )}
+          {/* <StyledMoonFill size={180}/> */}
           {TempData && (
-            <WeatherTXTCon>
-              <div className='condition'>{SkyContidion}</div>
-              <div className='temp'>{TempData.fcstValue}°C</div>
-            </WeatherTXTCon>
-          )}
-        </SkyInfoCon>
-        {maxTemperature && minTemperature && (
-          <div className='temp'>
-            <div className='maxTemp'>최고 기온 : <span>{`${maxTemperature.fcstValue}°C`}</span></div>
-            <div className='minTemp'>최저 기온 : {`${minTemperature.fcstValue}°C`}</div>
-          </div>
+          <WeatherTXTCon>
+            <div className='condition'>{SkyContidion}</div>
+            <div className='temp'>{TempData.fcstValue}°C</div>
+          </WeatherTXTCon>
         )}
+        </SkyInfoCon>
+          {maxTemperature && minTemperature && (
+            <div className='temp'>
+              <div className='maxTemp'>최고 기온 : <span>{`${maxTemperature.fcstValue}°C`}</span></div>
+              <div className='minTemp'>최저 기온 : {`${minTemperature.fcstValue}°C`}</div>
+            </div>
+          )}
       </WeatherCon>
       <DustCon>
         {airQualityCustomData && (
-          <AirIcon
-            pm10Grade={airQualityCustomData.pm10Grade1h || airQualityCustomData.pm10Grade}
-            pm25Grade={airQualityCustomData.pm25Grade1h || airQualityCustomData.pm25Grade}
-          />
-        )}
+            <AirIcon 
+              pm10Grade={airQualityCustomData.pm10Grade1h || airQualityCustomData.pm10Grade}
+              pm25Grade={airQualityCustomData.pm25Grade1h || airQualityCustomData.pm25Grade}
+            />
+          )}
       </DustCon>
     </Container>
   )
@@ -194,11 +200,13 @@ const Container = styled.div`
   margin: 20px;
   display: flex;
   flex-direction: column;
+  /* background-color: lightblue; */
 `
 
 const WeatherCon = styled.div`
   width: 100%;
   height: 50%;
+  /* background-color: lightcoral; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -242,6 +250,7 @@ const WeatherTXTCon = styled.div`
 const DustCon = styled.div`
   width: 100%;
   height: 50%;
+  /* background-color: lightgoldenrodyellow; */
 `
 
 export default WeatherInfo

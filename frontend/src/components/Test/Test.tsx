@@ -30,6 +30,7 @@ const Body = styled.div`
   align-items: center;
   height: 100vh;
   width: 100vw;
+  /* background-color: lightblue; */
 `;
 
 const Btn = styled.p`

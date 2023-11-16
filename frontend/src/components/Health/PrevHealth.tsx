@@ -1,6 +1,7 @@
 // 헬스 메인 페이지
 import React from "react";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 import PrevHealthData from "./PrevHealthData";
 import MainButton from "../Personal/Main/MainButton";
 
@@ -9,7 +10,9 @@ const StyledContainer = styled.section``;
 const StyledTitle = styled.p`
   display: flex;
   justify-content: center;
+
   margin: 1.5% 0;
+
   font-size: 4rem;
   font-family: "Giants-Bold";
 `;
@@ -19,8 +22,10 @@ const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
   top: 5.9%;
+
   width: 104px;
   height: 104px;
+
   background-color: #4f4f4f;
   border: 2px solid white;
   border-radius: 15%;
@@ -58,10 +63,13 @@ type PrevHealthProps = {
 };
 const PrevHealth: React.FC<PrevHealthProps> = ({
   setCurrentComponent,
+  healthData,
   selectedDate,
 }) => {
+  const navigate = useNavigate();
+
   const handleCalenderClick = () => {
-    setCurrentComponent("HealthCalendar");
+    setCurrentComponent("HealthCalendar"); // Set currentComponent to 'HealthCalendar'
   };
 
   return (
