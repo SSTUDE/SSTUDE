@@ -136,10 +136,7 @@ type ModalContainerProps = {
   backgroundColor: string;
 };
 
-const Modal: React.FC<ModalProps> = ({
-  onClose,
-  selectedDate,
-}) => {
+const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
   const { beauty } = useSelector((state: RootState) => state.personal);
 
   const containsWarm = (result: string | undefined) => {
@@ -153,8 +150,8 @@ const Modal: React.FC<ModalProps> = ({
   const backgroundColor = containsWarm(beauty?.result)
     ? "linear-gradient(270deg, #ebb7a2, #fc9898, #e1665b)"
     : containsCool(beauty?.result)
-      ? "linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb)"
-      : "white";
+    ? "linear-gradient(270deg, #a4a4f9, #76b6fe, #6f6afb)"
+    : "linear-gradient(270deg, #ffffff, #ffffff, #ffffff)";
 
   const [currentView, setCurrentView] = useState("personalColor");
 
