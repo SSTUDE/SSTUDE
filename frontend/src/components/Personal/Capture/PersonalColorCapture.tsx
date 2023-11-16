@@ -169,36 +169,48 @@ const PersonalColorCapture = () => {
 
   useEffect(() => {
     const handlePopState = () => {
+      console.log("브라우저 뒤로 가기 이벤트 감지");
       stopWebcam();
       setTimeout(() => {
+        console.log("웹소켓 메시지 전송:", message);
         sendMessage(message)
       }, 1000);
     };
 
     window.addEventListener('popstate', handlePopState);
+    console.log("브라우저 뒤로 가기 이벤트 리스너 등록");
 
     return () => {
+      console.log("컴포넌트 언마운트, 뒤로 가기 이벤트 리스너 제거");
       window.removeEventListener('popstate', handlePopState);
     };
   }, []);
 
   const handleCaptureClick = async () => {
+    console.log("캡쳐 버튼 클릭");
     captureImage(async (blob) => {
       if (blob) {
+        console.log("캡쳐된 이미지 처리 중");
         try {
           const data = await dispatch(personalPictureToServer(blob));
+          console.log("서버 응답:", data);
+
           if (data.meta.requestStatus === "fulfilled") {
+            console.log("진단 완료, 결과 페이지로 이동");
             stopWebcam();
             setTimeout(() => {
+              console.log("웹소켓 메시지 전송:", message);
               sendMessage(message)
             }, 1000);
             navigate("/personalcolorsresults");
 
           } else if (data.payload.request.status === 500) {
+            console.log("서버 오류, 애니메이션 재생성");
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);
 
           } else if (data.payload.request.status === 429) {
+            console.log("요청 제한, 경고 표시");
             showAlert({
               icon: "warning",
               title: "오늘은 더 이상 시도할 수 없습니다",
@@ -207,6 +219,7 @@ const PersonalColorCapture = () => {
             setTimeout(() => setIsBlinking(false), 3000);
           }
         } catch (error) {
+          console.error("캡쳐 처리 중 오류 발생:", error);
           setIsBlinking(true);
           setTimeout(() => setIsBlinking(false), 3000);
         }
@@ -215,8 +228,10 @@ const PersonalColorCapture = () => {
   }
 
   const closeCamera = () => {
+    console.log("카메라 중단");
     stopWebcam();
     setTimeout(() => {
+      console.log("웹소켓 메시지 전송:", message);
       sendMessage(message)
     }, 1000);
   }
