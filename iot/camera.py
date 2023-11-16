@@ -105,17 +105,36 @@ while True:
             "type" : "",
             "data" : ""
         }
-    
+
+    ####### caring about message cuz of threading
+    if msg_type and not is_cooler_on: is_cooler_on = True
+        
+    ## Camera on off mapping process
+    if msg_type == "camera" and cnt == 0: # datetime.now() < finish_time and :
+        msg_data = msg.get("data")
+        print("is camera type came?")
+        if cam and msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
+            release_camera()
+            msg["data"] = "raspberryPiCameraOff"
+            asyncio.run(ws_service.sendInfo(json.dumps(msg)));
+        elif not cam and msg_data == "off": # 프론트에서 카메라가 사용 종료 되는 상황
+            initialize_camera()
+            msg["data"] = "raspberryPiCameraOn"
+            asyncio.run(ws_service.sendInfo(json.dumps(msg)));
 
     
+    ## getting accessToken for send img
+    if msg_type == "accessToken" and datetime.now() < finish_time and cnt == 0:
+        msg_data = msg.get("data")
+
     if cam : 
         ret, frame = cam.read()
         
         if not ret:
             print("프레임을 읽을 수 없습니다. 종료합니다")
             continue
-        
-        
+
+
     #######################################################################
     ## face recongizition algorithm
     if process_this_frame:
@@ -161,8 +180,7 @@ while True:
    #############################################
     
     
-    ####### caring about message cuz of threading
-    if msg_type and not is_cooler_on: is_cooler_on = True
+
 
     ##############################
     ## Sign Up Messageing process
@@ -183,23 +201,6 @@ while True:
     if msg_type == "signIn" and cnt == 0:
         is_login_service_on = True
 
-    ## Camera on off mapping process
-    if msg_type == "camera" and cnt == 0: # datetime.now() < finish_time and :
-        msg_data = msg.get("data")
-        print("is camera type came?")
-        if cam and msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
-            release_camera()
-            msg["data"] = "raspberryPiCameraOff"
-            asyncio.run(ws_service.sendInfo(json.dumps(msg)));
-        elif not cam and msg_data == "off": # 프론트에서 카메라가 사용 종료 되는 상황
-            initialize_camera()
-            msg["data"] = "raspberryPiCameraOn"
-            asyncio.run(ws_service.sendInfo(json.dumps(msg)));
-
-    
-    ## getting accessToken for send img
-    if msg_type == "accessToken" and datetime.now() < finish_time and cnt == 0:
-        msg_data = msg.get("data")
     
     ##############################################
     
