@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export const useWebSocket = (url: string, maxReconnectAttempts: number = 0) => {
+export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const reconnectAttempts = useRef(0);
   const [messages, setMessages] = useState<string[]>([]);
