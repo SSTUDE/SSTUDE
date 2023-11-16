@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status, Body
+from fastapi import FastAPI, File, UploadFile, Header, HTTPException, status
 from fastapi.responses import JSONResponse
 from typing import Optional
 from personal_color_analysis.personal_color import analysis
@@ -16,7 +16,7 @@ import os
 app = FastAPI()
 rd = redis_config()
 current_date = datetime.now().date()
-current_date_time = datetime.now()
+current_date_time = datetime.now() + timedelta(hours=9)
 # userid = 1
 
 app.add_middleware(
@@ -45,6 +45,7 @@ async def runColor(
     print(access_token)
     # contents = await file.read()
     # print(contents)
+    print(current_date_time)
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
     response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
@@ -127,6 +128,7 @@ def getRecordDetail (
         
         print(item)
         print(access_token)
+        print(current_date_time)
         response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
         if response.status_code == 200:
             response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
@@ -253,6 +255,7 @@ def getclothesDetail (
         collection = connectPymongo()
         
         print(access_token)
+        print(current_date_time)
         
         response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
         if response.status_code == 200:
