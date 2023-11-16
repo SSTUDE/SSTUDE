@@ -216,7 +216,6 @@ const ClothesCapture = () => {
 
   const closeCamera = () => {
     stopWebcam();
-    console.log("카메라 종료");
     //   setTimeout(() => {
     //     sendMessage(message)
     //   }, 1000);

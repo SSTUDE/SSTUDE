@@ -13,7 +13,7 @@ interface BusProps {
 const BusDetail: React.FC<BusProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { gps, busStop, busRealTime, loading } = useSelector((state: RootState) => state.bus);
+  const { gps, busStop, busSave, busRealTime, loading } = useSelector((state: RootState) => state.bus);
 
   const toSelectBusStop = () => {
     if (gps) {
@@ -38,10 +38,13 @@ const BusDetail: React.FC<BusProps> = ({ onClick }) => {
     } else if (busStop && !busRealTime) {
       return <Message>도착 예정 버스가 없습니다.</Message>;
     } else if (sortedBusRealTime && sortedBusRealTime.length > 0) {
-      const numberOfInfo = Math.ceil(sortedBusRealTime.length / 4);
+      const filteredBusRealTime = sortedBusRealTime.filter(bus => 
+        busSave.includes(bus.routeId)
+      );
+      const numberOfInfo = Math.ceil(filteredBusRealTime.length / 4);
       return Array.from({ length: numberOfInfo }, (_, index) => (
         <BusInfoList key={`bus-info-list-${index}`}>
-          {sortedBusRealTime.slice(index * 4, (index + 1) * 4).map((bus: BusRealTimeData) => (
+          {filteredBusRealTime.slice(index * 4, (index + 1) * 4).map((bus: BusRealTimeData) => (
             <BusInfoItem key={bus.arrivalPrevStationCount - bus.arrivalTime}>
               <TimeIndicator>
                 <TimeCircle >{formatTime(bus.arrivalTime)}</TimeCircle>
@@ -93,7 +96,7 @@ const BusContainer = styled.div`
   justify-content: flex-start;
   padding: 20px;
   margin: 20px;
-  gap: 2%;
+  gap: 5%;
 `;
 
 const BusInfoList = styled.ul`
