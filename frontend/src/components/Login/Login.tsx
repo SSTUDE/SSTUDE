@@ -11,6 +11,7 @@ import styled, { keyframes } from 'styled-components';
 import { signInUser, signUpUser } from "./LoginSlice";
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
+import { saveBusListForServer, saveBusStopForServer } from "../Bus/BusSlice";
 
 const Login = () => {
   console.log("0 - 렌더링")
@@ -35,7 +36,7 @@ const Login = () => {
     setIsLogoClickable(false);
     const audio = new Audio(sounds.main.blop);
     audio.play();
-    console.log("회원가입 시도")
+    console.log("로그인 시도")
     loginClick()
     setTimeout(() => {
       setIsLogoClickable(true);
@@ -105,6 +106,8 @@ const Login = () => {
             icon: 'success',
             title: '로그인 완료',
           });
+          dispatch(saveBusStopForServer())
+          dispatch(saveBusListForServer())
           navigate("/mirror")
         }
       })

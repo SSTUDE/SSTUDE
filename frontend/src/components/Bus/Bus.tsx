@@ -23,15 +23,15 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
     //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
     dispatch(busRealTimeForServer())
 
-    // const id = setInterval(() => {
-    // dispatch(busRealTimeForServer())
-    // }, 30000);
+    const id = setInterval(() => {
+    dispatch(busRealTimeForServer())
+    }, 30000);
 
-    // setIntervalId(id);
+    setIntervalId(id);
 
-    // return () => {
-    //   if (intervalId) clearInterval(intervalId);
-    // };
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [dispatch]);
 
   const formatTime = (seconds: number): number => {
