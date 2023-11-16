@@ -53,7 +53,7 @@ public class StaticService {
         for (Clothes clothes : clothesList) {
             LocalDateTime calender = clothes.getCalender();
             System.out.println(calender);
-            calender = calender.minusDays(1);
+//            calender = calender.minusDays(1);
             st.add(calender.toLocalDate());
         }
         ArrayList<LocalDate> list2 = new ArrayList<>(st);
