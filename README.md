@@ -29,27 +29,27 @@
 
 ### - 얼굴인식 회원가입 / 로그인
   
-  ![Alt text](signUp_login.gif)
+  ![Alt text](./images/signUp_login.gif)
 
 ### - BUS 정보
 
-  ![Alt text](<bus (1).gif>)
+  ![Alt text](./images/bus%20(1).gif)
 
 ### - 날씨 정보
   
-  ![Alt text](<weather (1).gif>)
+  ![Alt text](./images/weather%20(1).gif)
 
 ### - 퍼스널컬러 진단
   
-  ![Alt text](personalColorDx.gif)
+  ![Alt text](./images/personalColorDx.gif)
 
 ### - 의상진단
   
-  ![Alt text](clothesDx.gif)
+  ![Alt text](./images/clothesDx.gif)
 
 
 ### - 삼성 헬스정보 확인
-  ![Alt text](health.gif)
+  ![Alt text](./images/health.gif)
 
 
 
@@ -105,7 +105,7 @@
 
 ### 💻 **Backend**
 
-![backend](image.png)
+![backend](./images/image.png)
 
 
 
@@ -115,7 +115,7 @@
 
 ## 3-1. ERD
 
-  ![Alt text](image-3.png)
+  ![Alt text](./images/image-3.png)
 
 
 <br/>
