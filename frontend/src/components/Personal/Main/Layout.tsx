@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Header from "./Header";
+
 import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
 import PreviousClothesResults from "../Previous/PreviousClothesResults";
+import Header from "./Header";
 
 const Layout = () => {
   const [activeButton, setActiveButton] = useState("previouspersonalcolor");
@@ -21,7 +22,7 @@ const Layout = () => {
         <Routes>
           <Route
             path="/previouspersonalcolor"
-            element={<PreviousPersonalColorResults />}
+            // element={<PreviousPersonalColorResults />}
           />
           <Route path="/previousclothes" element={<PreviousClothesResults />} />
         </Routes>

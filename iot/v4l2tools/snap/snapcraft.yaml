@@ -1,0 +1,52 @@
+  name: v4l2tools
+  version: git
+  summary: v4l2 tools to read, convert & write
+  description: |
+    * v4l2copy :
+    read from a V4L2 capture device and write to a V4L2 output device
+
+    * v4l2compress :
+    read YUYV from a V4L2 capture device, compress in VP8/VP9/H264/HEVC format using libvpx and write to a V4L2 output device
+
+    * v4l2dump :
+    read from a V4L2 capture device and print to output frame information (work with H264 & HEVC)
+
+    * v4l2source_yuv :
+    generate YUYV frames and write to a V4L2 output device
+
+  grade: stable 
+  confinement: strict
+  base: core20
+
+  parts:
+    v4l2tools:
+      plugin: make
+      source: .
+      source-type: git
+      build-packages:
+      - g++
+      - make
+      - cmake
+      - pkg-config
+      - autoconf 
+      - automake 
+      - libtool
+      - libx264-dev
+      - libx265-dev
+      - libjpeg-dev
+      - libvpx-dev
+      stage-packages:
+      - x264
+      - x265
+      - libjpeg8
+      - libvpx6
+
+  apps:
+    v4l2copy:
+      command: bin/v4l2copy 
+
+    v4l2compress:
+      command: bin/v4l2compress 
+
+    v4l2source-yuv:
+      command: bin/v4l2source_yuv 

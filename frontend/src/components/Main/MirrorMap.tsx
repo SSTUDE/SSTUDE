@@ -12,8 +12,6 @@ const MirrorMap = () => {
         <Btn onClick={() => navigate('/login')}>로그인</Btn>
         <Btn onClick={() => navigate('/mirror')}>메인페이지</Btn>
         <Btn onClick={() => navigate('/test')}>테스트</Btn>
-        <Btn onClick={() => navigate('/testmain')}>날씨상세</Btn>
-        {/* <Btn onClick={() => navigate('/menubtn')}>메뉴버튼</Btn> */}
       </Body>
       <Bottom></Bottom>
     </>
@@ -36,7 +34,7 @@ const Bottom = styled.div`
 
 const Btn = styled.p`
 padding: 10px 20px;
-font-size: 1.5em;
+font-size: 3em;
 font-weight: bold;
 margin: 5px; 
 color: ${TEXT_COLOR};
