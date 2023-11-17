@@ -1,0 +1,52 @@
+server:
+  port: 8015
+
+
+spring:
+  application:
+    name: businfo
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/businfo?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://k9d204.p.ssafy.io:3306/businfo?serverTimezone=Asia/Seoul
+    username: root
+    password: ENC(SwKfL2NcG9o7brplw9slLw==)
+#    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  data:
+    bus:
+      secret:  ENC(fus24AKnzMoBx4pc2vVD2ThaYu5Gn7d1QOQMStSqe4Ery9KnOwIU5EBJXBuVyrMZj2F1dFfYt+8X9drjdNzPLBulkwlcU+3XxQ6iP7oesibegcJmQWhwvPldvO6GYxwSobWnx9cNXOk=)
+      station_inform_api: http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList
+      bus_arrival_inform_api: http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList
+      station_bus_route_api : http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList
+jwt:
+  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
+
+trace: true
+
+springdoc:
+  api-docs:
+    path: /businfo-service/v3/api-docs
+  swagger-ui:
+    path: /businfo-service/swagger-ui.html
+
+openapi:
+  service:
+#    url: http://k9d204a.p.ssafy.io:8000/
+    url: http://localhost:8000/
+
+
+jasypt:
+  encryptor:
+    password: ${PASSWORD}
+
+logging:
+  level:
+    org.springframework.web.client: DEBUG

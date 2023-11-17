@@ -2,24 +2,23 @@ package com.sstude.statistics.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@Entity
 @NoArgsConstructor
-@Table(name="clothes")
+@Document(collection = "clothes")
 public class Clothes {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clothesId;
 
     // memberid는 join??
     private Long memberId;
     private Integer score;
-    private String imgUri;
+    private String imguri;
 
     private LocalDateTime calender;
 

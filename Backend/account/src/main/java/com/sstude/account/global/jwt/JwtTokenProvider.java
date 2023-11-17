@@ -24,6 +24,7 @@ public class JwtTokenProvider {
     private final StringRedisTemplate stringRedisTemplate; // Redis 연동을 위한 객체
 
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 30 * 60 * 1000L;            // 30분
+//    private static final long ACCESS_TOKEN_EXPIRE_TIME = 5 * 1000L;            // 5초
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000L;    // 7일
 
 //    private static final long ACCESS_TOKEN_EXPIRE_TIME =  60 * 1000L;            // 1분
