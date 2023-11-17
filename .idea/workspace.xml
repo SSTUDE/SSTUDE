@@ -1,20 +1,206 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43b20dfa-61c0-4b00-b5c1-0d21f73eb2cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/request/SaveBusRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/request/SaveBusStationRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/controller/BusInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/controller/BusInfoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusInformByStationResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusInformByStationResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusStationResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusStationResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusStationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusStationRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/service/BusInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/service/BusInfoService.java" afterDir="false" />
+    <list default="true" id="1b1a3635-0df4-44b7-a33a-7d517cd92480" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/checksums/checksums.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/checksums/md5-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/checksums/sha1-checksums.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/dependencies-accessors/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/fileChanges/last-build.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/7.4/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/file-system.probe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.gradle/vcs-1/gc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/assetWizardSettings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/androidTest/java/com/free/health/ExampleInstrumentedTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/ic_launcher-playstore.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/kotlin/com/free/health/BodyStats.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/kotlin/com/free/health/MainActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/values-night/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/values-night/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/values/colors.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/values/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/values/health_permissions.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/values/themes.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/xml/backup_descriptor.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/main/res/xml/network_security_config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/app/src/test/java/com/free/health/ExampleUnitTest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/App.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/Dependencies.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/jacoco-report.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/plugins/AppPlugin.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/plugins/LibraryPlugin.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/plugins/UiPlugin.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/plugins/constants/CompileOptions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/plugins/constants/PackagingOptions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/buildSrc/src/main/kotlin/com/free/health/plugins/constants/ProjectExtensions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/data/HealthDataCaloriesImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/data/HealthDataSenderImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/data/HealthDataSleepImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/data/HealthDataStepsImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/di/HealthConnectDataModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/di/HealthConnectModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/di/HealthDataSenderModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/di/MainServiceModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/entity/request/LoginRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/entity/request/RecordRequest.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/entity/response/MemberInfoResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/entity/response/RecordResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/main/HealthConnectManager.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/kotlin/com/free/health/data/healthconnect/reposistory/HealthRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/data-healthconnect/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-base/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-base/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-base/src/main/kotlin/com/free/health/domain/base/DateTimeUtils.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-base/src/main/kotlin/com/free/health/domain/base/DoubleExtensions.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-base/src/main/kotlin/com/free/health/domain/base/di/DispatchersModule.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-base/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/kotlin/com/free/health/domain/healthdata/HealthData.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/kotlin/com/free/health/domain/healthdata/HealthDataCalories.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/kotlin/com/free/health/domain/healthdata/HealthDataSleep.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/kotlin/com/free/health/domain/healthdata/HealthDataSteps.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/kotlin/com/free/health/domain/healthdata/models/CaloriesConsumed.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/kotlin/com/free/health/domain/healthdata/models/HealthDataStatus.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/kotlin/com/free/health/domain/healthdata/models/SleepSession.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/domain-healthdata/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/local.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-main/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-main/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-main/src/main/kotlin/com/free/health/ui/main/MainScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-main/src/main/kotlin/com/free/health/ui/main/NavigationHost.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/actions/ActionsView.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/actions/connect/ConnectCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/actions/permissions/RequestHealthPermissionsCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/DataCardViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/DataCardsView.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/DateCarousel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/OverviewCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/OverviewCardUiState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/burnt/CaloriesBurntDataCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/burnt/CaloriesBurntDataCardViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/calories/CaloriesDataCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/calories/CaloriesDataViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/sleep/SleepDataCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/sleep/SleepDataViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/steps/StepsDataCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/steps/StepsDataCardViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/total/TotalCaloriesCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/total/TotalCaloriesView.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/healthcards/total/TotalCaloriesViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/main/OverviewScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/main/OverviewUiState.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-overview/src/main/kotlin/com/free/health/ui/overview/main/OverviewViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/kotlin/com/free/health/ui/widgets/overview/OverviewWidget.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/kotlin/com/free/health/ui/widgets/overview/OverviewWidgetGlanceStateDefinition.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/kotlin/com/free/health/ui/widgets/overview/OverviewWidgetReceiver.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/kotlin/com/free/health/ui/widgets/overview/OverviewWidgetWorker.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/res/layout/overview_preview.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-feat-widgets/src/main/res/xml/overview_widget_info.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/BSTopAppBar.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/DatePicker.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/ErrorScreen.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/ListItemPicker.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/NonEditableTextField.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/NumberPicker.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/cards/ColourCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/cards/OutlinedCard.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/ChartAnimation.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/ChartColors.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/ChartDefaults.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/Dial.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/DialColors.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/DialConfig.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/DialDefaults.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/Helpers.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/PercentageDial.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dial/Theme.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dialogs/DOBDialog.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/components/dialogs/Material3Dialog.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/theme/Colours.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/theme/ColoursCustom.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/theme/Shapes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/theme/Themes.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/kotlin/com/free/health/ui/common/theme/Typography.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/avatar_female.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/avatar_male.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_awake.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_deep.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_end_time.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_light.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_out_of_bed.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_rem.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_sleep.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/drawable/icon_start_time.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/layout/date_picker.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/values/font_certs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-common/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-navigation/build.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-navigation/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-navigation/src/main/kotlin/com/free/health/ui/navigation/BarItem.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-navigation/src/main/kotlin/com/free/health/ui/navigation/NavBarItems.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-navigation/src/main/kotlin/com/free/health/ui/navigation/NavRoute.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-navigation/src/main/kotlin/com/free/health/ui/navigation/NavigationManager.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Android/ui-lib-navigation/src/main/kotlin/com/free/health/ui/navigation/di/NavModule.kt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +213,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2XmoqcySzH1GGwjj0cRZift83bJ" />
+  <component name="ProjectId" id="2YBpoznRCf0tmwVOan4YLSQgFjs" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -36,28 +222,20 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "C:/Users/SSAFY/Documents/S09P31D204/Android/SSTUDE"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="43b20dfa-61c0-4b00-b5c1-0d21f73eb2cb" name="Changes" comment="" />
-      <created>1699243807651</created>
+      <changelist id="1b1a3635-0df4-44b7-a33a-7d517cd92480" name="Changes" comment="" />
+      <created>1700009005433</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1699243807651</updated>
-      <workItem from="1699243809749" duration="5000" />
-      <workItem from="1699689036227" duration="616000" />
+      <updated>1700009005433</updated>
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
 </project>

@@ -1,6 +1,17 @@
 server:
   port: 8000
 
+<<<<<<< HEAD
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+#      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
+
+=======
+>>>>>>> origin/develop
 spring:
   application:
     name: gateway
@@ -141,8 +152,8 @@ spring:
             - Path=/businfo-service/**
 
   redis:
-    host: k9d204.p.ssafy.io
-#    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+#    host: k9d204.p.ssafy.io
+    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
     port: 6379
 
 jwt:

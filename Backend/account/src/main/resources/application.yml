@@ -14,6 +14,16 @@ server:
 #      #      defaultZone: http://localhost:8761/eureka
 #      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
 
+<<<<<<< HEAD
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761//eureka
+#      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
+=======
+>>>>>>> origin/develop
 
 spring:
   application:
@@ -38,8 +48,8 @@ spring:
 
 
   redis:
-#    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
-    host: k9d204.p.ssafy.io
+    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+#    host: k9d204.p.ssafy.io
     port: 6379
 
 jwt:
@@ -55,8 +65,13 @@ springdoc:
 
 openapi:
   service:
+<<<<<<< HEAD
+#    url: http://k9d204.p.ssafy.io:800/0/
+    url: http://localhost:8000/
+=======
     url: http://k9d204a.p.ssafy.io:8000/
 #    url: http://localhost:8000/
+>>>>>>> origin/develop
 
 
 jasypt:
