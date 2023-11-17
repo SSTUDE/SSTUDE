@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="61c7cc02-e076-43bf-a4d9-922998b07b34" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../health/src/main/java/com/sstude/health/service/HealthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../health/src/main/java/com/sstude/health/service/HealthService.java" afterDir="false" />
-    </list>
+    <list default="true" id="cbd0b274-e275-4441-92fa-35d37bdc39fb" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="2Xp9SXT9PmD62jC39ExVg7XqAoK" />
+  <component name="ProjectId" id="2YBwIpbQZBYXrTMnSGVEfOAv2oA" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -22,20 +20,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="61c7cc02-e076-43bf-a4d9-922998b07b34" name="Changes" comment="" />
-      <created>1699315155294</created>
+      <changelist id="cbd0b274-e275-4441-92fa-35d37bdc39fb" name="Changes" comment="" />
+      <created>1700012203446</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1699315155294</updated>
-      <workItem from="1699315156591" duration="5000" />
-      <workItem from="1699698031429" duration="6000" />
-      <workItem from="1699920844098" duration="1192000" />
+      <updated>1700012203446</updated>
+      <workItem from="1700012204673" duration="8540000" />
+      <workItem from="1700025999211" duration="8000" />
+      <workItem from="1700026803873" duration="1222000" />
+      <workItem from="1700049069904" duration="1012000" />
+      <workItem from="1700062284507" duration="1144000" />
     </task>
     <servers />
   </component>

@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface HealthRepository extends JpaRepository<Health, String> {
     List<Health> findByMemberIdAndRecordDateBetween(Long memberId, Date startDate, Date endDate);
     Optional<Health> findByMemberIdAndRecordDate(Long memberId, Date date);
+    boolean existsByMemberIdAndRecordDate(Long memberId, Date date);
 }

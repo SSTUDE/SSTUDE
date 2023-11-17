@@ -170,13 +170,14 @@ public class HealthService {
 
 
 
-    @Scheduled(cron = "0 0 0 * * *")
+        @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 27 13 * * *")
     @Transactional
     public void saveLatestHealthData() {
         log.info("시간들어옴!!!!");
         // 한국 시간대의 어제 날짜와 현재 날짜를 가져옴
         LocalDateTime start = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1);
-        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusSeconds(1);  // 1 초전
 
         // MongoDB에서 해당 기간의 데이터를 가져옴
         healthDataRepository.findByCreatedAtBetween(start, end)
@@ -193,11 +194,55 @@ public class HealthService {
                             .steps(latestHealthData.getSteps())
                             .build();
 
-                    return Mono.fromCallable(() -> healthRepository.save(health)).then();  // Health를 저장 후 Mono로 변환
+                    Date recordDate = Date.from(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+
+                    // 오늘 날짜에 해당하는 memberId의 데이터가 이미 저장되어 있다면 무시
+                    if (healthRepository.existsByMemberIdAndRecordDate(health.getMemberId(), recordDate)) {
+                        return Mono.empty();
+                    }
+
+                    // Health를 저장 후 Mono로 변환
+                    return Mono.fromCallable(() -> healthRepository.save(health)).then();
                 })
                 .subscribe();  // 리액티브 스트림 구독
     }
 
+
+////    @Scheduled(cron = "0 0 0 * * *")
+//    @Scheduled(cron = "0 40 10 * * *")
+//    @Transactional
+//    public void saveLatestHealthData() {
+//        log.info("시간들어옴!!!!");
+//        LocalDateTime start = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1);
+//        LocalDateTime end = LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusSeconds(1);
+//
+//        healthDataRepository.findByCreatedAtBetween(start, end)
+//                .filter(healthData -> healthData.getMemberId() != null)
+//                .groupBy(HealthData::getMemberId)
+//                .flatMap(group -> group.reduce((a, b) -> a.getCreatedAt().isAfter(b.getCreatedAt()) ? a : b))
+//                .flatMap(latestHealthData -> {
+//                    Date recordDate = Date.from(LocalDateTime.now(ZoneId.of("Asia/Seoul")).minusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+//                    Optional<Health> existingHealthOpt = healthRepository.findByMemberIdAndRecordDate(latestHealthData.getMemberId(), recordDate);
+//
+//                    if (!existingHealthOpt.isPresent()) {
+//                        Health health = Health.builder()
+//                                .memberId(latestHealthData.getMemberId())
+//                                .recordDate(recordDate)
+//                                .burntKcal(latestHealthData.getBurntKcal())
+//                                .consumedKcal(latestHealthData.getConsumedKcal())
+//                                .sleepTime(latestHealthData.getSleepTime())
+//                                .steps(latestHealthData.getSteps())
+//                                .build();
+//
+//                        return Mono.fromCallable(() -> healthRepository.save(health)).then();
+//                    } else {
+//                        return Mono.empty();
+//                    }
+//                })
+//                .subscribe();
+//    }
+//
+//
 
 
 
@@ -210,8 +255,8 @@ public class HealthService {
         // DB에서 해당 기간의 데이터를 가져옴
         List<Health> healthDataList = healthRepository.findByMemberIdAndRecordDateBetween(memberId, java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate));
 
-        List<Integer> dateList = healthDataList.stream()
-                .map(health -> new java.sql.Date(health.getRecordDate().getTime()).toLocalDate().getDayOfMonth())
+        List<LocalDate> dateList = healthDataList.stream()
+                .map(health -> new java.sql.Date(health.getRecordDate().getTime()).toLocalDate())
                 .collect(Collectors.toList());
 
         return new MonthResponseDto(dateList);

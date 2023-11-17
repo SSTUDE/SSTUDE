@@ -9,9 +9,9 @@ import java.util.List;
 @Getter
 @Setter
 public class MonthResponseDto {
-    private List<Integer> dates;
+    private List<LocalDate> dates;
 
-    public MonthResponseDto(List<Integer> dates) {
+    public MonthResponseDto(List<LocalDate> dates) {
         this.dates = dates;
     }
 }
