@@ -1,0 +1,69 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/chart.js": "^2.9.39",
+    "@types/jest": "^27.5.2",
+    "@types/jquery": "^3.5.25",
+    "@types/node": "^16.18.59",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
+    "@types/react-redux": "^7.1.28",
+    "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.6.0",
+    "chart.js": "^4.4.0",
+    "date-fns": "^2.30.0",
+    "jquery": "^3.7.1",
+    "pi-camera": "^1.7.0",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^4.21.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
+    "react-kakao-maps-sdk": "^1.1.24",
+    "react-redux": "^8.1.3",
+    "react-router-dom": "^6.17.0",
+    "react-scripts": "^5.0.1",
+    "react-swipeable": "^7.0.1",
+    "redux-devtools-extension": "^2.13.9",
+    "styled-components": "^6.1.0",
+    "sweetalert2": "^11.9.0",
+    "typescript": "^4.9.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@types/react-chartjs-2": "^2.5.7",
+    "@types/react-datepicker": "^4.19.1",
+    "kakao.maps.d.ts": "^0.1.39"
+  }
+}
