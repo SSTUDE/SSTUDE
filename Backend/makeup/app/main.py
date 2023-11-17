@@ -149,7 +149,6 @@ def getRecordDetail (
             row = curs.fetchone()
             result = row[0]
             img_uri = row[1]
-            print(img_uri)
             
         
         match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
