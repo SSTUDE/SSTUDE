@@ -14,14 +14,10 @@
 
 # 🔍1. STTUDE HOUSE 소개
 
-## **🔖 ddddd을 책임지는 앱**
+## **🔖 생활밀착형 스마트미러 서비스**
 
-        ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ
+        실생활 기기인 거울에서 일상에 필요한 생활 밀착형  스마트 미러 서비스 'SSTUDE HOUSE'
 
-<br/>
-
-- 서비스 흐름도
-  ![서비스흐름도]()
 
 <br/>
 
@@ -31,9 +27,30 @@
 
 # 🔍 2. 주요 기능
 
-### - 얼굴인식 로그인
+### - 얼굴인식 회원가입 / 로그인
+  
+  ![Alt text](signUp_login.gif)
 
-  <img src="./images/로그인.gif" width="250"/>
+### - BUS 정보
+
+  ![Alt text](<bus (1).gif>)
+
+### - 날씨 정보
+  
+  ![Alt text](<weather (1).gif>)
+
+### - 퍼스널컬러 진단
+  
+  ![Alt text](personalColorDx.gif)
+
+### - 의상진단
+  
+  ![Alt text](clothesDx.gif)
+
+
+### - 삼성 헬스정보 확인
+  ![Alt text](health.gif)
+
 
 
 ---
@@ -54,6 +71,10 @@
 
 ![react](https://shields.io/badge/react-black?logo=react&style=for-the-badge)
 ![redux](https://img.shields.io/badge/redux-%237F52FF.svg?style=for-the-badge&logo=redux&logoColor=white)
+
+### 📟 **Embeded**
+
+![rasberry pi](https://img.shields.io/badge/raspberrypi-%.svg?style=for-the-badge&logo=raspberrypi&logoColor=white)
 
 <br/>
 
@@ -84,7 +105,9 @@
 
 ### 💻 **Backend**
 
-![백엔드아키텍처](./images/백엔드아키텍처.png)
+![backend](image.png)
+
+
 
 <br/>
 
@@ -92,8 +115,7 @@
 
 ## 3-1. ERD
 
-- Business ERD
-  ![travelanceERD](./images/travelanceERD.png)
+  ![Alt text](image-3.png)
 
 
 <br/>
