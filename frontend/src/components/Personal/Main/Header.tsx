@@ -7,7 +7,9 @@ const HeaderContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  margin: 5% 0;
+  margin: 3% 0 4% 0;
+
+  color: black;
 `;
 
 const StyledLink = styled(Link)`
@@ -21,11 +23,8 @@ const ContentButton = styled.button<{ isActive: boolean }>`
   padding: 0px;
 
   cursor: pointer;
-
   font-size: 1.5rem;
-  color: white;
 
-  background-color: ${(props) => (props.isActive ? "#ffffff50" : "#ffffff12")};
   border: none;
 `;
 

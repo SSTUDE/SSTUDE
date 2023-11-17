@@ -1,92 +1,39 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import Weather from '../Weather/Weather';
 import { useNavigate } from 'react-router-dom';
+import { findNearestSFGridItem } from '../Weather/Grid';
 
 const TestMain = () => {
-  const currentDate = new Date();
+  // 오디오 요소에 대한 참조 생성
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  // 현재 시간을 "10:30AM" 형식으로 표시
-  const hours = currentDate.getHours();
-  const minutes = currentDate.getMinutes();
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  const formattedHours = hours % 12 || 12;
-  const Time = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+  useEffect(() => {
+    // 클릭 이벤트 핸들러
+    const playSound = () => {
+      if (audioRef.current) {
+        audioRef.current.play();
+      }
+    };
 
-  // 현재 날짜를 "2023.10.20(금)" 형식으로 표시
-  const year = currentDate.getFullYear();
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-  const day = currentDate.getDate().toString().padStart(2, '0');
-  const daysInKorean = ['일', '월', '화', '수', '목', '금', '토'];
-  const dayOfWeek = daysInKorean[currentDate.getDay()];
-  const DateString = `${year}.${month}.${day}(${dayOfWeek})`;
+    // 전역 클릭 이벤트 리스너 추가
+    window.addEventListener('click', playSound);
 
-  const navigate = useNavigate(); 
-
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('click', playSound);
+    };
+  }, []);
 
   return (
-    <Wrap>
-      <LeftContainer>
-        <Button onClick={()=>{navigate('/')}}>초기화면</Button>
-        <Button>버튼2</Button>
-        <Button>버튼3</Button>
-      </LeftContainer>
-      <MainSide>
-        <MainTop>
+    <div>
+      <audio src="/assets/sounds/blop.mp3" ref={audioRef}></audio>
+    </div>
+  );
+};
 
-        </MainTop>
-        <MainBottom>
-          <Weather/>
-        </MainBottom>
-      </MainSide>
-    </Wrap>
-  )
-}
-
-const Wrap = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100vh;
-`
-
-const LeftContainer = styled.div` 
-  display: grid(2f);
-  width: 28.8%;
-  height: 100%;
-  border: 1px solid #fff;
-`
-
-const MainSide = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 71.2%; 
-  height: 100%;
-  padding: 20px;
-`
-
-const MainTop = styled.div`
-  width: 100%;
-  height: 15%;
-  background-color: lightblue;
-`
-
-const MainBottom = styled.div`
-  width: 100%;
-  height: 85%;
-`
-
-const Button = styled.button`
-  width: 100px;
-  height: 100px;
-  background-color: gray;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-  margin: 20px;
-
-  &:hover {
-    background-color: darkgray;
-  }
+const BTN = styled.button`
+  width: 300px;
+  height: 300px;
 `
 
 export default TestMain
