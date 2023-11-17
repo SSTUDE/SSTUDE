@@ -8,15 +8,15 @@ import numpy as np
 
 # 퍼스널 컬러가져와서 
 # 거기에 어울리는 색상들 추출하기
-def my_color(userid, current_date, TargetLab):
-    connect, curs = connectMySQL()
-    with connect.cursor() as curs:
-        query = """SELECT result FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')=%s"""
-        curs.execute(query, (userid, current_date.date()))
-        result = curs.fetchone()[0]
+def my_color(color_result, TargetLab):
+    # connect, curs = connectMySQL()
+    # with connect.cursor() as curs:
+    #     query = """SELECT result FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')=%s"""
+    #     curs.execute(query, (userid, current_date.date()))
+    #     result = curs.fetchone()[0]
     
-    print(result)
-    match_color, _, _, _, _, _, _ = changeId(result)
+    # print(result)
+    match_color, _, _, _, _, _, _ = changeId(color_result)
     
     
     similarities = []
