@@ -42,7 +42,6 @@ public class StaticService {
                 .block();
 
 
-
         st= new HashSet<>();
         for (Makeups makeup : makeupsList) {
             LocalDateTime calender = makeup.getCalender();
@@ -53,6 +52,8 @@ public class StaticService {
         st= new HashSet<>();
         for (Clothes clothes : clothesList) {
             LocalDateTime calender = clothes.getCalender();
+            System.out.println(calender);
+//            calender = calender.minusDays(1);
             st.add(calender.toLocalDate());
         }
         ArrayList<LocalDate> list2 = new ArrayList<>(st);
