@@ -39,7 +39,7 @@ spring:
 #          uri: http://localhost:8011
           predicates:
             - Path=/auth/**
-            - Method=GET,POST,PUT,DELETE
+            - Method=GET,POST,PUT,DELETE,OPTIONS
           filters:
             - AuthenticationFilter
         - id: account
@@ -70,6 +70,7 @@ spring:
             - Path=/makeup/**
           filters:
             - AuthenticationFilter
+             
 #        - id: makeup-service
 #          uri: http://127.0.0.1:8013
 #          predicates:
@@ -113,7 +114,7 @@ spring:
           uri: http://health:8014
           predicates:
             - Path=/health/**
-            - Method=GET,POST,PUT,DELETE
+#            - Method=GET,POST,PUT,DELETE
           filters:
             - AuthenticationFilter
         - id: health
@@ -126,7 +127,6 @@ spring:
           uri: http://health:8014
           predicates:
             - Path=/health-service/**
-
         - id: businfo
 #          uri: http://localhost:8015
           uri: http://businfo:8015
@@ -139,8 +139,6 @@ spring:
           uri: http://businfo:8015
           predicates:
             - Path=/businfo-service/**
-
-
 
   redis:
     host: k9d204.p.ssafy.io
