@@ -74,7 +74,7 @@
 
 ### 📟 **Embeded**
 
-![rasberry pi](https://img.shields.io/badge/raspberrypi-%.svg?style=for-the-badge&logo=raspberrypi&logoColor=white)
+![rasberrypi](https://img.shields.io/badge/raspberrypi-%.svg?style=for-the-badge&logo=raspberrypi&logoColor=white)
 
 <br/>
 
