@@ -25,7 +25,7 @@ public class SwaggerConfig {
                         new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer"))
                 .info(new Info().title("✩ 자율 프로젝트")
-                        .description("계정 관련 API")
+                        .description("뷰티 관련 API")
                         .version("v0.0.1"));
     }
 

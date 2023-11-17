@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="43b20dfa-61c0-4b00-b5c1-0d21f73eb2cb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/request/SaveBusRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/request/SaveBusStationRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/controller/BusInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/controller/BusInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusInformByStationResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusInformByStationResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusStationResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/dto/response/BusStationResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusStationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/repository/BusStationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/service/BusInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/busstation/src/main/java/com/sstude/busstation/service/BusInfoService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2XmoqcySzH1GGwjj0cRZift83bJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43b20dfa-61c0-4b00-b5c1-0d21f73eb2cb" name="Changes" comment="" />
+      <created>1699243807651</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699243807651</updated>
+      <workItem from="1699243809749" duration="5000" />
+      <workItem from="1699689036227" duration="616000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -5,7 +5,7 @@ import com.sstude.statistics.dto.response.ClothesDetailResponseDto;
 import com.sstude.statistics.dto.response.ColorDetailResponseDto;
 import com.sstude.statistics.entity.Clothes;
 import com.sstude.statistics.entity.Makeups;
-import com.sstude.statistics.repository.ClothesRepository;
+import com.sstude.statistics.mongo.ClothesRepository;
 import com.sstude.statistics.repository.MakeupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,17 +28,26 @@ public class BeautyService {
         // 이미지, result, 상세보기
         Makeups makeups = makeupRepository.findMakeupsByYearMonthDayAndMemberId(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
 
-        return new ColorDetailResponseDto(makeups.getResult(), makeups.getImgUri());
+        return new ColorDetailResponseDto(makeups.getResult(), makeups.getImgUri(), makeups.getEng());
     }
 
     // 전체 의상 반환
     @Transactional(readOnly = true)
     public List<ClothesDetailResponseDto> getClothesDetail(Long memberId, StaticDayRequestDto requestDto) {
+        LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 9, 0);
+        LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 9, 0);
+
+//        LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 9, 0);
+//        LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 23, 59);
+        System.out.println(startday);
+        System.out.println(endday);
         // 이미지 점수
-        List<Clothes> clothesList = clothesRepository.findClothesByYearMonthDayAndMemberId(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
+        List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, memberId)
+                .collectList()
+                .block();
 
         List<ClothesDetailResponseDto> clothesDetailList = clothesList.stream()
-                .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImgUri()))
+                .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImguri()))
                 .collect(Collectors.toList());
 
         return clothesDetailList;

@@ -1,0 +1,59 @@
+server:
+  port: 8014
+
+
+spring:
+  application:
+    name: health
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/health?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://k9d204.p.ssafy.io:3306/health?serverTimezone=Asia/Seoul
+    username: root
+#    password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==)
+    password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+  data:
+    mongodb:
+#      uri: mongodb://localhost:27017/healthdatas
+#      host: localhost
+      host: k9d204.p.ssafy.io
+      port: 27017
+      database: healthdatas
+      username: root
+      password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
+      authentication-database: admin
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+
+  redis:
+#    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+    host: k9d204.p.ssafy.io
+    port: 6379
+
+jwt:
+  secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
+
+trace: true
+
+springdoc:
+  api-docs:
+    path: /health-service/v3/api-docs
+  swagger-ui:
+    path: /health-service/swagger-ui.html
+
+openapi:
+  service:
+    url: http://k9d204a.p.ssafy.io:8000/
+#    url: http://localhost:8000/
+
+jasypt:
+  encryptor:
+    password: ${PASSWORD}
