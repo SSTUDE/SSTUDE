@@ -89,8 +89,15 @@ public class BusInfoService {
 
         List<BusStationResponseDto> busStationList = busStationsDto.getBusStations();
 
+
+
         List<BusStation> busStations = busStationList.stream()
-                .map(dto -> BusStation.toEntity(memberId, dto))
+                .map(dto -> {
+                    log.info("버스 정보 인풋 정보 조회" + dto.getCityCode());
+                    BusStation X = BusStation.toEntity(memberId, dto);
+                    log.info("버스 정보 아웃풋 정보 조회" + X.getCityCode());
+                    return X;
+                })
                 .collect(Collectors.toList());
 
         busStationRepository.saveAll(busStations);
