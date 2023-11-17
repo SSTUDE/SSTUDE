@@ -42,7 +42,7 @@ const Login = () => {
     });
     sendMessage(message)
       .then((response: any) => {
-    dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+    dispatch(signUpUser({ deviceNum: 'string' }));
 
     Swal.close();
     showAlert({
@@ -68,7 +68,7 @@ const Login = () => {
     });
     SignClick()
     } else {
-    dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+    dispatch(signInUser({ deviceNum: 'string' }));
     showAlert({
       icon: 'success',
       title: '로그인 완료',

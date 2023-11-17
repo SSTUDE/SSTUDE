@@ -62,7 +62,7 @@ export const useWebSocket = (url: string, maxReconnectAttempts: number = 3) => {
     return new Promise((resolve, reject) => {
       if (!socket || socket.readyState !== WebSocket.OPEN) {
         console.error("웹소켓이 연결되지 않았습니다.");
-        return reject(new Error("웹소켓이 연결되지 않았습니다."));
+        return
       }
 
       const messageListener = (event: any) => {
