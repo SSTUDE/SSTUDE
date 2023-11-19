@@ -112,8 +112,8 @@ const StyledCaptureInfo = styled.p`
 // 카메라 버튼
 const StyledCameraButton = styled.button`
   position: absolute;
-  top: 10px;
-  left: 50%;
+  top: 490px;
+  left: 80%;
   transform: translateX(-50%);
   width: 150px;
   height: 150px;
