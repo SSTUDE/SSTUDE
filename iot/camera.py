@@ -113,7 +113,7 @@ while True:
     if msg_type == "camera" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
         print("is camera type came?")
-        if cam and msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
+        if msg_data == "on" : # 프론트에서 카메라가 on 되는 상황
             release_camera()
             msg["data"] = "raspberryPiCameraOff"
             asyncio.run(ws_service.sendInfo(json.dumps(msg)));
@@ -167,7 +167,7 @@ while True:
 
                 if 0 < len(face_distances):
                     best_match_index = np.argmin(face_distances)
-                    print("matching distance : ", face_distances[best_match_index])
+                    # print("matching distance : ", face_distances[best_match_index])
                     if matches[best_match_index] and face_distances[best_match_index] <= 0.45:
                         name = known_face_names[best_match_index]
                         userRecogn = True
@@ -256,37 +256,7 @@ while True:
     # 서비스 종료
     if service_on and finish_time < datetime.now():
         service_on = False
-        
-        ## 
-        close_service()
 
-        data = getSignInInfo.loadUserInfo(userSignInInfoFile)
-        Info = {
-            "type" : "signOut",
-            "data" : data
-        }
-        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
-    #############################################################
-    if ret:
-        # Display the results #######
-        for (top, right, bottom, left), name in zip(face_locations, face_names):
-            # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-            top *= 4
-            right *= 4
-            bottom *= 4
-            left *= 4
-
-            # Draw a box around the face
-            cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
-
-            # Draw a label with a name below the face
-            cv2.rectangle(frame, (left, bottom - 35), (right, bottom), (0, 0, 255), cv2.FILLED)
-            font = cv2.FONT_HERSHEY_DUPLEX
-            cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-
-        
-        cv2.imshow("Camera", frame)
-        #############################
             
 
 release_camera()

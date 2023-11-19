@@ -61,13 +61,7 @@ const Login = () => {
     const message = { type: "signIn", data: "" };
     sendMessage(message)
     .then((response: any) => {
-    if (response.data.userInfo === "unKnown") {
-    showAlert({
-      icon: 'info',
-      title: '등록된 유저가 아닙니다. 회원가입해 주세요',
-    });
-    SignClick()
-    } else {
+
     dispatch(signInUser({ deviceNum: 'string' }));
     showAlert({
       icon: 'success',
@@ -76,7 +70,7 @@ const Login = () => {
     dispatch(saveBusStopForServer())
     dispatch(saveBusListForServer())
     navigate("/mirror")
-  }
+
   })
   .catch((error: Error) => {
     console.log(error)

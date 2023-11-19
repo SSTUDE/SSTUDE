@@ -137,7 +137,11 @@ type ModalContainerProps = {
 };
 
 const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
+
   const { beauty } = useSelector((state: RootState) => state.personal);
+  // const navigate = useNavigate();
+  // const { beauty } = useSelector((state: RootState) => state.personal); // Redux에서 beauty 객체를 가져옵니다.
+
 
   const containsWarm = (result: string | undefined) => {
     return result ? result.includes("웜") : false;

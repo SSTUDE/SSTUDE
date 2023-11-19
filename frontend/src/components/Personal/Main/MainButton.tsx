@@ -42,15 +42,9 @@ const HomeIcon = () => (
 
 const MainButton = () => {
   const navigate = useNavigate();
-  const { sendMessage } = useWebSocket(RASPBERRY_URL);
-  const message = { type: "camera", data: "off" };
-  const { stopWebcam } = useWebcam();
-
+ 
   const handleHomeClick = () => {
-    stopWebcam();
-    setTimeout(() => {
-      sendMessage(message)
-    }, 1000);
+ 
 
     navigate('/mirror')
   };
