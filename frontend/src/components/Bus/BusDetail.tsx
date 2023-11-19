@@ -12,8 +12,7 @@ interface BusProps {
 
 const BusDetail: React.FC<BusProps> = ({ onClick }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
-  const { gps, busStop, busSave, busRealTime, loading } = useSelector((state: RootState) => state.bus);
+  const { gps, busStop, busSave, busRealTime, loading } = useSelector((state: RootState) => state.bus);  const navigate = useNavigate();
 
   const toSelectBusStop = () => {
     if (gps) {
@@ -40,18 +39,22 @@ const BusDetail: React.FC<BusProps> = ({ onClick }) => {
     } else if (sortedBusRealTime && sortedBusRealTime.length > 0) {
       const filteredBusRealTime = sortedBusRealTime.filter(bus => 
         busSave.includes(bus.routeId)
-      );
-      const numberOfInfo = Math.ceil(filteredBusRealTime.length / 4);
-      return Array.from({ length: numberOfInfo }, (_, index) => (
+        );
+        const numberOfInfo = Math.ceil(filteredBusRealTime.length / 4);
+        return Array.from({ length: numberOfInfo }, (_, index) => (
         <BusInfoList key={`bus-info-list-${index}`}>
           {filteredBusRealTime.slice(index * 4, (index + 1) * 4).map((bus: BusRealTimeData) => (
-            <BusInfoItem key={bus.arrivalPrevStationCount - bus.arrivalTime}>
+                        <BusInfoItem key={bus.arrivalPrevStationCount - bus.arrivalTime}>
               <TimeIndicator>
                 <TimeCircle >{formatTime(bus.arrivalTime)}</TimeCircle>
               </TimeIndicator>
               <BusDetails>
-                <BusId>
-                  {bus.routeNo} <br />
+              <BusId routeType={bus.routeType}>
+                  <BusNum>
+                  
+                {bus.routeNo} 
+                  </BusNum>
+                <BusIdBun>번</BusIdBun>
                 </BusId>
                 <BusStopCount>
                   {bus.arrivalPrevStationCount} 정거장
@@ -146,10 +149,31 @@ const BusDetails = styled.div`
   color: white;
 `;
 
-const BusId = styled.p`
+const BusNum = styled.div`
+white-space: nowrap;
+width: auto; 
+`
+
+interface BusIdProps {
+  routeType: string;
+}
+
+const BusId = styled.div<BusIdProps>`
   font-size: 4rem;
   font-weight: bold;
+  display: flex;
+  align-items: end;
+  gap: 10px;
+  color: ${props => props.routeType === '일반버스' ? '#33CC99' : 
+          props.routeType === '좌석버스' ? '#0068b7' : 
+          props.routeType === '광역버스' ? '#e60012' : 'white'};
 `;
+
+const BusIdBun = styled.div`
+  font-size: 2rem;
+  font-weight: bold;
+  padding-bottom: 13px;
+  `;
 
 const BusStopCount = styled.p`
   margin-left: 5px;
