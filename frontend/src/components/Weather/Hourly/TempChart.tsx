@@ -87,9 +87,6 @@ const TempChart: React.FC<TempChartProps> = ({ TempDatas }) => {
 
   return (
     <>
-    {/* <ChartLabel>
-      <span>기온(°C)</span>
-    </ChartLabel> */}
       <Container>
         <Chart 
           type="line"

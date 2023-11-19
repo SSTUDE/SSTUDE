@@ -8,15 +8,15 @@ type DayRainAmountProps = {
 };
 
 const DayRainAmount: React.FC<DayRainAmountProps> = ({ RainAmountDatas, index }) => {
-  // 첫 번째 요소인 경우 "오늘"을 표시
-  if (index === 0) {
-    return (
-      <Label>
-        <span className="label">강수량
-        (mm)</span>
-      </Label>
-    );
-  }
+  // // 첫 번째 요소인 경우 "오늘"을 표시
+  // if (index === 0) {
+  //   return (
+  //     <Label>
+  //       <span className="label">강수량
+  //       (mm)</span>
+  //     </Label>
+  //   );
+  // }
 
   // 강수 없음이면 0을 나타냄
   let RainAmount = RainAmountDatas.fcstValue === '강수없음' ? '0' : RainAmountDatas.fcstValue;

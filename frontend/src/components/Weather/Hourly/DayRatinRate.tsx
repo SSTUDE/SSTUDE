@@ -8,15 +8,7 @@ type DayRatinRateProps = {
 };
 
 const DayRatinRate: React.FC<DayRatinRateProps> = ({ RainRateDatas, index }) => {
-  // 첫 번째 요소인 경우 "오늘"을 표시
-  if (index === 0) {
-    return (
-      <Label>
-        <span className="label">강수확률
-        (%)</span>
-      </Label>
-    );
-  }
+
 
   const RainRate = RainRateDatas.fcstValue
 

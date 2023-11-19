@@ -8,15 +8,15 @@ type DayHumidityProps = {
 };
 
 const DayHumidity: React.FC<DayHumidityProps> = ({ HumidityDatas, index }) => {
-  // 첫 번째 요소인 경우 "오늘"을 표시
-  if (index === 0) {
-    return (
-      <Label>
-        <span className="label">습도
-          (%)</span>
-      </Label>
-    );
-  }
+  // // 첫 번째 요소인 경우 "오늘"을 표시
+  // if (index === 0) {
+  //   return (
+  //     <Label>
+  //       <span className="label">습도
+  //         (%)</span>
+  //     </Label>
+  //   );
+  // }
 
   // 강수 없음이면 0을 나타냄
   let Humidity = HumidityDatas.fcstValue;
