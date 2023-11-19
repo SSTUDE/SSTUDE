@@ -160,7 +160,7 @@ const BlinkingCameraIcon = styled(CameraIcon)`
 `;
 
 const ClothesCapture = () => {
-  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
@@ -173,11 +173,11 @@ const ClothesCapture = () => {
       console.log("popstate 이벤트 발생: 웹캠 중지 및 메시지 전송 시작");
       stopWebcam();
       setTimeout(() => {
-        sendMessage(message).then(() => {
-          console.log("웹소켓 메시지 전송 완료");
-        }).catch((error) => {
-          console.error("웹소켓 메시지 전송 오류:", error);
-        });
+        // sendMessage(message).then(() => {
+        //   console.log("웹소켓 메시지 전송 완료");
+        // }).catch((error) => {
+        //   console.error("웹소켓 메시지 전송 오류:", error);
+        // });
       }, 1000);
     };
 
@@ -201,12 +201,12 @@ const ClothesCapture = () => {
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
             setTimeout(() => {
-              sendMessage(message).then(() => {
-                console.log("웹소켓 메시지 전송 완료");
-                navigate("/personalclothesresults");
-              }).catch((error) => {
-                console.error("웹소켓 메시지 전송 오류:", error);
-              });
+              // sendMessage(message).then(() => {
+              //   console.log("웹소켓 메시지 전송 완료");
+              //   navigate("/personalclothesresults");
+              // }).catch((error) => {
+              //   console.error("웹소켓 메시지 전송 오류:", error);
+              // });
             }, 1000);
           } else {
             console.error("서버 응답 오류:", data.payload.request.status);
@@ -224,11 +224,11 @@ const ClothesCapture = () => {
     console.log("카메라 중지 버튼 클릭");
     stopWebcam();
     setTimeout(() => {
-      sendMessage(message).then(() => {
-        console.log("웹소켓 메시지 전송 완료");
-      }).catch((error) => {
-        console.error("웹소켓 메시지 전송 오류:", error);
-      });
+      // sendMessage(message).then(() => {
+      //   console.log("웹소켓 메시지 전송 완료");
+      // }).catch((error) => {
+      //   console.error("웹소켓 메시지 전송 오류:", error);
+      // });
     }, 1000);
   };
 
