@@ -84,10 +84,9 @@ const Mirror = () => {
     <Container>
       <Header>
         <Left>
-          <MainButton />
+          <MenuBtn type="alarm" />
           <MenuBtn type="beauty" />
           <MenuBtn type="health" />
-          <MenuBtn type="alarm" />
         </Left>
         <Center>
           <HelloWorld />
