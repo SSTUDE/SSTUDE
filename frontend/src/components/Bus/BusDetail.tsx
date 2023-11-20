@@ -66,7 +66,7 @@ const BusDetail: React.FC<BusProps> = ({ onClick }) => {
         </BusInfoList>
       ));
     } else {
-      return <Message>버스 정보가 없습니다.</Message>;
+      return <Message>도착 예정인 버스가 없습니다.</Message>;
     }
   };
 

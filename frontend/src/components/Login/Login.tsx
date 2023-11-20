@@ -11,7 +11,6 @@ import styled, { keyframes } from 'styled-components';
 import { signInUser, signUpUser } from "./LoginSlice";
 import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
-import { saveBusListForServer, saveBusStopForServer } from "../Bus/BusSlice";
 
 const Login = () => {
   const { sendMessage } = useWebSocket(RASPBERRY_URL);
@@ -53,6 +52,10 @@ const Login = () => {
       })
       .catch((error: Error) => {
         console.log(error)
+        showAlert({
+          icon: 'error',
+          title: '회원가입 실패. 다시 시도해주세요',
+        });
       });
   }
 
@@ -64,9 +67,9 @@ const Login = () => {
         if (response.data.userInfo === "unKnown") {
           showAlert({
             icon: 'info',
-            title: '등록된 유저가 아닙니다. \n 회원가입이 진행됩니다',
+            title: '등록된 유저가 아닙니다. \n 회원가입 해주세요',
           });
-          SignClick()
+          // SignClick()
         } else {
           // dispatch(signInUser({ deviceNum: 'string' }));
           
@@ -75,11 +78,9 @@ const Login = () => {
           dispatch(signInUser({ deviceNum: access }));
           showAlert({
             icon: 'success',
-            title: '환영합니다. \n 전수림씨',
+            title: '로그인 완료',
           });
-          dispatch(saveBusStopForServer())
-          dispatch(saveBusListForServer())
-          navigate("/mirror")
+          navigate("/welcome")
         }
       })
       .catch((error: Error) => {

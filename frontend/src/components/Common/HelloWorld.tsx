@@ -1,10 +1,9 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 
 function HelloWorld() {
   const [message, setMessage] = useState('');
   const [textColor, setTextColor] = useState('');
-  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -114,21 +113,11 @@ function HelloWorld() {
 
     setMessage(newMessage);
     setTextColor(newTextColor);
-
-    const interval = setInterval(() => {
-      setShowWelcome((prevShowWelcome) => !prevShowWelcome);
-    }, 5000);
-
-    return () => clearInterval(interval);
   }, []);
 
   return (
     <Wrap>
-      {showWelcome ? (
-        <Hello $textColor={textColor}>{message}</Hello>
-      ) : (
-        <WelcomeMessage>환영합니다, 전수림씨!</WelcomeMessage>
-      )}
+      <Hello $textColor={textColor}>{message}</Hello>
     </Wrap>
   );
 }
@@ -145,20 +134,6 @@ const Hello = styled.p<HelloProps>`
   font-size: 50px;
   margin: 0;
   color: ${(props) => props.$textColor};
-`;
-
-const blink = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
-
-const WelcomeMessage = styled.p`
-  font-size: 50px;
-  margin: 0;
 `;
 
 export default HelloWorld;

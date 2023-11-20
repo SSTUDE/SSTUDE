@@ -21,6 +21,7 @@ import HealthCalender from "../components/Health/HealthCalender";
 import PrevHealth from "../components/Health/PrevHealth";
 import TodayHealthData from "../components/Health/TodayHealthData";
 import Alarm from "../components/Common/Alarm";
+import Welcome from "../components/Login/Welcome";
 
 const routes = [
   {
@@ -49,6 +50,10 @@ const routes = [
   {
     path: "/login",
     Component: Login,
+  },
+  {
+    path: "/welcome",
+    Component: Welcome,
   },
 
   {
