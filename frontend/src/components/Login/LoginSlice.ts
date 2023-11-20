@@ -27,11 +27,12 @@ export const signInUser = createAsyncThunk(
   async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
       const response = await axiosToken.post(SIGN_IN_URL, data);
-      console.log(response)
+      console.log("hello world",response)
       storageData(response.data.accessToken);
       const memberId = response.data.memberId;
       return memberId;
     } catch (err: any) {
+      console.log(err);
       return rejectWithValue(err.response?.data);
     }
   }

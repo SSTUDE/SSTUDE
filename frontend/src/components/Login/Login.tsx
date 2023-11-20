@@ -70,7 +70,10 @@ const Login = () => {
           SignClick()
         } else {
           // dispatch(signInUser({ deviceNum: 'abc' }));
-          dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+          
+          const access = response.data.userInfo + response.data.serialNum;
+          console.log("check  ", access);
+          dispatch(signInUser({ deviceNum: access }));
           showAlert({
             icon: 'success',
             title: '로그인 완료',

@@ -177,7 +177,7 @@ while True:
 
                 if 0 < len(face_distances):
                     best_match_index = np.argmin(face_distances)
-                    # print("matching distance : ", face_distances[best_match_index])
+                    print("matching distance : ", face_distances[best_match_index])
                     if matches[best_match_index] and face_distances[best_match_index] <= 0.45:
                         name = known_face_names[best_match_index]
                         userRecogn = True
@@ -196,7 +196,7 @@ while True:
 
     ##############################
     ## Sign Up Messageing process
-    if cam and not userRecogn and msg_type == "signUp" and is_login_service_on:
+    if cam and msg_type == "signUp" and is_login_service_on:
         print("hello world")
         userName = getUserInfo.createUser()
         
@@ -221,6 +221,7 @@ while True:
     
     ######## about camera servie ###############
     if userRecogn :
+        print("dde")
         getSignInInfo.updateUserInfo(userSignInInfoFile, name)
         data = getSignInInfo.loadUserInfo(userSignInInfoFile)
         
@@ -242,7 +243,7 @@ while True:
         asyncio.run(ws_service.sendInfo(json.dumps(Info)));
 
     # 서비스 실행
-    if is_login_service_on and userRecogn and not service_on :
+    if userRecogn and not service_on :
         update_finish_time(now)
         print("타겟 시간 : ", finish_time)
         service_on = True
@@ -252,16 +253,17 @@ while True:
         asyncio.run(ws_service.sendInfo(json.dumps(Info)));
         is_login_service_on = False
     
-    if is_login_service_on and not userRecogn:
-        Info = {
-            "type" : "signIn",
-            "data" : {
-                "userInfo": "unKnown",
-                "serialNum": getSignInInfo.getSerial()
-            }
-        }
-        asyncio.run(ws_service.sendInfo(json.dumps(Info)));
-        is_login_service_on = False
+   # if is_login_service_on and not userRecogn:
+    #    print("why?")
+     #   Info = {
+      #      "type" : "signIn",
+       #     "data" : {
+        #        "userInfo": "unKnown",
+        #        "serialNum": getSignInInfo.getSerial()
+        #    }
+       # }
+       # asyncio.run(ws_service.sendInfo(json.dumps(Info)));
+       # is_login_service_on = False
 
 
     # 서비스 종료
