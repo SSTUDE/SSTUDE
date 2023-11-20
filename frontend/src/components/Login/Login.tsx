@@ -13,7 +13,7 @@ import { useWebSocket } from '../../hooks/useWebSocket';
 import { TEXT_COLOR } from '../../constants/defaultSlices';
 
 const Login = () => {
-  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
   const showAlert = useCustomAlert();
@@ -39,57 +39,58 @@ const Login = () => {
       title: '회원가입 중입니다... \n 얼굴을 중앙에 위치해 주세요.',
       timer: 20000,
     });
-    sendMessage(message)
-      .then((response: any) => {
-        // dispatch(signUpUser({ deviceNum: 'string' }));
-        dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+    // sendMessage(message)
+    //   .then((response: any) => {
+        dispatch(signUpUser({ deviceNum: 'string' }));
+        // dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
 
         Swal.close();
         showAlert({
           icon: 'success',
           title: '회원가입 완료, 로고를 눌러주세요.',
         });
-      })
-      .catch((error: Error) => {
-        console.log(error)
-        showAlert({
-          icon: 'error',
-          title: '회원가입 실패. 다시 시도해주세요',
-        });
-      });
+      // })
+      // .catch((error: Error) => {
+      //   console.log(error)
+      //   showAlert({
+      //     icon: 'error',
+      //     title: '회원가입 실패. 다시 시도해주세요',
+      //   });
+      // });
   }
 
   //NOTE - 로그인
   const loginClick = () => {
     const message = { type: "signIn", data: "" };
-    sendMessage(message)
-      .then((response: any) => {
-        if (response.data.userInfo === "unKnown") {
-          showAlert({
-            icon: 'info',
-            title: '등록된 유저가 아닙니다. \n 회원가입 해주세요',
-          });
+    // sendMessage(message)
+    //   .then((response: any) => {
+    //     if (response.data.userInfo === "unKnown") {
+    //       showAlert({
+    //         icon: 'info',
+    //         title: '등록된 유저가 아닙니다. \n 회원가입 해주세요',
+    //       });
           // SignClick()
-        } else {
+        // } else {
           // dispatch(signInUser({ deviceNum: 'string' }));
           
-          const access = response.data.userInfo + response.data.serialNum;
+          // const access = response.data.userInfo + response.data.serialNum;
+          const access = 'string';
           // console.log("check  ", access);
           dispatch(signInUser({ deviceNum: access }));
-          showAlert({
-            icon: 'success',
-            title: '로그인 완료',
-          });
+          // showAlert({
+          //   icon: 'success',
+          //   title: '로그인 완료',
+          // });
           navigate("/welcome")
-        }
-      })
-      .catch((error: Error) => {
-        console.log(error)
-        showAlert({
-          icon: 'error',
-          title: '로그인 실패. 다시 시도해주세요',
-        });
-      });
+        // }
+      // })
+      // .catch((error: Error) => {
+      //   console.log(error)
+      //   showAlert({
+      //     icon: 'error',
+      //     title: '로그인 실패. 다시 시도해주세요',
+      //   });
+      // });
   }
 
   return (
