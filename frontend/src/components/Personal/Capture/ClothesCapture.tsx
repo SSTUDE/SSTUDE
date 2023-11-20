@@ -203,7 +203,7 @@ const ClothesCapture = () => {
             setTimeout(() => {
               // sendMessage(message).then(() => {
               //   console.log("웹소켓 메시지 전송 완료");
-              //   navigate("/personalclothesresults");
+                navigate("/personalclothesresults");
               // }).catch((error) => {
               //   console.error("웹소켓 메시지 전송 오류:", error);
               // });
