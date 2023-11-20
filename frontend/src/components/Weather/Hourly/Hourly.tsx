@@ -25,7 +25,6 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
   return (
     <Container>
     <FixedColumn>
-        {/* 여기에 고정될 첫 번째 열의 내용을 넣습니다 */}
         <TodayLabel>시간</TodayLabel>
         <TempComLabel>기온(°C)</TempComLabel>
         <RainrateLabel>강수확률(%)</RainrateLabel>
@@ -44,8 +43,8 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
         {TempDatas.map((item, index) => (
           <TempLabel
             key={index}
-            $columns={dailySkyWithToday.length + 1} // TempLabel 시작점을 각각 2로 설정 
-            $index={index + 1} // 첫 번째 열을 "오늘"로 고려하여 +2를 합니다.
+            $columns={dailySkyWithToday.length + 1} 
+            $index={index + 1} 
           >
             {item.fcstValue}°
           </TempLabel>
@@ -81,8 +80,8 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
 
 // TempChartWrapper 스타일
 const TempChartWrapper = styled.div<{ $columns: number }>`
-  grid-column-start: 1; // 두 번째 열부터 시작
-  grid-column-end: -1; // 마지막 열까지
+  grid-column-start: 1; 
+  grid-column-end: -1; 
   width: 100%;
 `;
 
@@ -91,7 +90,7 @@ const TempLabel = styled.div<{ $columns: number; $index: number }>`
   grid-column-start: ${props => props.$index}; // 각 TempLabel이 시작할 열을 지정
   text-align: center;
   white-space: nowrap;
-  align-self: start; // 라벨을 그리드 아이템의 상단에 배치합니다.
+  align-self: start; // 라벨을 그리드 아이템의 상단에 배치
   margin-top: 30px;
 `;
 
@@ -107,14 +106,12 @@ const GridContainer = styled.div<{ $columns: number }>`
   }
   margin: 0 35px 0 60px;
   font-size: 20px;
-  /* background-color: lightcoral; */
 `;
 
 // 고정될 첫 번째 열
 const FixedColumn = styled.div`
   flex-shrink: 0; 
   width: 120px;
-  /* background-color: lightblue; */
   margin-left: 40px;
   font-size: 20px;
 `;

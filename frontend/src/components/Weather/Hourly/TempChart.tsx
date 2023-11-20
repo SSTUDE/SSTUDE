@@ -104,8 +104,4 @@ const Container = styled.div`
   height: 50px; 
 `;
 
-// const ChartLabel = styled.div`
-//   position: relative;
-// `;
-
 export default TempChart;
