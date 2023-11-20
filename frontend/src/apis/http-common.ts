@@ -12,6 +12,7 @@ const axiosToken = baseAxios.create({
 axiosToken.interceptors.request.use(
   async (config) => {
     const accessToken = await retrieveData();
+    console.log(accessToken)
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -38,6 +39,7 @@ axiosToken.interceptors.response.use(
       try {
         const response = await axiosToken.post(REFRESH_TOKEN_URL);
         const { accessToken } = response.data;
+        console.log(accessToken)
 
         storageData(accessToken);
 
