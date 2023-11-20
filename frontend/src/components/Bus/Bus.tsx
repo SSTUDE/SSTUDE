@@ -15,7 +15,7 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
   const [intervalId, setIntervalId] = useState<NodeJS.Timer | null>(null);
 
   const { busStop, busSave, busRealTime, loading } = useSelector(
-        (state: RootState) => state.bus,
+    (state: RootState) => state.bus,
     shallowEqual
   );
 
@@ -24,7 +24,7 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
     dispatch(busRealTimeForServer())
 
     const id = setInterval(() => {
-    dispatch(busRealTimeForServer())
+      dispatch(busRealTimeForServer())
     }, 30000);
 
     setIntervalId(id);
@@ -48,31 +48,31 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
     } else if (busStop && !busRealTime) {
       return <Message>현재 도착 정보가 없습니다.</Message>;
     } else if (sortedBusRealTime && sortedBusRealTime.length > 0) {
-      const filteredBusRealTime = sortedBusRealTime.filter(bus => 
+      const filteredBusRealTime = sortedBusRealTime.filter(bus =>
         busSave.includes(bus.routeId)
-        );
-        const firstFourBusTimes = filteredBusRealTime.slice(0, 4);
-              return (
+      );
+      const firstFourBusTimes = filteredBusRealTime.slice(0, 4);
+      return (
         <BusInfoList>
           {firstFourBusTimes.map((bus: BusRealTimeData, index: number) => (
-  <BusInfoItem key={index}>
-    <TimeIndicator>
-      <TimeCircle>{formatTime(bus.arrivalTime)}</TimeCircle>
-    </TimeIndicator>
-    <BusDetails>
-      <BusId routeType={bus.routeType}>
-        <BusNum>
+            <BusInfoItem key={index}>
+              <TimeIndicator>
+                <TimeCircle>{formatTime(bus.arrivalTime)}</TimeCircle>
+              </TimeIndicator>
+              <BusDetails>
+                <BusId routeType={bus.routeType}>
+                  <BusNum>
 
-        {bus.routeNo} 
-        </BusNum>
-        <BusIdBun>번</BusIdBun>
-      </BusId>
-      <BusStopCount>
-        {bus.arrivalPrevStationCount} 정거장
-      </BusStopCount>
-    </BusDetails>
-  </BusInfoItem>
-))}
+                    {bus.routeNo}
+                  </BusNum>
+                  <BusIdBun>번</BusIdBun>
+                </BusId>
+                <BusStopCount>
+                  {bus.arrivalPrevStationCount} 정거장
+                </BusStopCount>
+              </BusDetails>
+            </BusInfoItem>
+          ))}
 
         </BusInfoList>
       );
@@ -162,9 +162,9 @@ const BusId = styled.div<BusIdProps>`
   display: flex;
   align-items: end;
   gap: 10px;
-  color: ${props => props.routeType === '일반버스' ? '#33CC99' : 
-          props.routeType === '좌석버스' ? '#0068b7' : 
-          props.routeType === '광역버스' ? '#e60012' : 'white'};
+  color: ${props => props.routeType === '일반버스' ? '#33CC99' :
+    props.routeType === '좌석버스' ? '#0068b7' :
+      props.routeType === '광역버스' ? '#e60012' : 'white'};
 `;
 
 const BusIdBun = styled.div`
