@@ -33,6 +33,8 @@ def update_finish_time(_now):
 # 1. 로그인 시 필요한 데이터 저장할 .json 불러오기
 userSignInInfoFile = "./userSignInInfo.json"
 getSignInInfo.updateUserInfo(userSignInInfoFile, "")
+
+alarmInformFile = "./alarmInform.json"
 # getSignInInfo.loadUserInfo(userSignInInfoFile)
 
 # 2. 웹소켓 실행
@@ -124,8 +126,16 @@ while True:
 
     
     ## getting accessToken for send img
-    if msg_type == "accessToken" and datetime.now() < finish_time and cnt == 0:
+    if msg_type == "alarm" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
+        hour = msg_data.get('hour')
+        minute = msg_data.get('min')
+
+        if hour and minute :
+            getSignInInfo.updateAlarmInfo(alarmInformFile, _hour=hour, _minute=minute)
+            # alarmInfo = getSignInInfo.loadAlarmInfo(alarmInformFile)
+            # asyncio.run(ws_service.sendInfo(json.dumps(alarmInfo)));
+    
 
     if cam : 
         ret, frame = cam.read()

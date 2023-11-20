@@ -55,3 +55,38 @@ def updateUserInfo(file_name, userName):
     # 업데이트된 데이터를 파일에 다시 저장합니다.
     with open(file_name, 'w') as f:
         json.dump(data, f)
+
+###
+def loadAlarmInfo(file_name):
+    # 파일이 존재하는지 확인
+    try:
+        with open(file_name, 'r') as f:
+            data = json.load(f)
+	    
+    except :
+        # 파일이 존재하지 않으면 새로운 파일을 생성하고 기본 정보를 저장
+        data = {
+            "start_hour": 14, 
+            "start_minute": 10, 
+            "play_times": 1,
+            "duration_minutes": 1, 
+            "song_path": "/home/kimsc9976/Downloads/S09P31D204/iot/music/Good_Morning_Cyon_Morning_Alarm.mp3"
+        }
+
+        with open(file_name, 'w') as f:
+            json.dump(data, f)
+	    
+    return data
+
+def updateAlarmInfo(file_name, _hour=6, _minute=30):
+    
+    # 파일을 불러옵니다
+    data = loadUserInfo(file_name)
+    
+    # 사용자 정보를 업데이트합니다.
+    data["start_hour"] = _hour
+    data["start_minute"] = _minute
+
+    # 업데이트된 데이터를 파일에 다시 저장합니다.
+    with open(file_name, 'w') as f:
+        json.dump(data, f)
