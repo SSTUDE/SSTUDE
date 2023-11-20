@@ -60,15 +60,15 @@ const Login = () => {
   //NOTE - 로그인
   const loginClick = () => {
     const message = { type: "signIn", data: "" };
-    // sendMessage(message)
-    //   .then((response: any) => {
-    //     if (response.data.userInfo === "unKnown") {
+    sendMessage(message)
+      .then((response: any) => {
+        if (response.data.userInfo === "unKnown") {
           showAlert({
             icon: 'info',
             title: '등록된 유저가 아닙니다. \n 회원가입이 진행됩니다',
           });
           SignClick()
-        // } else {
+        } else {
           // dispatch(signInUser({ deviceNum: 'abc' }));
           dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
           showAlert({
@@ -79,15 +79,15 @@ const Login = () => {
           dispatch(saveBusListForServer())
           navigate("/mirror")
         }
-      // })
-      // .catch((error: Error) => {
-      //   console.log(error)
-      //   showAlert({
-      //     icon: 'error',
-      //     title: '로그인 실패. 다시 시도해주세요',
-      //   });
-      // });
-  // }
+      })
+      .catch((error: Error) => {
+        console.log(error)
+        showAlert({
+          icon: 'error',
+          title: '로그인 실패. 다시 시도해주세요',
+        });
+      });
+  }
 
   return (
     <Wrap>
