@@ -20,6 +20,7 @@ import TodayHealth from "../components/Health/TodayHealth";
 import HealthCalender from "../components/Health/HealthCalender";
 import PrevHealth from "../components/Health/PrevHealth";
 import TodayHealthData from "../components/Health/TodayHealthData";
+import Alarm from "../components/Common/Alarm";
 
 const routes = [
   {
@@ -134,6 +135,11 @@ const routes = [
   {
     path: "/kakaomap",
     Component: KakaoMap,
+  },
+  // 알람
+  {
+    path: "/alarm",
+    Component: Alarm,
   },
 ];
 

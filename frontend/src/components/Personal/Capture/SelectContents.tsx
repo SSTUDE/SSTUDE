@@ -75,7 +75,7 @@ const CameraIcon = () => (
 );
 
 const SelectContents = () => {
-  const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "on" };
   const navigate = useNavigate();
   const { startWebcam } = useWebcam();
@@ -84,40 +84,40 @@ const SelectContents = () => {
   useEffect(() => {
     console.log("웹소켓 메시지 전송:", { type: "camera", data: "off" });
     setTimeout(() => {
-      sendMessage({ type: "camera", data: "off" })
+      // sendMessage({ type: "camera", data: "off" })
     }, 1000);
   }, [])
 
   const handlePersonalCameraClick = () => {
     console.log("퍼스널 컬러 진단 카메라 버튼 클릭");
-    sendMessage(message)
-      .then((response: any) => {
-        console.log("웹소켓 응답:", response);
+    // sendMessage(message)
+    //   .then((response: any) => {
+        // console.log("웹소켓 응답:", response);
         setTimeout(() => { 
           console.log("웹캠 시작");
           startWebcam(); 
         }, 1000);
         navigate("/personalselectpersonal");
-      })
-      .catch((error: Error) => {
-        console.error("웹소켓 에러:", error);
-      });
+      // })
+      // .catch((error: Error) => {
+      //   console.error("웹소켓 에러:", error);
+      // });
   };
 
   const handleClothesCameraClick = () => {
     console.log("의상 진단 카메라 버튼 클릭");
-    sendMessage(message)
-      .then((response: any) => {
-        console.log("웹소켓 응답:", response);
+    // sendMessage(message)
+    //   .then((response: any) => {
+    //     console.log("웹소켓 응답:", response);
         setTimeout(() => { 
           console.log("웹캠 시작");
           startWebcam(); 
         }, 1000);
         navigate("/personalselectclothes");
-      })
-      .catch((error: Error) => {
-        console.error("웹소켓 에러:", error);
-      });
+      // })
+      // .catch((error: Error) => {
+      //   console.error("웹소켓 에러:", error);
+      // });
   }
 
 

@@ -1,18 +1,18 @@
-import Bus from '../Bus/Bus';
-import MenuBtn from '../Common/MenuBtn';
-import Weather from '../Weather/Weather';
-import BusDetail from '../Bus/BusDetail';
-import DateTime from '../Common/DateTime';
-import HelloWorld from '../Common/HelloWorld';
-import WeatherInfo from '../Weather/WeatherInfo';
-import React, { useState, useEffect } from 'react';
-import MainButton from '../Personal/Main/MainButton';
-import styled, { keyframes } from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { findNearestSFGridItem } from '../Weather/Grid';
-import { TEXT_COLOR } from '../../constants/defaultSlices';
-import { updatePosition } from '../../store/PositionSlice';
-import { AppDispatch, RootState } from '../../store/store';
+import Bus from "../Bus/Bus";
+import MenuBtn from "../Common/MenuBtn";
+import Weather from "../Weather/Weather";
+import BusDetail from "../Bus/BusDetail";
+import DateTime from "../Common/DateTime";
+import HelloWorld from "../Common/HelloWorld";
+import WeatherInfo from "../Weather/WeatherInfo";
+import React, { useState, useEffect } from "react";
+import MainButton from "../Personal/Main/MainButton";
+import styled, { keyframes } from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { findNearestSFGridItem } from "../Weather/Grid";
+import { TEXT_COLOR } from "../../constants/defaultSlices";
+import { updatePosition } from "../../store/PositionSlice";
+import { AppDispatch, RootState } from "../../store/store";
 
 const Mirror = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,7 +25,8 @@ const Mirror = () => {
   useEffect(() => {
     // latitude와 longitude가 숫자인지 문자열인지 확인하여 처리
     const lat = typeof latitude === "string" ? parseFloat(latitude) : latitude;
-    const lng = typeof longitude === "string" ? parseFloat(longitude) : longitude;
+    const lng =
+      typeof longitude === "string" ? parseFloat(longitude) : longitude;
 
     if (lat && lng) {
       const nearestItem = findNearestSFGridItem(lat, lng);
@@ -83,7 +84,7 @@ const Mirror = () => {
     <Container>
       <Header>
         <Left>
-          <MainButton />
+          <MenuBtn type="alarm" />
           <MenuBtn type="beauty" />
           <MenuBtn type="health" />
         </Left>
@@ -102,14 +103,19 @@ const Mirror = () => {
           <Weather onClick={handleWeatherDetailClick} />
         ) : (
           <>
-            <Center>
-            </Center>
+            <Center></Center>
             <Right>
               <PageHeader>
-                <PageButton onClick={() => setActivePage("bus")} $textColor={TEXT_COLOR}>
+                <PageButton
+                  onClick={() => setActivePage("bus")}
+                  $textColor={TEXT_COLOR}
+                >
                   버스 정보
                 </PageButton>
-                <PageButton onClick={() => setActivePage("weather")} $textColor={TEXT_COLOR}>
+                <PageButton
+                  onClick={() => setActivePage("weather")}
+                  $textColor={TEXT_COLOR}
+                >
                   날씨 정보
                 </PageButton>
               </PageHeader>
@@ -180,7 +186,7 @@ const PageButton = styled.button<PageButtonProps>`
   border: none;
   font-size: 22px;
   background-color: transparent;
-  color: ${props => props.$textColor || 'inherit'};
+  color: ${(props) => props.$textColor || "inherit"};
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: "Giants-Bold";

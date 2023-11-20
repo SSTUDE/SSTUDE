@@ -5,11 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { images } from "../../constants/images";
 import { AppDispatch } from "../../store/store";
 import { healthTodayData } from "../Health/HealthSlice";
-import {
-  PersonalCalender,
-} from "../Personal/Main/PersonalSlice";
+import { PersonalCalender } from "../Personal/Main/PersonalSlice";
 
-type ButtonType = "beauty" | "health" | "question";
+type ButtonType = "beauty" | "health" | "alarm";
 
 interface MenuBtnProps {
   type: ButtonType;
@@ -18,7 +16,7 @@ interface MenuBtnProps {
 function MenuBtn({ type }: MenuBtnProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  
+
   const handleClick = async () => {
     if (type === "beauty") {
       const response = await handlePersonalCalender();
@@ -26,9 +24,11 @@ function MenuBtn({ type }: MenuBtnProps) {
     } else if (type === "health") {
       const response = await handleHealthTodayData();
       navigate("/healthmain");
+    } else if (type === "alarm") {
+      navigate("/alarm");
     }
   };
-  
+
   // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
     try {
@@ -57,7 +57,7 @@ function MenuBtn({ type }: MenuBtnProps) {
     const imageMap: { [key in ButtonType]: string } = {
       beauty: images.default.beautyBtn,
       health: images.default.healthBtn,
-      question: images.default.questionBtn,
+      alarm: images.default.questionBtn,
     };
     return imageMap[type];
   };
