@@ -243,7 +243,7 @@ while True:
         asyncio.run(ws_service.sendInfo(json.dumps(Info)));
 
     # 서비스 실행
-    if userRecogn and not service_on :
+    if is_login_service_on and userRecogn and not service_on :
         update_finish_time(now)
         print("타겟 시간 : ", finish_time)
         service_on = True
