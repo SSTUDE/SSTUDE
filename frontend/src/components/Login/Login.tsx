@@ -76,10 +76,10 @@ const Login = () => {
           const access = response.data.userInfo + response.data.serialNum;
           // console.log("check  ", access);
           dispatch(signInUser({ deviceNum: access }));
-          showAlert({
-            icon: 'success',
-            title: '로그인 완료',
-          });
+          // showAlert({
+          //   icon: 'success',
+          //   title: '로그인 완료',
+          // });
           navigate("/welcome")
         }
       })
