@@ -160,7 +160,7 @@ const BlinkingCameraIcon = styled(CameraIcon)`
 
 const PersonalColorCapture = () => {
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const message = { type: "camera", data: "off" };
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -173,7 +173,7 @@ const PersonalColorCapture = () => {
       stopWebcam();
       setTimeout(() => {
         console.log("웹소켓 메시지 전송:", message);
-        // sendMessage(message)
+        sendMessage(message)
       }, 1000);
     };
 
@@ -200,7 +200,7 @@ const PersonalColorCapture = () => {
             stopWebcam();
             setTimeout(() => {
               console.log("웹소켓 메시지 전송:", message);
-              // sendMessage(message)
+              sendMessage(message)
             }, 1000);
             navigate("/personalcolorsresults");
 
@@ -232,7 +232,7 @@ const PersonalColorCapture = () => {
     stopWebcam();
     setTimeout(() => {
       console.log("웹소켓 메시지 전송:", message);
-      // sendMessage(message)
+      sendMessage(message)
     }, 1000);
   }
 

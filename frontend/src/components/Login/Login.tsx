@@ -14,7 +14,7 @@ import { TEXT_COLOR } from '../../constants/defaultSlices';
 import { saveBusListForServer, saveBusStopForServer } from "../Bus/BusSlice";
 
 const Login = () => {
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
   const showAlert = useCustomAlert();
@@ -40,8 +40,8 @@ const Login = () => {
       title: '회원가입 중입니다... \n 얼굴을 중앙에 위치해 주세요.',
       timer: 20000,
     });
-    // sendMessage(message)
-    //   .then((response: any) => {
+    sendMessage(message)
+      .then((response: any) => {
     dispatch(signUpUser({ deviceNum: 'string' }));
 
     Swal.close();
@@ -50,17 +50,17 @@ const Login = () => {
       title: '회원가입 완료, 로고를 눌러주세요.',
     });
     setTimeout(() => { loginClick(); }, 1000);
-    // })
-    // .catch((error: Error) => {
-    //   console.log(error)
-    // });
+    })
+    .catch((error: Error) => {
+      console.log(error)
+    });
   }
 
   //NOTE - 로그인
   const loginClick = () => {
-    // const message = { type: "signIn", data: "" };
-    // sendMessage(message)
-    // .then((response: any) => {
+    const message = { type: "signIn", data: "" };
+    sendMessage(message)
+    .then((response: any) => {
 
     dispatch(signInUser({ deviceNum: 'string' }));
     showAlert({
@@ -71,14 +71,14 @@ const Login = () => {
     dispatch(saveBusListForServer())
     navigate("/mirror")
 
-  // })
-  // .catch((error: Error) => {
-  //   console.log(error)
-  //   showAlert({
-  //     icon: 'error',
-  //     title: '로그인 실패. 다시 시도해주세요',
-  //   });
-  // });
+  })
+  .catch((error: Error) => {
+    console.log(error)
+    showAlert({
+      icon: 'error',
+      title: '로그인 실패. 다시 시도해주세요',
+    });
+  });
   }
 
   return (

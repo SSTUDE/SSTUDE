@@ -7,12 +7,12 @@ import { TEXT_COLOR } from '../../constants/defaultSlices';
 
 
 const WebSocket = () => {
-  // const { messages, handleReconnect, sendMessage } = useWebSocket('ws://localhost:8765');
+  const { messages, handleReconnect, sendMessage } = useWebSocket('ws://localhost:8765');
   const [inputMessage, setInputMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSendMessage = () => {
-    // sendMessage(inputMessage);
+    sendMessage(inputMessage);
     setInputMessage('');
   };
 
@@ -21,9 +21,9 @@ const WebSocket = () => {
       <Header></Header>
       <Body>
         <ConsoleOutput>
-          {/* {messages.map((msg, index) => (
+          {messages.map((msg, index) => (
             <div key={index}>{msg}</div>
-          ))} */}
+          ))}
         </ConsoleOutput>
         <input
           type="text"
@@ -32,7 +32,7 @@ const WebSocket = () => {
           placeholder="메시지 입력"
         />
         <Btn onClick={handleSendMessage}>메시지 보내기</Btn>
-        {/* <Btn onClick={handleReconnect}>재연결 시도</Btn> */}
+        <Btn onClick={handleReconnect}>재연결 시도</Btn>
         <Btn onClick={() => navigate('/')}>초기 화면</Btn>
       </Body>
       <Bottom></Bottom>
