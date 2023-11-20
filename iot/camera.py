@@ -196,7 +196,7 @@ while True:
 
     ##############################
     ## Sign Up Messageing process
-    if cam and not userRecogn and msg_type == "signUp" and cnt == 0:
+    if cam and not userRecogn and msg_type == "signUp" and is_login_service_on:
         userName = getUserInfo.createUser()
         
         path = f'./users/{userName}/' + now.strftime("%Y%m%d_%H%M%S.jpg")
