@@ -174,7 +174,7 @@ const PersonalColorCapture = () => {
       setTimeout(() => {
         console.log("웹소켓 메시지 전송:", message);
         sendMessage(message)
-      }, 1000);
+      }, 2000);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -201,7 +201,7 @@ const PersonalColorCapture = () => {
             setTimeout(() => {
               console.log("웹소켓 메시지 전송:", message);
               sendMessage(message)
-            }, 1000);
+            }, 2000);
             navigate("/personalcolorsresults");
 
           } else if (data.payload.request.status === 500) {
@@ -233,7 +233,7 @@ const PersonalColorCapture = () => {
     setTimeout(() => {
       console.log("웹소켓 메시지 전송:", message);
       sendMessage(message)
-    }, 1000);
+    }, 2000);
   }
 
   return (

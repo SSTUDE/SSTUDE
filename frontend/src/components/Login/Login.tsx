@@ -50,7 +50,6 @@ const Login = () => {
           icon: 'success',
           title: '회원가입 완료, 로고를 눌러주세요.',
         });
-        setTimeout(() => { loginClick(); }, 1000);
       })
       .catch((error: Error) => {
         console.log(error)
@@ -69,14 +68,14 @@ const Login = () => {
           });
           SignClick()
         } else {
-          // dispatch(signInUser({ deviceNum: 'abc' }));
+          // dispatch(signInUser({ deviceNum: 'string' }));
           
           const access = response.data.userInfo + response.data.serialNum;
           console.log("check  ", access);
           dispatch(signInUser({ deviceNum: access }));
           showAlert({
             icon: 'success',
-            title: '로그인 완료',
+            title: '환영합니다. \n 전수림씨',
           });
           dispatch(saveBusStopForServer())
           dispatch(saveBusListForServer())

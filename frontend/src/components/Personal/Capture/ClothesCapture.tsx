@@ -178,7 +178,7 @@ const ClothesCapture = () => {
         }).catch((error) => {
           console.error("웹소켓 메시지 전송 오류:", error);
         });
-      }, 1000);
+      }, 2000);
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -207,7 +207,7 @@ const ClothesCapture = () => {
               }).catch((error) => {
                 console.error("웹소켓 메시지 전송 오류:", error);
               });
-            }, 1000);
+            }, 2000);
           } else {
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);
@@ -235,7 +235,7 @@ const ClothesCapture = () => {
       }).catch((error) => {
         console.error("웹소켓 메시지 전송 오류:", error);
       });
-    }, 1000);
+    }, 2000);
   };
 
   // 의상 진단 호출
