@@ -42,7 +42,8 @@ const Login = () => {
     });
     sendMessage(message)
       .then((response: any) => {
-    dispatch(signUpUser({ deviceNum: 'string' }));
+    // dispatch(signUpUser({ deviceNum: 'string' }));
+    dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
 
     Swal.close();
     showAlert({
@@ -62,7 +63,8 @@ const Login = () => {
     sendMessage(message)
     .then((response: any) => {
 
-    dispatch(signInUser({ deviceNum: 'string' }));
+    // dispatch(signInUser({ deviceNum: 'string' }));
+    dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
     showAlert({
       icon: 'success',
       title: '로그인 완료',
