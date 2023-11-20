@@ -42,46 +42,52 @@ const Login = () => {
     });
     sendMessage(message)
       .then((response: any) => {
-    // dispatch(signUpUser({ deviceNum: 'string' }));
-    dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+        // dispatch(signUpUser({ deviceNum: 'string' }));
+        dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
 
-    Swal.close();
-    showAlert({
-      icon: 'success',
-      title: '회원가입 완료, 로고를 눌러주세요.',
-    });
-    setTimeout(() => { loginClick(); }, 1000);
-    })
-    .catch((error: Error) => {
-      console.log(error)
-    });
+        Swal.close();
+        showAlert({
+          icon: 'success',
+          title: '회원가입 완료, 로고를 눌러주세요.',
+        });
+        setTimeout(() => { loginClick(); }, 1000);
+      })
+      .catch((error: Error) => {
+        console.log(error)
+      });
   }
 
   //NOTE - 로그인
   const loginClick = () => {
     const message = { type: "signIn", data: "" };
-    sendMessage(message)
-    .then((response: any) => {
-
-    // dispatch(signInUser({ deviceNum: 'string' }));
-    dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
-    showAlert({
-      icon: 'success',
-      title: '로그인 완료',
-    });
-    dispatch(saveBusStopForServer())
-    dispatch(saveBusListForServer())
-    navigate("/mirror")
-
-  })
-  .catch((error: Error) => {
-    console.log(error)
-    showAlert({
-      icon: 'error',
-      title: '로그인 실패. 다시 시도해주세요',
-    });
-  });
-  }
+    // sendMessage(message)
+    //   .then((response: any) => {
+    //     if (response.data.userInfo === "unKnown") {
+          showAlert({
+            icon: 'info',
+            title: '등록된 유저가 아닙니다. \n 회원가입이 진행됩니다',
+          });
+          SignClick()
+        // } else {
+          // dispatch(signInUser({ deviceNum: 'abc' }));
+          dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+          showAlert({
+            icon: 'success',
+            title: '로그인 완료',
+          });
+          dispatch(saveBusStopForServer())
+          dispatch(saveBusListForServer())
+          navigate("/mirror")
+        }
+      // })
+      // .catch((error: Error) => {
+      //   console.log(error)
+      //   showAlert({
+      //     icon: 'error',
+      //     title: '로그인 실패. 다시 시도해주세요',
+      //   });
+      // });
+  // }
 
   return (
     <Wrap>
