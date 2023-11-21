@@ -128,11 +128,13 @@ while True:
     ## getting accessToken for send img
     if msg_type == "alarm" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
-        hour = msg_data.get('hour')
-        minute = msg_data.get('min')
+        hour = msg_data.get('start_hour')
+        minute = msg_data.get('start_minute')
+        play_times = msg_data.get('play_times')
+        duration_minutes = msg_data.get('duration_minutes')
 
         if hour and minute :
-            getSignInInfo.updateAlarmInfo(alarmInformFile, _hour=hour, _minute=minute)
+            getSignInInfo.updateAlarmInfo(alarmInformFile, _hour=hour, _minute=minute, play_time=play_times, duration_minutes=duration_minutes)
             # alarmInfo = getSignInInfo.loadAlarmInfo(alarmInformFile)
             # asyncio.run(ws_service.sendInfo(json.dumps(alarmInfo)));
     

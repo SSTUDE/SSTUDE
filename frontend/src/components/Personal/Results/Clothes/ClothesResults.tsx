@@ -5,7 +5,10 @@ import { images } from "../../../../constants/images";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect, useCallback } from "react";
 import { AppDispatch, RootState } from "../../../../store/store";
-import { PersonalCalender, PersonalClothesResults } from "../../Main/PersonalSlice";
+import {
+  PersonalCalender,
+  PersonalClothesResults,
+} from "../../Main/PersonalSlice";
 
 // 페이지 전체 컨테이너
 const StyledContainer = styled.div`
@@ -106,12 +109,12 @@ const StyledCurScore1 = styled.p<{ score: number | null }>`
     props.score === null
       ? "black"
       : props.score >= 1 && props.score <= 24
-        ? "red"
-        : props.score >= 25 && props.score <= 49
-          ? "orange"
-          : props.score >= 50 && props.score <= 74
-            ? "green"
-            : "blue"};
+      ? "red"
+      : props.score >= 25 && props.score <= 49
+      ? "orange"
+      : props.score >= 50 && props.score <= 74
+      ? "green"
+      : "blue"};
 `;
 
 // 진단 정보 컨테이너2 ( 이전 점수 + 사진 + 현재 점수 / 사진 두 번 이상 찍은 경우 )
@@ -206,7 +209,7 @@ const getScoreColor = (score: number | null) => {
   } else if (score >= 50 && score <= 74) {
     return "#3BB143";
   } else {
-    return "#1E90FF";
+    return "#60adf9";
   }
 };
 
@@ -217,7 +220,9 @@ type StyledComponentProps = {
 const ClothesResults = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const clothesResults = useSelector((state: RootState) => state.personal.clothesResults);
+  const clothesResults = useSelector(
+    (state: RootState) => state.personal.clothesResults
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isSingleResult, setIsSingleResult] = useState(true);
 
@@ -234,14 +239,13 @@ const ClothesResults = () => {
 
   const handleCalenderClick = async () => {
     const response = await handlePersonalCalender();
-    navigate('/personalmain', { state: { diagnosisData: response } });
+    navigate("/personalmain", { state: { diagnosisData: response } });
   };
   const handlePersonalCalender = useCallback(async () => {
     try {
       const res = await dispatch(PersonalCalender()).unwrap();
       return res;
-    } catch (e) {
-    }
+    } catch (e) {}
   }, [dispatch]);
 
   return (
