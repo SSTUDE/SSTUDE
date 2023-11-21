@@ -41,8 +41,8 @@ const Login = () => {
     });
     sendMessage(message)
       .then((response: any) => {
-        // dispatch(signUpUser({ deviceNum: 'string' }));
-        dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
+        dispatch(signUpUser({ deviceNum: 'string' }));
+        // dispatch(signUpUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
 
         Swal.close();
         showAlert({
@@ -73,8 +73,8 @@ const Login = () => {
         } else {
           // dispatch(signInUser({ deviceNum: 'string' }));
           
-          const access = response.data.userInfo + response.data.serialNum;
-          // const access = 'string';
+          // const access = response.data.userInfo + response.data.serialNum;
+          const access = 'string';
           // console.log("check  ", access);
           dispatch(signInUser({ deviceNum: access }));
           // showAlert({
