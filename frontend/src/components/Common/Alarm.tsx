@@ -190,15 +190,20 @@ export default function Alarm() {
     const hour = selectTime.hour();
     const minute = selectTime.minute();
 
-    const message = {
+    const data = {
       start_hour: hour,
       start_minute: minute,
       play_times: 1,
       duration_minutes: 1
     };
 
-    console.log(message)
+    console.log(data)
 
+    const message = { 
+      type : "alarm", 
+      data
+    }
+    
     sendMessage(message)
       .then((response) => {
         console.log("알람 응답옴", response)
