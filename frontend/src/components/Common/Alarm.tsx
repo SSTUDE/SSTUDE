@@ -244,18 +244,12 @@ export default function Alarm() {
     };
 
     sendMessage(message)
-      .then((response) => {
-        console.log("알람 응답옴", response);
         showAlert({
           icon: "success",
           title: "알람이 설정 되었습니다.",
           timer: 1500,
         });
         navigate("/mirror");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
 
   return (
