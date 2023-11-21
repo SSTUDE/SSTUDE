@@ -94,7 +94,7 @@ const TimePickerWrapper = styled.div`
   // 시간 선택 안 되었을 때
   .MuiTypography-root.MuiTypography-h3.MuiPickersToolbarText-root {
     font-size: 10rem;
-    color: #555555;
+    color: #7c7c7c;
     margin-right: 10px;
     font-family: "IAMAPLAYER";
   }
@@ -115,7 +115,7 @@ const TimePickerWrapper = styled.div`
   // AM PM 선택 안 되었을 때
   .MuiTypography-root.MuiTypography-subtitle2.MuiTimePickerToolbar-ampmLabel.MuiPickersToolbarText-root {
     font-size: 5rem;
-    color: #545454;
+    color: #7c7c7c;
     margin-right: 30px;
     font-family: "IAMAPLAYER";
   }
