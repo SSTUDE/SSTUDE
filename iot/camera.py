@@ -45,6 +45,7 @@ def start_websocket_service():
     
 ws_service = None
 thread = threading.Thread(target=start_websocket_service)
+thread.daemon = True
 thread.start()
 
 # 카메라 등록

@@ -38,7 +38,10 @@ def alarm(start_time, duration_minutes, play_times, song_path):
             time.sleep(min((start_time - current_time).total_seconds(), 10))
 
 if __name__ == '__main__':
-      
+    settings = read_alarm_settings()
+    pygame.mixer.init()
+    pygame.mixer.music.load(settings['song_path'])
+    
     while True:
         settings = read_alarm_settings()
         # 매일 같은 시간에 알람을 설정
