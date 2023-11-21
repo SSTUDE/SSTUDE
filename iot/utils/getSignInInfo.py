@@ -78,7 +78,7 @@ def loadAlarmInfo(file_name):
 	    
     return data
 
-def updateAlarmInfo(file_name, _hour=6, _minute=30):
+def updateAlarmInfo(file_name, _hour=6, _minute=30, play_time=1, duration_minutes=1):
     
     # 파일을 불러옵니다
     data = loadUserInfo(file_name)
@@ -86,6 +86,8 @@ def updateAlarmInfo(file_name, _hour=6, _minute=30):
     # 사용자 정보를 업데이트합니다.
     data["start_hour"] = _hour
     data["start_minute"] = _minute
+    data["play_time"] = play_time
+    data["duration_minutes"] = duration_minutes
 
     # 업데이트된 데이터를 파일에 다시 저장합니다.
     with open(file_name, 'w') as f:
