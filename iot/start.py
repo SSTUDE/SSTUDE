@@ -9,10 +9,13 @@ def start_alarm_service():
     os.system('python alarm.py')
 
 def signal_handler(signum, frame):
+    global camera_process, alarm_process
     camera_process.terminate()
     alarm_process.terminate()
     print("프로세스가 종료되었습니다.")
 
+camera_process = None
+alarm_process = None
 if __name__ == '__main__':
     # 시그널 핸들러 등록
     signal.signal(signal.SIGINT, signal_handler)
