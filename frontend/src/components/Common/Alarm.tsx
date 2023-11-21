@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { useWebSocket } from "../../hooks/useWebSocket";
 import { RASPBERRY_URL } from "../../apis/constants";
 import { useCustomAlert } from "../../hooks/useAlert";
+import { useDispatch } from "react-redux";
+import { setAlarmTime } from "./CommonSlice";
 
 const theme = createTheme(
   {
@@ -174,6 +176,7 @@ const SelectTime = styled.p`
 export default function Alarm() {
   // const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const showAlert = useCustomAlert();
+  const dispatch = useDispatch();
   const [selectTime, setSelectTime] = React.useState(dayjs());
 
   const timeChange = (newTime: any) => {
@@ -190,14 +193,21 @@ export default function Alarm() {
     const hour = selectTime.hour();
     const minute = selectTime.minute();
 
-    const message = {
+    dispatch(setAlarmTime({ hour, minute }));
+
+    const data = {
       start_hour: hour,
       start_minute: minute,
       play_times: 1,
       duration_minutes: 1
     };
 
-    console.log(message)
+    console.log(data)
+
+    const message = { 
+      type : "alarm", 
+      data
+    }
 
     // sendMessage(message)
     //   .then((response) => {
