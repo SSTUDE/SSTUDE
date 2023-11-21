@@ -177,7 +177,7 @@ while True:
 
                 if 0 < len(face_distances):
                     best_match_index = np.argmin(face_distances)
-                    print("matching distance : ", face_distances[best_match_index])
+                    # print("matching distance : ", face_distances[best_match_index])
                     if matches[best_match_index] and face_distances[best_match_index] <= 0.45:
                         name = known_face_names[best_match_index]
                         userRecogn = True
@@ -196,7 +196,7 @@ while True:
 
     ##############################
     ## Sign Up Messageing process
-    if cam and msg_type == "signUp" and is_login_service_on:
+    if cam and msg_type == "signUp":
         print("hello world")
         userName = getUserInfo.createUser()
         
@@ -221,7 +221,7 @@ while True:
     
     ######## about camera servie ###############
     if userRecogn :
-        print("dde")
+
         getSignInInfo.updateUserInfo(userSignInInfoFile, name)
         data = getSignInInfo.loadUserInfo(userSignInInfoFile)
         
@@ -270,6 +270,7 @@ while True:
     if service_on and finish_time < datetime.now():
         service_on = False
 
+    # cv2.imshow("img",frame)
             
 
 release_camera()
