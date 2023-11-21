@@ -21,6 +21,34 @@ const theme = createTheme(
 );
 
 const TimePickerWrapper = styled.div`
+  // 힝
+  .MuiPickersLayout-root {
+    background-color: transparent;
+    overflow: unset;
+  }
+  // 힝2
+  .MuiPickersToolbar-content {
+    flex-direction: column;
+  }
+  // 힝3
+  .MuiTimePickerToolbar-ampmSelection {
+    flex-direction: row;
+    margin: 0;
+  }
+  // 힝4
+  .MuiButtonBase-root.Mui-disabled.MuiIconButton-root.Mui-disabled.MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.MuiPickersArrowSwitcher-button {
+    color: #000000;
+  }
+  .MuiButtonBase-root.MuiIconButton-root.Mui-disabled.MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.MuiPickersArrowSwitcher-button {
+    color: #000000;
+  }
+  // 힝5
+  .MuiButtonBase-root.Mui-disabled.MuiIconButton-root.Mui-disabled.MuiIconButton-edgeStart.MuiIconButton-sizeMedium.MuiPickersArrowSwitcher-button {
+    color: #000000;
+  }
+  .MuiPickersArrowSwitcher-root.MuiTimeClock-arrowSwitcher {
+    top: -100px;
+  }
   // 전체 DIV
   .MuiPickersLayout-root.MuiPickersLayout-landscape {
     display: flex;
@@ -33,11 +61,12 @@ const TimePickerWrapper = styled.div`
   // 서브 DIV
   .MuiPickersToolbar-root.MuiPickersLayout-toolbar {
     /* height: 100vh; */
-    width: 100vh;
+    width: 60vh;
     position: relative;
-    top: -300px;
-    right: 350px;
+    /* top: -300px;
+    right: 350px; */
     z-index: 1;
+    right: -150px;
   }
   // 시계 파트 전체 DIV
   .MuiPickersLayout-root.MuiPickersLayout-landscape {
@@ -63,7 +92,7 @@ const TimePickerWrapper = styled.div`
   // 시간 선택 안 되었을 때
   .MuiTypography-root.MuiTypography-h3.MuiPickersToolbarText-root {
     font-size: 10rem;
-    color: gray;
+    color: #555555;
     margin-right: 10px;
     font-family: "IAMAPLAYER";
   }
@@ -80,10 +109,11 @@ const TimePickerWrapper = styled.div`
   .MuiTimePickerToolbar-ampmSelection.MuiTimePickerToolbar-ampmLandscape {
     /* flex: 0; */
   }
+
   // AM PM 선택 안 되었을 때
   .MuiTypography-root.MuiTypography-subtitle2.MuiTimePickerToolbar-ampmLabel.MuiPickersToolbarText-root {
     font-size: 5rem;
-    color: rgba(173, 163, 163, 0.87);
+    color: #545454;
     margin-right: 30px;
     font-family: "IAMAPLAYER";
   }
@@ -98,6 +128,9 @@ const TimePickerWrapper = styled.div`
     /* height: 700px; */
     /* max-height: 1000px; */
     margin-top: 5vh;
+    width: auto;
+    position: relative;
+    right: -20px;
   }
   .MuiClock-root {
     margin: 0;
@@ -111,8 +144,9 @@ const TimePickerWrapper = styled.div`
   }
   // 시계 전체 컨테이너
   .MuiPickersLayout-contentWrapper {
+    grid-column: 2/4;
     transform: scale(3);
-  }  
+  }
   // 시계 터치영역 조절 (100/배율)%
   .MuiClock-squareMask {
     /* left: 33.333%; */
@@ -148,21 +182,21 @@ const TimePickerWrapper = styled.div`
 
 const SelectTimeBg = styled.div`
   position: fixed;
-  right: 12.6%; 
-  bottom: 4.2%; 
+  right: 12.6%;
+  bottom: 4.2%;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-`
+`;
 
 const UnSelectTimeBg = styled.div`
   position: fixed;
-  right: 18.4%; 
-  bottom: 4.2%; 
+  right: 18.4%;
+  bottom: 4.2%;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-`
+`;
 
 const SelectTime = styled.p`
   font-size: 2.5rem;
@@ -183,7 +217,7 @@ export default function Alarm() {
   const navigate = useNavigate();
 
   const HandleUnSelect = () => {
-    navigate('/mirror');
+    navigate("/mirror");
   };
 
   const HandleSelect = () => {
@@ -194,20 +228,20 @@ export default function Alarm() {
       start_hour: hour,
       start_minute: minute,
       play_times: 1,
-      duration_minutes: 1
+      duration_minutes: 1,
     };
 
-    console.log(message)
+    console.log(message);
 
     // sendMessage(message)
     //   .then((response) => {
     //     console.log("알람 응답옴", response)
     showAlert({
-      icon: 'success',
-      title: '알람이 설정 되었습니다.',
+      icon: "success",
+      title: "알람이 설정 되었습니다.",
       timer: 1500,
     });
-    navigate('/mirror');
+    navigate("/mirror");
     // })
     // .catch((error) => {
     //   console.log(error);
@@ -215,9 +249,9 @@ export default function Alarm() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <TimePickerWrapper>
+    <TimePickerWrapper>
+      <ThemeProvider theme={theme}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <StaticTimePicker
             displayStaticWrapperAs="mobile"
             value={selectTime}
@@ -229,8 +263,8 @@ export default function Alarm() {
           <SelectTimeBg onClick={HandleSelect}>
             <SelectTime>확인</SelectTime>
           </SelectTimeBg>
-        </TimePickerWrapper>
-      </LocalizationProvider>
-    </ThemeProvider>
+        </LocalizationProvider>
+      </ThemeProvider>
+    </TimePickerWrapper>
   );
 }
