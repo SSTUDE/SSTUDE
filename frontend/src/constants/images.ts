@@ -8,6 +8,7 @@ export const images = {
     healthBtn: "/assets/images/health.svg",
     questionBtn: "/assets/images/question.svg",
     homeBtn: "/assets/images/home.svg",
+    alarmBtn: "/assets/images/alarm.svg",
   },
   map: {
     bus: "/assets/images/bus.png",

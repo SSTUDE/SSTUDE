@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" color="white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" class="feather feather-alarm">
+    <circle cx="12" cy="13" r="7"></circle>
+    <polyline points="12 9 12 13 15 13"></polyline>
+    <line x1="7" y1="4" x2="4.75" y2="6.5"></line>
+    <line x1="17" y1="4" x2="19.25" y2="6.5"></line>
+</svg>
