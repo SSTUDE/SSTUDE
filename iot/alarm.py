@@ -52,5 +52,5 @@ if __name__ == '__main__':
         # 다음 알람까지의 대기 시간 계산
         sleep_time = (start_time - datetime.now()).total_seconds()
         # 잘못된 시간 설정이 없는지 혹은 너무 긴 대기를 방지
-        sleep_time = max(0, min(sleep_time, 86400))  # 최소 0초, 최대 24시간 대기
+        sleep_time = max(0, min(sleep_time, 10))  # 최소 0초, 최대 24시간 대기
         time.sleep(sleep_time)
