@@ -6,7 +6,6 @@ import DateTime from "../Common/DateTime";
 import HelloWorld from "../Common/HelloWorld";
 import WeatherInfo from "../Weather/WeatherInfo";
 import React, { useState, useEffect } from "react";
-import MainButton from "../Personal/Main/MainButton";
 import styled, { keyframes } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { findNearestSFGridItem } from "../Weather/Grid";

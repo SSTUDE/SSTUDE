@@ -8,6 +8,7 @@ import HealthReducer from "../components/Health/HealthSlice";
 import PersonalReducer from "../components/Personal/Main/PersonalSlice";
 import CaptureReducer from "../components/Personal/Capture/CaptureSlice";
 import PreviousReducer from "../components/Personal/Previous/PreviousSlice";
+import CommonReducer from "../components/Common/CommonSlice";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     position: Position,
     personal: PersonalReducer,
     previous: PreviousReducer,
+    common: CommonReducer,
   },
 });
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,19 +6,33 @@ import { AppDispatch, RootState } from '../../store/store';
 import { saveBusListForServer, saveBusStopForServer } from '../Bus/BusSlice';
 
 export const Welcome = () => {
-  const memberId = useSelector((state: RootState) => state.login.memberId) || '전수림';
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
 
-  setTimeout(() => {
-  dispatch(saveBusStopForServer())
-  dispatch(saveBusListForServer())
-  navigate("/mirror")
-  }, 3000);
+  const memberId = useSelector((state: RootState) => state.login.memberId) || '전수림';
+  const [displayMemberId, setDisplayMemberId] = useState(memberId);
+  
+  useEffect(() => {
+    if (memberId === 3) {
+      setDisplayMemberId('전수림');
+    } else {
+      setDisplayMemberId(memberId);
+    }
+  }, [memberId]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      dispatch(saveBusStopForServer())
+      dispatch(saveBusListForServer())
+      navigate("/mirror")
+    }, 3000);
+
+    return () => clearTimeout(timeoutId); 
+  }, [dispatch, navigate]);
 
   return (
     <Container>
-      <WelcomeMessage>반갑습니다, <HighlightedText>{memberId}</HighlightedText>님!</WelcomeMessage>
+      <WelcomeMessage>반갑습니다, <HighlightedText>{displayMemberId}</HighlightedText>님!</WelcomeMessage>
       <WelcomeMessage>오늘도 좋은 하루 되세요.</WelcomeMessage>
     </Container>
   )

@@ -74,6 +74,7 @@ const Login = () => {
           // dispatch(signInUser({ deviceNum: 'string' }));
           
           const access = response.data.userInfo + response.data.serialNum;
+          // const access = 'string';
           // console.log("check  ", access);
           dispatch(signInUser({ deviceNum: access }));
           // showAlert({

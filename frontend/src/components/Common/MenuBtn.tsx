@@ -57,7 +57,7 @@ function MenuBtn({ type }: MenuBtnProps) {
     const imageMap: { [key in ButtonType]: string } = {
       beauty: images.default.beautyBtn,
       health: images.default.healthBtn,
-      alarm: images.default.questionBtn,
+      alarm: images.default.alarmBtn,
     };
     return imageMap[type];
   };
