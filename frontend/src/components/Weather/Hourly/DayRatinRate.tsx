@@ -8,15 +8,6 @@ type DayRatinRateProps = {
 };
 
 const DayRatinRate: React.FC<DayRatinRateProps> = ({ RainRateDatas, index }) => {
-  // 첫 번째 요소인 경우 "오늘"을 표시
-  if (index === 0) {
-    return (
-      <Label>
-        <span className="label">강수확률
-        (%)</span>
-      </Label>
-    );
-  }
 
   const RainRate = RainRateDatas.fcstValue
 
@@ -36,12 +27,5 @@ const Wrap = styled.div<{ $index: number }>`
   padding: 3px 8px;
   grid-column-start: ${props => props.$index + 1}; // index 값을 기반으로 열 시작 위치를 지정합니다.
 `;
-
-const Label = styled.div`
-  position: relative; 
-  top: 0%; 
-  text-align: center;
-  /* left: 50%; */
-`
 
 export default DayRatinRate;

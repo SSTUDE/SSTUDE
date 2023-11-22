@@ -16,6 +16,6 @@ COPY ./requirements.txt /src/requirements.txt
 
 RUN pip install -r /src/requirements.txt
 
-
+RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8013", "--reload"]

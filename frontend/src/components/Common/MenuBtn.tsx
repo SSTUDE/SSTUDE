@@ -1,26 +1,22 @@
-import React, { useCallback } from "react";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { images } from "../../constants/images";
 import { AppDispatch } from "../../store/store";
-import { setMenuBtn } from "../Main/MirrorSlice";
-import { RootState } from "../../store/store";
-import {
-  PersonalClothesResults,
-  PersonalCalender,
-} from "../Personal/Main/PersonalSlice";
 import { healthTodayData } from "../Health/HealthSlice";
+import { PersonalCalender } from "../Personal/Main/PersonalSlice";
 
-type ButtonType = "beauty" | "health" | "question";
+type ButtonType = "beauty" | "health" | "alarm";
 
 interface MenuBtnProps {
   type: ButtonType;
 }
 
 function MenuBtn({ type }: MenuBtnProps) {
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
   const handleClick = async () => {
     if (type === "beauty") {
       const response = await handlePersonalCalender();
@@ -28,27 +24,16 @@ function MenuBtn({ type }: MenuBtnProps) {
     } else if (type === "health") {
       const response = await handleHealthTodayData();
       navigate("/healthmain");
-    } else if (type === "question") {
-      // navigate('/question');
+    } else if (type === "alarm") {
+      navigate("/alarm");
     }
   };
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10); 
-
   // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
-    const data = {
-      year: year,
-      month: month,
-    };
     try {
-      console.log("try 뜨나요");
-      const res = await dispatch(PersonalCalender(data)).unwrap();
-      console.log("결과는요?", res);
+      const res = await dispatch(PersonalCalender()).unwrap();
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -59,11 +44,8 @@ function MenuBtn({ type }: MenuBtnProps) {
   // 오늘 헬스 데이터(헬스 메인) 호출
   const handleHealthTodayData = useCallback(async () => {
     try {
-      console.log("오늘 헬스 데이터 try 뜨나요");
       const res = await dispatch(healthTodayData()).unwrap();
-      console.log("오늘 헬스 데이터 결과는요?", res);
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {
@@ -75,7 +57,7 @@ function MenuBtn({ type }: MenuBtnProps) {
     const imageMap: { [key in ButtonType]: string } = {
       beauty: images.default.beautyBtn,
       health: images.default.healthBtn,
-      question: images.default.questionBtn,
+      alarm: images.default.alarmBtn,
     };
     return imageMap[type];
   };

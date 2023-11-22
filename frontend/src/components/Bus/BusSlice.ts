@@ -15,7 +15,6 @@ export const gpsToServer = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     const { gps } = (getState() as RootState).bus;
     if (!gps) return rejectWithValue("GPS 좌표가 설정되지 않았습니다.");
-
     try {
       const response = await axiosToken.post("/bus-station/near", {
         latitude: gps[0],
@@ -32,7 +31,6 @@ export const gpsToServer = createAsyncThunk(
     }
   }
 );
-
 
 //NOTE - 선택한 정거장 서버로 전송
 export const busStopToServer = createAsyncThunk(
@@ -60,8 +58,8 @@ export const busStopToServer = createAsyncThunk(
 
 //NOTE - 선택한 정거장 서버에 저장
 export const busStopSaveToServer = createAsyncThunk(
-    "bus/busStopSaveToServer",
-    async (selectedStation: busStops, { rejectWithValue }) => {
+  "bus/busStopSaveToServer",
+  async (selectedStation: busStops, { rejectWithValue }) => {
     if (!selectedStation) {
       return rejectWithValue("선택된 정거장이 없습니다.");
     }
@@ -78,7 +76,6 @@ export const busStopSaveToServer = createAsyncThunk(
           },
         ],
       });
-
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -94,17 +91,17 @@ export const busStopSaveToServer = createAsyncThunk(
 export const busSaveToServer = createAsyncThunk(
   "bus/busSaveToServer",
   async (selectedBusList: busServer[], { rejectWithValue }) => {
-        try {
-          const buses = selectedBusList.map(bus => ({
-            routeId: bus.routeId,
-            routeNo: bus.routeNo,
-            routeType: bus.routeType,
-            startNodeNum: bus.startNodeNum,
-            endNodeNum: bus.endNodeNum
-          }));
+    try {
+      const buses = selectedBusList.map(bus => ({
+        routeId: bus.routeId,
+        routeNo: bus.routeNo,
+        routeType: bus.routeType,
+        startNodeNum: bus.startNodeNum,
+        endNodeNum: bus.endNodeNum
+      }));
 
-          const response = await axiosToken.post("/bus-station/bus-inform/save", {
-            buses 
+      const response = await axiosToken.post("/bus-station/bus-inform/save", {
+        buses 
       });
 
       return response.data;
@@ -118,32 +115,35 @@ export const busSaveToServer = createAsyncThunk(
   }
 );
 
+
 //NOTE - 저장한 버스 정거장 서버에서 호출
 export const saveBusStopForServer = createAsyncThunk(
   "bus/saveBusStopForServer",
   async (_, { rejectWithValue }) => {
+
     try {
       const response = await axiosToken.post(
         "/bus-station/near/load", {});
-        return response.data;
-      } catch (error: unknown) {
-        if (error instanceof AxiosError) {
-          return rejectWithValue(error.response?.data);
-        } else {
-          return rejectWithValue("예상치 못한 오류가 발생했습니다.");
-        }
+      return response.data;
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error.response?.data);
+      } else {
+        return rejectWithValue("예상치 못한 오류가 발생했습니다.");
       }
     }
+  }
 );
 
 //NOTE - 저장한 버스 목록 서버에서 호출
 export const saveBusListForServer = createAsyncThunk(
   "bus/saveBusListForServer",
   async (_, { rejectWithValue }) => {
+
     try {
       const response = await axiosToken.post(
         "/bus-station/bus-inform/load", {});
-        return response.data;
+      return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error.response?.data);
@@ -157,7 +157,7 @@ export const saveBusListForServer = createAsyncThunk(
 //NOTE - 버스 실시간 데이터 서버에서 호출
 export const busRealTimeForServer = createAsyncThunk(
   "bus/busRealTimeForServer",
-    async (_, { getState, rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
     const state = getState() as RootState;
     const { busStop } = state.bus;
 
@@ -271,6 +271,7 @@ const busSlice = createSlice({
       const routeIdList = action.payload.map((bus: { routeId: string }) => bus.routeId);
       state.busSave = routeIdList;
     });
+    
 
     handleAsyncReducer<any>(builder, busRealTimeForServer, (state, action) => {
       state.busRealTime = action.payload;

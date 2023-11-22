@@ -1,16 +1,15 @@
+import { AxiosError } from "axios";
+import axiosToken from "../../apis/http-common";
 import {
   ActionReducerMapBuilder,
   PayloadAction,
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import axiosToken from "../../apis/http-common";
-import { AxiosError } from "axios";
-
 
 const now = new Date();
 const year = now.getFullYear();
-const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
+const month = parseInt((now.getMonth() + 1).toString().padStart(2, "0"), 10);
 
 // 헬스 캘린더
 export const HealthCalender = createAsyncThunk(
@@ -38,7 +37,6 @@ export const healthTodayData = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosToken.get("/health/detail");
-      console.log("오늘 헬스 데이터 어디갔어", response);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -59,7 +57,6 @@ export const healthPrevData = createAsyncThunk(
   ) => {
     try {
       const response = await axiosToken.post("/health/day", data);
-      console.log("헬스 이전 데이터", response);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -77,7 +74,6 @@ export const healthCertCode = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosToken.get("/health/certification");
-      console.log("헬스 인증 코드 전송하기", response);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {

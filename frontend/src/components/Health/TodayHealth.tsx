@@ -1,21 +1,19 @@
 // 헬스 메인 페이지
-import React, { useCallback, useState } from "react";
-import TodayHealthCard from "./TodayHealthData";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import TodayHealthCard from "./TodayHealthData";
+import MainButton from "../Personal/Main/MainButton";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { HealthCalender, healthCertCode } from "./HealthSlice";
-import MainButton from "../Personal/Main/MainButton";
 
 const StyledMainContainer = styled.section``;
 
 const StyledTitle = styled.p`
   display: flex;
   justify-content: center;
-
   margin: 1.5% 0;
-
   font-size: 4rem;
   font-family: "Giants-Bold";
 `;
@@ -25,11 +23,9 @@ const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
   top: 5.9%;
-
   width: 104px;
   height: 104px;
   padding: 0;
-
   background-color: #4f4f4f;
   border: 2px solid white;
   border-radius: 15%;
@@ -43,7 +39,6 @@ const StyledContainer = styled.section`
   position: absolute;
   top: 0;
   right: 0;
-
   margin: 1.5%;
   font-family: "Giants-Bold";
 `;
@@ -59,7 +54,6 @@ const StyledCertContainer = styled.section`
 const StlyedCertCodeTitle = styled.p`
   font-size: 2.5rem;
   color: white;
-
   margin-right: 10px;
 `;
 
@@ -68,14 +62,11 @@ const StyledCertCodeButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 100px;
   height: 30px;
-
   background-color: transparent;
   border: 2px solid white;
   border-radius: 10px;
-
   font-family: "Giants-Bold";
   color: white;
   cursor: pointer;
@@ -84,9 +75,7 @@ const StyledCertCodeButton = styled.button`
 // 인증 코드 받는 창
 const StyledCertCode = styled.div`
   width: 264px;
-
   border-bottom: 2px solid white;
-
   padding-bottom: 5px;
   margin: 15px 0;
 `;
@@ -118,42 +107,32 @@ const CalenderIcon = () => (
 const TodayHealth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const [buttonClicked, setButtonClicked] = useState(false);
-
   const { certification } = useSelector((state: RootState) => state.health);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleCalenderClick = () => {
     handleMonth();
     navigate("/healthcalender");
   };
-  
+
   const now = new Date();
   const year = now.getFullYear();
-  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10); 
+  const month = parseInt((now.getMonth() + 1).toString().padStart(2, '0'), 10);
 
   const handleMonth = useCallback(async () => {
     const data = {
       year: year,
       month: month,
     };
-    console.log("헬스 데이터 들어오나요?", data);
-    const actionResult = await dispatch(HealthCalender(data));
-    const res = actionResult.payload;
-    if (res) {
-      // dispatch(setMemberId(res.memberId));
-    }
+    await dispatch(HealthCalender(data));
   }, [dispatch]);
 
   const handleCertification = useCallback(
     async (event: React.MouseEvent<HTMLButtonElement>) => {
       try {
-        console.log("인증 코드 전송 되나요");
         const res = await dispatch(healthCertCode()).unwrap();
-        console.log("인증 코드 결과는요?", res);
         if (res) {
-          // 버튼 클릭 상태를 true로 설정
           setButtonClicked(true);
-          // ...
         }
       } catch (e) {
         console.error("Failed to fetch calendar data:", e);

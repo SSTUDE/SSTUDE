@@ -1,11 +1,11 @@
 // 달력에 있는 날짜 클릭 시 나오는 모달창
 import { useState } from "react";
-import styled, { css, keyframes } from "styled-components";
-import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
-import PreviousClothesResults from "../Previous/PreviousClothesResults";
 import Button from "./HeaderButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
+import styled, { keyframes } from "styled-components";
+import PreviousClothesResults from "../Previous/PreviousClothesResults";
+import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
 
 // 그라데이션 애니메이션
 const GradientAnimation = keyframes`
@@ -17,12 +17,12 @@ const GradientAnimation = keyframes`
 // 팝업 애니메이션
 const popup = keyframes`
   0% {
-    transform: scale(0.7);  // 시작 시 70% 크기
-    opacity: 0;  // 시작 시 투명
+    transform: scale(0.7); 
+    opacity: 0; 
   }
   100% {
-    transform: scale(1);  // 끝날 때 100% 크기
-    opacity: 1;  // 끝날 때 불투명
+    transform: scale(1);
+    opacity: 1;
   }
 `;
 
@@ -32,12 +32,10 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   position: fixed;
-
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
@@ -45,13 +43,9 @@ const ModalOverlay = styled.div`
 const ModalContainer = styled.div<ModalContainerProps>`
   position: relative;
   overflow: auto;
-
   width: 35%;
-  /* max-height: 95%; */
-
   background-size: 200% 200%;
   border-radius: 5px;
-
   color: black;
   animation: ${GradientAnimation} 3s linear infinite, ${popup} 0.3s;
   background-image: ${(props) => props.backgroundColor || "white"};
@@ -61,18 +55,14 @@ const ModalContainer = styled.div<ModalContainerProps>`
 const DateContainer = styled.div`
   position: fixed;
   top: 60px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   background-color: #ffffff;
   color: black;
   z-index: 1;
-
   width: 20%;
   height: 8vh;
-
   border-radius: 5px;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 
@@ -80,7 +70,6 @@ const DateContainer = styled.div`
     text-align: center;
     font-size: 40px;
     font-family: "Giants-Bold";
-
     margin: 0;
   }
 
@@ -92,13 +81,10 @@ const ModalCloseButton = styled.button`
   position: absolute;
   right: 20px;
   top: 20px;
-
   cursor: pointer;
   font-size: 20px;
-
   border: none;
   background: none;
-
   width: 40px;
   height: 40px;
   padding: 0;
@@ -130,17 +116,14 @@ const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-
   width: 100%;
   margin: 5% 0;
-
   position: relative;
 `;
 
 const StyledLink = styled.div`
   flex: 1;
   text-decoration: none;
-  /* width: 100%; */
 `;
 
 type ModalProps = {
@@ -154,8 +137,11 @@ type ModalContainerProps = {
 };
 
 const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
+
+  const { beauty } = useSelector((state: RootState) => state.personal);
   // const navigate = useNavigate();
-  const { beauty } = useSelector((state: RootState) => state.personal); // Redux에서 beauty 객체를 가져옵니다.
+  // const { beauty } = useSelector((state: RootState) => state.personal); // Redux에서 beauty 객체를 가져옵니다.
+
 
   const containsWarm = (result: string | undefined) => {
     return result ? result.includes("웜") : false;
@@ -165,7 +151,6 @@ const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
     return result ? result.includes("쿨") : false;
   };
 
-  // beauty.result 값에 따라 배경색을 결정합니다.
   const backgroundColor = containsWarm(beauty?.result)
     ? "linear-gradient(270deg, #ebb7a2, #fc9898, #e1665b)"
     : containsCool(beauty?.result)
@@ -194,11 +179,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일
 
-  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]; // ex. (월)
+  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const dayOfWeek = daysOfWeek[currentDate.getDay()];
 
-  const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`; // 설정된 값
-  console.log(formattedDate);
+  const formattedDate = `${year}.${month}.${day}(${dayOfWeek})`;
 
   return (
     <ModalOverlay onClick={handleClose}>

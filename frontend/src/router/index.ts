@@ -1,4 +1,3 @@
-import MirrorMap from "../components/Main/MirrorMap";
 import Mirror from "../components/Main/Mirror";
 import Test from "../components/Test/Test";
 import TestMain from "../components/Test/TestMain";
@@ -21,6 +20,8 @@ import TodayHealth from "../components/Health/TodayHealth";
 import HealthCalender from "../components/Health/HealthCalender";
 import PrevHealth from "../components/Health/PrevHealth";
 import TodayHealthData from "../components/Health/TodayHealthData";
+import Alarm from "../components/Common/Alarm";
+import Welcome from "../components/Login/Welcome";
 
 const routes = [
   {
@@ -49,6 +50,10 @@ const routes = [
   {
     path: "/login",
     Component: Login,
+  },
+  {
+    path: "/welcome",
+    Component: Welcome,
   },
 
   {
@@ -135,6 +140,11 @@ const routes = [
   {
     path: "/kakaomap",
     Component: KakaoMap,
+  },
+  // 알람
+  {
+    path: "/alarm",
+    Component: Alarm,
   },
 ];
 
