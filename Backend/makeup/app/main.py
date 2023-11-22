@@ -115,7 +115,6 @@ async def runColor(
     return JSONResponse({'result' : '진단 완료'})
 
 
-### 2023-11-01 이런형태로 넘겨야 함
 # 퍼스널 컬러 이전 상세기록 반환
 class Item(BaseModel):
     date: str
