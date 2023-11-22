@@ -77,7 +77,6 @@ class DetectFace:
         print(x,y,w,h)
         # adj_points = np.array([np.array([p[0]-x, p[1]-y]) for p in face_part_points])
 
-        # 해당 얼굴 부위 이미지 크기와 같은 크기의 영행렬(mask)을 생성
         # mask = np.zeros((crop.shape[0], crop.shape[1]))
         # cv2.fillConvexPoly(mask, adj_points, 1)
         # #boolean으로 바꿔서 

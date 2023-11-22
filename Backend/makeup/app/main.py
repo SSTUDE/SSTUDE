@@ -115,7 +115,6 @@ async def runColor(
     return JSONResponse({'result' : '진단 완료'})
 
 
-### 2023-11-01 이런형태로 넘겨야 함
 # 퍼스널 컬러 이전 상세기록 반환
 class Item(BaseModel):
     date: str
@@ -270,7 +269,7 @@ def getclothesDetail (
                                 "calender": {"$gte": datetime(current_date_time.year, current_date_time.month, current_date_time.day), 
                                             "$lt": datetime(current_date_time.year, current_date_time.month, current_date_time.day, 23, 59, 59, 999999)}}
                                 ,{"_id":0, "score":1, "imguri":1}
-                                ).sort("calender",-1).limit(2)
+                                ).sort("calender",1).limit(2)
         lst = []
         for r in result:
             lst.append(r)
