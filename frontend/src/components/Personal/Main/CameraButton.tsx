@@ -1,7 +1,7 @@
 // 진단 하러 가기 위한 버튼
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 // 전체 컨테이너
 const StyledCameraButtonContainer = styled.div``;
@@ -11,10 +11,8 @@ const StyledCameraButton = styled.button`
   position: absolute;
   right: 10%;
   bottom: 20%;
-
   width: 150px;
   height: 150px;
-
   background-color: transparent;
   border: none;
 
@@ -24,7 +22,6 @@ const StyledCameraButton = styled.button`
     font-size: 2rem;
     font-weight: 600;
     white-space: nowrap;
-
     position: relative;
     right: 30px;
     top: 10px;

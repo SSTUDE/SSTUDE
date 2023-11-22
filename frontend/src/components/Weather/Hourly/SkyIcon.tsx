@@ -87,8 +87,4 @@ const StyledCloudSnowFill = styled(BsCloudSnowFill)`
   margin-top: 5px;
 `;
 
-
-
-
-
 export default SkyIcon

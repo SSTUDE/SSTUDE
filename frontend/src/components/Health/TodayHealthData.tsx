@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled, { keyframes } from "styled-components";
-import { images } from "../../constants/images";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { images } from "../../constants/images";
+import React, { useEffect, useState } from "react";
+import styled, { keyframes } from "styled-components";
 
 // 차트 전체 컨테이너
 const StyledChartContainer = styled.section`
   display: flex;
   justify-content: center;
-
   margin: 4% 0;
 `;
 
@@ -16,11 +15,9 @@ const StyledChartContainer = styled.section`
 const StyledKcalDataContainer = styled.article`
   display: flex;
   justify-content: center;
-
   width: 40%;
   height: 20vh;
   padding: 1%;
-
   border: 6px solid white;
   border-radius: 20px;
 `;
@@ -29,7 +26,6 @@ const CircleChartContainer = styled.section`
   position: relative;
   max-width: 180px;
   width: 100%;
-
   display: flex;
   justify-content: center;
 `;
@@ -43,7 +39,6 @@ const CircleConsumedKcalChartPercentage = styled.span`
   font-family: "KBO-Dia-Gothic_bold";
   font-size: 1.5rem;
   font-weight: 700;
-
   position: absolute;
   left: -80%;
   top: 50%;
@@ -54,7 +49,6 @@ const CircleBruntKcalChartPercentage = styled.span`
   font-family: "KBO-Dia-Gothic_bold";
   font-size: 1.5rem;
   font-weight: 700;
-
   position: absolute;
   right: -80%;
   top: 50%;
@@ -89,9 +83,7 @@ const CarouselContainer = styled.div`
   display: flex;
   text-align: center;
   position: relative;
-
   font-family: "KBO-Dia-Gothic_bold";
-
   height: 450px;
   max-width: 800px;
   min-width: 600px;
@@ -103,17 +95,13 @@ const CarouselCard = styled.div<{ position: string }>`
   height: 300px;
   width: 200px;
   padding: 20px;
-
   transition: 1s;
   opacity: 1;
-
   position: absolute;
   top: 0;
-
   background-color: #4fb7fc;
   color: #fff;
   cursor: pointer;
-
   box-shadow: 3px 5px 8px #4c4a4a;
 
   ${(props) => {
@@ -162,7 +150,6 @@ const CarouselIcon = styled.img`
   border-radius: 50%;
   height: 75px;
   width: 75px;
-
   margin: 30px;
 `;
 
@@ -182,24 +169,15 @@ const TodayHealthData = () => {
   const [consumedKcalPercentage, setConsumedKcalPercentage] = useState(0);
 
   const { detailData } = useSelector((state: RootState) => state.health);
-  const [totalKcal, setTotalKcal] = useState(0);
 
   useEffect(() => {
-    // API에서 받아온 데이터의 초기값이 설정되어 있지 않을 수 있으므로,
-    // Optional Chaining을 사용하여 undefined 또는 null을 방지합니다.
     const fetchedBurntKcal = detailData?.burntKcal || 0;
     const fetchedConsumedKcal = detailData?.consumedKcal || 0;
-
-    // totalKcal을 계산합니다.
     const total = fetchedBurntKcal + fetchedConsumedKcal;
 
-    // 계산된 totalKcal을 상태에 저장합니다.
-    setTotalKcal(total);
-
-    // 비율을 계산하고, 상태를 업데이트합니다.
     setBurntKcalPercentage((fetchedBurntKcal / total) * 100);
     setConsumedKcalPercentage((fetchedConsumedKcal / total) * 100);
-  }, [detailData]); // detailData가 변경될 때마다 이 useEffect는 실행됩니다.
+  }, [detailData]);
 
   const currentDate = new Date();
 
@@ -220,7 +198,7 @@ const TodayHealthData = () => {
     .replace(/: /g, ":")
     .split(" (")[0];
 
-  const [cardsData, setCardsData] = useState([
+  const cardsData = [
     {
       icon: `${images.health.steps}`,
       title: "걸음 수",
@@ -232,9 +210,8 @@ const TodayHealthData = () => {
       icon: `${images.health.sleepTime}`,
       title: "수면 시간",
       text: detailData?.sleepTime
-        ? `${Math.floor(detailData.sleepTime / 60)}시간 ${
-            detailData.sleepTime % 60
-          }분`
+        ? `${Math.floor(detailData.sleepTime / 60)}시간 ${detailData.sleepTime % 60
+        }분`
         : "데이터가 없습니다.",
     },
     {
@@ -257,7 +234,7 @@ const TodayHealthData = () => {
         ? `${detailData.consumedKcal} Kcal`
         : "데이터가 없습니다.",
     },
-  ]);
+  ];
 
   const moveToCenter = (index: number) => {
     const newPositions = [...options];

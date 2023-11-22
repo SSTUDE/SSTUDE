@@ -41,16 +41,6 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
     return null;
   }
 
-
-  // 첫 번째 요소인 경우 "오늘"만 표시
-  if (index === 0) {
-    return (
-      <TodayLabel>
-        <span className="label">오늘</span>
-      </TodayLabel>
-    );
-  }
-
   // 그 외의 경우 시간과 날짜 레이블 표시
   return (
     <TimeSkyWrap>
@@ -78,16 +68,6 @@ const TimeSkyWrap = styled.div`
 
   .label {
     font-weight: bold;
-  }
-`;
-
-const TodayLabel = styled.div`
-  position: relative; 
-  top: 0%; 
-  text-align: center;
-
-  .label {
-    font-size: 20px;
   }
 `;
 
