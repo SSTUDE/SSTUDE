@@ -44,8 +44,6 @@ async def runColor(
     print(file.headers)
     print(file.read)
     print(access_token)
-    # contents = await file.read()
-    # print(contents)
     print(current_date_time)
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
