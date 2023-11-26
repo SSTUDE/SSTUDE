@@ -96,7 +96,11 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
 
   // 공기 내 지역 데이터 필터링
   const airQualityCustomData = airQualityData.filter((item: AirQualityCustom) => {
-    return arePt3 && item.stationName.includes(arePt3.substring(0, 2));
+    if (arePt1 === '서울특별시') {
+      return arePt2 && item.stationName.includes(arePt2.substring(0, 2));
+    } else {
+      return arePt3 && item.stationName.includes(arePt3.substring(0, 2));
+    }
   })[0];
 
   const findTemperatureExtremes = (data: WeatherDataCustom[]) => {
