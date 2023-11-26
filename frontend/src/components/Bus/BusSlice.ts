@@ -182,7 +182,8 @@ export const busRealTimeForServer = createAsyncThunk(
 );
 
 const initialState: BusState = {
-  gps: [36.107, 128.417],
+  gps: [37.501382, 127.039601],
+  // gps: [36.107, 128.417],
   // gps: [37.49648606, 127.02836155],
   busStops: null,
   busStop: null,
