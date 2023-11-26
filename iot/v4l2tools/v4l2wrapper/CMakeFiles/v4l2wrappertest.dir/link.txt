@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic CMakeFiles/v4l2wrappertest.dir/main.cpp.o -o v4l2wrappertest  libv4l2wrapper.a 
