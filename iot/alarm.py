@@ -38,7 +38,10 @@ def alarm(start_time, duration_minutes, play_times, song_path):
             time.sleep(min((start_time - current_time).total_seconds(), 10))
 
 if __name__ == '__main__':
-      
+    settings = read_alarm_settings()
+    pygame.mixer.init()
+    pygame.mixer.music.load(settings['song_path'])
+    
     while True:
         settings = read_alarm_settings()
         # 매일 같은 시간에 알람을 설정
@@ -52,5 +55,5 @@ if __name__ == '__main__':
         # 다음 알람까지의 대기 시간 계산
         sleep_time = (start_time - datetime.now()).total_seconds()
         # 잘못된 시간 설정이 없는지 혹은 너무 긴 대기를 방지
-        sleep_time = max(0, min(sleep_time, 86400))  # 최소 0초, 최대 24시간 대기
+        sleep_time = max(0, min(sleep_time, 60))  # 최소 0초, 최대 24시간 대기
         time.sleep(sleep_time)

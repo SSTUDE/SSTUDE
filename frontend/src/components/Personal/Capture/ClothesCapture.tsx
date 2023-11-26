@@ -160,7 +160,7 @@ const BlinkingCameraIcon = styled(CameraIcon)`
 `;
 
 const ClothesCapture = () => {
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { canvasRef, webcamRef, captureImage, stopWebcam } = useWebcam();
@@ -172,13 +172,13 @@ const ClothesCapture = () => {
     const handlePopState = () => {
       console.log("popstate 이벤트 발생: 웹캠 중지 및 메시지 전송 시작");
       stopWebcam();
-      // setTimeout(() => {
-      //   sendMessage(message).then(() => {
-      //     console.log("웹소켓 메시지 전송 완료");
-      //   }).catch((error) => {
-      //     console.error("웹소켓 메시지 전송 오류:", error);
-      //   });
-      // }, 2000);
+      setTimeout(() => {
+        sendMessage(message).then(() => {
+          console.log("웹소켓 메시지 전송 완료");
+        }).catch((error) => {
+          console.error("웹소켓 메시지 전송 오류:", error);
+        });
+      }, 2000);
     };
 
     window.addEventListener("popstate", handlePopState);
@@ -200,14 +200,14 @@ const ClothesCapture = () => {
           console.log("서버로 이미지 전송 성공");
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
-            // setTimeout(() => {
-            //   sendMessage(message).then(() => {
-            //     console.log("웹소켓 메시지 전송 완료");
+            setTimeout(() => {
+              sendMessage(message).then(() => {
+                console.log("웹소켓 메시지 전송 완료");
                 navigate("/personalclothesresults");
-            //   }).catch((error) => {
-            //     console.error("웹소켓 메시지 전송 오류:", error);
-            //   });
-            // }, 2000);
+              }).catch((error) => {
+                console.error("웹소켓 메시지 전송 오류:", error);
+              });
+            }, 2000);
           } else {
             setIsBlinking(true);
             setTimeout(() => setIsBlinking(false), 3000);
@@ -229,13 +229,13 @@ const ClothesCapture = () => {
   const closeCamera = () => {
     console.log("카메라 중지 버튼 클릭");
     stopWebcam();
-    // setTimeout(() => {
-    //   sendMessage(message).then(() => {
-    //     console.log("웹소켓 메시지 전송 완료");
-    //   }).catch((error) => {
-    //     console.error("웹소켓 메시지 전송 오류:", error);
-    //   });
-    // }, 2000);
+    setTimeout(() => {
+      sendMessage(message).then(() => {
+        console.log("웹소켓 메시지 전송 완료");
+      }).catch((error) => {
+        console.error("웹소켓 메시지 전송 오류:", error);
+      });
+    }, 2000);
   };
 
   // 의상 진단 호출

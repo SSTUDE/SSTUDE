@@ -45,6 +45,7 @@ def start_websocket_service():
     
 ws_service = None
 thread = threading.Thread(target=start_websocket_service)
+thread.daemon = True
 thread.start()
 
 # 카메라 등록
@@ -128,11 +129,13 @@ while True:
     ## getting accessToken for send img
     if msg_type == "alarm" and cnt == 0: # datetime.now() < finish_time and :
         msg_data = msg.get("data")
-        hour = msg_data.get('hour')
-        minute = msg_data.get('min')
+        hour = msg_data.get('start_hour')
+        minute = msg_data.get('start_minute')
+        play_times = msg_data.get('play_times')
+        duration_minutes = msg_data.get('duration_minutes')
 
         if hour and minute :
-            getSignInInfo.updateAlarmInfo(alarmInformFile, _hour=hour, _minute=minute)
+            getSignInInfo.updateAlarmInfo(alarmInformFile, _hour=hour, _minute=minute, play_time=play_times, duration_minutes=duration_minutes)
             # alarmInfo = getSignInInfo.loadAlarmInfo(alarmInformFile)
             # asyncio.run(ws_service.sendInfo(json.dumps(alarmInfo)));
     
@@ -177,7 +180,7 @@ while True:
 
                 if 0 < len(face_distances):
                     best_match_index = np.argmin(face_distances)
-                    print("matching distance : ", face_distances[best_match_index])
+                    # print("matching distance : ", face_distances[best_match_index])
                     if matches[best_match_index] and face_distances[best_match_index] <= 0.45:
                         name = known_face_names[best_match_index]
                         userRecogn = True
@@ -196,7 +199,7 @@ while True:
 
     ##############################
     ## Sign Up Messageing process
-    if cam and msg_type == "signUp" and is_login_service_on:
+    if cam and msg_type == "signUp":
         print("hello world")
         userName = getUserInfo.createUser()
         
@@ -221,7 +224,7 @@ while True:
     
     ######## about camera servie ###############
     if userRecogn :
-        print("dde")
+
         getSignInInfo.updateUserInfo(userSignInInfoFile, name)
         data = getSignInInfo.loadUserInfo(userSignInInfoFile)
         
@@ -270,6 +273,7 @@ while True:
     if service_on and finish_time < datetime.now():
         service_on = False
 
+    # cv2.imshow("img",frame)
             
 
 release_camera()

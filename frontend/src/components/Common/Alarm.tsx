@@ -208,7 +208,7 @@ const SelectTime = styled.p`
 `;
 
 export default function Alarm() {
-  // const { sendMessage } = useWebSocket(RASPBERRY_URL);
+  const { sendMessage } = useWebSocket(RASPBERRY_URL);
   const showAlert = useCustomAlert();
   const dispatch = useDispatch();
   const [selectTime, setSelectTime] = React.useState(dayjs());
@@ -243,19 +243,13 @@ export default function Alarm() {
       data,
     };
 
-    // sendMessage(message)
-    //   .then((response) => {
-    //     console.log("알람 응답옴", response)
-    showAlert({
-      icon: "success",
-      title: "알람이 설정 되었습니다.",
-      timer: 1500,
-    });
-    navigate("/mirror");
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // });
+    sendMessage(message)
+        showAlert({
+          icon: "success",
+          title: "알람이 설정 되었습니다.",
+          timer: 1500,
+        });
+        navigate("/mirror");
   };
 
   return (
