@@ -1,91 +1,47 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { styled } from "styled-components";
+import { RootState } from "../../../store/store";
 import { images } from "../../../constants/images";
+import { setCarouselIndex } from "./PreviousSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const CarouselMain = styled.section`
-  width: 390px;
-  /* height: 70%; */
+  width: 40vh;
   position: relative;
+  top: 21%;
   margin: 0 auto;
-  user-select: none;
 `;
 
 // 이미지 보이게 하기 위한 더 큰 컨테이너
 const CarouselWrapperContainer = styled.div`
   overflow: hidden;
+  box-shadow: 0 0 10px 5px black;
 `;
 
+// 캐러셀 감싸는 컨테이너
 const CarouselWrapper = styled.div`
   display: flex;
-  transition: transform 1s;
-  /* width: 0; */
+  transition: all 0.5s ease-out;
 `;
 
 // 캐러셀 슬라이드
 const CarouselSlide = styled.figure`
-  flex: 0 0 390px;
-  position: relative;
+  flex: 0 0 350px;
   margin: 0;
 `;
 
 // 캐러셀 이미지
 const CarouselImage = styled.img`
-  display: block;
-  width: 100%;
-  height: auto;
+  width: 40vh;
+  height: 56vh;
   object-fit: cover;
-  border-radius: 20px;
-`;
-
-// 버튼 컨테이너
-const CarouselButtonContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-// 캐러셀 버튼
-const CarouselButton = styled.button`
-  width: 50px;
-  height: 50px;
-  color: #fff;
-  background: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-`;
-
-// 이전 버튼
-const CarouselPrev = styled(CarouselButton)`
-  position: absolute;
-  left: -60px;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding-top: 5px;
-  padding-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-// 다음 버튼
-const CarouselNext = styled(CarouselButton)`
-  position: absolute;
-  right: -60px;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding-top: 5px;
-  padding-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-position: top;
 `;
 
 // 현재 슬라이드 위치
 const CarouselPagination = styled.nav`
   position: absolute;
-  bottom: -30px;
+  top: -30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -101,113 +57,104 @@ const CarouselCircle = styled.div`
   cursor: pointer;
   &.active {
     background-color: #333;
+    transition: all 0.7s;
   }
 `;
 
 const Carousel = () => {
-  const [currentSlide, setCurrentSlide] = useState<number>(0);
+  const dispatch = useDispatch();
+  const currentSlide = useSelector(
+    (state: RootState) => state.previous.CarouselIndex
+  );
   const swiperRef = useRef<HTMLDivElement>(null);
+
+  // 터치 슬라이드
+  const [touchStart, setTouchStart] = React.useState(0);
+
+  const { clothesData } = useSelector(
+    (state: RootState) => state.previous
+  );
+  const imageList = clothesData?.map((data) => data.imgUri) || [];
 
   const showSlide = (slideIndex: number) => {
     if (swiperRef.current) {
       swiperRef.current.style.transform = `translateX(-${slideIndex * 100}%)`;
     }
-    setCurrentSlide(slideIndex);
+    dispatch(setCarouselIndex(slideIndex));
   };
 
   const handlePrevClick = () => {
-    if (currentSlide > 0) {
-      showSlide(currentSlide - 1);
-    }
+    const newSlide = currentSlide > 0 ? currentSlide - 1 : currentSlide;
+    showSlide(newSlide);
   };
 
   const handleNextClick = () => {
-    if (currentSlide < 2) {
-      showSlide(currentSlide + 1);
-    }
+    const newSlide =
+      currentSlide < imageList.length - 1 ? currentSlide + 1 : currentSlide;
+    showSlide(newSlide);
   };
 
   const handleBulletClick = (index: number) => {
     showSlide(index);
   };
 
-  return (
-    <>
-      <CarouselMain>
-        <CarouselWrapperContainer>
-          <CarouselWrapper ref={swiperRef}>
-            <CarouselSlide>
-              <CarouselImage
-                src={images.personal.dummy1}
-                alt="사진이 없습니다"
-              />
-            </CarouselSlide>
-            <CarouselSlide>
-              <CarouselImage
-                src={images.personal.dummy1}
-                alt="사진이 없습니다"
-              />
-            </CarouselSlide>
-            <CarouselSlide>
-              <CarouselImage
-                src={images.personal.dummy1}
-                alt="사진이 없습니다"
-              />
-            </CarouselSlide>
-          </CarouselWrapper>
-        </CarouselWrapperContainer>
-        <CarouselButtonContainer>
-          <CarouselPrev onClick={handlePrevClick}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              className="bi bi-chevron-double-left"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
-              />
-            </svg>
-          </CarouselPrev>
-          <CarouselNext onClick={handleNextClick}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              className="bi bi-chevron-double-right"
-              viewBox="0 0 16 16"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"
-              />
-              <path
-                fill-rule="evenodd"
-                d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"
-              />
-            </svg>
-          </CarouselNext>
-        </CarouselButtonContainer>
+  // 터치 시작 이벤트 핸들러
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchStart(e.touches[0].clientX);
+  };
 
-        <CarouselPagination>
-          {[0, 1, 2].map((_, index) => (
+  // 터치 끝 이벤트 핸들러
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touchEnd = e.changedTouches[0].clientX;
+
+    // 터치 방향에 따라 슬라이드 이동
+    if (touchStart - touchEnd > 75) {
+      // 오른쪽으로 터치
+      handleNextClick();
+    } else if (touchStart - touchEnd < -75) {
+      // 왼쪽으로 터치
+      handlePrevClick();
+    }
+  };
+
+  return (
+    <CarouselMain>
+      <CarouselWrapperContainer>
+        <CarouselWrapper
+          ref={swiperRef}
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {(imageList.length > 0 ? imageList : [images.personal.errorImg]).map(
+            (image: string, index: number) => (
+              <CarouselSlide key={index}>
+                <CarouselImage
+                  src={image}
+                  alt="사진이 없습니다"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = images.personal.errorImg;
+                  }}
+                />
+              </CarouselSlide>
+            )
+          )}
+        </CarouselWrapper>
+      </CarouselWrapperContainer>
+
+      <CarouselPagination>
+        {Array(imageList.length)
+          .fill(0)
+          .map((_, index) => (
             <CarouselCircle
               key={index}
               className={currentSlide === index ? "active" : ""}
               onClick={() => handleBulletClick(index)}
-            ></CarouselCircle>
+            />
           ))}
-        </CarouselPagination>
-      </CarouselMain>
-    </>
+      </CarouselPagination>
+    </CarouselMain>
   );
 };
 export default Carousel;

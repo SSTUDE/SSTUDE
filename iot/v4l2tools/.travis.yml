@@ -1,0 +1,14 @@
+dist: trusty
+addons:
+  apt:
+    packages:
+    - liblog4cpp5-dev
+    - libvpx-dev
+    - libx264-dev
+    - libjpeg-dev
+language: cpp
+compiler:
+- gcc
+script:
+- make
+

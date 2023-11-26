@@ -1,0 +1,12 @@
+[submodule "libyuv"]
+	path = libyuv
+	url = https://github.com/xxz/libyuv
+[submodule "v4l2wrapper"]
+	path = v4l2wrapper
+	url = https://github.com/mpromonet/v4l2wrapper
+[submodule "hevcbitstream"]
+	path = hevcbitstream
+	url = https://github.com/leslie-wang/hevcbitstream
+[submodule "h264bitstream"]
+	path = h264bitstream
+	url = https://github.com/aizvorski/h264bitstream

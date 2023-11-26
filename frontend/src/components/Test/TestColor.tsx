@@ -1,16 +1,15 @@
+import styled from 'styled-components';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
 
 const ColorPalette: React.FC = () => {
   const colors = [
     'red', 'green', 'blue', 'yellow', 'pink', 'orange', 'purple', 'cyan', 'magenta', 'lime',
     'navy', 'teal', 'olive', 'maroon', 'silver', 'gray', 'black', 'white', 'brown', 'gold',
-    // 추가적인 색상들을 여기에 정의할 수 있습니다.
   ];
 
   const [backgroundColor, setBackgroundColor] = useState<string>('white');
-  const [customColor, setCustomColor] = useState<string>('#ffffff'); // 사용자 정의 색상
+  const [customColor, setCustomColor] = useState<string>('#ffffff');
   const navigate = useNavigate();
 
   return (
@@ -44,7 +43,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  transition: background-color 0.3s; // 배경색 변경시 부드러운 전환 효과
+  transition: background-color 0.3s; 
 `;
 
 const ColorList = styled.div`

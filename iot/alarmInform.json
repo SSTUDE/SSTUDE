@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"start_hour": 15, "start_minute": 6, "play_times": 1, "duration_minutes": 1, "song_path": "/home/kimsc9976/S09P31D204/iot/music/homecoming_ringtone_samsung_ringtones.mp3", "play_time": 1}
+=======
+{"start_hour": 10, "start_minute": 50, "play_times": 1, "duration_minutes": 1, "song_path": "/home/kimsc9976/S09P31D204/iot/music/homecoming_ringtone_samsung_ringtones.mp3", "play_time": 1}
+>>>>>>> origin/master

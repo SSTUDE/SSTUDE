@@ -1,14 +1,17 @@
 server:
   port: 8000
 
+<<<<<<< HEAD
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-#      defaultZone: http://localhost:8761/eureka
-      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
+      defaultZone: http://localhost:8761/eureka
+#      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
 
+=======
+>>>>>>> origin/develop
 spring:
   application:
     name: gateway
@@ -16,51 +19,141 @@ spring:
     gateway:
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-#      globalcors:
-#        cors-configurations:
-#          '[/**]':
-#            allowedOriginPatterns:
-#              - '*'
-#            allow-credentials: true
-#            allowedHeaders:
-#              - x-requested-with
-#              - Authorization
-#              - content-type
-#              - credential
-#              - X-AUTH-TOKEN
-#              - X-CSRF-TOKEN
-#            exposedHeaders:
-#              - x-requested-with
-#              - Authorization
-#              - content-type
-#              - credential
-#              - X-AUTH-TOKEN
-#              - X-CSRF-TOKEN
-#            allowedMethods:
-#              - PUT
-#              - GET
-#              - POST
-#              - DELETE
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - '*'
+            allowedHeaders:
+              - x-requested-with
+              - Authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            exposedHeaders:
+              - x-requested-with
+              - Authorization
+              - content-type
+              - credential
+              - X-AUTH-TOKEN
+              - X-CSRF-TOKEN
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
       routes:
         - id: account
-          uri: lb://ACCOUNT
+          uri: http://account:8011
+#          uri: http://localhost:8011
           predicates:
             - Path=/auth/**
-            - Method=GET,POST,PUT,DELETE
+            - Method=GET,POST,PUT,DELETE,OPTIONS
           filters:
             - AuthenticationFilter
         - id: account
-          uri: lb://ACCOUNT
+          uri: http://account:8011
+#          uri: http://localhost:8011
           predicates:
             - Path=/account/**
         - id: account-service
-          uri: lb://ACCOUNT
+          uri: http://account:8011
+#          uri: http://localhost:8011
           predicates:
             - Path=/account-service/**
+        - id: static
+          uri: http://static:8012
+#          uri: http://localhost:8012
+          predicates:
+            - Path=/static/**, /detail/**
+          filters:
+            - AuthenticationFilter
+        - id: static-service
+#          uri: http://localhost:8012
+          uri: http://static:8012
+          predicates:
+            - Path=/static-service/**
+        - id: makeup
+          uri: http://makeup:8013
+          predicates:
+            - Path=/makeup/**
+          filters:
+            - AuthenticationFilter
+             
+#        - id: makeup-service
+#          uri: http://127.0.0.1:8013
+#          predicates:
+#            - Path=/docs
+#          filters:
+#            - RewritePath=/makeup-service/docs, /docs
+#        - id: health-blue-filter
+#          uri: http://health-blue:8014
+#          predicates:
+#            - Path=/health/**
+#            - Method=GET,POST,PUT,DELETE
+#          filters:
+#            - AuthenticationFilter
+#        - id: health-blue
+#          uri: http://health-blue:8014
+#          predicates:
+#            - Path=/mobile/**
+#        - id: health-service-blue
+#          uri: http://health-blue:8014
+#          predicates:
+#            - Path=/health-service/**
+#
+#        - id: health-green-filter
+#          uri: http://health-green:8114
+#          predicates:
+#            - Path=/health/**
+#            - Method=GET,POST,PUT,DELETE
+#          filters:
+#            - AuthenticationFilter
+#        - id: health-green
+#          uri: http://health-green:8114
+#          predicates:
+#            - Path=/mobile/**
+#        - id: health-service-green
+#          uri: http://health-green:8114
+#          predicates:
+#            - Path=/health-service/**
+
+        - id: health
+#          uri: http://localhost:8014
+          uri: http://health:8014
+          predicates:
+            - Path=/health/**
+#            - Method=GET,POST,PUT,DELETE
+          filters:
+            - AuthenticationFilter
+        - id: health
+#          uri: http://localhost:8014
+          uri: http://health:8014
+          predicates:
+            - Path=/mobile/**
+        - id: health-service
+#          uri: http://localhost:8014
+          uri: http://health:8014
+          predicates:
+            - Path=/health-service/**
+        - id: businfo
+#          uri: http://localhost:8015
+          uri: http://businfo:8015
+          predicates:
+            - Path=/bus-station/**
+          filters:
+            - AuthenticationFilter
+        - id: businfo-service
+#          uri: http://localhost:8015
+          uri: http://businfo:8015
+          predicates:
+            - Path=/businfo-service/**
 
   redis:
-    host: k9d204.p.ssafy.io
-#    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
+#    host: k9d204.p.ssafy.io
+    host: ENC(G6L03YghvQxiq9YSUngL51alhdDqZcJI)
     port: 6379
 
 jwt:
@@ -82,16 +175,17 @@ springdoc:
 #        primaryName: API Gateway Service
       - url: /account-service/v3/api-docs
         name: Account
-#      - url: /data-service/v3/api-docs
-#        name: Data
-#      - url: /mission-service/v3/api-docs
-#        name: Mission
-#      - url: /store-service/v3/api-docs
-#        name: Store
-#      - url: /character-service/v3/api-docs
-#        name: Character
-#      - url: /game-service/v3/api-docs
-#        name: Game
+      - url: /static-service/v3/api-docs
+        name: Static
+#      - url: /makeup-service/v3/api-docs
+#        name: Makeup
+#      - url: /docs
+#        name: Makeup
+      - url: /health-service/v3/api-docs
+        name: Health
+      - url: /businfo-service/v3/api-docs
+        name: Businfo
+
 
 jasypt:
   encryptor:

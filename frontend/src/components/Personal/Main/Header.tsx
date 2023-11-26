@@ -1,13 +1,13 @@
-// import { useState } from "react";
-import { styled } from "styled-components";
 import { Link } from "react-router-dom";
+import { styled } from "styled-components";
 
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  margin: 5% 0;
+  margin: 3% 0 4% 0;
+  color: black;
 `;
 
 const StyledLink = styled(Link)`
@@ -19,13 +19,8 @@ const ContentButton = styled.button<{ isActive: boolean }>`
   width: 100%;
   height: 7vh;
   padding: 0px;
-
   cursor: pointer;
-
   font-size: 1.5rem;
-  color: white;
-
-  background-color: ${(props) => (props.isActive ? "#ffffff50" : "#ffffff12")};
   border: none;
 `;
 

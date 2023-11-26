@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Account", description = "계정 및 토큰")
+@Tag(name = "Account 테스트", description = "계정 및 토큰")
 @Slf4j
 @RestController
 @RequiredArgsConstructor

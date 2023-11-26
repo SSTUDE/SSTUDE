@@ -1,114 +1,154 @@
 import baseAxios from "axios";
-import { SERVER_URL, REFRESH_TOKEN_URL } from "./constants";
-import { storageData, retrieveData, getRefreshToken } from "./JWT-common";
-import { useWebSocketContext } from "../components/Common/WebSocketContext";
+import { storageData, retrieveData } from "./JWT-common";
+import { SERVER_URL, REFRESH_TOKEN_URL, PYTHON_SERVER_URL } from "./constants";
 
-const axios = baseAxios.create({
+const axiosToken = baseAxios.create({
   baseURL: SERVER_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-axios.interceptors.request.use(
+axiosToken.interceptors.request.use(
   async (config) => {
     const accessToken = await retrieveData();
+    // console.log(accessToken)
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
   (error) => {
+    console.error("axiosToken 요청 인터셉터 에러:", error);
     return Promise.reject(error);
   }
 );
 
-axios.interceptors.response.use(
-  (response) => response,
+axiosToken.interceptors.response.use(
+  (response) => {
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (
+      error.response &&
+      error.response.data.status === 401 &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
-      const refreshToken = getRefreshToken();
-      if (refreshToken) {
-        try {
-          const response = await axios.post(REFRESH_TOKEN_URL, {
-            refreshToken,
-          });
-          const { accessToken } = response.data;
-          const { sendMessage } = useWebSocketContext();
-          storageData(accessToken, refreshToken, sendMessage ?? (() => {}));
-          originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-          return axios(originalRequest);
-        } catch (refreshError) {
-          return Promise.reject(refreshError);
-        }
+      try {
+        const response = await axiosToken.post(REFRESH_TOKEN_URL);
+        const { accessToken } = response.data;
+        // console.log(accessToken)
+
+        storageData(accessToken);
+
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        return axiosToken(originalRequest);
+      } catch (refreshError) {
+        console.error("응답 인터셉터: 토큰 갱신 실패", refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+const pythonAxiosToken = baseAxios.create({
+  baseURL: PYTHON_SERVER_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+pythonAxiosToken.interceptors.request.use(
+  async (config) => {
+    const accessToken = await retrieveData();
+    if (accessToken) {
+      config.headers.access_token = `${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    console.error("요청 인터셉터 에러:", error);
+    return Promise.reject(error);
+  }
+);
+
+pythonAxiosToken.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response &&
+      error.response.data.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      try {
+        const response = await axiosToken.post(REFRESH_TOKEN_URL);
+        const { accessToken } = response.data;
+
+        storageData(accessToken);
+
+        originalRequest.headers.access_token = `${accessToken}`;
+        return pythonAxiosToken(originalRequest);
+      } catch (refreshError) {
+        console.error("응답 인터셉터: 토큰 갱신 에러", refreshError);
+        return Promise.reject(refreshError);
       }
     }
     return Promise.reject(error);
   }
 );
 
-export const requestGet = async (
-  url: string,
-  params: Record<string, any> = {}
-) => {
-  const token = "Bearer " + (await retrieveData());
-  try {
-    const data = await axios.get(url, {
-      params: params,
-      headers: {
-        Authorization: token,
-      },
-    });
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+const pythonFormAxiosToken = baseAxios.create({
+  baseURL: PYTHON_SERVER_URL,
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
-export const requestPost = async (
-  url: string,
-  body: Record<string, any> = {},
-  headers: Record<string, any> = {}
-) => {
-  const token = "Bearer " + (await retrieveData());
-  try {
-    const data = await axios.post(url, body, {
-      headers: { Authorization: token },
-    });
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
+pythonFormAxiosToken.interceptors.request.use(
+  async (config) => {
+    const accessToken = await retrieveData();
+    if (accessToken) {
+      config.headers.access_token = `${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    console.error("요청 인터셉터 에러:", error);
+    return Promise.reject(error);
   }
-};
+);
 
-export const requestPut = async (
-  url: string,
-  body: Record<string, any> = {},
-  headers: Record<string, any> = {}
-) => {
-  const token = "Bearer " + (await retrieveData());
-  try {
-    const data = await axios.put(url, body, {
-      headers: { Authorization: token },
-    });
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
+pythonFormAxiosToken.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response && error.response.status === 400) {
+      try {
+        const response = await axiosToken.post(REFRESH_TOKEN_URL);
+        const { accessToken } = response.data;
+
+        storageData(accessToken);
+
+        originalRequest.headers.access_token = `${accessToken}`;
+        return pythonFormAxiosToken(originalRequest);
+      } catch (refreshError) {
+        console.error("응답 인터셉터: 토큰 갱신 에러", refreshError);
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(error);
   }
-};
+);
 
-export const requestDel = async (url: string) => {
-  try {
-    const data = await axios.delete(url);
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
-
-export default axios;
+export default axiosToken;
+export { pythonAxiosToken, pythonFormAxiosToken };

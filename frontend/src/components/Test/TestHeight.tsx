@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const TestHeight: React.FC = () => {
@@ -17,7 +17,6 @@ const TestHeight: React.FC = () => {
     setBackgroundColor(randomColor);
   };
 
-  // 80개의 버튼을 생성합니다.
   const buttons = Array.from({ length: 80 }, (_, index) => (
     <Button key={index} onClick={() => handleButtonClick(index + 1)}>
       버튼 {index + 1}

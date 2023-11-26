@@ -1,20 +1,17 @@
 .test {
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #000000;
+  font-family: "IAMAPLAYER";
 }
 
 /* 달력 전체 컨테이너 */
 .react-datepicker {
-  /* width: 60%; */
-  height: 80vh;
+  height: 90vh;
   margin: auto;
   background-color: #000000;
   color: white;
-
-  /* border: solid 0.1rem; */
   border-radius: 10px;
 }
 
@@ -24,16 +21,23 @@
   height: 6vh;
   background-color: #000000;
   color: white;
+  font-size: 2.5rem;
 }
+
 .button {
   margin: 0 50px;
   border: none;
   background-color: transparent;
   color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
 }
-.react-datepicker__header > div {
-  margin: 20px 0 !important;
-  /* border-bottom: solid 1px; */
+
+.react-datepicker__header>div {
+  padding: 20px 0;
+  margin: 0 !important;
+  border-top: 1px white solid;
+  border-bottom: 1px white solid;
 }
 
 /* 요일 담고 있는 컨테이너 */
@@ -41,10 +45,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-
   height: 3vh;
-
-  /* border-bottom: solid 1px; */
 }
 
 /* 요일 */
@@ -55,13 +56,13 @@
 
 /* 주를 전부 담고 있는 컨테이너 */
 .react-datepicker__month {
-  /* width: 60vw; */
   height: 70vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 100px;
+  font-size: 2rem;
 }
 
 /* 한 주 날짜 */
@@ -69,7 +70,6 @@
   display: flex;
   justify-content: space-around;
   color: white;
-  /* border-bottom: solid 1px; */
 }
 
 /* 일자 */
@@ -95,7 +95,7 @@
 
 /* 선택한 날짜 */
 .react-datepicker__day--selected {
-  background-color: #d2e7ef;
+  background-color: #1aabdf;
   color: #000000;
   border-radius: 5px;
 }
@@ -112,7 +112,6 @@
   font-weight: 700;
 }
 
-/* 아이콘 */
 /* 아이콘 컨테이너 */
 .icons {
   display: flex;
@@ -120,7 +119,18 @@
 
 /* 아이콘 */
 .icon {
+  position: relative;
+  top: 10px;
   display: inline-block;
-  font-size: 20px;
-  padding: 10px;
+  font-size: 28px !important;
+  width: 45px;
+  height: 45px;
+  padding: 7px 5px 5px 5px !important;
+}
+
+/* 점 아이콘 */
+.dot-icon {
+  display: inline-block;
+  font-size: 28px;
+  padding: 7px;
 }
