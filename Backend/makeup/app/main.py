@@ -38,7 +38,7 @@ async def runColor(
     file: UploadFile = File(...),
     access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
-    print(file.filename)
+    # print(file.filename)
     print(file.content_type)
     print(file.file)
     print(file.headers)
