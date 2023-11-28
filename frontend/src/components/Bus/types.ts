@@ -44,6 +44,7 @@ export type SelectedBuses = {
 export type BusButtonProps = {
   selected?: boolean;
   onClick?: () => void;
+  routeType?: string;
 };
 
 export interface BusRealTimeData {

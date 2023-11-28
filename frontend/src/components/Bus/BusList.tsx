@@ -17,6 +17,18 @@ const BusList = () => {
     ? busList.filter(bus => bus !== undefined)
     : busList ? [busList] : [];
 
+    const routeTypeNames: { [key: string]: string } = {
+      '1': '공항',
+      '2': '마을',
+      '3': '간선',
+      '4': '지선',
+      '5': '순환',
+      '6': '광역',
+      '7': '인천',
+      '8': '경기',
+      '9': '폐지',
+      '0': '공용',
+    };   
 
   const toggleBusSelection = (routeId: string) => {
     setSelectedBuses(prevSelected => ({
@@ -68,7 +80,7 @@ const BusList = () => {
               onClick={() => toggleBusSelection(bus.routeId)}
             >
               <BusInfo>
-                <BusType>{bus.routeType ? bus.routeType.replace('버스', '') : '미정'}</BusType>
+              <BusType routeType={bus.routeType}>{routeTypeNames[bus.routeType] || '미정'}</BusType>
                 <BusNumber>{bus.routeNo}</BusNumber>
               </BusInfo>
             </BusButton>
@@ -129,10 +141,15 @@ const BusInfo = styled.div`
   gap: 5px;
 `;
 
-const BusType = styled.span`
+const BusType = styled.span<BusButtonProps>`
   font-weight: bold;
   font-size: 1.2em;
-  color: #ecf0f1;
+  color: ${props =>
+    props.routeType === '3' || props.routeType === '2' ? '#0068b7' :
+    props.routeType === '4' ? '#53b332' :
+    props.routeType === '5' ? '#f2b70a' :
+    props.routeType === '6' || props.routeType === '7' || props.routeType === '8' ? '#e60012' :
+    'white'};
 `;
 
 const BusNumber = styled.span`

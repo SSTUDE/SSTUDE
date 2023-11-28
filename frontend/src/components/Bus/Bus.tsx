@@ -162,9 +162,12 @@ const BusId = styled.div<BusIdProps>`
   display: flex;
   align-items: end;
   gap: 10px;
-  color: ${props => props.routeType === '일반버스' ? '#33CC99' :
-    props.routeType === '좌석버스' ? '#0068b7' :
-      props.routeType === '광역버스' ? '#e60012' : 'white'};
+  color: ${props =>
+    props.routeType === '3' || props.routeType === '2' ? '#0068b7' :
+      props.routeType === '4' ? '#53b332' :
+        props.routeType === '5' ? '#f2b70a' :
+          props.routeType === '6' || props.routeType === '7' || props.routeType === '8' ? '#e60012' :
+            'white'};
 `;
 
 const BusIdBun = styled.div`

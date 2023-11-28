@@ -20,6 +20,7 @@ export const gpsToServer = createAsyncThunk(
         latitude: gps[0],
         longitude: gps[1],
         numOfRows: 50,
+        radius: 500
       });
       return response.data;
     } catch (error: unknown) {
