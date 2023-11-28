@@ -20,7 +20,9 @@ export const gpsToServer = createAsyncThunk(
         latitude: gps[0],
         longitude: gps[1],
         numOfRows: 50,
+        radius: 500,
       });
+      console.log(response);
       return response.data;
     } catch (error: unknown) {
       return rejectWithValue(
@@ -45,6 +47,7 @@ export const busStopToServer = createAsyncThunk(
         nodeId: selectedStation.nodeId,
         numOfRows: 50,
       });
+      console.log(response);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -92,16 +95,16 @@ export const busSaveToServer = createAsyncThunk(
   "bus/busSaveToServer",
   async (selectedBusList: busServer[], { rejectWithValue }) => {
     try {
-      const buses = selectedBusList.map(bus => ({
+      const buses = selectedBusList.map((bus) => ({
         routeId: bus.routeId,
         routeNo: bus.routeNo,
         routeType: bus.routeType,
         startNodeNum: bus.startNodeNum,
-        endNodeNum: bus.endNodeNum
+        endNodeNum: bus.endNodeNum,
       }));
 
       const response = await axiosToken.post("/bus-station/bus-inform/save", {
-        buses 
+        buses,
       });
 
       return response.data;
@@ -115,15 +118,12 @@ export const busSaveToServer = createAsyncThunk(
   }
 );
 
-
 //NOTE - 저장한 버스 정거장 서버에서 호출
 export const saveBusStopForServer = createAsyncThunk(
   "bus/saveBusStopForServer",
   async (_, { rejectWithValue }) => {
-
     try {
-      const response = await axiosToken.post(
-        "/bus-station/near/load", {});
+      const response = await axiosToken.post("/bus-station/near/load", {});
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -139,10 +139,11 @@ export const saveBusStopForServer = createAsyncThunk(
 export const saveBusListForServer = createAsyncThunk(
   "bus/saveBusListForServer",
   async (_, { rejectWithValue }) => {
-
     try {
       const response = await axiosToken.post(
-        "/bus-station/bus-inform/load", {});
+        "/bus-station/bus-inform/load",
+        {}
+      );
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -170,6 +171,7 @@ export const busRealTimeForServer = createAsyncThunk(
           numOfRows: 50,
         }
       );
+      console.log(response);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -182,8 +184,8 @@ export const busRealTimeForServer = createAsyncThunk(
 );
 
 const initialState: BusState = {
-  gps: [36.107, 128.417],
-  // gps: [37.49648606, 127.02836155],
+  // gps: [36.107, 128.417],
+  gps: [37.501382, 127.039601],
   busStops: null,
   busStop: null,
   busList: null,
@@ -268,10 +270,11 @@ const busSlice = createSlice({
     });
 
     handleAsyncReducer<any>(builder, saveBusListForServer, (state, action) => {
-      const routeIdList = action.payload.map((bus: { routeId: string }) => bus.routeId);
+      const routeIdList = action.payload.map(
+        (bus: { routeId: string }) => bus.routeId
+      );
       state.busSave = routeIdList;
     });
-    
 
     handleAsyncReducer<any>(builder, busRealTimeForServer, (state, action) => {
       state.busRealTime = action.payload;
