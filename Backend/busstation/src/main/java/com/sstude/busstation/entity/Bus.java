@@ -2,6 +2,7 @@ package com.sstude.busstation.entity;
 
 import com.sstude.busstation.dto.response.BusInformByStationResponseDto;
 import com.sstude.busstation.dto.response.BusResponseDto;
+import com.sstude.busstation.dto.response.SeoulBusInformByStationResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,7 +56,7 @@ public class Bus {
         this.endNodeNum = endNodeNum;
     }
 
-    public static Bus toEntity(Long memberId, BusInformByStationResponseDto dto){
+    public static Bus toEntity(Long memberId, SeoulBusInformByStationResponseDto dto){
         return Bus.builder()
                 .memberId(memberId)
                 .routeId(dto.getRouteId())

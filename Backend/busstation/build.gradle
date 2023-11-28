@@ -33,6 +33,7 @@ dependencies {
 
 	// eureka
 //	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0' // 최신 버전을 사용하세요
 
 	// Json
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'

@@ -3,9 +3,7 @@ package com.sstude.busstation.controller;
 import com.sstude.busstation.dto.request.SaveBusRequestDto;
 import com.sstude.busstation.dto.request.SaveBusStationRequestDto;
 import com.sstude.busstation.dto.request.StationRequestDto;
-import com.sstude.busstation.dto.response.BusInformByStationResponseDto;
-import com.sstude.busstation.dto.response.BusResponseDto;
-import com.sstude.busstation.dto.response.BusStationResponseDto;
+import com.sstude.busstation.dto.response.*;
 import com.sstude.busstation.global.jwt.JwtTokenProvider;
 import com.sstude.busstation.global.swagger.CustomApi;
 import com.sstude.busstation.dto.request.GpsRequestDto;
@@ -34,15 +32,30 @@ public class BusInfoController {
     @Operation(summary = "주변정류장 확인", description = "버스 정류장 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 라즈베리파이 GPS 를 바탕으로, 해당 위치를 조회하고, 조회받은 데이터를 활용해 버스 정류장 정보를 줍니다. Json에 위도[latitude] 경도[longitude]로 JSON으로 넘겨주세요. \n\n")
     @CustomApi
     @PostMapping("/near")
-    public ResponseEntity<List<BusStationResponseDto>> findBusListInform(
+    public ResponseEntity<List<SeoulBusStationResponseDto>> findBusListInform(
             @RequestBody @Validated GpsRequestDto gpsRequestDto,
             @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
+        log.info("feedback log");
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
-        List<BusStationResponseDto> response = busInfoService.findBusStationListInform(gpsRequestDto,memberId);
-
+        List<SeoulBusStationResponseDto> response = busInfoService.findBusStationListInform(gpsRequestDto,memberId);
+        log.info("라마바");
         return ResponseEntity.ok(response);
     }
+
+//    @Operation(summary = "주변정류장 확인", description = "버스 정류장 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 라즈베리파이 GPS 를 바탕으로, 해당 위치를 조회하고, 조회받은 데이터를 활용해 버스 정류장 정보를 줍니다. Json에 위도[latitude] 경도[longitude]로 JSON으로 넘겨주세요. \n\n")
+//    @CustomApi
+//    @PostMapping("/near")
+//    public ResponseEntity<List<BusStationResponseDto>> findBusListInform(
+//            @RequestBody @Validated GpsRequestDto gpsRequestDto,
+//            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
+//    ) {
+//        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+//        List<BusStationResponseDto> response = busInfoService.findBusStationListInform(gpsRequestDto,memberId);
+//
+//        return ResponseEntity.ok(response);
+//    }
+
 
     @Operation(summary = "원하는 정류장 저장", description = "버스 정류장 정보 저장 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 라즈베리파이 GPS 를 바탕으로, 해당 위치를 조회하고, 조회받은 데이터를 활용해 버스 정류장 정보를 줍니다. Json에 버스정류장 정보를 Array로 담아주세요 담는 Object class는 제공한 Object DTO와 동일합니다. [ {object},{object},... ]으로 넘겨주세요. \n\n")
     @CustomApi
@@ -85,15 +98,28 @@ public class BusInfoController {
     @Operation(summary = "버스 정류장별 버스 번호 조회", description = "버스 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 버스정류장 ID와 도시정보를 바탕으로 해당정류장의 버스들을 찾습니다. 조회받은 데이터를 활용해 버스의 정보를 줍니다. Json에 도시정보[cityCode] 정류소ID[nodeId]를 JSON으로 넘겨주세요. \n\n")
     @CustomApi
     @PostMapping("/bus-inform")
-    public ResponseEntity<List<BusInformByStationResponseDto>> findBusListAtStation(
+    public ResponseEntity<List<SeoulBusInformByStationResponseDto>> findBusListAtStation(
             @RequestBody @Validated StationRequestDto stationRequestDto,
             @RequestHeader("Authorization") @Parameter(hidden = true) final String token
     ) {
         Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
-        List<BusInformByStationResponseDto> response = busInfoService.findBusListAtStation(stationRequestDto,memberId);
+        List<SeoulBusInformByStationResponseDto> response = busInfoService.findBusListAtStation(stationRequestDto,memberId);
 
         return ResponseEntity.ok(response);
     }
+
+//    @Operation(summary = "버스 정류장별 버스 번호 조회", description = "버스 정보 조회 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 버스정류장 ID와 도시정보를 바탕으로 해당정류장의 버스들을 찾습니다. 조회받은 데이터를 활용해 버스의 정보를 줍니다. Json에 도시정보[cityCode] 정류소ID[nodeId]를 JSON으로 넘겨주세요. \n\n")
+//    @CustomApi
+//    @PostMapping("/bus-inform")
+//    public ResponseEntity<List<BusInformByStationResponseDto>> findBusListAtStation(
+//            @RequestBody @Validated StationRequestDto stationRequestDto,
+//            @RequestHeader("Authorization") @Parameter(hidden = true) final String token
+//    ) {
+//        Long memberId = Long.valueOf(jwtTokenProvider.getMember(token));
+//        List<BusInformByStationResponseDto> response = busInfoService.findBusListAtStation(stationRequestDto,memberId);
+//
+//        return ResponseEntity.ok(response);
+//    }
 
     @Operation(summary = "원하는 버스 번호 저장", description = "버스 정보 저장 메서드입니다."+"\n\n### [ 참고사항 ]\n\n"+"- 버스정류장 ID와 도시정보를 바탕으로 해당정류장의 버스들을 찾습니다. 조회받은 데이터를 활용해 버스 정류장 정보를 줍니다. Json에 버스정류장 정보를 Array로 담아주세요 담는 Object class는 제공한 Object DTO와 동일합니다. [ {object},{object},... ]으로 넘겨주세요. \n\n")
     @CustomApi
