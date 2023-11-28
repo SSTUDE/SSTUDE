@@ -17,7 +17,6 @@ app = FastAPI()
 rd = redis_config()
 current_date = datetime.now().date()
 current_date_time = datetime.now()
-# userid = 1
 
 app.add_middleware(
     CORSMiddleware,
