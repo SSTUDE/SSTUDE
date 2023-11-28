@@ -24,8 +24,13 @@ spring:
     bus:
       secret:  ENC(fus24AKnzMoBx4pc2vVD2ThaYu5Gn7d1QOQMStSqe4Ery9KnOwIU5EBJXBuVyrMZj2F1dFfYt+8X9drjdNzPLBulkwlcU+3XxQ6iP7oesibegcJmQWhwvPldvO6GYxwSobWnx9cNXOk=)
       station_inform_api: http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList
-      bus_arrival_inform_api: http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList
+      seoul_station_inform_api : http://ws.bus.go.kr/api/rest/stationinfo/getStationByPos
+
       station_bus_route_api : http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList
+      seoul_station_bus_inform_api : http://ws.bus.go.kr/api/rest/stationinfo/getRouteByStation
+
+      bus_arrival_inform_api: http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList
+      seoul_bus_arrival_inform_api : http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid
 jwt:
   secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
 

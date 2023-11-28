@@ -1,6 +1,7 @@
 package com.sstude.busstation.entity;
 
 import com.sstude.busstation.dto.response.BusStationResponseDto;
+import com.sstude.busstation.dto.response.SeoulBusStationResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,7 +42,7 @@ public class BusStation {
         this.nodeNo = nodeNo;
     }
 
-    public static BusStation toEntity(Long memberId, BusStationResponseDto dto){
+    public static BusStation toEntity(Long memberId, SeoulBusStationResponseDto dto){
         return BusStation.builder()
                 .memberId(memberId)
                 .cityCode(dto.getCityCode())
@@ -52,4 +53,16 @@ public class BusStation {
                 .nodeNo(dto.getNodeNo())
                 .build();
     }
+
+//    public static BusStation toEntity(Long memberId, BusStationResponseDto dto){
+//        return BusStation.builder()
+//                .memberId(memberId)
+//                .cityCode(dto.getCityCode())
+//                .latitude(dto.getLatitude())
+//                .longitude(dto.getLongitude())
+//                .nodeId(dto.getNodeId())
+//                .nodeName(dto.getNodeName())
+//                .nodeNo(dto.getNodeNo())
+//                .build();
+//    }
 }

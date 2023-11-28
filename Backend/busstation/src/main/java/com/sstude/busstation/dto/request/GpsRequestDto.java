@@ -7,4 +7,5 @@ public class GpsRequestDto {
     private String latitude;
     private String longitude;
     private String numOfRows;
+    private String radius;
 }
