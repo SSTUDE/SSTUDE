@@ -22,7 +22,7 @@ spring:
         show_sql: true
   data:
     bus:
-      secret: ENC(TL+pMViAQFhgaQiQYFRAbYt57LFMwnTMCsm3ojjm4/yqENQ5R6waRSMj5ezq1k3QwOW84alzlxE3bJXyvwUyLYHgeA4pfCw5mYot1nR7f2WqUfvt8hzuUtuywRPuF14kbYyMQHYAjVs=)
+      secret: ENC(BBAABqxCLPVW1UIRrIqD+354x2P9QoVJqZaJhqcjijhV3g4uxBCLvqYsSPeeVxgtmy/Iap37uAvxRisDMVSqXsctJleu1ULneeznOCTGHHVIefcFAd9Pdzlr4w0iq2jgMT6rtrjljTc=)
       station_inform_api: http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList
       seoul_station_inform_api : http://ws.bus.go.kr/api/rest/stationinfo/getStationByPos
 
