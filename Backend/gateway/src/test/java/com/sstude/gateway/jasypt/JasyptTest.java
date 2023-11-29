@@ -13,7 +13,7 @@ public class JasyptTest {
         StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
         encryptor.setPassword(password);
 
-        String content = "very";    // 암호화 할 내용
+        String content = "";    // 암호화 할 내용
         String encryptedContent = encryptor.encrypt(content); // 암호화
         String decryptedContent = encryptor.decrypt(encryptedContent); // 복호화
 

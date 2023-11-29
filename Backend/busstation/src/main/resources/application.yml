@@ -22,7 +22,7 @@ spring:
         show_sql: true
   data:
     bus:
-      secret:  ENC(fus24AKnzMoBx4pc2vVD2ThaYu5Gn7d1QOQMStSqe4Ery9KnOwIU5EBJXBuVyrMZj2F1dFfYt+8X9drjdNzPLBulkwlcU+3XxQ6iP7oesibegcJmQWhwvPldvO6GYxwSobWnx9cNXOk=)
+      secret: ENC(TL+pMViAQFhgaQiQYFRAbYt57LFMwnTMCsm3ojjm4/yqENQ5R6waRSMj5ezq1k3QwOW84alzlxE3bJXyvwUyLYHgeA4pfCw5mYot1nR7f2WqUfvt8hzuUtuywRPuF14kbYyMQHYAjVs=)
       station_inform_api: http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList
       seoul_station_inform_api : http://ws.bus.go.kr/api/rest/stationinfo/getStationByPos
 
@@ -31,6 +31,10 @@ spring:
 
       bus_arrival_inform_api: http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoArvlPrearngeInfoList
       seoul_bus_arrival_inform_api : http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid
+# 사용 중 fus24AKnzMoBx4pc2vVD2ThaYu5Gn7d1QOQMStSqe4Ery9KnOwIU5EBJXBuVyrMZj2F1dFfYt+8X9drjdNzPLBulkwlcU+3XxQ6iP7oesibegcJmQWhwvPldvO6GYxwSobWnx9cNXOk=
+# 예비 1 TL+pMViAQFhgaQiQYFRAbYt57LFMwnTMCsm3ojjm4/yqENQ5R6waRSMj5ezq1k3QwOW84alzlxE3bJXyvwUyLYHgeA4pfCw5mYot1nR7f2WqUfvt8hzuUtuywRPuF14kbYyMQHYAjVs=
+# 예비 2 BBAABqxCLPVW1UIRrIqD+354x2P9QoVJqZaJhqcjijhV3g4uxBCLvqYsSPeeVxgtmy/Iap37uAvxRisDMVSqXsctJleu1ULneeznOCTGHHVIefcFAd9Pdzlr4w0iq2jgMT6rtrjljTc=
+
 jwt:
   secret: ENC(NumiU4LB6bpLOCSPlp6Ob5pDZICXItQDfvb66DmVCNdUdMYKmR/O7FDxdP8AVSVCLUUzEUG8LkWUuPK14u2ejw==)
 
