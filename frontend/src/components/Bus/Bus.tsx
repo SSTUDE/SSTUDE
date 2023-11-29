@@ -25,7 +25,7 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
 
     const id = setInterval(() => {
       dispatch(busRealTimeForServer())
-    }, 30000);
+    }, 60000);
 
     setIntervalId(id);
 
