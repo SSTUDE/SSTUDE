@@ -4,7 +4,6 @@ const BASE_URL = "https://apis.data.go.kr";
 const SERVICE_KEY = process.env.REACT_APP_WEATHER_API_KEY;
 const SERVICE_KEY_MINE = process.env.REACT_APP_LANDWEATHER_API_KEY;
 
-// 단기 날씨 정보 요청
 export const getWeatherData = async (params: {
   numOfRows?: number;
   pageNo?: number;
@@ -31,7 +30,6 @@ export const getWeatherData = async (params: {
   }
 };
 
-// 중기 육상(강수확률, 하늘상태) 예보 API
 export const getMidLandForecast = async (params: {
   pageNo?: number;
   numOfRows?: number;
@@ -56,7 +54,6 @@ export const getMidLandForecast = async (params: {
   }
 };
 
-// 중기 기온 정보 API
 export const getMidTemperatureForecast = async (params: {
   numOfRows?: number;
   pageNo?: number;
@@ -81,7 +78,6 @@ export const getMidTemperatureForecast = async (params: {
   }
 };
 
-// 에어코리아 대기 정보 API
 export const getAirQualityData = async (params: {
   returnType: string;
   numOfRows: number;

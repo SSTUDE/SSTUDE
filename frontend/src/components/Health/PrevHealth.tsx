@@ -1,4 +1,3 @@
-// 헬스 메인 페이지
 import React from "react";
 import { styled } from "styled-components";
 import PrevHealthData from "./PrevHealthData";
@@ -14,7 +13,6 @@ const StyledTitle = styled.p`
   font-family: "Giants-Bold";
 `;
 
-// 캘린더로 이동하기 위한 아이콘
 const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;

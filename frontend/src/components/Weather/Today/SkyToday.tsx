@@ -36,7 +36,6 @@ const SkyToday: React.FC<SkyTodayProps> = ({ NowDatas }) => {
     IconComponent = <StyledCloudSnowFill size={130} />
     SkyContidion = '눈'
   }
-  // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
   else if (SkyStatus === '1') {
     IconComponent = isNightTime ? <StyledMoonFill size={130} /> : <StyledSunFill size={130} />;
     SkyContidion = '맑음'

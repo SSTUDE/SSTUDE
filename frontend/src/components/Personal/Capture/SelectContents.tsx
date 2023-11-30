@@ -1,4 +1,3 @@
-// 진단 종류 고르는 Page
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
@@ -9,21 +8,18 @@ import { RootState } from "../../../store/store";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 
-// 진단 컨텐츠 고르는 전체 컨테이너s
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-// 페이지 제목
 const StyledTitle = styled.h1`
   font-family: "Giants-Bold";
   font-size: 4rem;
   margin: 1.5% 0;
 `;
 
-// 버튼 컨테이너
 const StyledButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -32,7 +28,6 @@ const StyledButtonContainer = styled.div`
   width: 100%;
 `;
 
-// 카메라 버튼
 const StyledCameraButton = styled.button`
   position: relative;
   width: 200px;
@@ -42,7 +37,6 @@ const StyledCameraButton = styled.button`
   cursor: pointer;
 `;
 
-// 버튼 내용
 const StyledPTag = styled.p`
   font-family: "Giants-Bold";
   color: white;
@@ -82,19 +76,15 @@ const SelectContents = () => {
   const { finishPersonal } = useSelector((state: RootState) => state.personal);
 
   useEffect(() => {
-    console.log("웹소켓 메시지 전송:", { type: "camera", data: "off" });
     setTimeout(() => {
       sendMessage({ type: "camera", data: "off" })
     }, 1000);
   }, [])
 
   const handlePersonalCameraClick = () => {
-    console.log("퍼스널 컬러 진단 카메라 버튼 클릭");
     sendMessage(message)
       .then((response: any) => {
-        console.log("웹소켓 응답:", response);
         setTimeout(() => { 
-          console.log("웹캠 시작");
           startWebcam(); 
         }, 1000);
         navigate("/personalselectpersonal");
@@ -105,12 +95,9 @@ const SelectContents = () => {
   };
 
   const handleClothesCameraClick = () => {
-    console.log("의상 진단 카메라 버튼 클릭");
     sendMessage(message)
       .then((response: any) => {
-        console.log("웹소켓 응답:", response);
         setTimeout(() => { 
-          console.log("웹캠 시작");
           startWebcam(); 
         }, 1000);
         navigate("/personalselectclothes");

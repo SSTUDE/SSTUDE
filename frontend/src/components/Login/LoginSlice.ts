@@ -26,9 +26,7 @@ export const signInUser = createAsyncThunk(
   "login/signInUser",
   async (data: { deviceNum: string }, { rejectWithValue }) => {
     try {
-      // localStorage.setItem('SSTUDE',JSON.stringify({'accessToken' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZXhwIjoxNzAwNDUzNDM5fQ.gIaptC1hITWytu-OI0ez7Wso37izCV5yop7-qCH2uBw'}))
       const response = await axiosToken.post(SIGN_IN_URL, data);
-      // console.log("hello world",response)
       storageData(response.data.accessToken);
       const memberId = response.data.memberId;
       return memberId;

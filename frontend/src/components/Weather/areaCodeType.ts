@@ -1,4 +1,3 @@
-//중기육상예보구역 코드
 type MidLandAreaCode =
   | "11B00000"
   | "11D10000"
@@ -109,7 +108,6 @@ export const east = [
   "고성군",
 ];
 
-// 중기 기온 예보 구역 코드
 const midTa_백령도 = "11A00101";
 const midTa_서울 = "11B10101";
 const midTa_과천 = "11B10102";

@@ -13,7 +13,6 @@
   justify-content: space-around;
 }
 
-/* 색상 카드 */
 .swatch {
   height: 300px;
   width: 150px;
@@ -28,7 +27,6 @@
   cursor: pointer;
 }
 
-/* 색상 코드 */
 .swatch span {
   color: rgba(255, 255, 255, 0.7);
   font-size: 2rem;
@@ -41,12 +39,10 @@
   transition: 200ms color;
 }
 
-/* 색상 코드에 마우스 올려놨을 때 */
 .swatch:hover span {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* 색상 상세 정보 */
 .swatch ol {
   border-radius: 0 0 6px 6px;
   list-style: none;
@@ -70,7 +66,6 @@
   pointer-events: none;
 }
 
-/* 색상 클릭시 나오는 색상 상세 정보 */
 .swatch ol:after {
   content: "";
   width: 148px;
@@ -105,14 +100,12 @@
   text-transform: uppercase;
 }
 
-/* 색상 카드 선택시 나오는 색상 상세 정보 카드 */
 .swatch.select ol {
   transform: rotateZ(90deg) rotateX(5deg) !important;
   transition: 1000ms all;
   transition-delay: 600ms;
 }
 
-/* 왼쪽부터 색상정보들 */
 .swatch:nth-child(1) {
   transform: rotate(0deg) translateX(-360px) translateY(-30px) !important;
 }
@@ -169,7 +162,6 @@
   -webkit-tap-highlight-color: transparent !important;
 }
 
-/* 색상 카드 선택 */
 .swatch.select:nth-child(1) {
   transform: rotate(0deg) translateX(-380px) translateY(-100px) !important;
 }

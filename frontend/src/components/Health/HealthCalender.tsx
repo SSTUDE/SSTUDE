@@ -12,7 +12,6 @@ import { AppDispatch, RootState } from "../../store/store";
 import { healthPrevData, healthTodayData } from "./HealthSlice";
 import React, { useEffect, useState, useCallback } from "react";
 
-// 오늘 헬스 데이터로 이동하기 위한 아이콘
 const StyledTodayHealthDataButton = styled.button`
   position: absolute;
   left: 12.3%;
@@ -65,7 +64,6 @@ const HealthCalender: React.FC = () => {
     navigate("/healthmain");
   };
 
-  // 알림창
   const showAlert = useCustomAlert();
 
   const handleDayClick = async (dateStr: string) => {
@@ -105,12 +103,10 @@ const HealthCalender: React.FC = () => {
     }
   }, [currentComponent, day, handlePrevDetailData]);
 
-  // 오늘 헬스 데이터(헬스 메인) 호출
   const handleHealthTodayData = useCallback(async () => {
     try {
       const res = await dispatch(healthTodayData()).unwrap();
       if (res) {
-        // dispatch(setMemberId(res.memberId));
         return res;
       }
     } catch (e) {

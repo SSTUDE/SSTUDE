@@ -14,7 +14,6 @@ import {
 } from 'chart.js';
 import { WeatherDataCustom } from '../types';
 
-// ChartJS 라이브러리에 필요한 컴포넌트를 등록합니다.
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 interface TempChartProps {
@@ -22,13 +21,10 @@ interface TempChartProps {
 }
 
 
-// TempChart 컴포넌트
 const TempChart: React.FC<TempChartProps> = ({ TempDatas }) => {
-  // 기온 데이터를 차트 데이터로 변환합니다.
   const chartDataPoints = TempDatas.map(data => data.fcstValue);
-  const chartTimeLabels = TempDatas.map(data => data.fcstTime); // 시간 라벨을 설정합니다.
+  const chartTimeLabels = TempDatas.map(data => data.fcstTime);
 
-  // 차트 데이터 설정
   const chartData = {
     labels: chartTimeLabels,
     datasets: [
@@ -41,7 +37,6 @@ const TempChart: React.FC<TempChartProps> = ({ TempDatas }) => {
     ],
   };
 
-  // 차트 옵션 설정
   const chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -79,7 +74,6 @@ const TempChart: React.FC<TempChartProps> = ({ TempDatas }) => {
     },
   };
 
-  // 차트 스타일 설정
   const chartStyle: CSSProperties = {
     width: '98%',
     height: '50px',

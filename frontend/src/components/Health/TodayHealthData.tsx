@@ -4,14 +4,12 @@ import { images } from "../../constants/images";
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
-// 차트 전체 컨테이너
 const StyledChartContainer = styled.section`
   display: flex;
   justify-content: center;
   margin: 4% 0;
 `;
 
-//
 const StyledKcalDataContainer = styled.article`
   display: flex;
   justify-content: center;
@@ -63,7 +61,6 @@ const CircleConsumedKcalChartSpan = styled.span`
   color: #35b6e9;
 `;
 
-// 애니메이션 정의
 const fillAnimation = keyframes`
   0% {
     stroke-dasharray: 0 100;

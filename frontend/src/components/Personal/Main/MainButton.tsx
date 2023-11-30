@@ -1,4 +1,3 @@
-// 홈 및 뒤로가기 버튼
 import React from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +5,8 @@ import useWebcam from "../../../hooks/useWebCam";
 import { RASPBERRY_URL } from "../../../apis/constants";
 import { useWebSocket } from "../../../hooks/useWebSocket";
 
-// 전체 컨테이너
 const StyledContainer = styled.div``;
 
-// 홈 버튼
 const StyledHomeButton = styled.button`
   position: absolute;
   left: 5.35%;
@@ -22,7 +19,6 @@ const StyledHomeButton = styled.button`
   cursor: pointer;
 `;
 
-// 홈 아이콘
 const HomeIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -78,23 +78,20 @@ const Hourly: React.FC<HourlyProps> = ({ dailySky, TempDatas, RainRateDatas, Rai
   );
 };
 
-// TempChartWrapper 스타일
 const TempChartWrapper = styled.div<{ $columns: number }>`
   grid-column-start: 1; 
   grid-column-end: -1; 
   width: 100%;
 `;
 
-// TempLabel 스타일
 const TempLabel = styled.div<{ $columns: number; $index: number }>`
-  grid-column-start: ${props => props.$index}; // 각 TempLabel이 시작할 열을 지정
+  grid-column-start: ${props => props.$index}; 
   text-align: center;
   white-space: nowrap;
-  align-self: start; // 라벨을 그리드 아이템의 상단에 배치
+  align-self: start;
   margin-top: 30px;
 `;
 
-// GridContainer 스타일
 const GridContainer = styled.div<{ $columns: number }>`
   display: grid;
   grid-template-columns: repeat(${props => props.$columns}, minmax(80px, 1fr));
@@ -108,7 +105,6 @@ const GridContainer = styled.div<{ $columns: number }>`
   font-size: 20px;
 `;
 
-// 고정될 첫 번째 열
 const FixedColumn = styled.div`
   flex-shrink: 0; 
   width: 120px;
@@ -142,7 +138,7 @@ const HumidityLabel = styled(CommonLabel)`
 
 const Container = styled.div`
   display: grid; 
-  grid-template-columns: 120px 1320px; // 첫 번째 열은 FixedColumn의 너비, 두 번째 열은 나머지 공간
+  grid-template-columns: 120px 1320px; 
   width: 100%;
 `
 
