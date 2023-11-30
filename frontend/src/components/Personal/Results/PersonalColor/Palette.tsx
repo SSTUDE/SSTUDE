@@ -82,7 +82,6 @@ const Palette: FC = () => {
     }
   }, [beautyResults?.match_color, paletteRef.current]);
 
-  // 팔레트 애니메이션
   useEffect(() => {
     if (paletteRef.current) {
       const swatches =

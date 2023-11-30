@@ -12,7 +12,6 @@ const now = new Date();
 const year = now.getFullYear();
 const month = parseInt((now.getMonth() + 1).toString().padStart(2, "0"), 10);
 
-// 퍼스널 컬러 달력
 export const PersonalCalender = createAsyncThunk(
   "/static/list",
   async (_, { rejectWithValue }) => {
@@ -30,7 +29,6 @@ export const PersonalCalender = createAsyncThunk(
   }
 );
 
-// 퍼스널 컬러 뷰티 모달
 export const PersonalBeautyModal = createAsyncThunk(
   "/detail/beauty",
   async (
@@ -48,7 +46,6 @@ export const PersonalBeautyModal = createAsyncThunk(
   }
 );
 
-// 퍼스널 컬러 진단 결과
 export const PersonalBeautyResults = createAsyncThunk(
   "/detail",
   async (data: { date: string }, { rejectWithValue }) => {
@@ -63,7 +60,6 @@ export const PersonalBeautyResults = createAsyncThunk(
   }
 );
 
-// 의상 진단 결과
 export const PersonalClothesResults = createAsyncThunk(
   "/clothes/detail",
   async (_, { rejectWithValue }) => {
@@ -112,18 +108,15 @@ export const PersonalSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // 퍼스널 컬러 모달
     handleAsyncReducer<any>(builder, PersonalBeautyModal, (state, action) => {
       state.beauty = action.payload;
     });
-    // 퍼스널 컬러 진단 결과
     handleAsyncReducer<any>(builder, PersonalBeautyResults, (state, action) => {
       state.beautyResults = action.payload;
       if (action.type === "/detail/fulfilled") {
         state.finishPersonal = true;
       }
     });
-    // 의상 진단 결과
     handleAsyncReducer<any>(
       builder,
       PersonalClothesResults,

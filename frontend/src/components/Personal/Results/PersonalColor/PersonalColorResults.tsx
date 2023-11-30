@@ -19,7 +19,6 @@ const StyledContainer = styled.div`
   user-select: none;
 `;
 
-// 페이지 제목
 const StyledTitle = styled.p`
   display: flex;
   justify-content: center;
@@ -28,7 +27,6 @@ const StyledTitle = styled.p`
   font-family: "Giants-Bold";
 `;
 
-// 사진 + 설명 결과 컨테이너
 const StyledResultsContainer = styled.section`
   display: flex;
   position: relative;
@@ -37,7 +35,6 @@ const StyledResultsContainer = styled.section`
   height: 65vh;
 `;
 
-// 캘린더로 이동하기 위한 아이콘
 const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
@@ -69,7 +66,6 @@ const CalenderIcon = () => (
   </svg>
 );
 
-// 퍼스널 컬러 결과 컨테이너
 const StyledPersonalColorResults = styled.section``;
 
 const PersonalColorResults = () => {
@@ -98,7 +94,6 @@ const PersonalColorResults = () => {
     navigate("/personalmain", { state: { diagnosisData: response } });
   };
 
-  // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
     try {
       const res = await dispatch(PersonalCalender()).unwrap();

@@ -3,7 +3,6 @@ import { PersonalClothesState } from "./types";
 import axiosToken from "../../../apis/http-common";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// 의상 모달
 export const PersonalClothesyModal = createAsyncThunk(
   "/detail/clothes",
   async (

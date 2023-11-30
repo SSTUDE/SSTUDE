@@ -13,7 +13,7 @@ type AirIconProps = {
 };
 
 const AirIcon: React.FC<AirIconProps> = ({ pm10Grade, pm25Grade }) => {
-  // 아이콘 결정 로직
+
   const getIconForGrade = (grade: string) => {
     switch (grade) {
       case '1':

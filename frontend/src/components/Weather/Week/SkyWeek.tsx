@@ -13,7 +13,6 @@ type SkyWeekProps = {
 }
 
 const SkyWeek: React.FC<SkyWeekProps> = ({ skyData }) => {
-  // 날씨 상태에 따라 아이콘을 선택하는 함수
   const getWeatherIcon = (skyCondition: string) => {
     if (skyCondition.includes('맑음')) {
       return <StyledSunFill size={45} />;

@@ -20,7 +20,6 @@ const Bus: React.FC<BusProps> = ({ onClick }) => {
   );
 
   useEffect(() => {
-    //NOTE - 나중에 따로 빼서 일괄적으로 관리하고 여긴 리덕스에서 받아오기만 할거임
     dispatch(busRealTimeForServer())
 
     const id = setInterval(() => {

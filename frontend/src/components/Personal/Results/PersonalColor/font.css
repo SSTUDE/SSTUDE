@@ -12,7 +12,6 @@
   font-style: normal;
 }
 
-/* 태나다체 굵기 x */
 @font-face {
   font-family: "SDSamliphopangche_Outline";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff") format("woff");
@@ -41,7 +40,6 @@
   font-style: normal;
 }
 
-/* 달력 글씨 */
 @font-face {
   font-family: "IAMAPLAYER";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/IAMAPLAYER.woff2") format("woff2");

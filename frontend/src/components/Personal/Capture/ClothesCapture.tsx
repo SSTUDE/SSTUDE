@@ -1,4 +1,3 @@
-// '퍼스널 컬러 진단 하기' 누른 경우 보이는 Page
 import { useDispatch } from "react-redux";
 import MainButton from "../Main/MainButton";
 import { useNavigate } from "react-router-dom";
@@ -12,21 +11,18 @@ import { useWebSocket } from "../../../hooks/useWebSocket";
 import { PersonalClothesResults } from "../Main/PersonalSlice";
 import React, { useCallback, useEffect, useState } from "react";
 
-// 전체 컨테이너
 const StyledContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-// 페이지 제목
 const StyledTitle = styled.h1`
   font-family: "Giants-Bold";
   font-size: 4rem;
   margin: 1.5% 0;
 `;
 
-// 캡쳐 앵글
 const StyledCaptureAngle = styled.div`
   position: relative;
   width: 50vh;
@@ -42,7 +38,6 @@ const StyledVideo = styled.video`
   z-index: -1;
 `;
 
-// 앵글 모서리
 const Corner = styled.div`
   position: absolute;
   width: 20px;
@@ -57,7 +52,6 @@ const Corner = styled.div`
   }
 `;
 
-// 왼쪽 상단 모서리
 const TopLeft = styled(Corner)`
   top: 0;
   left: 0;
@@ -68,7 +62,6 @@ const TopLeft = styled(Corner)`
   }
 `;
 
-// 오른쪽 상단 모서리
 const TopRight = styled(Corner)`
   top: 0;
   right: 0;
@@ -79,7 +72,6 @@ const TopRight = styled(Corner)`
   }
 `;
 
-// 왼쪽 하단 모서리
 const BottomLeft = styled(Corner)`
   bottom: 0;
   left: 0;
@@ -90,7 +82,6 @@ const BottomLeft = styled(Corner)`
   }
 `;
 
-// 오른쪽 하단 모서리
 const BottomRight = styled(Corner)`
   bottom: 0;
   right: 0;
@@ -101,7 +92,6 @@ const BottomRight = styled(Corner)`
   }
 `;
 
-// 안내 정보
 const StyledCaptureInfo = styled.p`
   margin-top: 1.5%;
   font-family: "Giants-Bold";
@@ -109,7 +99,6 @@ const StyledCaptureInfo = styled.p`
   color: salmon;
 `;
 
-// 카메라 버튼
 const StyledCameraButton = styled.button`
   position: absolute;
   top: 490px;
@@ -170,13 +159,10 @@ const ClothesCapture = () => {
 
   useEffect(() => {
     const handlePopState = () => {
-      console.log("popstate 이벤트 발생: 웹캠 중지 및 메시지 전송 시작");
       stopWebcam();
       setTimeout(() => {
         sendMessage(message).then(() => {
-          console.log("웹소켓 메시지 전송 완료");
         }).catch((error) => {
-          console.error("웹소켓 메시지 전송 오류:", error);
         });
       }, 2000);
     };
@@ -184,28 +170,21 @@ const ClothesCapture = () => {
     window.addEventListener("popstate", handlePopState);
 
     return () => {
-      console.log("popstate 이벤트 리스너 제거");
       window.removeEventListener("popstate", handlePopState);
     };
   }, []);
 
   const handleCaptureClick = () => {
-    console.log("캡쳐 버튼 클릭");
     captureImage(async (blob) => {
-      console.log("이미지 캡쳐 시도");
       if (blob) {
-        console.log("캡쳐된 이미지가 존재함");
         try {
           const data = await dispatch(personalClothesToServer(blob));
-          console.log("서버로 이미지 전송 성공");
           if (data.meta.requestStatus === "fulfilled") {
             stopWebcam();
             setTimeout(() => {
               sendMessage(message).then(() => {
-                console.log("웹소켓 메시지 전송 완료");
                 navigate("/personalclothesresults");
               }).catch((error) => {
-                console.error("웹소켓 메시지 전송 오류:", error);
               });
             }, 2000);
           } else {
@@ -227,23 +206,18 @@ const ClothesCapture = () => {
   };
 
   const closeCamera = () => {
-    console.log("카메라 중지 버튼 클릭");
     stopWebcam();
     setTimeout(() => {
       sendMessage(message).then(() => {
-        console.log("웹소켓 메시지 전송 완료");
       }).catch((error) => {
         console.error("웹소켓 메시지 전송 오류:", error);
       });
     }, 2000);
   };
 
-  // 의상 진단 호출
   const handleClothesResults = useCallback(async () => {
-    console.log("의상 진단 결과 처리 시작");
     try {
       const res = await dispatch(PersonalClothesResults()).unwrap();
-      console.log("의상 진단 결과 처리 완료");
       return res;
     } catch (e) {
       console.error("의상 진단 결과 처리 오류:", e);

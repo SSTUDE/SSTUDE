@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { PersonalBeautyResults } from "../Main/PersonalSlice";
 import { AppDispatch, RootState } from "../../../store/store";
 
-// 퍼스널 컬러 진단 컨테이너
 const StyledSection = styled.section`
   display: flex;
   flex-direction: column-reverse;
@@ -14,7 +13,6 @@ const StyledSection = styled.section`
   color: white;
 `;
 
-// 이미지 컨테이너
 const StyledFigure = styled.figure`
   position: relative;
   top: 20%;
@@ -39,7 +37,6 @@ const StyledFigure = styled.figure`
   }
 `;
 
-// 퍼스널 컬러 정보
 const InfoArticle = styled.article`
   display: flex;
   flex-direction: column;
@@ -49,7 +46,6 @@ const InfoArticle = styled.article`
   height: 35%;
 `;
 
-// 진단 영문명
 const ColorNameEN = styled.div<{ isWarm: boolean; isCool: boolean }>`
   font-family: "LeferiPoint-BlackObliqueA" !important;
   font-size: 3.5rem !important;
@@ -61,7 +57,6 @@ const ColorNameEN = styled.div<{ isWarm: boolean; isCool: boolean }>`
   margin: 3% 0 0 0;
 `;
 
-// 진단 한글
 const ColorNameKR = styled.div<{ isWarm: boolean; isCool: boolean }>`
   font-family: "KBO-Dia-Gothic_bold" !important;
   font-size: 2rem;
@@ -71,7 +66,6 @@ const ColorNameKR = styled.div<{ isWarm: boolean; isCool: boolean }>`
   padding: 0 !important;
 `;
 
-// 상세보기 버튼
 const DetailButton = styled.button`
   margin: 4% 0;
   background-color: transparent;

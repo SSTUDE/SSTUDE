@@ -8,14 +8,12 @@ type WeekProps = {
 }
 
 const Week: React.FC<WeekProps> = ({ CombinedDatas }) => {
-  // 날짜와 요일을 계산하는 함수
   const getFormattedDate = (addDays: number) => {
     const today = new Date();
     const targetDate = new Date(today.setDate(today.getDate() + addDays));
     const day = targetDate.getDate().toString().padStart(2, '0');
     const month = (targetDate.getMonth() + 1).toString().padStart(2, '0');
 
-    // 요일을 계산합니다.
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
     const weekday = weekdays[targetDate.getDay()];
 

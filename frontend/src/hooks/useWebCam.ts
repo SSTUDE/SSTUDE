@@ -4,13 +4,10 @@ const useWebcam = () => {
   const webcamRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // 웹캠 시작 함수
   const startWebcam = useCallback(async () => {
     try {
-      console.log("웹캠 시작 시도 중...");
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (webcamRef.current) {
-        console.log("웹캠 스트림 설정 완료");
         webcamRef.current.srcObject = stream;
       }
     } catch (err) {
@@ -18,14 +15,12 @@ const useWebcam = () => {
     }
   }, []);
 
-  // 이미지 캡쳐 함수
   const captureImage = useCallback(
     (callback: (blob: Blob) => void) => {
       const canvas = canvasRef.current;
       const video = webcamRef.current;
 
       if (canvas && video) {
-        console.log("이미지 캡쳐 시도 중...");
         const context = canvas.getContext("2d");
 
         if (context) {
@@ -36,7 +31,6 @@ const useWebcam = () => {
 
           canvas.toBlob((blob) => {
             if (blob) {
-              console.log("이미지 캡쳐 완료");
               callback(blob);
             } else {
               console.error("캡쳐한 이미지가 없음");
@@ -52,26 +46,20 @@ const useWebcam = () => {
     [canvasRef, webcamRef]
   );
 
-  // 웹캠 중지 함수
   const stopWebcam = useCallback(() => {
     if (webcamRef.current && webcamRef.current.srcObject) {
-      console.log("웹캠 중지 시도 중...");
       const mediaStream = webcamRef.current.srcObject as MediaStream;
       const tracks = mediaStream.getTracks();
       tracks.forEach((track: MediaStreamTrack) => {
-        console.log(`트랙 중지: ${track.label}`);
         track.stop();
       });
       webcamRef.current.srcObject = null;
-      console.log("웹캠 중지 완료");
     }
   }, []);
 
-  // 마운트 시 웹캠 시작
   useEffect(() => {
     startWebcam();
     if (webcamRef.current) {
-      console.log("웹캠 화면 반전 설정");
       webcamRef.current.style.transform = "scaleX(-1)";
     }
   }, [startWebcam]);

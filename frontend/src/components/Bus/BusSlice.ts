@@ -9,7 +9,6 @@ import {
   ActionReducerMapBuilder,
 } from "@reduxjs/toolkit";
 
-//NOTE - gps 값 서버로 전달
 export const gpsToServer = createAsyncThunk(
   "bus/gpsToServer",
   async (_, { getState, rejectWithValue }) => {
@@ -22,7 +21,6 @@ export const gpsToServer = createAsyncThunk(
         numOfRows: 50,
         radius: 500,
       });
-      console.log(response);
       return response.data;
     } catch (error: unknown) {
       return rejectWithValue(
@@ -34,7 +32,6 @@ export const gpsToServer = createAsyncThunk(
   }
 );
 
-//NOTE - 선택한 정거장 서버로 전송
 export const busStopToServer = createAsyncThunk(
   "bus/busStopToServer",
   async (selectedStation: busStops, { rejectWithValue }) => {
@@ -47,7 +44,6 @@ export const busStopToServer = createAsyncThunk(
         nodeId: selectedStation.nodeId,
         numOfRows: 50,
       });
-      console.log(response);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -59,7 +55,6 @@ export const busStopToServer = createAsyncThunk(
   }
 );
 
-//NOTE - 선택한 정거장 서버에 저장
 export const busStopSaveToServer = createAsyncThunk(
   "bus/busStopSaveToServer",
   async (selectedStation: busStops, { rejectWithValue }) => {
@@ -90,7 +85,6 @@ export const busStopSaveToServer = createAsyncThunk(
   }
 );
 
-//NOTE - 저장한 버스 목록 서버로 전송
 export const busSaveToServer = createAsyncThunk(
   "bus/busSaveToServer",
   async (selectedBusList: busServer[], { rejectWithValue }) => {
@@ -118,7 +112,6 @@ export const busSaveToServer = createAsyncThunk(
   }
 );
 
-//NOTE - 저장한 버스 정거장 서버에서 호출
 export const saveBusStopForServer = createAsyncThunk(
   "bus/saveBusStopForServer",
   async (_, { rejectWithValue }) => {
@@ -135,7 +128,6 @@ export const saveBusStopForServer = createAsyncThunk(
   }
 );
 
-//NOTE - 저장한 버스 목록 서버에서 호출
 export const saveBusListForServer = createAsyncThunk(
   "bus/saveBusListForServer",
   async (_, { rejectWithValue }) => {
@@ -155,7 +147,6 @@ export const saveBusListForServer = createAsyncThunk(
   }
 );
 
-//NOTE - 버스 실시간 데이터 서버에서 호출
 export const busRealTimeForServer = createAsyncThunk(
   "bus/busRealTimeForServer",
   async (_, { getState, rejectWithValue }) => {
@@ -171,7 +162,6 @@ export const busRealTimeForServer = createAsyncThunk(
           numOfRows: 50,
         }
       );
-      console.log(response);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
@@ -184,7 +174,6 @@ export const busRealTimeForServer = createAsyncThunk(
 );
 
 const initialState: BusState = {
-  // gps: [36.107, 128.417],
   gps: [37.501382, 127.039601],
   busStops: null,
   busStop: null,

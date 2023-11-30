@@ -9,7 +9,6 @@ export type SFGridItem = {
   latitude: string | number;
 };
 
-// 단기 예보 API 응답 데이터 타입
 export type WeatherDataResponse = {
   baseDate: string;
   baseTime: string;
@@ -35,7 +34,6 @@ export type WeatherDataCustom = {
   fcstValue: string;
 };
 
-// 중기 육상(강수, 하늘상태) 예보 API 응답 데이터 타입
 export type MidLandForecastResponse = {
   regId: string;
   [key: string]: number | string;
@@ -67,7 +65,6 @@ export type MidLandForecastResponse = {
   wf10: string;
 };
 
-// 하늘상태, 강수확률
 export type MidLandForecastCustom = {
   rnStAm: number;
   rnStPm: number;
@@ -75,7 +72,6 @@ export type MidLandForecastCustom = {
   wfPm: string;
 };
 
-// 중기 기온 예보 API 응답 데이터 타입(taMin3, taMax3)
 export type MidTempForecastResponse = {
   regId: string;
   [key: string]: number | string;
@@ -134,7 +130,6 @@ export type MidTempForecastCustom = {
   taMax: number;
 };
 
-// 중기 육상 예보와 중기 기온 예보를 합친 커스텀 타입
 export type MidForecastCombined = {
   rnStAm: number;
   rnStPm: number;
@@ -144,7 +139,6 @@ export type MidForecastCombined = {
   taMax: number;
 };
 
-// 미세먼지 데이터 반환
 export type AirQualityCustom = {
   mangName: string;
   dataTime: string;

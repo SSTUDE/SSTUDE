@@ -17,12 +17,10 @@ const Mirror = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [activePage, setActivePage] = useState("bus");
 
-  // 위,경도 데이터를 가져온다.
   const position = useSelector((state: RootState) => state.position);
   const { latitude, longitude } = position;
 
   useEffect(() => {
-    // latitude와 longitude가 숫자인지 문자열인지 확인하여 처리
     const lat = typeof latitude === "string" ? parseFloat(latitude) : latitude;
     const lng =
       typeof longitude === "string" ? parseFloat(longitude) : longitude;
@@ -30,9 +28,7 @@ const Mirror = () => {
     if (lat && lng) {
       const nearestItem = findNearestSFGridItem(lat, lng);
 
-      // nearestItem이 undefined가 아닐 때만 처리
       if (nearestItem) {
-        // nearestItem을 PositionState 타입으로 변환
         const positionStateItem = {
           arePt1: nearestItem.arePt1 || "",
           arePt2: nearestItem.arePt2 || "",
@@ -44,7 +40,6 @@ const Mirror = () => {
           nY: nearestItem.nY || "",
         };
 
-        // 변환된 객체를 dispatch 함수를 통해 updatePosition 액션에 전달
         dispatch(updatePosition(positionStateItem));
       }
     }

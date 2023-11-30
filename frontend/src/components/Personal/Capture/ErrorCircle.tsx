@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 
-// 스타일드 컴포넌트를 이용한 CSS 적용
 const SpinAnimation = keyframes`
   100% { 
     transform: translate(-50%, -50%) rotate(360deg); 

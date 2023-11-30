@@ -1,12 +1,9 @@
-// 진단 하러 가기 위한 버튼
 import React from "react";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-// 전체 컨테이너
 const StyledCameraButtonContainer = styled.div``;
 
-// 카메라 버튼
 const StyledCameraButton = styled.button`
   position: absolute;
   right: 10%;
@@ -28,7 +25,6 @@ const StyledCameraButton = styled.button`
   }
 `;
 
-// 카메라 아이콘
 const CameraIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,3 @@
-// 헬스 메인 페이지
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import TodayHealthCard from "./TodayHealthData";
@@ -18,7 +17,6 @@ const StyledTitle = styled.p`
   font-family: "Giants-Bold";
 `;
 
-// 캘린더로 이동하기 위한 아이콘
 const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
@@ -33,8 +31,6 @@ const StyledCalenderButton = styled.button`
   cursor: pointer;
 `;
 
-// 인증 코드 관련 Style
-// 전체 컨테이너
 const StyledContainer = styled.section`
   position: absolute;
   top: 0;
@@ -43,21 +39,18 @@ const StyledContainer = styled.section`
   font-family: "Giants-Bold";
 `;
 
-// 인증 코드 제목 + 버튼 컨테이너
 const StyledCertContainer = styled.section`
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
-// 인증 코드 제목
 const StlyedCertCodeTitle = styled.p`
   font-size: 2.5rem;
   color: white;
   margin-right: 10px;
 `;
 
-// 인증 코드 받기 위한 버튼
 const StyledCertCodeButton = styled.button`
   display: flex;
   justify-content: center;
@@ -72,7 +65,6 @@ const StyledCertCodeButton = styled.button`
   cursor: pointer;
 `;
 
-// 인증 코드 받는 창
 const StyledCertCode = styled.div`
   width: 264px;
   border-bottom: 2px solid white;
@@ -80,7 +72,6 @@ const StyledCertCode = styled.div`
   margin: 15px 0;
 `;
 
-// 인증 코드 입력하라는 알림
 const StyledCertCodeAlert = styled.p`
   font-size: 1rem;
   color: white;

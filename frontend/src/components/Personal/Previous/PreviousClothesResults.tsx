@@ -24,7 +24,6 @@ const InfoArticle = styled.article`
   color: white;
 `;
 
-// 점수 글씨
 const StyledScoreName = styled.p`
   margin: 3% 0 0 0;
   font-size: 2rem;
@@ -32,7 +31,6 @@ const StyledScoreName = styled.p`
   text-shadow: 3px 2px 2px grey;
 `;
 
-// 점수
 const StyledScore = styled.p`
   top: 20px;
   font-size: 2rem;
@@ -41,7 +39,6 @@ const StyledScore = styled.p`
   text-shadow: 3px 2px 2px grey;
 `;
 
-// 최고 점수
 const StyledHighestScore = styled.p`
   top: 50px;
   font-size: 3rem;
@@ -56,13 +53,11 @@ const PreviousClothesResults = () => {
     (state: RootState) => state.previous
   );
 
-  // 진단 값 중 가장 높은 값
   const highestScore =
     clothesData && clothesData.length > 0
       ? Math.max(...clothesData.map((data) => data.score))
       : 0;
 
-  // 현재 슬라이드의 점수
   const currentScore = clothesData?.[CarouselIndex]?.score || 0;
 
   return (
