@@ -42,16 +42,13 @@ const WebSocket = () => {
 
 const Header = styled.div`
   width: 100vw;
-  /* background-color: red; */
 `;
 
 const Body = styled.div`
-  /* background-color: lightblue; */
   text-align: center;
 `;
 
 const Bottom = styled.div`
-  /* background-color: yellow; */
 `;
 
 const ConsoleOutput = styled.div`

@@ -1,4 +1,3 @@
-// 달력에 있는 날짜 클릭 시 나오는 모달창
 import { useState } from "react";
 import Button from "./HeaderButton";
 import { useSelector } from "react-redux";
@@ -7,14 +6,12 @@ import styled, { keyframes } from "styled-components";
 import PreviousClothesResults from "../Previous/PreviousClothesResults";
 import PreviousPersonalColorResults from "../Previous/PreviousPersonalColorResults";
 
-// 그라데이션 애니메이션
 const GradientAnimation = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 `;
 
-// 팝업 애니메이션
 const popup = keyframes`
   0% {
     transform: scale(0.7); 
@@ -26,7 +23,6 @@ const popup = keyframes`
   }
 `;
 
-// 모달 뒤 배경
 const ModalOverlay = styled.div`
   display: flex;
   justify-content: center;
@@ -39,7 +35,6 @@ const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 
-// 모달 컨테이너
 const ModalContainer = styled.div<ModalContainerProps>`
   position: relative;
   overflow: auto;
@@ -51,7 +46,6 @@ const ModalContainer = styled.div<ModalContainerProps>`
   background-image: ${(props) => props.backgroundColor || "white"};
 `;
 
-// 날짜
 const DateContainer = styled.div`
   position: fixed;
   top: 60px;
@@ -76,7 +70,6 @@ const DateContainer = styled.div`
   animation: ${popup} 0.3s;
 `;
 
-// 모달 닫기 버튼
 const ModalCloseButton = styled.button`
   position: absolute;
   right: 20px;
@@ -139,8 +132,6 @@ type ModalContainerProps = {
 const Modal: React.FC<ModalProps> = ({ onClose, selectedDate }) => {
 
   const { beauty } = useSelector((state: RootState) => state.personal);
-  // const navigate = useNavigate();
-  // const { beauty } = useSelector((state: RootState) => state.personal); // Redux에서 beauty 객체를 가져옵니다.
 
 
   const containsWarm = (result: string | undefined) => {

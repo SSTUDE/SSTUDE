@@ -10,7 +10,6 @@ import {
   PersonalClothesResults,
 } from "../../Main/PersonalSlice";
 
-// 페이지 전체 컨테이너
 const StyledContainer = styled.div`
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -18,7 +17,7 @@ const StyledContainer = styled.div`
   user-select: none;
   font-family: "KBO-Dia-Gothic_bold";
 `;
-// 페이지 제목
+
 const StyledTitle = styled.p`
   display: flex;
   justify-content: center;
@@ -27,7 +26,6 @@ const StyledTitle = styled.p`
   font-family: "Giants-Bold";
 `;
 
-// 캘린더로 이동하기 위한 아이콘
 const StyledCalenderButton = styled.button`
   position: absolute;
   left: 12.3%;
@@ -59,17 +57,14 @@ const CalenderIcon = () => (
   </svg>
 );
 
-// 진단 정보 컨테이너1 ( 이전 점수 + 사진 + 현재 점수 / 사진 한 번 찍은 경우 )
 const StlyedInfoContainer1 = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
 `;
 
-// 거울 부분
 const StyledEmptyContainer = styled.article``;
 
-// 현재 사진 컨테이너1
 const StyledImgContainer1 = styled.img<StyledComponentProps>`
   position: relative;
   top: 40px;
@@ -85,7 +80,6 @@ const StyledImgContainer1 = styled.img<StyledComponentProps>`
     ${(props) => convertHexToRGBA(props.shadowColor, 0.5)};
 `;
 
-// 현재 점수 컨테이너1
 const StyledCurScoreContainer1 = styled.article`
   display: flex;
   flex-direction: column;
@@ -96,12 +90,12 @@ const StyledCurScoreContainer1 = styled.article`
   margin: 0;
   gap: 30px;
 `;
-// 현재 점수 제목1
+
 const StyledCurScoreTitle1 = styled.h1`
   font-size: 4rem;
   margin: 0;
 `;
-// 현재 점수1
+
 const StyledCurScore1 = styled.p<{ score: number | null }>`
   font-size: 2.5rem;
   margin-bottom: 50px;
@@ -117,27 +111,25 @@ const StyledCurScore1 = styled.p<{ score: number | null }>`
       : "blue"};
 `;
 
-// 진단 정보 컨테이너2 ( 이전 점수 + 사진 + 현재 점수 / 사진 두 번 이상 찍은 경우 )
 const StlyedInfoContainer2 = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-items: center;
 `;
 
-// 현재 사진 컨테이너2
 const StyledCurImgContainer2 = styled.section`
   display: flex;
   flex-direction: column;
   gap: 30px;
 `;
-// 현재 점수 제목2
+
 const StyledAfterScoreTitle2 = styled.h1`
   color: #ffffff;
   font-size: 3rem;
   text-align: center;
   margin: 0;
 `;
-// 현재 사진2
+
 const StyledCurImg2 = styled.img<StyledComponentProps>`
   position: relative;
   width: 48vh;
@@ -149,7 +141,7 @@ const StyledCurImg2 = styled.img<StyledComponentProps>`
   box-shadow: 0 0 35px 10px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.6)};
 `;
-// 현재 점수2
+
 const StyledAfterScore2 = styled.h1<{ score: number | null }>`
   font-size: 2.5rem;
   text-align: center;
@@ -157,19 +149,18 @@ const StyledAfterScore2 = styled.h1<{ score: number | null }>`
   color: ${(props) => getScoreColor(props.score)};
 `;
 
-// 이전 사진 컨테이너2
 const StyledPrevImgContainer2 = styled.section`
   display: flex;
   flex-direction: column;
   gap: 30px;
 `;
-// 이전 점수 제목2
+
 const StyledBeforeScoreTitle2 = styled.h1`
   font-size: 3rem;
   text-align: center;
   margin: 0;
 `;
-// 이전 사진2
+
 const StyledPrevImg2 = styled.img<StyledComponentProps>`
   position: relative;
   width: 48vh;
@@ -181,7 +172,7 @@ const StyledPrevImg2 = styled.img<StyledComponentProps>`
   box-shadow: 0 0 35px 15px
     ${(props) => convertHexToRGBA(props.shadowColor, 0.6)};
 `;
-// 이전 점수2
+
 const StyledBeforeScore2 = styled.h1<{ score: number | null }>`
   font-size: 2.5rem;
   text-align: center;
@@ -189,7 +180,6 @@ const StyledBeforeScore2 = styled.h1<{ score: number | null }>`
   color: ${(props) => getScoreColor(props.score)};
 `;
 
-// HEX 색상을 RGBA 색상으로 변환하는 함수
 const convertHexToRGBA = (hex: string, opacity: number) => {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -198,7 +188,6 @@ const convertHexToRGBA = (hex: string, opacity: number) => {
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 };
 
-// 점수에 따른 색을 반환하는 함수
 const getScoreColor = (score: number | null) => {
   if (score === null) {
     return "#FFFFFF";

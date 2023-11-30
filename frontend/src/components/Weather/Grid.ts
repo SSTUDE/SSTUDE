@@ -37923,7 +37923,6 @@ export const sfGrid: SFGridItem[] = [
   },
 ];
 
-// 두 지점 사이의 거리를 계산하는 함수 (헤버사인 공식 사용)
 export function haversineDistance(
   lat1: number,
   lon1: number,
@@ -37945,7 +37944,6 @@ export function haversineDistance(
   return R * c;
 }
 
-// 가장 가까운 SFGridItem을 찾는 함수
 export function findNearestSFGridItem(
   latitude: number,
   longitude: number

@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { RootState } from "../../../../store/store";
 
-// 타이틀 관련 색
 const getTitleColor = (personalColor?: string) => {
   if (!personalColor) return "#fff";
   if (personalColor.includes("웜")) return "#f0776c";
@@ -12,7 +11,6 @@ const getTitleColor = (personalColor?: string) => {
   return "#fff";
 };
 
-// 인포 관련 색
 const getInfoColor = (personalColor?: string) => {
   if (!personalColor) return "#fff";
   if (personalColor.includes("웜")) return "#f4d1bd";
@@ -27,7 +25,6 @@ const StyledContainer = styled.section`
   height: 100%;
 `;
 
-// 진단값 영문명
 const StyledColorNameEN = styled.p<{ color: string }>`
   font-family: "LeferiPoint-BlackObliqueA";
   font-size: 4rem;
@@ -37,7 +34,6 @@ const StyledColorNameEN = styled.p<{ color: string }>`
   padding-top: 1.5%;
 `;
 
-// 진단값 한글
 const StyledColorNameKR = styled.p<{ color: string }>`
   font-family: "KBO-Dia-Gothic_bold";
   font-size: 3rem;
@@ -46,7 +42,6 @@ const StyledColorNameKR = styled.p<{ color: string }>`
   margin: 0 0 2% 0;
 `;
 
-// 진단값 설명
 const StyledColorInfo = styled.div<{ color: string }>`
   font-family: "KBO-Dia-Gothic_bold";
   font-size: 2rem;
@@ -57,7 +52,6 @@ const StyledColorInfo = styled.div<{ color: string }>`
   line-height: 180%;
 `;
 
-// 뷰티팁 전체 컨테이너
 const StyledMyBeautyTipContainer = styled.div``;
 
 const StyledMyBeautyTipTitle = styled.div`
@@ -66,7 +60,6 @@ const StyledMyBeautyTipTitle = styled.div`
   padding-top: 1.5%;
 `;
 
-// 뷰티팁 타이틀 영문명
 const StyledMyBeautyTipTitleEN = styled.p<{ color: string }>`
   font-family: "LeferiPoint-BlackObliqueA";
   font-size: 4rem;
@@ -74,7 +67,6 @@ const StyledMyBeautyTipTitleEN = styled.p<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
-// 뷰티팁 타이틀 한글
 const StyledMyBeautyTipTitleKR = styled.p<{ color: string }>`
   font-family: "LeferiPoint-BlackObliqueA";
   font-style: italic;
@@ -88,12 +80,11 @@ const StyledMyBeautyTipTitleKR = styled.p<{ color: string }>`
   align-items: flex-end;
 `;
 
-// 뷰티 인포 전체 컨테이너
 const StyledMyBeautyInfoContainer = styled.section`
   position: relative;
   top: -20px;
 `;
-// 뷰티팁 컨텐츠
+
 const StyledMyBeautyTipContent = styled.p<{ color: string }>`
   font-family: "KBO-Dia-Gothic_bold";
   color: ${(props) => props.color};
@@ -101,7 +92,6 @@ const StyledMyBeautyTipContent = styled.p<{ color: string }>`
   font-weight: 500;
 `;
 
-// 뷰티팁 컨텐츠 설명
 const StyledMyBeautyTipInfo = styled.p<{ color: string }>`
   font-family: "KBO-Dia-Gothic_bold";
   font-size: 2rem;
@@ -110,7 +100,6 @@ const StyledMyBeautyTipInfo = styled.p<{ color: string }>`
   margin: 0.5% 0 3.5% 0;
 `;
 
-// 현재 슬라이드 위치
 const CarouselPagination = styled.nav`
   display: flex;
   justify-content: center;
@@ -119,7 +108,6 @@ const CarouselPagination = styled.nav`
   left: 75%;
 `;
 
-// 슬라이드 위치 요소
 const CarouselCircle = styled.div`
   cursor: pointer;
   width: 10px;
@@ -141,12 +129,10 @@ const ResultsInfo = () => {
   const titleColor = getTitleColor(beautyResults?.personal_color);
   const infoColor = getInfoColor(beautyResults?.personal_color);
 
-  // 터치 시작 이벤트 처리
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.touches[0].clientX);
   };
 
-  // 터치 종료 이벤트 처리
   const handleTouchEnd = (e: React.TouchEvent) => {
     const touchEnd = e.changedTouches[0].clientX;
 
@@ -221,10 +207,6 @@ const ResultsInfo = () => {
           </StyledMyBeautyInfoContainer>
         </StyledMyBeautyTipContainer>
       )}
-      {/* <StyledCarouselButtonContainer>
-        <button onClick={() => setCarouselIndex(0)}>이전</button>
-        <button onClick={() => setCarouselIndex(1)}>다음</button>
-      </StyledCarouselButtonContainer> */}
 
       <CarouselPagination>
         {[0, 1].map((index) => (

@@ -16,7 +16,6 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
   const dateLabel = getDateLabel(dailySky.fcstDate);
   const hour = dailySky.fcstTime.slice(0, 2);
 
-  // 날짜 레이블을 결정하는 함수
   function getDateLabel(fcstDate: string) {
     const today = new Date();
     const tomorrow = new Date(today);
@@ -26,7 +25,6 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
     const twoDaysAfter = new Date(today);
     twoDaysAfter.setDate(twoDaysAfter.getDate() + 3);
 
-    // Date 객체를 YYYYMMDD 형식의 문자열로 변환하는 함수
     const format = (date: Date): string => {
       return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
     };
@@ -41,7 +39,6 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
     return null;
   }
 
-  // 그 외의 경우 시간과 날짜 레이블 표시
   return (
     <TimeSkyWrap>
       {hour === '00' && dateLabel ? (
@@ -58,7 +55,6 @@ const DayCloud: React.FC<DayCloudProps> = ({ dailySky, RainTypeDatas, index }) =
   );
 };
 
-// 스타일 컴포넌트
 const TimeSkyWrap = styled.div`
   display: flex;
   flex-direction: column;

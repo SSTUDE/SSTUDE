@@ -24,16 +24,13 @@ const PersonalCalender: React.FC = () => {
   const diagnosisData =
     (location.state as { diagnosisData: DiagnosisData })?.diagnosisData || {};
 
-  // 달력 라이브러리
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("personalColor");
 
-  // 메이크업 및 의상 진단값 있는 경우
   const [makeupDates, setMakeupDates] = useState<string[]>([]);
   const [clothesDates, setClothesDates] = useState<string[]>([]);
 
-  // 알림창
   const showAlert = useCustomAlert();
 
   useEffect(() => {

@@ -49,7 +49,6 @@ export const personalClothesToServer = createAsyncThunk(
   }
 );
 
-//NOTE - clothes/detaiil API
 export const clothesDetailToServer = createAsyncThunk(
   "capture/clothesDetailToServer",
   async (_, { rejectWithValue }) => {

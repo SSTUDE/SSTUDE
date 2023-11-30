@@ -29,7 +29,6 @@ function MenuBtn({ type }: MenuBtnProps) {
     }
   };
 
-  // 퍼스널 캘린더(뷰티 메인) 호출
   const handlePersonalCalender = useCallback(async () => {
     try {
       const res = await dispatch(PersonalCalender()).unwrap();
@@ -41,7 +40,6 @@ function MenuBtn({ type }: MenuBtnProps) {
     }
   }, [dispatch]);
 
-  // 오늘 헬스 데이터(헬스 메인) 호출
   const handleHealthTodayData = useCallback(async () => {
     try {
       const res = await dispatch(healthTodayData()).unwrap();

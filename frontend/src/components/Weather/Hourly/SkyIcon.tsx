@@ -17,14 +17,12 @@ type SkyIconProps = {
 };
 
 const SkyIcon: React.FC<SkyIconProps> = ({ dailySky, RainData, size }) => {
-  // 밤과 낮 여부 
   const SkyStatus = dailySky.fcstValue;
-  const time = dailySky.fcstTime; // 'fcstTime'은 '0500'과 같은 문자열 형태
+  const time = dailySky.fcstTime; 
   
   let IconComponent = null;
   const isNightTime = parseInt(time) >= 1800 || parseInt(time) <= 600 ;
 
-  // 강수타입 확인
   const rainType = RainData.fcstValue;
 
   if (rainType === '1' || rainType === '2') {
@@ -36,7 +34,7 @@ const SkyIcon: React.FC<SkyIconProps> = ({ dailySky, RainData, size }) => {
   else if (rainType === '3') {
     IconComponent = <StyledCloudSnowFill size={size} />
   }
-  // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
+
   else if(SkyStatus === '1') {
     IconComponent = isNightTime ? <StyledMoonFill size={size} /> : <StyledSunFill size={size} />;
   } else if (SkyStatus === '3') {

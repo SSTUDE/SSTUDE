@@ -11,7 +11,6 @@ const now = new Date();
 const year = now.getFullYear();
 const month = parseInt((now.getMonth() + 1).toString().padStart(2, "0"), 10);
 
-// 헬스 캘린더
 export const HealthCalender = createAsyncThunk(
   "/health/month",
   async (data: { year: number; month: number }, { rejectWithValue }) => {
@@ -31,7 +30,6 @@ export const HealthCalender = createAsyncThunk(
   }
 );
 
-// 헬스 오늘 데이터
 export const healthTodayData = createAsyncThunk(
   "/health/detail",
   async (_, { rejectWithValue }) => {
@@ -48,7 +46,6 @@ export const healthTodayData = createAsyncThunk(
   }
 );
 
-// 헬스 이전 데이터
 export const healthPrevData = createAsyncThunk(
   "/health/day",
   async (
@@ -68,7 +65,6 @@ export const healthPrevData = createAsyncThunk(
   }
 );
 
-// 헬스 인증 코드 전송
 export const healthCertCode = createAsyncThunk(
   "/health/certification",
   async (_, { rejectWithValue }) => {
@@ -85,12 +81,10 @@ export const healthCertCode = createAsyncThunk(
   }
 );
 
-// 헬스 캘린더
 type CalendarData = {
   dates: string[];
 };
 
-// 오늘의 헬스 데이터
 type DetailData = {
   burntKcal: number;
   consumedKcal: number;
@@ -98,7 +92,6 @@ type DetailData = {
   steps: number;
 };
 
-// 이전 헬스 데이터
 type PrevDetailData = {
   burntKcal: number;
   consumedKcal: number;
@@ -106,7 +99,6 @@ type PrevDetailData = {
   steps: number;
 };
 
-// 인증 코드
 type Certification = {
   certification: string;
 };
@@ -116,7 +108,7 @@ type HealthState = {
   detailData: DetailData | null;
   prevDetailData: PrevDetailData | null;
   certification: Certification | null;
-  status: "idle" | "loading" | "succeeded" | "failed";
+  status: "idle" | "loading" | "succee ded" | "failed";
   error: string | null;
 };
 
@@ -154,7 +146,6 @@ export const HealthSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // 헬스 캘린더
     handleAsyncReducer<CalendarData>(
       builder,
       HealthCalender,
@@ -162,7 +153,6 @@ export const HealthSlice = createSlice({
         state.calendarData = { dates: action.payload.dates };
       }
     );
-    // 오늘의 헬스 데이터
     handleAsyncReducer<DetailData>(
       builder,
       healthTodayData,
@@ -170,7 +160,6 @@ export const HealthSlice = createSlice({
         state.detailData = action.payload;
       }
     );
-    // 이전 헬스 데이터
     handleAsyncReducer<PrevDetailData>(
       builder,
       healthPrevData,
@@ -178,7 +167,6 @@ export const HealthSlice = createSlice({
         state.prevDetailData = action.payload;
       }
     );
-    // 인증 코드
     handleAsyncReducer<Certification>(
       builder,
       healthCertCode,

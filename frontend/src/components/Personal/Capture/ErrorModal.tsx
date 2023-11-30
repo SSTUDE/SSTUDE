@@ -1,10 +1,8 @@
-// 퍼스널 컬러 진단 결과 없이 의상 진단 버튼 누른 경우 생기는 Error Modal
 import React, { useRef } from "react";
 import ErrorCircle from "./ErrorCircle";
 import { styled } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-// 모달 컨테이너
 const StyledModalContainer = styled.div`
   overflow: auto;
   z-index: 1;
@@ -15,7 +13,6 @@ const StyledModalContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
 `;
 
-// 모달 컨텐츠 Div
 const StyledModalContent = styled.div`
   background-color: #fefefe;
   margin: 20% auto;
@@ -25,7 +22,6 @@ const StyledModalContent = styled.div`
   border: none;
 `;
 
-// 닫기 버튼
 const StyledCloseButton = styled.span`
   position: relative;
   top: -30px;
@@ -42,7 +38,6 @@ const StyledCloseButton = styled.span`
   }
 `;
 
-// 에러 메세지
 const ErrorMessage = styled.div`
   position: relative;
   top: 110px;
@@ -50,7 +45,7 @@ const ErrorMessage = styled.div`
   font-family: "Giants-Bold";
   color: black;
   font-size: 2rem;
-  white-space: pre-line; // 줄바꿈 적용
+  white-space: pre-line; 
   text-align: center;
 `;
 
@@ -88,7 +83,6 @@ const ErrorModal: React.FC<IErrorModalProps> = ({
     }
   };
 
-  // 퍼스널 컬러 진단으로 보내는 이벤트
   const handlePersonalColorCapture = () => {
     navigate("/personalselectpersonal");
   };

@@ -1,4 +1,3 @@
-// 모던한 컬러 circle
 import styled, { keyframes } from "styled-components";
 
 const ringSize = "500px";

@@ -62,58 +62,46 @@ const routes = [
     props: { type: "menu" },
   },
 
-  // 퍼스널 컬러 파트
   {
-    // 퍼스널 컬러 메인
     path: "/personalmain",
     Component: Calender,
   },
   {
-    // 퍼스널 컬러 진단 결과
     path: "/personalcolorsresults",
     Component: PersonalColorResults,
   },
   {
-    // 의상 진단 결과
     path: "/personalclothesresults",
     Component: ClothesResults,
   },
   {
-    // 진단 컨텐츠 선택창
     path: "/personalselectcontents",
     Component: SelectContents,
   },
   {
-    // 퍼스널 컬러 캡쳐 선택창
     path: "/personalselectpersonal",
     Component: PersonalColorCapture,
   },
   {
-    // 의상 캡쳐 선택창
     path: "/personalselectclothes",
     Component: ClothesCapture,
   },
   {
-    // 진단 중 로딩창
     path: "/personalloading",
     Component: DiagnosisLoading,
   },
-  // 삼성 헬스
   {
     path: "/healthmain",
     Component: TodayHealth,
   },
-  // 헬스 캘린더
   {
     path: "/healthcalender",
     Component: HealthCalender,
   },
-  // 이전 헬스 정보
   {
     path: "/prevhealth",
     Component: PrevHealth,
   },
-  // 헬스 메인 페이지 (오늘 헬스 데이터)
   {
     path: "/healthmain",
     Component: TodayHealthData,
@@ -123,7 +111,6 @@ const routes = [
     Component: Weather,
   },
 
-  // 버스정보
   {
     path: "/bus",
     Component: Bus,
@@ -136,12 +123,10 @@ const routes = [
     path: "/buslist",
     Component: BusList,
   },
-  // 카카오 지도
   {
     path: "/kakaomap",
     Component: KakaoMap,
   },
-  // 알람
   {
     path: "/alarm",
     Component: Alarm,

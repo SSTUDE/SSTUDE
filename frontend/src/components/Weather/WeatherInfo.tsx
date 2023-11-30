@@ -27,23 +27,18 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   };
   const airRegionCode = findRegion(arePt1, arePt2);
 
-  // 단기예보 관련 데이터
   const weatherData = useSelector((state: RootState) => state.weather.data);
   const isLoading = useSelector((state: RootState) => state.weather.loading);
   const error = useSelector((state: RootState) => state.weather.error);
 
-  // 대기질 데이터와 관련된 상태
   const airQualityData = useSelector((state: RootState) => state.airQuality.data);
   const isAirQualityLoading = useSelector((state: RootState) => state.airQuality.loading);
   const airQualityError = useSelector((state: RootState) => state.airQuality.error);
 
-
-  // 단기 데이터(요청 시간)
   const sDay = new Date();
   const sHour = sDay.getHours();
   const sMinutes = sDay.getMinutes();
 
-  // 시간이 05:00를 지나지 않았다면 전날
   if (sHour < 5) {
     sDay.setDate(sDay.getDate() - 1);
   }
@@ -59,7 +54,6 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
     const nxString = typeof nX === 'string' ? parseInt(nX) : nX;
     const nyString = typeof nY === 'string' ? parseInt(nY) : nY;
 
-    // 단기 예보 데이터 요청
     dispatch(fetchShortData({
       base_date: formattedSDate,
       base_time: '0500',
@@ -67,7 +61,6 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
       ny: nyString
     }));
 
-    // 대기질 데이터 요청
     dispatch(fetchAirQualityData({
       sidoName: airRegionCode,
     }));
@@ -80,23 +73,23 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
     return <span>에러 발생 {error}</span>;
   }
 
-  // 현재 시간 이후의 데이터 필터링
   const CustomData = weatherData.filter((item: WeatherDataCustom) => {
     const itemTime = parseInt(item.fcstTime);
     const nextHour = sHour < 23 ? (sHour + 1) * 100 : 0;
 
-    // 현재 시간이 30분 미만인 경우
     if (sMinutes < 30) {
       return (item.fcstDate === currentDate && itemTime >= sHour * 100) || (item.fcstDate > currentDate);
     } else {
-      // 현재 시간이 30분 이상인 경우
       return (item.fcstDate === currentDate && itemTime >= nextHour) || (item.fcstDate > currentDate);
     }
   });
 
-  // 공기 내 지역 데이터 필터링
   const airQualityCustomData = airQualityData.filter((item: AirQualityCustom) => {
-    return arePt3 && item.stationName.includes(arePt3.substring(0, 2));
+    if (arePt1 === '서울특별시') {
+      return arePt2 && item.stationName.includes(arePt2.substring(0, 2));
+    } else {
+      return arePt3 && item.stationName.includes(arePt3.substring(0, 2));
+    }
   })[0];
 
   const findTemperatureExtremes = (data: WeatherDataCustom[]) => {
@@ -122,13 +115,11 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
     return { maxTemperature, minTemperature };
   };
 
-  // 해당하는 데이터 저장
   const TempData = CustomData.find((item: WeatherDataCustom) => item.category === "TMP");
   const SkyData = CustomData.find((item: WeatherDataCustom) => item.category === "SKY");
   const RainData = CustomData.find((item: WeatherDataCustom) => item.category === "PTY");
   const { maxTemperature, minTemperature } = findTemperatureExtremes(weatherData);
 
-  // 날씨 상태 표시
   const SkyStatus = SkyData?.fcstValue
   const RainTypeStatus = RainData?.fcstValue
   let SkyContidion = ''
@@ -142,7 +133,6 @@ const WeatherInfo: React.FC<WeatherInfoProps> = ({ onClick }) => {
   else if (RainTypeStatus === '3') {
     SkyContidion = '눈'
   }
-  // 낮 시간대에는 Sun 아이콘, 밤 시간대에는 Moon 아이콘을 렌더링
   else if (SkyStatus === '1') {
     SkyContidion = '맑음'
   } else if (SkyStatus === '3') {

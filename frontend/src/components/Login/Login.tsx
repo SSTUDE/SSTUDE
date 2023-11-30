@@ -19,7 +19,6 @@ const Login = () => {
   const showAlert = useCustomAlert();
   const [isLogoClickable, setIsLogoClickable] = useState(true);
 
-  //NOTE - 로고 클릭
   const handleLogoClick = () => {
     if (!isLogoClickable) return;
     setIsLogoClickable(false);
@@ -31,7 +30,6 @@ const Login = () => {
     }, 5000);
   };
 
-  // NOTE - 회원가입
   const SignClick = () => {
     const message = { type: "signUp", data: "" };
     showAlert({
@@ -51,7 +49,6 @@ const Login = () => {
         });
       })
       .catch((error: Error) => {
-        console.log(error)
         showAlert({
           icon: 'error',
           title: '회원가입 실패. 다시 시도해주세요',
@@ -59,7 +56,6 @@ const Login = () => {
       });
   }
 
-  //NOTE - 로그인
   const loginClick = () => {
     const message = { type: "signIn", data: "" };
     sendMessage(message)
@@ -69,18 +65,10 @@ const Login = () => {
             icon: 'info',
             title: '등록된 유저가 아닙니다. \n 회원가입 해주세요',
           });
-          // SignClick()
         } else {
-          // dispatch(signInUser({ deviceNum: 'string' }));
+          dispatch(signInUser({ deviceNum: 'string' }));
+          // dispatch(signInUser({ deviceNum: response.data.userInfo + response.data.serialNum }));
           
-          // const access = response.data.userInfo + response.data.serialNum;
-          const access = 'string';
-          // console.log("check  ", access);
-          dispatch(signInUser({ deviceNum: access }));
-          // showAlert({
-          //   icon: 'success',
-          //   title: '로그인 완료',
-          // });
           navigate("/welcome")
         }
       })
