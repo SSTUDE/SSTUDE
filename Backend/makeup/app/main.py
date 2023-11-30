@@ -23,7 +23,7 @@ app.add_middleware(
     allow_origins=["*"],  # 모든 origins 허용
     allow_credentials=True,
     allow_methods=["*"],  # 모든 메소드 허용
-    allow_headers=["*"],  # 모든 헤더 허용
+    allow_headers=["*"],  
 )
 
 
