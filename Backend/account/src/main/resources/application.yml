@@ -12,7 +12,6 @@ server:
 #    fetch-registry: true
 #    service-url:
 #      #      defaultZone: http://localhost:8761/eureka
-#      defaultZone: http://k9d204.p.ssafy.io:8761/eureka
 
 
 spring:
@@ -25,7 +24,7 @@ spring:
     username: root
 #    password: ENC(MuQTs+9nqlSPWG3Z+3bpRA==) ### 여기여기
     password: ENC(I8bqm0Jc8Ox/Cv1GmVCGWo5T9p4IlbQ9)
-#    password: qwe123
+
 
   jpa:
     database: mysql
@@ -52,13 +51,3 @@ springdoc:
     path: /account-service/v3/api-docs
   swagger-ui:
     path: /account-service/swagger-ui.html
-
-openapi:
-  service:
-    url: http://k9d204a.p.ssafy.io:8000/
-#    url: http://localhost:8000/
-
-
-jasypt:
-  encryptor:
-    password: ${PASSWORD}
