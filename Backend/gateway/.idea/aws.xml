@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="accountSettings">
-    <option name="activeProfile" value="profile:default" />
-    <option name="recentlyUsedProfiles">
+    <option name="activeRegion" value="us-east-1" />
+    <option name="recentlyUsedRegions">
       <list>
-        <option value="profile:default" />
+        <option value="us-east-1" />
       </list>
     </option>
   </component>

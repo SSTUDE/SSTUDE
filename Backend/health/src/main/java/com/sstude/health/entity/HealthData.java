@@ -10,11 +10,13 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Setter
 @Document(collection = "healthdatas")
+@Builder
 public class HealthData {
     @Id
     private String id;
@@ -23,21 +25,12 @@ public class HealthData {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    private int burntKcal;
-    private int consumedKcal;
+    private int stageTypeDeep;
+    private int stageTypeLight;
+    private int stageTypeRem;
+    private int stageTotalSleeping;
 
-    private int sleepTime;
-    private int steps;
+    private List<Exercise> exerciseList;
 
-    @Builder
-    public HealthData(String id, Long memberId, LocalDateTime createdAt, int burntKcal, int consumedKcal, int sleepTime, int steps) {
-        this.id = id;
-        this.memberId = memberId;
-        this.createdAt = createdAt;
-        this.burntKcal = burntKcal;
-        this.consumedKcal = consumedKcal;
-        this.sleepTime = sleepTime;
-        this.steps = steps;
-    }
 
 }
