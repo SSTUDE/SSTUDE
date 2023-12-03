@@ -9,19 +9,11 @@ import numpy as np
 # 퍼스널 컬러가져와서 
 # 거기에 어울리는 색상들 추출하기
 def my_color(color_result, TargetLab):
-    # connect, curs = connectMySQL()
-    # with connect.cursor() as curs:
-    #     query = """SELECT result FROM makeups WHERE member_id=%s AND DATE_FORMAT(calender, '%%Y-%%m-%%d')=%s"""
-    #     curs.execute(query, (userid, current_date.date()))
-    #     result = curs.fetchone()[0]
-    
-    # print(result)
     match_color, _, _, _, _, _, _ = changeId(color_result)
     
     
     similarities = []
     i = 0
-    # sum = 0
     for idx, mc in enumerate(match_color):
         rgb = sRGBColor(int(mc[0:2], 16), int(mc[2:4], 16), int(mc[4:6], 16), is_upscaled=True)
         lab = convert_color(rgb, LabColor, through_rgb_type=sRGBColor)
@@ -35,14 +27,8 @@ def my_color(color_result, TargetLab):
         similarities.append(delta_e)
         
     ## 차이가 많이나면,(즉 평균이 높으면 -> 높을수록 )
-    
-    # print(sum/len(match_color), sum)
-    print(i, min(similarities), match_color[i])
     score = 100-int(min(similarities))
-    print(final_score(score)) 
-    # print(score)
-    # print(final_score(100-sum/len(match_color)))
-    
+
     
     return final_score(score)
 

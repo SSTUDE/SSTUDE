@@ -13,7 +13,6 @@ class DetectFace:
         
         # 얼굴 특징점 예측하는 데 훈련된 dat파일 사용
         current_directory = os.getcwd()
-        print(current_directory)
         relative_path = 'personal_color_analysis/resource/shape_predictor_68_face_landmarks.dat'
         path = os.path.join(current_directory, relative_path)
 
@@ -44,16 +43,11 @@ class DetectFace:
 
         #얼굴의 각 부위별로 face_parts에 저장
         name, (i, j) = list(face_utils.FACIAL_LANDMARKS_IDXS.items())[7]
-        print("i,j 좌표확인")
-        print(i,j)
         face_parts[0] = shape[i:j]
         #최소 좌표 확인해보기
-        print(face_parts[0])
 
         shape_info = self.img.shape
         X = np.array([[0, 0], [shape_info[1], 0], [shape_info[1],  shape_info[0]],[0, shape_info[0]] ])
-        print("1. ==", X)
-        # print("2. ==", face_parts[0]) # 턱 부위 추출
         
         # 얼굴 확인
         # cv2.imshow("filtered", naver)face_parts
@@ -63,8 +57,6 @@ class DetectFace:
         
         # 변수에 각 부분 할당
         self.under_chin = self.extract_face_part(face_parts[0])
-        # cv2.imshow("턱 나와라", self.under_chin)
-        # cv2.waitKey(0)
 
     # 필터씌우기(사각형 이미지로 반환)
     def extract_face_part(self, face_part_points):
@@ -73,17 +65,6 @@ class DetectFace:
         # x 왼쪽 좌표, y는 위쪽부터 
         
         crop = self.img[y+2*h:y+3*h, x:x+w]
-        print("좌표 확인 ")
-        print(x,y,w,h)
-        # adj_points = np.array([np.array([p[0]-x, p[1]-y]) for p in face_part_points])
-
-        # mask = np.zeros((crop.shape[0], crop.shape[1]))
-        # cv2.fillConvexPoly(mask, adj_points, 1)
-        # #boolean으로 바꿔서 
-        # mask = mask.astype(np.bool_)
-
-        # 얼굴부위가 아닌곳은 파란색으로 채워서 강조
-        # crop[np.logical_not(mask)] = [255,0,0]
 
         return crop
     

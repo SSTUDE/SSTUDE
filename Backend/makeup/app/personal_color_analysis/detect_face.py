@@ -13,7 +13,6 @@ class DetectFace:
         
         # 얼굴 특징점 예측하는 데 훈련된 dat파일 사용
         current_directory = os.getcwd()
-        print(current_directory)
         relative_path = 'personal_color_analysis/resource/shape_predictor_68_face_landmarks.dat'
         path = os.path.join(current_directory, relative_path)
         # path = 'C:/Users/SSAFY/Desktop/S09P31D204/Backend/makeup/personal_color_analysis/resource/shape_predictor_68_face_landmarks.dat'
@@ -21,14 +20,11 @@ class DetectFace:
         # dat파일로 얼굴의 특징점 예측
         self.predictor = dlib.shape_predictor(path)
 
-        print("여기까지 확인")
-        print(url)
         # 이미지 읽어오기 
         self.img = cv2.imread(url)
         if self.img is None:
             raise ValueError(f"Failed to load image from {url} {self.img}")
-        print("얼굴확인")
-        print(self.img)
+
         # 얼굴 부분별 저장
         self.right_eyebrow = []
         self.left_eyebrow = []
@@ -55,17 +51,12 @@ class DetectFace:
         idx = 0
         for (name, (i, j)) in face_utils.FACIAL_LANDMARKS_IDXS.items():
             if idx>=len(face_parts): break
-            print(name)
             face_parts[idx] = shape[i:j]
             idx += 1
         # face_parts = face_parts[1:5]
 
         shape_info = self.img.shape
         X = np.array([[0, 0], [shape_info[1], 0], [shape_info[1],  shape_info[0]],[0, shape_info[0]] ])
-        print("1. ==", X)
-        print("2. ==", face_parts[0]) # 얼굴부위 특징좌표 추출 
-        print("3. ==", face_parts[1])
-        print("4. ==", face_parts[2])
         naver = self.extract_face_part(X) 
         
         # 얼굴 확인

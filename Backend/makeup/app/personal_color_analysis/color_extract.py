@@ -54,33 +54,3 @@ class DominantColors:
         return colors, hist #주요 색상, 빈도수
     
     
-    
-    
-    
-    
-    
-
-    # def plotHistogram(self):
-    #     colors, hist = self.getHistogram()
-    #     #creating empty chart
-    #     chart = np.zeros((50, 500, 3), np.uint8)
-    #     start = 0
-
-    #     #creating color rectangles
-    #     for i in range(len(colors)):
-    #         end = start + hist[i] * 500
-    #         r,g,b = colors[i]
-    #         #using cv2.rectangle to plot colors
-    #         cv2.rectangle(chart, (int(start), 0), (int(end), 50), (r,g,b), -1)
-    #         start = end
-
-    #     #display chart
-    #     plt.figure()
-    #     plt.axis("off")
-    #     plt.imshow(chart)
-    #     plt.show()
-
-    #     return colors
-
-    # def rgb_to_hex(self, rgb):
-    #     return '#%02x%02x%02x' % (int(rgb[0]), int(rgb[1]), int(rgb[2]))

@@ -27,50 +27,36 @@ app.add_middleware(
 )
 
 
-# class Color(BaseModel):
-#     file: UploadFile
-
 # 퍼스널컬러 요청 후 결과값을 db에 저장한 후 반환한다 
 @app.post("/color")
 async def runColor(
     file: UploadFile = File(...),
     access_token: Optional[str] = Header(None, convert_underscores=False)
 ):
-    print(file.filename)
-    print(file.content_type)
-    print(file.file)
-    print(file.headers)
-    print(file.read)
-    print(access_token)
-    print(current_date_time)
     connect, curs = connectMySQL()
     # ##############토큰으로 spring에서 유저찾아오기######################
     response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
     if response.status_code == 200:
         response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
         userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-        print(userid)
     else:
         raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
     #################캐싱적용##########################
-    # data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
-    # if data:
-    #     count=int(data)+1
-    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
-    # else:
-    #     count=0
-    #     rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    data = rd.get(f'member:{userid}:calender:{current_date}:makeup')
+    if data:
+        count=int(data)+1
+        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
+    else:
+        count=0
+        rd.set(f'member:{userid}:calender:{current_date}:makeup', count, ex=86400)
     
-    
-    count =0
     if count >=1:
         raise HTTPException(status_code=429, detail="하루에 1번 이상 요청할 수 없습니다.")
     
     else:
         try:
             contents = await file.read()
-            print(contents)
             
             #로컬에 파일 저장
             file_name = 'savedfile.jpg'   
@@ -107,7 +93,6 @@ async def runColor(
             connect.close()
             
            
-    # print("결과 ", result) 
     return JSONResponse({'result' : '진단 완료'})
 
 
@@ -122,19 +107,14 @@ def getRecordDetail (
     try:
         connect, curs = connectMySQL()
         
-        print(item)
-        print(access_token)
-        print(current_date_time)
         response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
         if response.status_code == 200:
             response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
             userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-            print(userid)
         else:
             raise HTTPException(status_code=400, detail="잘못된 요청입니다")
         
         date_obj = datetime.strptime(item.date, "%Y-%m-%d").date()
-        print(date_obj)
         
         # 맴버 id, day값 넘겨주면 -> 관련한 color_id찾고 
         with connect.cursor() as curs:
@@ -149,10 +129,8 @@ def getRecordDetail (
         match_color, hair, accessary, expl, skin, eye, eng=  ('', '', '', '', '', '','')
         match_color, hair, accessary, expl, skin, eye, eng = changeId(result)
         match_color= match_color[0:13]
-        print(match_color)
             
     except Exception as e:
-            print(e)
             result = False
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
 
@@ -171,19 +149,11 @@ async def read_item(file: UploadFile = File(),
     collection = connectPymongo()
     connect, curs = connectMySQL()
     
-    print(file.filename)
-    print(file.content_type)
-    print(file.file)
-    print(file.headers)
-    print(file.read)
-    print(access_token)
-    
    ##############토큰으로 spring에서 유저찾아오기######################
     response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
     if response.status_code == 200:
         response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
         userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-        print(userid)
     else:
         raise HTTPException(status_code=400, detail="잘못된 요청입니다")
     
@@ -193,21 +163,19 @@ async def read_item(file: UploadFile = File(),
         curs.execute(query_select,(userid, current_date))
         row = curs.fetchone()
         if row:
-            color_result =row[0]    
-            print(color_result)
+            color_result =row[0]   
         else:
             raise HTTPException(status_code=405, detail = "저장된 퍼스널컬러 진단값이 없습니다. 먼저 진단을 받고 오세요.")
     
     
-    #################캐싱적용##########################
-    # data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
-    # if data:
-    #     count=int(data)+1
-    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-    # else:
-    #     count=0
-    #     rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
-    count =0
+    ################캐싱적용##########################
+    data = rd.get(f'member:{userid}:calender:{current_date}:clothes')
+    if data:
+        count=int(data)+1
+        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
+    else:
+        count=0
+        rd.set(f'member:{userid}:calender:{current_date}:clothes', count, ex=86400)
     if count >=3:
         raise HTTPException(status_code=429, detail="하루에 3번 이상 요청할 수 없습니다.")
     
@@ -236,7 +204,6 @@ async def read_item(file: UploadFile = File(),
             os.remove(file_name)
     
         except Exception as e:
-            print(e)
             result = False
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
             
@@ -249,14 +216,10 @@ def getclothesDetail (
     try:
         collection = connectPymongo()
         
-        print(access_token)
-        print(current_date_time)
-        
         response = requests.post("http://k9d204a.p.ssafy.io:8000/account/memberId", json={"accessToken": access_token}, headers={"Content-Type": "application/json"})
         if response.status_code == 200:
             response_json = response.json()  # 응답 본문을 JSON 형식으로 파싱
             userid = response_json["memberId"]  # 본문에서 특정 값을 추출
-            print(userid)
         else:
             raise HTTPException(status_code=400, detail="잘못된 요청입니다")
         
@@ -271,7 +234,6 @@ def getclothesDetail (
             lst.append(r)
         
     except Exception as e:
-            print(e)
             result = False
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="분석에 실패했습니다")
 
