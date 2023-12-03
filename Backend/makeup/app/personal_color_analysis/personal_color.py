@@ -49,7 +49,6 @@ def analysis(imgpath):
         else:
             tone = '가을 웜톤(fall)'
     else:
-        print("쿨 여기까지??")
         if(tone_analysis.is_smr(hsv_s, hsv_weight)):
             tone = '여름 쿨톤(summer)'
         else:
