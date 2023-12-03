@@ -37,10 +37,6 @@ public class BeautyService {
         LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), 9, 0);
         LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 9, 0);
 
-//        LocalDateTime startday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 9, 0);
-//        LocalDateTime endday = LocalDateTime.of(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay()+1, 23, 59);
-        System.out.println(startday);
-        System.out.println(endday);
         // 이미지 점수
         List<Clothes> clothesList = clothesRepository.findAllByCalenderBetweenAndMemberId(startday, endday, memberId)
                 .collectList()
@@ -52,26 +48,6 @@ public class BeautyService {
 
         return clothesDetailList;
     }
-
-//    public ColorDetailResponseDto getPersonalDetail(Long memberId, StaticDayRequestDto requestDto) {
-//
-//
-//    }
-
-
-//    // 퍼스널컬러 설명
-//    @Transactional(readOnly = true)
-//    public List<ClothesDetailResponseDto> getClothesDetail(Long memberId, StaticDayRequestDto requestDto) {
-//        // 이미지 점수
-//        List<Clothes> clothesList = clothesRepository.findAllByCalenderYearAndCalenderMonthAndCalender_DayOfMonthAndMemberIdOrderByCalender(requestDto.getYear(), requestDto.getMonth(), requestDto.getDay(), memberId);
-//
-//        List<ClothesDetailResponseDto> recentTwoClothes = clothesList.stream()
-//                .map(clothes -> new ClothesDetailResponseDto(clothes.getScore(), clothes.getImgUri()))
-//                .limit(2) // 최근 2개 값만 가져옴
-//                .collect(Collectors.toList());
-//
-//        return recentTwoClothes;
-//    }
 
 
 }

@@ -30,15 +30,8 @@ public class StatisticsBeautyController {
         @PostMapping(value = "/beauty")
         public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
                 , @RequestBody StaticDayRequestDto requestDto) {
-//        public ResponseEntity<ColorDetailResponseDto> findByDayColor(@RequestBody StaticDayRequestDto requestDto) {
 
             Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-            log.info(memberId.toString());
-            String logs = requestDto.getYear() +" " +  requestDto.getMonth() + " " + requestDto.getDay();
-            log.info(logs);
-
-
-//            Long memberId = 2L;
             ColorDetailResponseDto colorDetail = beautyService.getColorDetail(memberId, requestDto);
             return new ResponseEntity<>(colorDetail, HttpStatus.OK);
         }
@@ -48,17 +41,10 @@ public class StatisticsBeautyController {
         @PostMapping(value = "/clothes")
         public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestHeader("Authorization") @Parameter(hidden = true) final String token
                 , @RequestBody StaticDayRequestDto requestDto) {
-//        public ResponseEntity<List<ClothesDetailResponseDto>> findByDayClothes(@RequestBody StaticDayRequestDto requestDto) {
-//            Long memberId = 2L;
 
             Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-            log.info(memberId.toString());
-            String logs = requestDto.getYear() +" " +  requestDto.getMonth() + " " + requestDto.getDay();
-            log.info(logs);
             List<ClothesDetailResponseDto> responseDtos = beautyService.getClothesDetail(memberId, requestDto);
             return new ResponseEntity<>(responseDtos, HttpStatus.OK);
         }
-
-        // 퍼스널컬러 상세 조회
 
     }

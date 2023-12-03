@@ -15,7 +15,6 @@ public class Clothes {
     @Id
     private Long clothesId;
 
-    // memberid는 join??
     private Long memberId;
     private Integer score;
     private String imguri;

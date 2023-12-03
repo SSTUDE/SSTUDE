@@ -15,5 +15,4 @@ public interface ClothesRepository extends ReactiveMongoRepository<Clothes, Long
 
     Flux<Clothes> findAllByCalenderBetweenAndMemberId(LocalDateTime startday, LocalDateTime endday, Long memberId);
 
-//    List<Clothes> findAllByMemberId(Long memberId);
 }

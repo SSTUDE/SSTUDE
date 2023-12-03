@@ -14,8 +14,6 @@ import java.util.List;
 @Repository
 public interface MakeupRepository extends JpaRepository<Makeups, Long> {
 
-//    @Query("SELECT m FROM Makeups m WHERE YEAR(m.calender) = :year AND MONTH(m.calender) = :month AND m.memberId = :memberId")
-//    List<Makeups> findMakeupsByYearMonthAndMemberId(@Param("year") int year, @Param("month") int month, @Param("memberId") Long memberId);
     List<Makeups> findAllByCalenderBetweenAndMemberId(LocalDateTime startday, LocalDateTime endday, Long memberId);
 
     @Query("SELECT m FROM Makeups m WHERE YEAR(m.calender) = :year AND MONTH(m.calender) = :month AND DAY(m.calender) = :day AND m.memberId = :memberId ORDER BY m.calender")

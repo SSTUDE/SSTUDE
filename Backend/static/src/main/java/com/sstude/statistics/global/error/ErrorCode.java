@@ -9,11 +9,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
-    // Auth 오류들
-//    ACCESS_TOKEN_EXPIRED(401, "A001", "access token이 만료되었습니다."),
-//    REFRESH_TOKEN_EXPIRED(401, "A002", "refresh token이 만료되었습니다."),
-//    REFRESH_TOKEN_NOT_FOUND(401, "A003", "refresh token이 존재하지 않습니다."),
-//    NOT_ACCESS_TOKEN(401, "A004", "access token이 존재하지 않습니다."),
     INVALID_TOKEN(401, "A005", "해당 토큰은 유효한 토큰이 아닙니다."),
 
     // Account 오류들

@@ -29,7 +29,6 @@ public class StatisticsController {
                                                 , @RequestBody StaticMonthRequestDto requestDto) {
 
         Long memberId = Long.valueOf(jwtTokenProvider.getAccount(token));
-        //맴버인지 판단!!
         StaticAllResponseDto responseDtos = staticService.findAllDesc(memberId, requestDto);
         return new ResponseEntity<>(responseDtos, HttpStatus.OK);
     }
