@@ -26,17 +26,6 @@ def connectPymongo():
 
     return collection
 
-# def connectPymongo():
-#     MONGODB_HOST = env_variables.get("MONGODB_HOST")
-#     MONGODB_PORT = env_variables.get("MONGODB_PORT")
-#     uri = f"mongodb://{MONGODB_HOST}:{MONGODB_PORT}/?authSource=admin"
-#     print(uri)
-#     client = MongoClient(uri)  # MongoDB URI 입력
-#     db = client['clothes']
-#     collection = db['clothes']
-
-#     return collection
-
 def redis_config() :
 
     REDIS_HOST = env_variables.get("REDIS_HOST")

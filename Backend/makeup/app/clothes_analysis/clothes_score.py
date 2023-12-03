@@ -16,16 +16,11 @@ class clothes_score:
         
         dc = color_extract(df.under_chin, clusters)
         # 색얻기
-        print(dc)
         clothes_color, _ = dc.getHistogram2() #얼굴부위별 색상의 빈도가져오기 
         temp.append(np.array(clothes_color[0])) #주요 색상만 뽑아내기
-        print("주요색상")
-        print(clothes_color[0]) # RGB
-    
         rgb = sRGBColor(temp[0][0], temp[0][1], temp[0][2], is_upscaled=True)
         #색상을 lab으로 변환
         lab = convert_color(rgb, LabColor, through_rgb_type=sRGBColor)
-        print(lab)
         # 사용자의 퍼스널컬러 결과 가져와서 어울리는 색과 비교해서 점수 매기기  
         self.score = my_color(color_result, lab)
     
