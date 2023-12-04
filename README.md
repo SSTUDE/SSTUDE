@@ -51,6 +51,8 @@
 ### - 삼성 헬스정보 확인
   ![Alt text](./images/health.gif)
 
+### - 삼성 헬스연동 모바일 앱
+![image](https://github.com/SSTUDE/SSTUDE/assets/124047574/9e4ab58e-8fde-4a0f-a514-5d86e0fe1924)
 
 
 ---
