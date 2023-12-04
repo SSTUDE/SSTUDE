@@ -1,4 +1,4 @@
-# 🏃‍♂️💄 나만의 라이프, 스마트 미러 AIOT 서비스, 'STTUDE HOUSE' 
+# 🏃‍♂️💄 나만의 라이프, 스마트 미러 AIOT 서비스, 'SSTUDE HOUSE' 
 
 
 
@@ -12,7 +12,7 @@
 
 ---
 
-# 🔍1. STTUDE HOUSE 소개
+# 🔍1. SSTUDE HOUSE 소개
 
 ## **🔖 생활밀착형 스마트미러 서비스**
 
@@ -59,20 +59,20 @@
 
 ## 3-1. 환경설정
 
-### 📱 **Android**
-
-![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84.svg?&style=for-the-badge&logo=Android%20Studio&logoColor=white)
+### 📱 **Mobile**
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 
-![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-4285F4.svg?&style=for-the-badge&logo=Jetpack%20Compose&logoColor=white)
+![HealthConnect](https://img.shields.io/badge/HealthConnect-4285F4?style=for-the-badge&logoColor=white)
 
 ### 📟 **Frontend**
 
 ![react](https://shields.io/badge/react-black?logo=react&style=for-the-badge)
 ![redux](https://img.shields.io/badge/redux-%237F52FF.svg?style=for-the-badge&logo=redux&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript&logoColor=white)
+![Websocket](https://img.shields.io/badge/Websocket-585858?style=for-the-badge&logoColor=white)
 
-### 📟 **Embeded**
+### 📟 **Embedded**
 
 ![rasberrypi](https://img.shields.io/badge/raspberrypi-%.svg?style=for-the-badge&logo=raspberrypi&logoColor=white)
 
@@ -99,6 +99,17 @@
 ![mysql](https://img.shields.io/badge/mysql-%234479A1.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![MONGODB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+
+
+### ⚙ **Communication**
+![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white)
+![Jira](https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=white)
+![GitLab](https://img.shields.io/badge/GitLab-FCA121?style=for-the-badge&logo=gitlab&logoColor=white)
+
+![Sourcetree](https://img.shields.io/badge/Sourcetree-0052CC?style=for-the-badge&logo=Sourcetree&logoColor=white)
+![Mattermost](https://img.shields.io/badge/Mattermost-0072C6?style=for-the-badge&logo=Mattermost&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white)
+
 
 
 ## 3-2. 서비스 아키텍쳐
