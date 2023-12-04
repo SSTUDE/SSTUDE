@@ -52,7 +52,8 @@
   ![Alt text](./images/health.gif)
 
 ### - 삼성 헬스연동 모바일 앱
-![image](https://github.com/SSTUDE/SSTUDE/assets/124047574/9e4ab58e-8fde-4a0f-a514-5d86e0fe1924)
+![image](https://github.com/SSTUDE/SSTUDE/assets/124047574/e6dd6bea-dddc-4338-a1b7-d78cee3295b7)
+
 
 
 ---
